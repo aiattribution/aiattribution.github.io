@@ -1,47 +1,52 @@
 <script lang="ts">
 	import { Button } from 'carbon-components-svelte';
 	import { Copy, Download } from 'carbon-icons-svelte';
+	import { type FormItemI } from './interfaces';
+
+	export let attibutionFormItems: FormItemI[];
 </script>
 
 <h2 class="recommended-attribution-title">Recommended attribution</h2>
 
-<div class="recommended-attribution-item-container">
-	<div class="recommended-attribution-item-label">
-		<p>Abbreviated statement</p>
+{#if attibutionFormItems[0].selectedOptions[0]}
+	<div class="recommended-attribution-item-container">
+		<div class="recommended-attribution-item-label">
+			<p>Abbreviated statement</p>
+		</div>
+		<div class="recommended-attribution-item">
+			<div class="recommended-attribution-item-text-container">
+				<p class="recommended-attribution-item-text">AIA AI used 1.0</p>
+			</div>
+			<div>
+				<Button kind="ghost" iconDescription="Copy" icon={Copy} on:click={() => {}} />
+			</div>
+			<div>
+				<Button kind="ghost" iconDescription="Download" icon={Download} on:click={() => {}} />
+			</div>
+		</div>
 	</div>
-	<div class="recommended-attribution-item">
-		<div class="recommended-attribution-item-text-container">
-			<p class="recommended-attribution-item-text">AIA AI used 1.0</p>
-		</div>
-		<div>
-			<Button kind="ghost" iconDescription="Copy" icon={Copy} on:click={() => {}} />
-		</div>
-		<div>
-			<Button kind="ghost" iconDescription="Download" icon={Download} on:click={() => {}} />
-		</div>
-	</div>
-</div>
 
-<div class="recommended-attribution-item-container">
-	<div class="recommended-attribution-item-label">
-		<p>Full statement</p>
+	<div class="recommended-attribution-item-container">
+		<div class="recommended-attribution-item-label">
+			<p>Full statement</p>
+		</div>
+		<div class="recommended-attribution-item">
+			<div class="recommended-attribution-item-text-container">
+				<p class="recommended-attribution-item-text">AIA AI used 1.0</p>
+			</div>
+			<div>
+				<Button kind="ghost" iconDescription="Copy" icon={Copy} on:click={() => {}} />
+			</div>
+			<div>
+				<Button kind="ghost" iconDescription="Download" icon={Download} on:click={() => {}} />
+			</div>
+		</div>
 	</div>
-	<div class="recommended-attribution-item">
-		<div class="recommended-attribution-item-text-container">
-			<p class="recommended-attribution-item-text">AIA AI used 1.0</p>
-		</div>
-		<div>
-			<Button kind="ghost" iconDescription="Copy" icon={Copy} on:click={() => {}} />
-		</div>
-		<div>
-			<Button kind="ghost" iconDescription="Download" icon={Download} on:click={() => {}} />
-		</div>
-	</div>
-</div>
 
-<div class="attribution-tag-label">
-	This attribution tag indicates that AI was used to create this content.
-</div>
+	<div class="attribution-tag-label">
+		This attribution tag indicates that AI was used to create this content.
+	</div>
+{/if}
 
 <style lang="scss">
 	.recommended-attribution-title {

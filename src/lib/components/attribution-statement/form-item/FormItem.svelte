@@ -3,6 +3,7 @@
 	import { FormItemType, type FormItemI } from '../interfaces';
 
 	export let formItem: FormItemI;
+	export let isItemDisabled: boolean;
 
 	const onCheckFormItem = (event: CustomEvent<boolean>, formItemOption: string): void => {
 		if (event.detail) {
@@ -15,8 +16,8 @@
 	};
 </script>
 
-<div class="form-item-container">
-	<div class="form-item-text-container">
+<div class="form-item-container" class:disabled={isItemDisabled}>
+	<div class="form-item-text-container" class:disabled={isItemDisabled}>
 		<div class="form-item-number">
 			{formItem.id}
 		</div>
@@ -26,11 +27,17 @@
 	</div>
 	<div class="form-item-options-container">
 		{#if formItem.type === FormItemType.textInput}
-			<TextInput class="text-input" hideLabel bind:value={formItem.selectedOptions[0]} />
+			<TextInput
+				class="text-input"
+				hideLabel
+				bind:value={formItem.selectedOptions[0]}
+				disabled={isItemDisabled}
+			/>
 		{:else if formItem.type === FormItemType.radioButton}
 			<RadioButtonGroup
 				hideLegend={true}
 				orientation="vertical"
+				disabled={isItemDisabled}
 				bind:selected={formItem.selectedOptions[0]}
 			>
 				{#each formItem.options as formItemOption}
@@ -42,6 +49,7 @@
 				<Checkbox
 					labelText={formItemOption}
 					value={formItemOption}
+					disabled={isItemDisabled}
 					on:check={(event) => {
 						onCheckFormItem(event, formItemOption);
 					}}
@@ -58,9 +66,20 @@
 		gap: 1rem;
 	}
 
+	.form-item-container.disabled {
+		cursor: not-allowed;
+	}
+
 	.form-item-text-container {
 		display: flex;
 		gap: 12px;
+	}
+
+	.form-item-text-container.disabled {
+		.form-item-number,
+		.form-item-text {
+			color: var(--cds-disabled-02) !important;
+		}
 	}
 
 	.form-item-number {

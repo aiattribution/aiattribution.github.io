@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { FormItem, RecommendedAttribution } from '$lib';
 	import { ATTRIBUTION_FORM_ITEMS } from './constants';
-	import type { FormItemI } from './interfaces';
+	import { AIUsageOptions, type FormItemI } from './interfaces';
 
 	let attibutionFormItems: FormItemI[] = ATTRIBUTION_FORM_ITEMS;
 </script>
@@ -22,11 +22,16 @@
 	<div class="attribution-form">
 		<div class="attribution-form-items">
 			{#each attibutionFormItems as attibutionFormItem (attibutionFormItem.id)}
-				<FormItem bind:formItem={attibutionFormItem} />
+				<FormItem
+					bind:formItem={attibutionFormItem}
+					isItemDisabled={attibutionFormItem.id === attibutionFormItems[0].id
+						? false
+						: attibutionFormItems[0].selectedOptions[0] === AIUsageOptions.NO}
+				/>
 			{/each}
 		</div>
 		<div class="recommended-attribution-container">
-			<RecommendedAttribution />
+			<RecommendedAttribution {attibutionFormItems} />
 		</div>
 	</div>
 </div>
