@@ -52,3 +52,9 @@ export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 		selectedOptions: ['']
 	}
 ];
+
+export const AIA: string = 'AIA';
+export const AI_USED: string = 'AI used';
+export const NO_AI_USED_ABBREVIATED_STATEMENT: string = 'No AI';
+export const NO_AI_USED_FULL_STATEMENT: string = 'AI not used';
+export const VERSION: string = '1.0';

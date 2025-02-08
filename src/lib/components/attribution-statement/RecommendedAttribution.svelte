@@ -1,9 +1,48 @@
 <script lang="ts">
 	import { Button } from 'carbon-components-svelte';
 	import { Copy, Download } from 'carbon-icons-svelte';
-	import { type FormItemI } from './interfaces';
+	import {
+		AI_USED,
+		AIA,
+		NO_AI_USED_ABBREVIATED_STATEMENT,
+		NO_AI_USED_FULL_STATEMENT,
+		VERSION
+	} from './constants';
+	import { AIUsageOptions, type FormItemI } from './interfaces';
 
 	export let attibutionFormItems: FormItemI[];
+
+	const getAbbreviatedStatement = (): string => {
+		let abbreviatedStatement: string = '';
+		let aiUsed: string = '';
+		const isAIUsageOptionYes: boolean =
+			attibutionFormItems[0].selectedOptions[0] === AIUsageOptions.YES;
+		if (attibutionFormItems[1].selectedOptions[0] && isAIUsageOptionYes) {
+			aiUsed = attibutionFormItems[1].selectedOptions[0];
+		} else if (isAIUsageOptionYes) {
+			aiUsed = AI_USED;
+		} else {
+			aiUsed = NO_AI_USED_ABBREVIATED_STATEMENT;
+		}
+		abbreviatedStatement = `${AIA} ${aiUsed} ${VERSION}`;
+		return abbreviatedStatement;
+	};
+
+	const getFullStatement = (): string => {
+		let fullStatement: string = '';
+		let aiUsed: string = '';
+		const isAIUsageOptionYes: boolean =
+			attibutionFormItems[0].selectedOptions[0] === AIUsageOptions.YES;
+		if (attibutionFormItems[1].selectedOptions[0] && isAIUsageOptionYes) {
+			aiUsed = attibutionFormItems[1].selectedOptions[0];
+		} else if (isAIUsageOptionYes) {
+			aiUsed = AI_USED;
+		} else {
+			aiUsed = NO_AI_USED_FULL_STATEMENT;
+		}
+		fullStatement = `${AIA} ${aiUsed} ${VERSION}`;
+		return fullStatement;
+	};
 </script>
 
 <h2 class="recommended-attribution-title">Recommended attribution</h2>
@@ -15,7 +54,7 @@
 		</div>
 		<div class="recommended-attribution-item">
 			<div class="recommended-attribution-item-text-container">
-				<p class="recommended-attribution-item-text">AIA AI used 1.0</p>
+				<p class="recommended-attribution-item-text">{getAbbreviatedStatement()}</p>
 			</div>
 			<div>
 				<Button kind="ghost" iconDescription="Copy" icon={Copy} on:click={() => {}} />
@@ -32,7 +71,7 @@
 		</div>
 		<div class="recommended-attribution-item">
 			<div class="recommended-attribution-item-text-container">
-				<p class="recommended-attribution-item-text">AIA AI used 1.0</p>
+				<p class="recommended-attribution-item-text">{getFullStatement()}</p>
 			</div>
 			<div>
 				<Button kind="ghost" iconDescription="Copy" icon={Copy} on:click={() => {}} />
