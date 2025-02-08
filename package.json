@@ -35,6 +35,7 @@
 	"dependencies": {
 		"@sveltejs/adapter-static": "^3.0.8",
 		"carbon-components-svelte": "^0.87.5",
+		"carbon-icons-svelte": "^13.1.0",
 		"carbon-preprocess-svelte": "^0.11.10",
 		"sass-embedded": "^1.83.4"
 	}
