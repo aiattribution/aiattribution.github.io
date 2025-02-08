@@ -1,0 +1,98 @@
+<script lang="ts">
+	import { Button } from 'carbon-components-svelte';
+	import { Copy, Download } from 'carbon-icons-svelte';
+</script>
+
+<h2 class="recommended-attribution-title">Recommended attribution</h2>
+
+<div class="recommended-attribution-item-container">
+	<div class="recommended-attribution-item-label">
+		<p>Abbreviated statement</p>
+	</div>
+	<div class="recommended-attribution-item">
+		<div class="recommended-attribution-item-text-container">
+			<p class="recommended-attribution-item-text">AIA AI used 1.0</p>
+		</div>
+		<div>
+			<Button kind="ghost" iconDescription="Copy" icon={Copy} on:click={() => {}} />
+		</div>
+		<div>
+			<Button kind="ghost" iconDescription="Download" icon={Download} on:click={() => {}} />
+		</div>
+	</div>
+</div>
+
+<div class="recommended-attribution-item-container">
+	<div class="recommended-attribution-item-label">
+		<p>Full statement</p>
+	</div>
+	<div class="recommended-attribution-item">
+		<div class="recommended-attribution-item-text-container">
+			<p class="recommended-attribution-item-text">AIA AI used 1.0</p>
+		</div>
+		<div>
+			<Button kind="ghost" iconDescription="Copy" icon={Copy} on:click={() => {}} />
+		</div>
+		<div>
+			<Button kind="ghost" iconDescription="Download" icon={Download} on:click={() => {}} />
+		</div>
+	</div>
+</div>
+
+<div class="attribution-tag-label">
+	This attribution tag indicates that AI was used to create this content.
+</div>
+
+<style lang="scss">
+	.recommended-attribution-title {
+		font-family: IBM Plex Sans;
+		font-weight: 700;
+		font-size: 20px;
+		line-height: 28px;
+		letter-spacing: 0px;
+	}
+
+	.recommended-attribution-item-container {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.recommended-attribution-item-label {
+		font-family: IBM Plex Sans;
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 18px;
+		letter-spacing: 0.16px;
+		color: #525252;
+	}
+
+	.recommended-attribution-item {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		height: 48px;
+		background-color: var(--cds-ui-02);
+	}
+
+	.recommended-attribution-item-text-container {
+		flex-grow: 1;
+		margin-left: 10.5px;
+	}
+
+	.recommended-attribution-item-text {
+		font-family: IBM Plex Sans;
+		font-weight: 400;
+		font-size: 16px;
+		line-height: 22px;
+		letter-spacing: 0px;
+	}
+
+	.attribution-tag-label {
+		font-family: IBM Plex Sans;
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 16px;
+		letter-spacing: 0.32px;
+	}
+</style>

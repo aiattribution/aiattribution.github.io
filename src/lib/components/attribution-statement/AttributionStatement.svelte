@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FormItem } from '$lib';
+	import { FormItem, RecommendedAttribution } from '$lib';
 	import { ATTRIBUTION_FORM_ITEMS } from './constants';
 	import type { FormItemI } from './interfaces';
 
@@ -25,11 +25,15 @@
 				<FormItem formItem={attibutionFormItem} />
 			{/each}
 		</div>
+		<div class="recommended-attribution-container">
+			<RecommendedAttribution />
+		</div>
 	</div>
 </div>
 
 <style lang="scss">
 	@import '../../../styles/utils.scss';
+	$attribution-form-items-width: 436px;
 
 	.attribution-form {
 		display: flex;
@@ -41,9 +45,17 @@
 	.attribution-form-items {
 		display: flex;
 		flex-direction: column;
-		width: 436px;
+		width: $attribution-form-items-width;
 		gap: 24px;
 		padding: 20px 32px;
 		border-right: 1px solid #8d8d8d;
+	}
+
+	.recommended-attribution-container {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		gap: 1rem;
+		padding: 20px 40px;
 	}
 </style>
