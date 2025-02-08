@@ -1,6 +1,5 @@
 import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
-import { optimizeImports } from 'carbon-preprocess-svelte';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -9,8 +8,7 @@ const config = {
 	preprocess: [
 		// Preprocessors are run in sequence.
 		// If using TypeScript, the code must be transpiled first.
-		vitePreprocess(),
-		optimizeImports()
+		vitePreprocess()
 	],
 
 	kit: {

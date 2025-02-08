@@ -1,7 +1,10 @@
 <script lang="ts">
+	import 'carbon-components-svelte/css/all.css';
+	import { Header } from '$lib';
 </script>
 
 <div class="page-container">
+	<Header />
 	<div class="page-content"></div>
 </div>
 
