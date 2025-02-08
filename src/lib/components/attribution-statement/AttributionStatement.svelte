@@ -41,6 +41,7 @@
 	.attribution-form-items {
 		display: flex;
 		flex-direction: column;
+		width: 436px;
 		gap: 24px;
 		padding: 20px 32px;
 		border-right: 1px solid #8d8d8d;
