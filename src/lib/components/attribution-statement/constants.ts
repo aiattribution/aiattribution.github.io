@@ -13,36 +13,42 @@ export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 		id: 1,
 		text: 'Was AI used to create this content?',
 		type: FormItemType.radioButton,
-		options: Object.values(AIUsageOptions)
+		options: Object.values(AIUsageOptions),
+		selectedOptions: ['']
 	},
 	{
 		id: 2,
 		text: 'Model or application',
 		type: FormItemType.textInput,
-		options: []
+		options: [],
+		selectedOptions: ['']
 	},
 	{
 		id: 3,
 		text: 'AI contributions',
 		type: FormItemType.checkbox,
-		options: Object.values(AIContributionOptions)
+		options: Object.values(AIContributionOptions),
+		selectedOptions: []
 	},
 	{
 		id: 4,
 		text: 'Proportion of work created or modified by AI',
 		type: FormItemType.radioButton,
-		options: Object.values(AIProportionOptions)
+		options: Object.values(AIProportionOptions),
+		selectedOptions: ['']
 	},
 	{
 		id: 5,
 		text: 'AI initiative',
 		type: FormItemType.checkbox,
-		options: Object.values(AIInitiativeOptions)
+		options: Object.values(AIInitiativeOptions),
+		selectedOptions: []
 	},
 	{
 		id: 6,
 		text: 'Human review',
 		type: FormItemType.radioButton,
-		options: Object.values(HumanReviewOptions)
+		options: Object.values(HumanReviewOptions),
+		selectedOptions: ['']
 	}
 ];

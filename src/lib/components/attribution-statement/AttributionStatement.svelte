@@ -22,7 +22,7 @@
 	<div class="attribution-form">
 		<div class="attribution-form-items">
 			{#each attibutionFormItems as attibutionFormItem (attibutionFormItem.id)}
-				<FormItem formItem={attibutionFormItem} />
+				<FormItem bind:formItem={attibutionFormItem} />
 			{/each}
 		</div>
 		<div class="recommended-attribution-container">

@@ -3,6 +3,16 @@
 	import { FormItemType, type FormItemI } from '../interfaces';
 
 	export let formItem: FormItemI;
+
+	const onCheckFormItem = (event: CustomEvent<boolean>, formItemOption: string): void => {
+		if (event.detail) {
+			formItem.selectedOptions = Array.from(new Set([...formItem.selectedOptions, formItemOption]));
+		} else {
+			formItem.selectedOptions = formItem.selectedOptions.filter(
+				(option: string) => option !== formItemOption
+			);
+		}
+	};
 </script>
 
 <div class="form-item-container">
@@ -16,16 +26,26 @@
 	</div>
 	<div class="form-item-options-container">
 		{#if formItem.type === FormItemType.textInput}
-			<TextInput class="text-input" hideLabel />
+			<TextInput class="text-input" hideLabel bind:value={formItem.selectedOptions[0]} />
 		{:else if formItem.type === FormItemType.radioButton}
-			<RadioButtonGroup hideLegend={true} orientation="vertical">
+			<RadioButtonGroup
+				hideLegend={true}
+				orientation="vertical"
+				bind:selected={formItem.selectedOptions[0]}
+			>
 				{#each formItem.options as formItemOption}
 					<RadioButton labelText={formItemOption} value={formItemOption} />
 				{/each}
 			</RadioButtonGroup>
 		{:else if formItem.type === FormItemType.checkbox}
 			{#each formItem.options as formItemOption}
-				<Checkbox labelText={formItemOption} value={formItemOption} />
+				<Checkbox
+					labelText={formItemOption}
+					value={formItemOption}
+					on:check={(event) => {
+						onCheckFormItem(event, formItemOption);
+					}}
+				/>
 			{/each}
 		{/if}
 	</div>

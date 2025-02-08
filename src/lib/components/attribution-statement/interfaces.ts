@@ -9,6 +9,7 @@ export interface FormItemI {
 	text: string;
 	type: FormItemType;
 	options: string[];
+	selectedOptions: string[];
 }
 
 export enum AIUsageOptions {
