@@ -59,6 +59,21 @@
 			.join(' ');
 	};
 
+	const getConcatenatedOptionsIcons = (options: string[]): string => {
+		return options
+			.map((option: string) => {
+				const tag: TagI = ALL_TAGS.find((tag: TagI) => {
+					return tag.id === option;
+				});
+				if (tag) {
+					return `<img src="${tag.icon}" alt="${tag.selection}" width="24" height="24" />`;
+				} else {
+					return '';
+				}
+			})
+			.join('');
+	};
+
 	const getAbbreviatedStatement = (): string => {
 		let abbreviatedStatement: string = '';
 		let aiUsed: string = '';
@@ -152,6 +167,28 @@
 		atributionTagLabelContent = `This attribution tag indicates that ${aiUsed} to create this content ${modelUsed}. ${aiContributions} ${proportionOfContribution} ${aiInitiatives} ${humanReview}`;
 		return atributionTagLabelContent;
 	};
+
+	const getAttributionIcons = (): string => {
+		let attributionIcons: string = '';
+		const isAIUsageOptionYes: boolean =
+			attibutionFormItems[0].selectedOptions[0] === AIUsageOptions.YES;
+		if (isAIUsageOptionYes) {
+			const aiContributions: string = getConcatenatedOptionsIcons(
+				attibutionFormItems[2].selectedOptions
+			);
+			const proportionOfContribution: string = getConcatenatedOptionsIcons(
+				attibutionFormItems[3].selectedOptions
+			);
+			const aiInitiatives: string = getConcatenatedOptionsIcons(
+				attibutionFormItems[4].selectedOptions
+			);
+			const humanReview: string = getConcatenatedOptionsIcons(
+				attibutionFormItems[5].selectedOptions
+			);
+			attributionIcons = `${aiContributions} ${proportionOfContribution} ${aiInitiatives} ${humanReview}`;
+		}
+		return attributionIcons;
+	};
 </script>
 
 <h2 class="recommended-attribution-title">Recommended attribution</h2>
@@ -164,6 +201,9 @@
 		<div class="recommended-attribution-item">
 			<div class="recommended-attribution-item-text-container">
 				<p class="recommended-attribution-item-text">{getAbbreviatedStatement()}</p>
+				<div class="recommended-attribution-item-icons-container">
+					{@html getAttributionIcons()}
+				</div>
 			</div>
 			<div>
 				<Button kind="ghost" iconDescription="Copy" icon={Copy} on:click={() => {}} />
@@ -181,6 +221,9 @@
 		<div class="recommended-attribution-item">
 			<div class="recommended-attribution-item-text-container">
 				<p class="recommended-attribution-item-text">{getFullStatement()}</p>
+				<div class="recommended-attribution-item-icons-container">
+					{@html getAttributionIcons()}
+				</div>
 			</div>
 			<div>
 				<Button kind="ghost" iconDescription="Copy" icon={Copy} on:click={() => {}} />
@@ -224,12 +267,13 @@
 		display: flex;
 		align-items: center;
 		width: 100%;
-		height: 48px;
 		background-color: var(--cds-ui-02);
 	}
 
 	.recommended-attribution-item-text-container {
+		display: flex;
 		flex-grow: 1;
+		gap: 0.5rem;
 		margin-left: 10.5px;
 	}
 
@@ -239,6 +283,11 @@
 		font-size: 16px;
 		line-height: 22px;
 		letter-spacing: 0px;
+	}
+
+	.recommended-attribution-item-icons-container {
+		display: flex;
+		gap: 0.5rem;
 	}
 
 	.attribution-tag-label {
