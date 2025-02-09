@@ -82,7 +82,7 @@
 	}
 
 	.row-label {
-		vertical-align: middle;
+		vertical-align: top;
 		font-family: IBM Plex Sans;
 		font-weight: 700;
 		font-size: 12px;
