@@ -32,14 +32,14 @@
 		</div>
 	</div>
 	<div class="form-item-options-container">
-		{#if formItem.type === FormItemType.textInput}
+		{#if formItem.typeOfItem === FormItemType.textInput}
 			<TextInput
 				class="text-input"
 				hideLabel
 				bind:value={formItem.selectedOptions[0]}
 				disabled={isItemDisabled}
 			/>
-		{:else if formItem.type === FormItemType.radioButton}
+		{:else if formItem.typeOfItem === FormItemType.radioButton}
 			<RadioButtonGroup
 				hideLegend={true}
 				orientation="vertical"
@@ -50,7 +50,7 @@
 					<RadioButton labelText={formItemOption} value={formItemOption} />
 				{/each}
 			</RadioButtonGroup>
-		{:else if formItem.type === FormItemType.checkbox}
+		{:else if formItem.typeOfItem === FormItemType.checkbox}
 			{#each formItem.options as formItemOption}
 				<Checkbox
 					labelText={formItemOption}

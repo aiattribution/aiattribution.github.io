@@ -5,48 +5,54 @@ import {
 	AIUsageOptions,
 	HumanReviewOptions
 } from '$lib/models/tag-library';
-import { FormItemType, type FormItemI } from './interfaces';
+import { AttributionType, FormItemType, type FormItemI } from './interfaces';
 
 export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 	{
 		id: 1,
+		attributionType: AttributionType.AI_USED,
 		text: 'Was AI used to create this content?',
-		type: FormItemType.radioButton,
+		typeOfItem: FormItemType.radioButton,
 		options: Object.values(AIUsageOptions),
 		selectedOptions: ['']
 	},
 	{
 		id: 2,
+		attributionType: AttributionType.MODEL,
 		text: 'Model or application',
-		type: FormItemType.textInput,
+		typeOfItem: FormItemType.textInput,
 		options: [],
 		selectedOptions: ['']
 	},
 	{
 		id: 3,
+		attributionType: AttributionType.AI_CONTRIBUTION,
 		text: 'AI contributions',
-		type: FormItemType.checkbox,
+		typeOfItem: FormItemType.checkbox,
 		options: Object.values(AIContributionOptions),
 		selectedOptions: []
 	},
 	{
 		id: 4,
+		attributionType: AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
 		text: 'Proportion of work created or modified by AI',
-		type: FormItemType.radioButton,
+		typeOfItem: FormItemType.radioButton,
 		options: Object.values(AIProportionOptions),
 		selectedOptions: ['']
 	},
 	{
 		id: 5,
+		attributionType: AttributionType.AI_INITIATIVE,
 		text: 'AI initiative',
-		type: FormItemType.checkbox,
+		typeOfItem: FormItemType.checkbox,
 		options: Object.values(AIInitiativeOptions),
 		selectedOptions: []
 	},
 	{
 		id: 6,
+		attributionType: AttributionType.HUMAN_REVIEW,
 		text: 'Human review',
-		type: FormItemType.radioButton,
+		typeOfItem: FormItemType.radioButton,
 		options: Object.values(HumanReviewOptions),
 		selectedOptions: ['']
 	}
