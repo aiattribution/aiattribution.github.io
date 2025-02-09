@@ -44,6 +44,21 @@
 			.join('');
 	};
 
+	const getConcatenatedOptionsExplanations = (options: string[]): string => {
+		return options
+			.map((option: string) => {
+				const tag: TagI = ALL_TAGS.find((tag: TagI) => {
+					return tag.id === option;
+				});
+				if (tag) {
+					return `${tag.explanation}`;
+				} else {
+					return '';
+				}
+			})
+			.join(' ');
+	};
+
 	const getAbbreviatedStatement = (): string => {
 		let abbreviatedStatement: string = '';
 		let aiUsed: string = '';
@@ -109,6 +124,34 @@
 		}
 		return fullStatement;
 	};
+
+	const getAttributionTagLabelContent = (): string => {
+		let atributionTagLabelContent: string = '';
+		let aiUsed: string = '';
+		let modelUsed: string = '';
+		let aiContributions: string = '';
+		let proportionOfContribution: string = '';
+		let aiInitiatives: string = '';
+		let humanReview: string = '';
+		const isAIUsageOptionYes: boolean =
+			attibutionFormItems[0].selectedOptions[0] === AIUsageOptions.YES;
+		if (isAIUsageOptionYes) {
+			aiUsed = 'AI was used';
+			if (attibutionFormItems[1].selectedOptions[0]) {
+				modelUsed = `with ${attibutionFormItems[1].selectedOptions[0]}`;
+			}
+			aiContributions = getConcatenatedOptionsExplanations(attibutionFormItems[2].selectedOptions);
+			proportionOfContribution = getConcatenatedOptionsExplanations(
+				attibutionFormItems[3].selectedOptions
+			);
+			aiInitiatives = getConcatenatedOptionsExplanations(attibutionFormItems[4].selectedOptions);
+			humanReview = getConcatenatedOptionsExplanations(attibutionFormItems[5].selectedOptions);
+		} else {
+			aiUsed = 'AI was not used in any way';
+		}
+		atributionTagLabelContent = `This attribution tag indicates that ${aiUsed} to create this content ${modelUsed}. ${aiContributions} ${proportionOfContribution} ${aiInitiatives} ${humanReview}`;
+		return atributionTagLabelContent;
+	};
 </script>
 
 <h2 class="recommended-attribution-title">Recommended attribution</h2>
@@ -149,7 +192,7 @@
 	</div>
 
 	<div class="attribution-tag-label">
-		This attribution tag indicates that AI was used to create this content.
+		{getAttributionTagLabelContent()}
 	</div>
 {/if}
 
