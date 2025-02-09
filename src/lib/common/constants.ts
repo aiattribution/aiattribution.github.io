@@ -13,7 +13,7 @@ export const AI_CONTRIBUTIONS_TAGS: TagI[] = [
 	},
 	{
 		selection: AIContributionOptions.CONTENT_EDITS,
-		icon: '/tag-icons/ai-contributions-icons/stylistic-edits-icon.svg',
+		icon: '/tag-icons/ai-contributions-icons/content-edits-icon.svg',
 		abbreviation: 'Ce',
 		name: AIContributionOptions.CONTENT_EDITS,
 		explanation:
@@ -21,7 +21,7 @@ export const AI_CONTRIBUTIONS_TAGS: TagI[] = [
 	},
 	{
 		selection: AIContributionOptions.NEW_CONTENT,
-		icon: '/tag-icons/ai-contributions-icons/stylistic-edits-icon.svg',
+		icon: '/tag-icons/ai-contributions-icons/new-content-icon.svg',
 		abbreviation: 'Nc',
 		name: AIContributionOptions.NEW_CONTENT,
 		explanation: 'AI was used to make new content, such as text, analysis, and ideas.'
