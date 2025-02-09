@@ -8,6 +8,10 @@ import {
 
 export const APP_TITLE: string = 'AI Attribution Toolkit';
 
+const MONDAY_FORM_ID: string = '77a998cee6979c0392ca811bfb0eabf4?r=use1';
+export const MONDAY_FORM_LINK: string = `https://forms.monday.com/forms/${MONDAY_FORM_ID}`;
+export const MONDAY_FORM_EMBED_LINK: string = `https://forms.monday.com/forms/embed/${MONDAY_FORM_ID}`;
+
 export const AI_CONTRIBUTIONS_TAGS: TagI[] = [
 	{
 		id: AIContributionOptions.STYLISTIC_EDITS,

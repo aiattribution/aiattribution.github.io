@@ -1,13 +1,20 @@
 <script lang="ts">
 	import 'carbon-components-svelte/css/all.css';
-	import { AttributionStatement, Header, TagLibrary } from '$lib';
+	import { About, AttributionStatement, Header, TagLibrary } from '$lib';
+	import { HeaderNavType } from '$lib/components/header/interfaces';
+
+	let headerNavItemSelected: HeaderNavType = HeaderNavType.ATTRIBUTION_STATEMENT;
 </script>
 
 <div class="page-container">
-	<Header />
+	<Header bind:headerNavItemSelected />
 	<div class="page-content">
-		<AttributionStatement />
-		<TagLibrary />
+		{#if headerNavItemSelected === HeaderNavType.ATTRIBUTION_STATEMENT}
+			<AttributionStatement />
+			<TagLibrary />
+		{:else if headerNavItemSelected === HeaderNavType.ABOUT}
+			<About />
+		{/if}
 		<div class="footer"></div>
 	</div>
 </div>

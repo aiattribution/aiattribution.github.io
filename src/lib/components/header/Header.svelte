@@ -2,11 +2,14 @@
 	import { Header, HeaderNav, HeaderNavItem } from 'carbon-components-svelte';
 	import { APP_TITLE } from '$lib/common/constants';
 	import { HEADER_NAV_ITEMS } from './constants';
-	import type { HeaderNavItemI } from './interfaces';
+	import type { HeaderNavItemI, HeaderNavType } from './interfaces';
+
+	export let headerNavItemSelected: HeaderNavType;
 
 	let headerNavItems: HeaderNavItemI[] = HEADER_NAV_ITEMS;
 
 	const onHeaderNavItemClick = (headerNavItem: HeaderNavItemI): void => {
+		headerNavItemSelected = headerNavItem.text;
 		headerNavItems.forEach((value: HeaderNavItemI) => {
 			if (value.id === headerNavItem.id) {
 				value.isSelected = true;

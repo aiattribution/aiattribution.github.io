@@ -1,14 +1,14 @@
-import type { HeaderNavItemI } from './interfaces';
+import { HeaderNavType, type HeaderNavItemI } from './interfaces';
 
 export const HEADER_NAV_ITEMS: HeaderNavItemI[] = [
 	{
 		id: 0,
-		text: 'Attribution statement',
+		text: HeaderNavType.ATTRIBUTION_STATEMENT,
 		isSelected: true
 	},
 	{
 		id: 1,
-		text: 'About',
+		text: HeaderNavType.ABOUT,
 		isSelected: false
 	}
 ];

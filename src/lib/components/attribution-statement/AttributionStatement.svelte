@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Link } from 'carbon-components-svelte';
 	import { FormItem, RecommendedAttribution } from '$lib';
+	import { MONDAY_FORM_LINK } from '$lib/common/constants';
 	import { AIUsageOptions } from '$lib/models/tag-library';
 	import { utilsService } from '$lib/services';
 	import { ATTRIBUTION_FORM_ITEMS } from './constants';
@@ -44,13 +45,7 @@
 	<div class="attribution-form-comment">
 		This attribution form is still in beta, and we are continuing to improve it. If you have any
 		feedback, suggestions, questions, or comments, please let us know via
-		<Link
-			href="https://forms.monday.com/forms/77a998cee6979c0392ca811bfb0eabf4?r=use1"
-			target="_blank"
-			inline
-		>
-			this form
-		</Link>.
+		<Link href={MONDAY_FORM_LINK} target="_blank" inline>this form</Link>.
 	</div>
 </div>
 
