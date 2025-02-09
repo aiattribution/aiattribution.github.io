@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { Button } from 'carbon-components-svelte';
 	import { Copy, Download } from 'carbon-icons-svelte';
-	import { AIUsageOptions } from '$lib/models/tag-library';
+	import { ALL_TAGS } from '$lib/common/constants';
+	import { AIUsageOptions, type TagI } from '$lib/models/tag-library';
 	import {
 		AI_USED,
 		AIA,
@@ -16,10 +17,14 @@
 	const getConcatenatedOptionsAbbreviatedStatement = (options: string[]): string => {
 		return options
 			.map((option: string) => {
-				return option
-					.split(' ')
-					.map((word: string) => word[0])
-					.join('');
+				const tag: TagI = ALL_TAGS.find((tag: TagI) => {
+					return tag.id === option;
+				});
+				if (tag) {
+					return tag.abbreviation;
+				} else {
+					return '';
+				}
 			})
 			.join('');
 	};
@@ -27,7 +32,14 @@
 	const getConcatenatedOptionsFullStatement = (options: string[]): string => {
 		return options
 			.map((option: string) => {
-				return `, ${option}`;
+				const tag: TagI = ALL_TAGS.find((tag: TagI) => {
+					return tag.id === option;
+				});
+				if (tag) {
+					return `, ${tag.name}`;
+				} else {
+					return '';
+				}
 			})
 			.join('');
 	};
@@ -44,11 +56,21 @@
 		} else {
 			aiUsed = NO_AI_USED_ABBREVIATED_STATEMENT;
 		}
-		const aiContributions: string = getConcatenatedOptionsAbbreviatedStatement(
-			attibutionFormItems[2].selectedOptions
-		);
+
 		if (isAIUsageOptionYes) {
-			abbreviatedStatement = `${AIA} ${aiUsed} ${aiContributions} ${VERSION}`;
+			const aiContributions: string = getConcatenatedOptionsAbbreviatedStatement(
+				attibutionFormItems[2].selectedOptions
+			);
+			const proportionOfContribution: string = getConcatenatedOptionsAbbreviatedStatement(
+				attibutionFormItems[3].selectedOptions
+			);
+			const aiInitiatives: string = getConcatenatedOptionsAbbreviatedStatement(
+				attibutionFormItems[4].selectedOptions
+			);
+			const humanReview: string = getConcatenatedOptionsAbbreviatedStatement(
+				attibutionFormItems[5].selectedOptions
+			);
+			abbreviatedStatement = `${AIA} ${aiUsed} ${aiContributions} ${proportionOfContribution} ${aiInitiatives} ${humanReview} ${VERSION}`;
 		} else {
 			abbreviatedStatement = `${AIA} ${aiUsed} ${VERSION}`;
 		}
@@ -67,11 +89,21 @@
 		} else {
 			aiUsed = NO_AI_USED_FULL_STATEMENT;
 		}
-		const aiContributions: string = getConcatenatedOptionsFullStatement(
-			attibutionFormItems[2].selectedOptions
-		);
+
 		if (isAIUsageOptionYes) {
-			fullStatement = `${AIA} ${aiUsed}${aiContributions} ${VERSION}`;
+			const aiContributions: string = getConcatenatedOptionsFullStatement(
+				attibutionFormItems[2].selectedOptions
+			);
+			const proportionOfContribution: string = getConcatenatedOptionsFullStatement(
+				attibutionFormItems[3].selectedOptions
+			);
+			const aiInitiatives: string = getConcatenatedOptionsFullStatement(
+				attibutionFormItems[4].selectedOptions
+			);
+			const humanReview: string = getConcatenatedOptionsFullStatement(
+				attibutionFormItems[5].selectedOptions
+			);
+			fullStatement = `${AIA} ${aiUsed}${aiContributions}${proportionOfContribution}${aiInitiatives}${humanReview} ${VERSION}`;
 		} else {
 			fullStatement = `${AIA} ${aiUsed} ${VERSION}`;
 		}
