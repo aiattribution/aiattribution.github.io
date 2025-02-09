@@ -81,3 +81,20 @@ export const AI_INITIATIVE_TAGS: TagI[] = [
 			'The AI proactively made suggestions, such as auto-completion or unprompted changes.'
 	}
 ];
+
+export const HUMAN_REVIEW_TAGS: TagI[] = [
+	{
+		selection: 'Reviewed and approved',
+		icon: '/tag-icons/human-review-icons/certified-review-icon.svg',
+		abbreviation: 'R',
+		name: 'Human reviewed',
+		explanation: 'The authors affirmed that all AI-generated content was reviewed and approved.'
+	},
+	{
+		selection: 'Not reviewed',
+		icon: '/tag-icons/human-review-icons/no-review-icon.svg',
+		abbreviation: 'Nr',
+		name: 'No human review',
+		explanation: 'AI-generated content was not reviewed.'
+	}
+];

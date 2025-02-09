@@ -1,6 +1,7 @@
 import {
 	AI_CONTRIBUTIONS_TAGS,
 	AI_INITIATIVE_TAGS,
+	HUMAN_REVIEW_TAGS,
 	PROPORTIONS_OF_CONTRIBUTIONS_TAGS
 } from '$lib/common/constants';
 import type { AttributionTagI } from './interfaces';
@@ -20,5 +21,10 @@ export const ATTRIBUTION_TAGS: AttributionTagI[] = [
 		id: 2,
 		name: 'AI initiative',
 		tags: AI_INITIATIVE_TAGS
+	},
+	{
+		id: 3,
+		name: 'Human review',
+		tags: HUMAN_REVIEW_TAGS
 	}
 ];
