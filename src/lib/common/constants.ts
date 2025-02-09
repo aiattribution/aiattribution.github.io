@@ -1,4 +1,9 @@
-import { AIContributionOptions, AIProportionOptions, type TagI } from '$lib/models/tag-library';
+import {
+	AIContributionOptions,
+	AIInitiativeOptions,
+	AIProportionOptions,
+	type TagI
+} from '$lib/models/tag-library';
 
 export const APP_TITLE: string = 'AI Attribution Toolkit';
 
@@ -56,5 +61,23 @@ export const PROPORTIONS_OF_CONTRIBUTIONS_TAGS: TagI[] = [
 		abbreviation: 'Ph',
 		name: 'Primarily human',
 		explanation: 'The work was primarily human-created.'
+	}
+];
+
+export const AI_INITIATIVE_TAGS: TagI[] = [
+	{
+		selection: AIInitiativeOptions.AI_WAS_PROMPTED,
+		icon: '/tag-icons/ai-initiative-icons/prompted-icon.svg',
+		abbreviation: 'Pm',
+		name: 'AI prompted',
+		explanation: 'The authors prompted the AI for its contributions.'
+	},
+	{
+		selection: AIInitiativeOptions.AI_PROACTIVELY_SUGGESTED,
+		icon: '/tag-icons/ai-initiative-icons/proactive-suggestions-icon.svg',
+		abbreviation: 'Pv',
+		name: 'AI proactive',
+		explanation:
+			'The AI proactively made suggestions, such as auto-completion or unprompted changes.'
 	}
 ];
