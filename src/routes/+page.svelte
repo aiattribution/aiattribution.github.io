@@ -16,6 +16,7 @@
 
 	.page-container {
 		display: flex;
+		flex-direction: column;
 		width: 100%;
 		min-height: 100vh;
 		margin: 0;
@@ -25,7 +26,7 @@
 		display: flex;
 		position: relative;
 		top: $header-height;
-		height: calc(100vh - $header-height);
+		flex-grow: 1;
 		width: 100%;
 		margin: 0;
 	}
@@ -35,7 +36,8 @@
 		flex-direction: column;
 		gap: 1rem;
 		width: 100%;
-		padding: 33px $section-container-margin-left-right;
+		padding: 32px $section-container-margin-left-right;
+		padding-bottom: 56px;
 	}
 
 	:global(.section-title) {

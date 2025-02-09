@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Link } from 'carbon-components-svelte';
 	import { FormItem, RecommendedAttribution } from '$lib';
 	import { ATTRIBUTION_FORM_ITEMS } from './constants';
 	import { AIUsageOptions, type FormItemI } from './interfaces';
@@ -34,6 +35,17 @@
 			<RecommendedAttribution {attibutionFormItems} />
 		</div>
 	</div>
+	<div class="attribution-form-comment">
+		This attribution form is still in beta, and we are continuing to improve it. If you have any
+		feedback, suggestions, questions, or comments, please let us know via
+		<Link
+			href="https://forms.monday.com/forms/77a998cee6979c0392ca811bfb0eabf4?r=use1"
+			target="_blank"
+			inline
+		>
+			this form
+		</Link>.
+	</div>
 </div>
 
 <style lang="scss">
@@ -62,5 +74,13 @@
 		flex-grow: 1;
 		gap: 1rem;
 		padding: 20px 40px;
+	}
+
+	.attribution-form-comment {
+		font-family: IBM Plex Sans;
+		font-weight: 400;
+		font-size: 16px;
+		line-height: 22px;
+		letter-spacing: 0px;
 	}
 </style>
