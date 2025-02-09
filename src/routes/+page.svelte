@@ -1,12 +1,14 @@
 <script lang="ts">
 	import 'carbon-components-svelte/css/all.css';
-	import { AttributionStatement, Header } from '$lib';
+	import { AttributionStatement, Header, TagLibrary } from '$lib';
 </script>
 
 <div class="page-container">
 	<Header />
 	<div class="page-content">
 		<AttributionStatement />
+		<TagLibrary />
+		<div class="footer"></div>
 	</div>
 </div>
 
@@ -24,6 +26,7 @@
 
 	.page-content {
 		display: flex;
+		flex-direction: column;
 		position: relative;
 		top: $header-height;
 		flex-grow: 1;
@@ -31,13 +34,18 @@
 		margin: 0;
 	}
 
+	.footer {
+		width: 100%;
+		height: 56px;
+	}
+
 	:global(.section-container) {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
 		width: 100%;
-		padding: 32px $section-container-margin-left-right;
-		padding-bottom: 56px;
+		padding: 0px $section-container-margin-left-right;
+		padding-top: 32px;
 	}
 
 	:global(.section-title) {
