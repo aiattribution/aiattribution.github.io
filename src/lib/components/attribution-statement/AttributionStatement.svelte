@@ -2,8 +2,9 @@
 	import { Link } from 'carbon-components-svelte';
 	import { FormItem, RecommendedAttribution } from '$lib';
 	import { AIUsageOptions } from '$lib/models/tag-library';
+	import { utilsService } from '$lib/services';
 	import { ATTRIBUTION_FORM_ITEMS } from './constants';
-	import { type FormItemI } from './interfaces';
+	import { AttributionType, type FormItemI } from './interfaces';
 
 	let attibutionFormItems: FormItemI[] = ATTRIBUTION_FORM_ITEMS;
 </script>
@@ -26,9 +27,13 @@
 			{#each attibutionFormItems as attibutionFormItem (attibutionFormItem.id)}
 				<FormItem
 					bind:formItem={attibutionFormItem}
-					isItemDisabled={attibutionFormItem.id === attibutionFormItems[0].id
+					isItemDisabled={attibutionFormItem.id ===
+					utilsService.getAttributionFormItemByType(AttributionType.AI_USED, attibutionFormItems).id
 						? false
-						: attibutionFormItems[0].selectedOptions[0] === AIUsageOptions.NO}
+						: utilsService.getAttributionFormItemByType(
+								AttributionType.AI_USED,
+								attibutionFormItems
+							).selectedOptions[0] === AIUsageOptions.NO}
 				/>
 			{/each}
 		</div>
