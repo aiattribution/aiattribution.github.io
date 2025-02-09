@@ -3,10 +3,9 @@ import {
 	AIInitiativeOptions,
 	AIProportionOptions,
 	AIUsageOptions,
-	FormItemType,
-	HumanReviewOptions,
-	type FormItemI
-} from './interfaces';
+	HumanReviewOptions
+} from '$lib/models/tag-library';
+import { FormItemType, type FormItemI } from './interfaces';
 
 export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 	{

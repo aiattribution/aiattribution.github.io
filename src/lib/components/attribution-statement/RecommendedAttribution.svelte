@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Button } from 'carbon-components-svelte';
 	import { Copy, Download } from 'carbon-icons-svelte';
+	import { AIUsageOptions } from '$lib/models/tag-library';
 	import {
 		AI_USED,
 		AIA,
@@ -8,9 +9,28 @@
 		NO_AI_USED_FULL_STATEMENT,
 		VERSION
 	} from './constants';
-	import { AIUsageOptions, type FormItemI } from './interfaces';
+	import { type FormItemI } from './interfaces';
 
 	export let attibutionFormItems: FormItemI[];
+
+	const getConcatenatedOptionsAbbreviatedStatement = (options: string[]): string => {
+		return options
+			.map((option: string) => {
+				return option
+					.split(' ')
+					.map((word: string) => word[0])
+					.join('');
+			})
+			.join('');
+	};
+
+	const getConcatenatedOptionsFullStatement = (options: string[]): string => {
+		return options
+			.map((option: string) => {
+				return `, ${option}`;
+			})
+			.join('');
+	};
 
 	const getAbbreviatedStatement = (): string => {
 		let abbreviatedStatement: string = '';
@@ -24,7 +44,14 @@
 		} else {
 			aiUsed = NO_AI_USED_ABBREVIATED_STATEMENT;
 		}
-		abbreviatedStatement = `${AIA} ${aiUsed} ${VERSION}`;
+		const aiContributions: string = getConcatenatedOptionsAbbreviatedStatement(
+			attibutionFormItems[2].selectedOptions
+		);
+		if (isAIUsageOptionYes) {
+			abbreviatedStatement = `${AIA} ${aiUsed} ${aiContributions} ${VERSION}`;
+		} else {
+			abbreviatedStatement = `${AIA} ${aiUsed} ${VERSION}`;
+		}
 		return abbreviatedStatement;
 	};
 
@@ -40,7 +67,14 @@
 		} else {
 			aiUsed = NO_AI_USED_FULL_STATEMENT;
 		}
-		fullStatement = `${AIA} ${aiUsed} ${VERSION}`;
+		const aiContributions: string = getConcatenatedOptionsFullStatement(
+			attibutionFormItems[2].selectedOptions
+		);
+		if (isAIUsageOptionYes) {
+			fullStatement = `${AIA} ${aiUsed}${aiContributions} ${VERSION}`;
+		} else {
+			fullStatement = `${AIA} ${aiUsed} ${VERSION}`;
+		}
 		return fullStatement;
 	};
 </script>

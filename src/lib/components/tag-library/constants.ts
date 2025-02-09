@@ -1,0 +1,10 @@
+import { AI_CONTRIBUTIONS_TAGS } from '$lib/common/constants';
+import type { AttributionTagI } from './interfaces';
+
+export const ATTRIBUTION_TAGS: AttributionTagI[] = [
+	{
+		id: 0,
+		name: 'AI contributions',
+		tags: AI_CONTRIBUTIONS_TAGS
+	}
+];

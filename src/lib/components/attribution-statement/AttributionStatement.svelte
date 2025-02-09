@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { Link } from 'carbon-components-svelte';
 	import { FormItem, RecommendedAttribution } from '$lib';
+	import { AIUsageOptions } from '$lib/models/tag-library';
 	import { ATTRIBUTION_FORM_ITEMS } from './constants';
-	import { AIUsageOptions, type FormItemI } from './interfaces';
+	import { type FormItemI } from './interfaces';
 
 	let attibutionFormItems: FormItemI[] = ATTRIBUTION_FORM_ITEMS;
 </script>
