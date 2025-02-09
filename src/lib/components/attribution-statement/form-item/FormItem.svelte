@@ -7,12 +7,18 @@
 
 	const onCheckFormItem = (event: CustomEvent<boolean>, formItemOption: string): void => {
 		if (event.detail) {
-			formItem.selectedOptions = Array.from(new Set([...formItem.selectedOptions, formItemOption]));
+			if (!formItem.selectedOptions.includes(formItemOption)) {
+				formItem.selectedOptions.push(formItemOption);
+			}
 		} else {
 			formItem.selectedOptions = formItem.selectedOptions.filter(
 				(option: string) => option !== formItemOption
 			);
 		}
+
+		formItem.selectedOptions = formItem.options.filter((option: string) =>
+			formItem.selectedOptions.includes(option)
+		);
 	};
 </script>
 
