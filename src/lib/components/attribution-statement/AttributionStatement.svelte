@@ -63,6 +63,7 @@
 	.attribution-form-items {
 		display: flex;
 		flex-direction: column;
+		min-width: $attribution-form-items-width;
 		width: $attribution-form-items-width;
 		gap: 24px;
 		padding: 20px 32px;
