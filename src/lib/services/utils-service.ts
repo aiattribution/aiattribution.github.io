@@ -1,3 +1,4 @@
+import { base } from '$app/paths';
 import { ALL_TAGS } from '$lib/common/constants';
 import { AttributionType, type FormItemI } from '$lib/components/attribution-statement/interfaces';
 import { AIUsageOptions, type TagI } from '$lib/models/tag-library';
@@ -66,20 +67,20 @@ class UtilsService {
 			.join(' ');
 	}
 
-	getConcatenatedOptionsIcons = (options: string[]): string => {
+	public getConcatenatedOptionsIcons(options: string[]): string {
 		return options
 			.map((option: string) => {
 				const tag: TagI = ALL_TAGS.find((tag: TagI) => {
 					return tag.id === option;
 				});
 				if (tag) {
-					return `<img src="${tag.icon}" alt="${tag.selection}" width="24" height="24" />`;
+					return `<img src="${base}${tag.icon}" alt="${tag.selection}" width="24" height="24" />`;
 				} else {
 					return '';
 				}
 			})
 			.join('');
-	};
+	}
 }
 
 export default new UtilsService();

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import type { AttributionTagI } from './interfaces';
 
 	export let attributionTag: AttributionTagI;
@@ -17,7 +18,7 @@
 			<tr class="row">
 				<td class="row-label">Icon</td>
 				{#each attributionTag.tags as tag}
-					<td><img src={tag.icon} alt={tag.selection} width="24" height="24" /></td>
+					<td><img src={`${base}${tag.icon}`} alt={tag.selection} width="24" height="24" /></td>
 				{/each}
 			</tr>
 			<tr class="row">
