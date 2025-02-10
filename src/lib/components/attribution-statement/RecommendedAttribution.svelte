@@ -305,6 +305,24 @@
 		}
 		return attributionIconsDescriptions;
 	};
+
+	const copyAbbreviatedStatementToClipboard = async (): Promise<void> => {
+		try {
+			const text: string = getAbbreviatedStatement();
+			await navigator.clipboard.writeText(text);
+		} catch (err) {
+			console.error('Error copying abbreviated statement to clipboard', err);
+		}
+	};
+
+	const copyFullStatementToClipboard = async (): Promise<void> => {
+		try {
+			const text: string = getFullStatement();
+			await navigator.clipboard.writeText(text);
+		} catch (err) {
+			console.error('Error copying full statement to clipboard', err);
+		}
+	};
 </script>
 
 <h2 class="recommended-attribution-title">Recommended attribution</h2>
@@ -322,7 +340,14 @@
 				</div>
 			</div>
 			<div>
-				<Button kind="ghost" iconDescription="Copy" icon={Copy} on:click={() => {}} />
+				<Button
+					kind="ghost"
+					iconDescription="Copy"
+					icon={Copy}
+					on:click={async () => {
+						await copyAbbreviatedStatementToClipboard();
+					}}
+				/>
 			</div>
 			<div>
 				<Button kind="ghost" iconDescription="Download" icon={Download} on:click={() => {}} />
@@ -342,7 +367,14 @@
 				</div>
 			</div>
 			<div>
-				<Button kind="ghost" iconDescription="Copy" icon={Copy} on:click={() => {}} />
+				<Button
+					kind="ghost"
+					iconDescription="Copy"
+					icon={Copy}
+					on:click={async () => {
+						await copyFullStatementToClipboard();
+					}}
+				/>
 			</div>
 			<div>
 				<Button kind="ghost" iconDescription="Download" icon={Download} on:click={() => {}} />
