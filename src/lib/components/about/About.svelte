@@ -1,5 +1,12 @@
 <script lang="ts">
+	import { SkeletonPlaceholder } from 'carbon-components-svelte';
 	import { MONDAY_FORM_EMBED_LINK } from '$lib/common/constants';
+
+	let isIfraneLoading: boolean = true;
+
+	const onLoad = (): void => {
+		isIfraneLoading = false;
+	};
 </script>
 
 <div class="section-container">
@@ -22,17 +29,37 @@
 		This toolkit is still in beta, and we are continuing to improve and expand it. If you have any
 		feedback, suggestions, questions, or comments, we would love to hear it.
 	</p>
-	<iframe
-		class="final-survey"
-		title="Final baseline survey"
-		src={MONDAY_FORM_EMBED_LINK}
-		width="100%"
-		height="100%"
-	></iframe>
+	<div class="iframe-container">
+		{#if isIfraneLoading}
+			<SkeletonPlaceholder class="iframe-skeleton-placeholder" />
+		{/if}
+		<iframe
+			title="AI Attribution Feedback"
+			class:iframe-loading={isIfraneLoading}
+			src={MONDAY_FORM_EMBED_LINK}
+			width="100%"
+			height="100%"
+			on:load={onLoad}
+		></iframe>
+	</div>
 </div>
 
 <style lang="scss">
 	.section-container {
 		width: 50% !important;
+	}
+
+	.iframe-container {
+		width: 100%;
+		height: 730px;
+	}
+
+	.iframe-loading {
+		display: none;
+	}
+
+	:global(.iframe-skeleton-placeholder) {
+		width: 100%;
+		height: 100%;
 	}
 </style>
