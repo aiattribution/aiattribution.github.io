@@ -82,7 +82,7 @@ export const AI_INITIATIVE_TAGS: TagI[] = [
 		selection: AIInitiativeOptions.AI_WAS_PROMPTED,
 		icon: '/tag-icons/ai-initiative-icons/prompted-icon.svg',
 		abbreviation: 'Pm',
-		name: 'AI prompted',
+		name: 'Prompted',
 		explanation: 'The authors prompted the AI for its contributions.'
 	},
 	{
@@ -90,7 +90,7 @@ export const AI_INITIATIVE_TAGS: TagI[] = [
 		selection: AIInitiativeOptions.AI_PROACTIVELY_SUGGESTED,
 		icon: '/tag-icons/ai-initiative-icons/proactive-suggestions-icon.svg',
 		abbreviation: 'Pv',
-		name: 'AI proactive',
+		name: 'Proactive',
 		explanation:
 			'The AI proactively made suggestions, such as auto-completion or unprompted changes.'
 	}
