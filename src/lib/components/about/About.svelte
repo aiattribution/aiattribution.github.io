@@ -49,6 +49,12 @@
 		width: 50% !important;
 	}
 
+	@media (max-width: 1055px) {
+		.section-container {
+			width: 100% !important;
+		}
+	}
+
 	.iframe-container {
 		width: 100%;
 		height: 730px;
