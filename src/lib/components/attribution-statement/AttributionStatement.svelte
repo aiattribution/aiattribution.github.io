@@ -14,7 +14,7 @@
 	<h1 class="section-title">Create an attribution statement</h1>
 	<p class="section-text">
 		<span>
-			An <strong>attribution tag</strong> provides transparency on if and how AI was used in a specific
+			An <strong>attribution statement</strong> provides transparency on if and how AI was used in a specific
 			work.
 		</span>
 		<br />
