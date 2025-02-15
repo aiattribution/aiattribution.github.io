@@ -446,7 +446,7 @@
 		gap: 0.5rem;
 	}
 
-	.attribution-tag-label {
+	:global(.attribution-tag-label) {
 		font-family: IBM Plex Sans;
 		font-weight: 400;
 		font-size: 12px;
