@@ -78,16 +78,16 @@ export const PROPORTIONS_OF_CONTRIBUTIONS_TAGS: TagI[] = [
 
 export const AI_INITIATIVE_TAGS: TagI[] = [
 	{
-		id: AIInitiativeOptions.AI_WAS_PROMPTED,
-		selection: AIInitiativeOptions.AI_WAS_PROMPTED,
+		id: AIInitiativeOptions.HUMAN_INITIATED,
+		selection: AIInitiativeOptions.HUMAN_INITIATED,
 		icon: '/tag-icons/ai-initiative-icons/prompted-icon.svg',
 		abbreviation: 'Pm',
 		name: 'Prompted',
 		explanation: 'The authors prompted the AI for its contributions.'
 	},
 	{
-		id: AIInitiativeOptions.AI_PROACTIVELY_SUGGESTED,
-		selection: AIInitiativeOptions.AI_PROACTIVELY_SUGGESTED,
+		id: AIInitiativeOptions.AI_INITIATED,
+		selection: AIInitiativeOptions.AI_INITIATED,
 		icon: '/tag-icons/ai-initiative-icons/proactive-suggestions-icon.svg',
 		abbreviation: 'Pv',
 		name: 'Proactive',

@@ -17,8 +17,8 @@ export enum AIProportionOptions {
 }
 
 export enum AIInitiativeOptions {
-	AI_WAS_PROMPTED = 'AI was prompted',
-	AI_PROACTIVELY_SUGGESTED = 'AI proactively made suggestions'
+	HUMAN_INITIATED = 'Human-initiated',
+	AI_INITIATED = 'AI-initiated'
 }
 
 export enum HumanReviewOptions {
