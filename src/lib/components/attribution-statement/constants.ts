@@ -19,7 +19,7 @@ export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 	{
 		id: 2,
 		attributionType: AttributionType.MODEL,
-		text: 'Model or application',
+		text: 'Model or application used',
 		typeOfItem: FormItemType.textInput,
 		options: [],
 		selectedOptions: ['']
@@ -43,7 +43,7 @@ export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 	{
 		id: 5,
 		attributionType: AttributionType.AI_INITIATIVE,
-		text: 'AI initiative',
+		text: 'Initiative',
 		typeOfItem: FormItemType.checkbox,
 		options: Object.values(AIInitiativeOptions),
 		selectedOptions: []

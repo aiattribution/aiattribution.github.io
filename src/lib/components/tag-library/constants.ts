@@ -19,7 +19,7 @@ export const ATTRIBUTION_TAGS: AttributionTagI[] = [
 	},
 	{
 		id: 2,
-		name: 'AI initiative',
+		name: 'Initiative',
 		tags: AI_INITIATIVE_TAGS
 	},
 	{
