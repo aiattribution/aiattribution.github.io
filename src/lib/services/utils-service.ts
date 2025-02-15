@@ -39,14 +39,21 @@ class UtilsService {
 			.join('');
 	}
 
-	public getConcatenatedOptionsFullStatement(options: string[]): string {
+	public getConcatenatedOptionsFullStatement(
+		options: string[],
+		includeFirstComma: boolean = true
+	): string {
 		return options
-			.map((option: string) => {
+			.map((option: string, index: number) => {
 				const tag: TagI = ALL_TAGS.find((tag: TagI) => {
 					return tag.id === option;
 				});
 				if (tag) {
-					return `, ${tag.name}`;
+					if (includeFirstComma || index !== 0) {
+						return `, ${tag.name}`;
+					} else {
+						return `${tag.name}`;
+					}
 				} else {
 					return '';
 				}
@@ -76,7 +83,7 @@ class UtilsService {
 					return tag.id === option;
 				});
 				if (tag) {
-					return `<img src="${base}${tag.icon}" alt="${tag.selection}" width="24" height="24" />`;
+					return `<img src="${base}${tag.icon}" alt="${tag.name}" width="24" height="24" />`;
 				} else {
 					return '';
 				}

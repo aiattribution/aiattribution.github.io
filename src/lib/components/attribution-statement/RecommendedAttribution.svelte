@@ -2,7 +2,6 @@
 	import { Button } from 'carbon-components-svelte';
 	import { Copy, Download } from 'carbon-icons-svelte';
 	import {
-		AI_USED,
 		AIA,
 		NO_AI_USED_ABBREVIATED_STATEMENT,
 		NO_AI_USED_FULL_STATEMENT,
@@ -17,26 +16,17 @@
 		let abbreviatedStatement: string = '';
 		let aiUsed: string = '';
 		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attibutionFormItems);
-		if (
-			utilsService.getAttributionFormItemByType(AttributionType.MODEL, attibutionFormItems)
-				.selectedOptions[0] &&
-			isAIUsageOptionYes
-		) {
-			aiUsed = utilsService.getAttributionFormItemByType(AttributionType.MODEL, attibutionFormItems)
-				.selectedOptions[0];
-		} else if (isAIUsageOptionYes) {
-			aiUsed = AI_USED;
+		const modelSelected: string = utilsService.getAttributionFormItemByType(
+			AttributionType.MODEL,
+			attibutionFormItems
+		).selectedOptions[0];
+		if (isAIUsageOptionYes) {
+			aiUsed = modelSelected.length > 0 ? modelSelected : '';
 		} else {
 			aiUsed = NO_AI_USED_ABBREVIATED_STATEMENT;
 		}
 
 		if (isAIUsageOptionYes) {
-			const aiContribution: string = utilsService.getConcatenatedOptionsAbbreviatedStatement(
-				utilsService.getAttributionFormItemByType(
-					AttributionType.AI_CONTRIBUTION,
-					attibutionFormItems
-				).selectedOptions
-			);
 			const proportionOfContribution: string =
 				utilsService.getConcatenatedOptionsAbbreviatedStatement(
 					utilsService.getAttributionFormItemByType(
@@ -44,6 +34,12 @@
 						attibutionFormItems
 					).selectedOptions
 				);
+			const aiContribution: string = utilsService.getConcatenatedOptionsAbbreviatedStatement(
+				utilsService.getAttributionFormItemByType(
+					AttributionType.AI_CONTRIBUTION,
+					attibutionFormItems
+				).selectedOptions
+			);
 			const aiInitiatives: string = utilsService.getConcatenatedOptionsAbbreviatedStatement(
 				utilsService.getAttributionFormItemByType(
 					AttributionType.AI_INITIATIVE,
@@ -54,7 +50,7 @@
 				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attibutionFormItems)
 					.selectedOptions
 			);
-			abbreviatedStatement = `${AIA} ${aiUsed} ${aiContribution} ${proportionOfContribution} ${aiInitiatives} ${humanReview} ${VERSION}`;
+			abbreviatedStatement = `${AIA} ${aiUsed} ${proportionOfContribution} ${aiContribution} ${aiInitiatives} ${humanReview} ${VERSION}`;
 		} else {
 			abbreviatedStatement = `${AIA} ${aiUsed} ${VERSION}`;
 		}
@@ -65,29 +61,27 @@
 		let fullStatement: string = '';
 		let aiUsed: string = '';
 		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attibutionFormItems);
-		if (
-			utilsService.getAttributionFormItemByType(AttributionType.MODEL, attibutionFormItems)
-				.selectedOptions[0] &&
-			isAIUsageOptionYes
-		) {
-			aiUsed = utilsService.getAttributionFormItemByType(AttributionType.MODEL, attibutionFormItems)
-				.selectedOptions[0];
-		} else if (isAIUsageOptionYes) {
-			aiUsed = AI_USED;
+		const modelSelected: string = utilsService.getAttributionFormItemByType(
+			AttributionType.MODEL,
+			attibutionFormItems
+		).selectedOptions[0];
+		if (isAIUsageOptionYes) {
+			aiUsed = modelSelected.length > 0 ? modelSelected : '';
 		} else {
 			aiUsed = NO_AI_USED_FULL_STATEMENT;
 		}
 
 		if (isAIUsageOptionYes) {
-			const aiContribution: string = utilsService.getConcatenatedOptionsFullStatement(
-				utilsService.getAttributionFormItemByType(
-					AttributionType.AI_CONTRIBUTION,
-					attibutionFormItems
-				).selectedOptions
-			);
 			const proportionOfContribution: string = utilsService.getConcatenatedOptionsFullStatement(
 				utilsService.getAttributionFormItemByType(
 					AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+					attibutionFormItems
+				).selectedOptions,
+				false
+			);
+			const aiContribution: string = utilsService.getConcatenatedOptionsFullStatement(
+				utilsService.getAttributionFormItemByType(
+					AttributionType.AI_CONTRIBUTION,
 					attibutionFormItems
 				).selectedOptions
 			);
@@ -101,7 +95,7 @@
 				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attibutionFormItems)
 					.selectedOptions
 			);
-			fullStatement = `${AIA} ${aiUsed}${aiContribution}${proportionOfContribution}${aiInitiatives}${humanReview} ${VERSION}`;
+			fullStatement = `${AIA} ${aiUsed}${proportionOfContribution}${aiContribution}${aiInitiatives}${humanReview} ${VERSION}`;
 		} else {
 			fullStatement = `${AIA} ${aiUsed} ${VERSION}`;
 		}
@@ -110,15 +104,20 @@
 
 	const getAttributionTagLabelContent = (): string => {
 		let atributionTagLabelContent: string = '';
-		let aiUsed: string = '';
+		let proportionOfContribution: string = utilsService.getConcatenatedOptionsExplanations(
+			utilsService.getAttributionFormItemByType(
+				AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+				attibutionFormItems
+			).selectedOptions
+		);
+		proportionOfContribution = proportionOfContribution.replace('The work', 'this work');
+		proportionOfContribution = proportionOfContribution.replace('This work', 'this work');
 		let modelUsed: string = '';
 		let aiContribution: string = '';
-		let proportionOfContribution: string = '';
 		let aiInitiatives: string = '';
 		let humanReview: string = '';
 		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attibutionFormItems);
 		if (isAIUsageOptionYes) {
-			aiUsed = 'AI was used';
 			if (
 				utilsService.getAttributionFormItemByType(AttributionType.MODEL, attibutionFormItems)
 					.selectedOptions[0]
@@ -128,12 +127,6 @@
 			aiContribution = utilsService.getConcatenatedOptionsExplanations(
 				utilsService.getAttributionFormItemByType(
 					AttributionType.AI_CONTRIBUTION,
-					attibutionFormItems
-				).selectedOptions
-			);
-			proportionOfContribution = utilsService.getConcatenatedOptionsExplanations(
-				utilsService.getAttributionFormItemByType(
-					AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
 					attibutionFormItems
 				).selectedOptions
 			);
@@ -147,26 +140,24 @@
 				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attibutionFormItems)
 					.selectedOptions
 			);
-		} else {
-			aiUsed = 'AI was not used in any way';
 		}
-		atributionTagLabelContent = `This attribution tag indicates that ${aiUsed} to create this content ${modelUsed}. ${aiContribution} ${proportionOfContribution} ${aiInitiatives} ${humanReview}`;
+		atributionTagLabelContent = `This attribution tag indicates that ${proportionOfContribution} ${modelUsed} ${aiContribution} ${aiInitiatives} ${humanReview}`;
 		return atributionTagLabelContent;
 	};
 
 	const getAttributionIcons = (): string => {
 		let attributionIcons: string = '';
 		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attibutionFormItems);
+		const proportionOfContribution: string = utilsService.getConcatenatedOptionsIcons(
+			utilsService.getAttributionFormItemByType(
+				AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+				attibutionFormItems
+			).selectedOptions
+		);
 		if (isAIUsageOptionYes) {
 			const aiContribution: string = utilsService.getConcatenatedOptionsIcons(
 				utilsService.getAttributionFormItemByType(
 					AttributionType.AI_CONTRIBUTION,
-					attibutionFormItems
-				).selectedOptions
-			);
-			const proportionOfContribution: string = utilsService.getConcatenatedOptionsIcons(
-				utilsService.getAttributionFormItemByType(
-					AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
 					attibutionFormItems
 				).selectedOptions
 			);
@@ -180,7 +171,9 @@
 				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attibutionFormItems)
 					.selectedOptions
 			);
-			attributionIcons = `${aiContribution} ${proportionOfContribution} ${aiInitiatives} ${humanReview}`;
+			attributionIcons = `${proportionOfContribution} ${aiContribution} ${aiInitiatives} ${humanReview}`;
+		} else {
+			attributionIcons = `${proportionOfContribution}`;
 		}
 		return attributionIcons;
 	};
@@ -388,10 +381,10 @@
 
 	<div class="attribution-icons-descriptions">
 		<div class="attribution-icon-item-container">
-			{@html getAIContributionIconsDescriptions()}
+			{@html getProportionsOfContributionIconsDescriptions()}
 		</div>
 		<div class="attribution-icon-item-container">
-			{@html getProportionsOfContributionIconsDescriptions()}
+			{@html getAIContributionIconsDescriptions()}
 		</div>
 		<div class="attribution-icon-item-container">
 			{@html getAIInitiativeIconsDescriptions()}
@@ -470,6 +463,6 @@
 	.attribution-icon-item-container {
 		display: flex;
 		align-items: center;
-		gap: 0.125rem;
+		gap: 0.25rem;
 	}
 </style>
