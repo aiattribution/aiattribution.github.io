@@ -1,9 +1,23 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { Checkbox, RadioButton, RadioButtonGroup, TextInput } from 'carbon-components-svelte';
 	import { FormItemType, type FormItemI } from '../interfaces';
 
 	export let formItem: FormItemI;
 	export let isItemDisabled: boolean;
+
+	onMount(() => {
+		if (isItemDisabled) {
+			if (
+				formItem.typeOfItem === FormItemType.textInput ||
+				formItem.typeOfItem === FormItemType.radioButton
+			) {
+				formItem.selectedOptions = [''];
+			} else if (formItem.typeOfItem === FormItemType.checkbox) {
+				formItem.selectedOptions = [];
+			}
+		}
+	});
 
 	const onCheckFormItem = (event: CustomEvent<boolean>, formItemOption: string): void => {
 		if (event.detail) {

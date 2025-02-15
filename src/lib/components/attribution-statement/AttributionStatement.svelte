@@ -8,6 +8,28 @@
 	import { AttributionType, type FormItemI } from './interfaces';
 
 	let attibutionFormItems: FormItemI[] = ATTRIBUTION_FORM_ITEMS;
+
+	const isItemDisabled = (attibutionFormItem: FormItemI): boolean => {
+		return attibutionFormItem.id ===
+			utilsService.getAttributionFormItemByType(
+				AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+				attibutionFormItems
+			).id
+			? false
+			: utilsService.getAttributionFormItemByType(
+					AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+					attibutionFormItems
+				).selectedOptions[0] === AIProportionOptions.ENTIRELY_HUMAN_CREATED ||
+					(attibutionFormItem.id ===
+						utilsService.getAttributionFormItemByType(
+							AttributionType.AI_CONTRIBUTION,
+							attibutionFormItems
+						).id &&
+						utilsService.getAttributionFormItemByType(
+							AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+							attibutionFormItems
+						).selectedOptions[0] === AIProportionOptions.ENTIRELY_AI_GENERATED);
+	};
 </script>
 
 <div class="section-container">
@@ -26,19 +48,12 @@
 	<div class="attribution-form">
 		<div class="attribution-form-items">
 			{#each attibutionFormItems as attibutionFormItem (attibutionFormItem.id)}
-				<FormItem
-					bind:formItem={attibutionFormItem}
-					isItemDisabled={attibutionFormItem.id ===
-					utilsService.getAttributionFormItemByType(
-						AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-						attibutionFormItems
-					).id
-						? false
-						: utilsService.getAttributionFormItemByType(
-								AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-								attibutionFormItems
-							).selectedOptions[0] === AIProportionOptions.ENTIRELY_HUMAN_CREATED}
-				/>
+				{#key isItemDisabled(attibutionFormItem)}
+					<FormItem
+						bind:formItem={attibutionFormItem}
+						isItemDisabled={isItemDisabled(attibutionFormItem)}
+					/>
+				{/key}
 			{/each}
 		</div>
 		<div class="recommended-attribution-container">
