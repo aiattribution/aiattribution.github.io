@@ -54,6 +54,7 @@
 						isItemDisabled={isItemDisabled(attibutionFormItem)}
 					/>
 				{/key}
+				<hr class="form-item-division" />
 			{/each}
 		</div>
 		<div class="recommended-attribution-container">
@@ -88,6 +89,13 @@
 		border-right: 1px solid #8d8d8d;
 	}
 
+	.form-item-division {
+		display: none;
+		background-color: #8d8d8d;
+		color: #8d8d8d;
+		border: none;
+	}
+
 	.recommended-attribution-container {
 		display: flex;
 		flex-direction: column;
@@ -103,5 +111,31 @@
 		line-height: 22px;
 		letter-spacing: 0px;
 		margin-top: 70px;
+	}
+
+	@media (max-width: 834px) {
+		.attribution-form {
+			flex-direction: column;
+			width: 100%;
+			margin: 0px;
+		}
+
+		.attribution-form-items {
+			min-width: 100%;
+			width: 100%;
+			padding: 16px;
+			border-right: unset;
+		}
+
+		.form-item-division {
+			display: block;
+			width: calc(100% + 2 * 16px);
+			margin: 0px -16px;
+			height: 1px;
+		}
+
+		.attribution-form-comment {
+			margin-top: 0;
+		}
 	}
 </style>

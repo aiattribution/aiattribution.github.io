@@ -69,4 +69,11 @@
 		line-height: 22px;
 		letter-spacing: 0px;
 	}
+
+	@media (max-width: 834px) {
+		:global(.section-container) {
+			padding: 0px 16px;
+			padding-top: 32px;
+		}
+	}
 </style>
