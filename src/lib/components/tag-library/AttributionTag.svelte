@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import { Tile } from 'carbon-components-svelte';
 	import type { AttributionTagI } from './interfaces';
 
 	export let attributionTag: AttributionTagI;
@@ -7,40 +8,32 @@
 
 <div class="attribution-tag-container">
 	<h2 class="attribution-tag-title">{attributionTag.name}</h2>
-	<table class="attribution-tag-table">
-		<tbody>
-			<tr class="row">
-				<td class="row-label">Selection</td>
-				{#each attributionTag.tags as tag}
-					<td class="text-cell">{tag.name}</td>
-				{/each}
-			</tr>
-			<tr class="row">
-				<td class="row-label">Icon</td>
-				{#each attributionTag.tags as tag}
-					<td><img src={`${base}${tag.icon}`} alt={tag.name} width="24" height="24" /></td>
-				{/each}
-			</tr>
-			<tr class="row">
-				<td class="row-label">Abbreviation</td>
-				{#each attributionTag.tags as tag}
-					<td class="text-cell">{tag.abbreviation}</td>
-				{/each}
-			</tr>
-			<tr class="row">
-				<td class="row-label">Name</td>
-				{#each attributionTag.tags as tag}
-					<td class="text-cell">{tag.name}</td>
-				{/each}
-			</tr>
-			<tr class="row">
-				<td class="row-label">Explanation</td>
-				{#each attributionTag.tags as tag}
-					<td class="text-cell">{tag.explanation}</td>
-				{/each}
-			</tr>
-		</tbody>
-	</table>
+	<div class="tiles-container">
+		{#each attributionTag.tags as tag (tag.id)}
+			<Tile class="tag-tile">
+				<div class="tag-title">
+					{tag.name}
+				</div>
+				<div class="abbreviation-and-explanation-container">
+					<div>
+						<div class="label">Abbreviation</div>
+						<div class="text">
+							{tag.abbreviation}
+						</div>
+					</div>
+					<div>
+						<div class="label">Explanation</div>
+						<div class="text">
+							{tag.explanation}
+						</div>
+					</div>
+				</div>
+				<div class="icon-container">
+					<img src={`${base}${tag.icon}`} alt={tag.name} width="24" height="24" />
+				</div>
+			</Tile>
+		{/each}
+	</div>
 </div>
 
 <style lang="scss">
@@ -58,45 +51,55 @@
 		letter-spacing: 0px;
 	}
 
-	.attribution-tag-table {
-		width: fit-content;
-		table-layout: auto;
+	.tiles-container {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: stretch;
 	}
 
-	.row-label {
-		white-space: nowrap;
-		width: 1px;
-		text-align: left;
+	:global(.tag-tile) {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 1rem;
+		width: 360px;
+		min-width: 360px;
+		margin: 1px;
+		padding: 1rem;
 	}
 
-	.row:not(:last-child) {
-		border-bottom: 0.25px solid #000000;
-	}
-
-	.row td {
-		padding: 8px 0px;
-		padding-right: 2rem;
-	}
-
-	.row:first-child .text-cell {
-		white-space: nowrap;
-	}
-
-	.row-label {
-		vertical-align: top;
+	.tag-title {
 		font-family: IBM Plex Sans;
-		font-weight: 700;
-		font-size: 12px;
-		line-height: 16px;
-		letter-spacing: 0.32px;
+		font-weight: 600;
+		font-size: 16px;
+		line-height: 22px;
+		letter-spacing: 0px;
 	}
 
-	.text-cell {
-		width: 1px;
+	.abbreviation-and-explanation-container {
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+		margin-bottom: 1rem;
+	}
+
+	.label {
 		font-family: IBM Plex Sans;
 		font-weight: 400;
 		font-size: 12px;
 		line-height: 16px;
 		letter-spacing: 0.32px;
+	}
+
+	.text {
+		font-family: IBM Plex Sans;
+		font-weight: 400;
+		font-size: 16px;
+		line-height: 22px;
+		letter-spacing: 0px;
+	}
+
+	.icon-container {
+		margin-top: auto;
 	}
 </style>
