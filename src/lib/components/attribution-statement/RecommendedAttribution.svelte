@@ -50,7 +50,7 @@
 				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attibutionFormItems)
 					.selectedOptions
 			);
-			abbreviatedStatement = `${AIA} ${aiUsed} ${proportionOfContribution} ${aiContribution} ${aiInitiatives} ${humanReview} ${VERSION}`;
+			abbreviatedStatement = `${AIA} ${proportionOfContribution} ${aiUsed} ${aiContribution} ${aiInitiatives} ${humanReview} ${VERSION}`;
 		} else {
 			abbreviatedStatement = `${AIA} ${aiUsed} ${VERSION}`;
 		}
@@ -66,7 +66,7 @@
 			attibutionFormItems
 		).selectedOptions[0];
 		if (isAIUsageOptionYes) {
-			aiUsed = modelSelected.length > 0 ? modelSelected : '';
+			aiUsed = modelSelected.length > 0 ? `, ${modelSelected}` : '';
 		} else {
 			aiUsed = NO_AI_USED_FULL_STATEMENT;
 		}
@@ -95,7 +95,7 @@
 				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attibutionFormItems)
 					.selectedOptions
 			);
-			fullStatement = `${AIA} ${aiUsed}${proportionOfContribution}${aiContribution}${aiInitiatives}${humanReview} ${VERSION}`;
+			fullStatement = `${AIA} ${proportionOfContribution}${aiUsed}${aiContribution}${aiInitiatives}${humanReview} ${VERSION}`;
 		} else {
 			fullStatement = `${AIA} ${aiUsed} ${VERSION}`;
 		}
@@ -122,7 +122,7 @@
 				utilsService.getAttributionFormItemByType(AttributionType.MODEL, attibutionFormItems)
 					.selectedOptions[0]
 			) {
-				modelUsed = `with ${utilsService.getAttributionFormItemByType(AttributionType.MODEL, attibutionFormItems).selectedOptions[0]}`;
+				modelUsed = `, using ${utilsService.getAttributionFormItemByType(AttributionType.MODEL, attibutionFormItems).selectedOptions[0]}.`;
 			}
 			aiContribution = utilsService.getConcatenatedOptionsExplanations(
 				utilsService.getAttributionFormItemByType(
@@ -141,7 +141,8 @@
 					.selectedOptions
 			);
 		}
-		atributionTagLabelContent = `This attribution tag indicates that ${proportionOfContribution} ${modelUsed} ${aiContribution} ${aiInitiatives} ${humanReview}`;
+		atributionTagLabelContent = `This attribution tag indicates that ${proportionOfContribution}${modelUsed} ${aiContribution} ${aiInitiatives} ${humanReview}`;
+		atributionTagLabelContent = atributionTagLabelContent.replace('.,', ',');
 		return atributionTagLabelContent;
 	};
 
