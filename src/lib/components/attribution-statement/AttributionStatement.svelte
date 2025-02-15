@@ -113,7 +113,7 @@
 		margin-top: 70px;
 	}
 
-	@media (max-width: 834px) {
+	@media (max-width: 1055px) {
 		.attribution-form {
 			flex-direction: column;
 			width: 100%;
@@ -136,6 +136,13 @@
 
 		.attribution-form-comment {
 			margin-top: 0;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.attribution-form {
+			width: calc(100% + 2 * 16px);
+			margin: 0 -16px;
 		}
 	}
 </style>

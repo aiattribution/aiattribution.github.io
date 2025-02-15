@@ -102,4 +102,11 @@
 	.icon-container {
 		margin-top: auto;
 	}
+
+	@media (max-width: 1055px) {
+		:global(.tag-tile) {
+			width: calc(50% - 2px);
+			min-width: auto;
+		}
+	}
 </style>

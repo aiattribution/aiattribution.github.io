@@ -70,7 +70,7 @@
 		letter-spacing: 0px;
 	}
 
-	@media (max-width: 834px) {
+	@media (max-width: 1055px) {
 		:global(.section-container) {
 			padding: 0px 16px;
 			padding-top: 32px;
