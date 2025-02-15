@@ -10,7 +10,7 @@
 </script>
 
 <div class="section-container">
-	<h1 class="section-title">About</h1>
+	<h1 class="section-title">About this toolkit</h1>
 	<p class="section-text">
 		This toolkit was created by the Human-AI Collaboration team at IBM Research.
 	</p>
