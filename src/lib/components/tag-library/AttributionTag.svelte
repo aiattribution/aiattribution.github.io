@@ -12,13 +12,13 @@
 			<tr class="row">
 				<td class="row-label">Selection</td>
 				{#each attributionTag.tags as tag}
-					<td class="text-cell">{tag.selection}</td>
+					<td class="text-cell">{tag.name}</td>
 				{/each}
 			</tr>
 			<tr class="row">
 				<td class="row-label">Icon</td>
 				{#each attributionTag.tags as tag}
-					<td><img src={`${base}${tag.icon}`} alt={tag.selection} width="24" height="24" /></td>
+					<td><img src={`${base}${tag.icon}`} alt={tag.name} width="24" height="24" /></td>
 				{/each}
 			</tr>
 			<tr class="row">

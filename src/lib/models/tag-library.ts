@@ -24,9 +24,8 @@ export enum HumanReviewOptions {
 
 export interface TagI {
 	id: string;
-	selection: string;
-	icon: string;
-	abbreviation: string;
 	name: string;
+	abbreviation: string;
 	explanation: string;
+	icon: string;
 }

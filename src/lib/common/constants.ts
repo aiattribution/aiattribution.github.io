@@ -12,114 +12,108 @@ const MONDAY_FORM_ID: string = '77a998cee6979c0392ca811bfb0eabf4?r=use1';
 export const MONDAY_FORM_LINK: string = `https://forms.monday.com/forms/${MONDAY_FORM_ID}`;
 export const MONDAY_FORM_EMBED_LINK: string = `https://forms.monday.com/forms/embed/${MONDAY_FORM_ID}`;
 
+const TAG_ICONS_FOLDER: string = '/tag-icons';
+const PROPORTIONS_OF_CONTRIBUTIONS_ICONS_FOLDER: string = `${TAG_ICONS_FOLDER}/proportion-of-contributions-icons`;
+const AI_CONTRIBUTIONS_ICONS_FOLDER: string = `${TAG_ICONS_FOLDER}/ai-contributions-icons`;
+const AI_INITIATIVE_ICONS_FOLDER: string = `${TAG_ICONS_FOLDER}/ai-initiative-icons`;
+const HUMAN_REVIEW_ICONS_FOLDER: string = `${TAG_ICONS_FOLDER}/human-review-icons`;
+
 export const PROPORTIONS_OF_CONTRIBUTIONS_TAGS: TagI[] = [
 	{
 		id: AIProportionOptions.ENTIRELY_AI_GENERATED,
-		selection: AIProportionOptions.ENTIRELY_AI_GENERATED,
-		icon: '/tag-icons/proportion-of-contributions-icons/entirely-ai-icon.svg',
-		abbreviation: 'EAI',
 		name: 'Entirely AI',
-		explanation: 'The work was entirely AI-generated.'
+		abbreviation: 'EAI',
+		explanation: 'The work was entirely AI-generated.',
+		icon: `${PROPORTIONS_OF_CONTRIBUTIONS_ICONS_FOLDER}/entirely-ai-icon.svg`
 	},
 	{
 		id: AIProportionOptions.PRIMARILY_AI_GENERATED,
-		selection: AIProportionOptions.PRIMARILY_AI_GENERATED,
-		icon: '/tag-icons/proportion-of-contributions-icons/primarily-ai-icon.svg',
-		abbreviation: 'PAI',
 		name: 'Primarily AI',
-		explanation: 'The work was primarily AI-generated.'
+		abbreviation: 'PAI',
+		explanation: 'The work was primarily AI-generated.',
+		icon: `${PROPORTIONS_OF_CONTRIBUTIONS_ICONS_FOLDER}/primarily-ai-icon.svg`
 	},
 	{
 		id: AIProportionOptions.HUMAN_AI_BLEND,
-		selection: AIProportionOptions.HUMAN_AI_BLEND,
-		icon: '/tag-icons/proportion-of-contributions-icons/human-ai-blend-icon.svg',
-		abbreviation: 'HAb',
 		name: 'Human-AI blend',
-		explanation: 'The work was created with an even blend of human and AI contributions.'
+		abbreviation: 'HAb',
+		explanation: 'The work was created with an even blend of human and AI contributions.',
+		icon: `${PROPORTIONS_OF_CONTRIBUTIONS_ICONS_FOLDER}/human-ai-blend-icon.svg`
 	},
 	{
 		id: AIProportionOptions.PRIMARILY_HUMAN_CREATED,
-		selection: AIProportionOptions.PRIMARILY_HUMAN_CREATED,
-		icon: '/tag-icons/proportion-of-contributions-icons/primarily-human-icon.svg',
-		abbreviation: 'Ph',
 		name: 'Primarily human',
-		explanation: 'The work was primarily human-created.'
+		abbreviation: 'Ph',
+		explanation: 'The work was primarily human-created.',
+		icon: `${PROPORTIONS_OF_CONTRIBUTIONS_ICONS_FOLDER}/primarily-human-icon.svg`
 	},
 	{
 		id: AIProportionOptions.ENTIRELY_HUMAN_CREATED,
-		selection: AIProportionOptions.ENTIRELY_HUMAN_CREATED,
-		icon: '/tag-icons/proportion-of-contributions-icons/entirely-human-icon.svg',
-		abbreviation: 'Eh',
 		name: 'Entirely human',
-		explanation: 'This work was entirely human-created, without the use of AI.'
+		abbreviation: 'Eh',
+		explanation: 'This work was entirely human-created, without the use of AI.',
+		icon: `${PROPORTIONS_OF_CONTRIBUTIONS_ICONS_FOLDER}/entirely-human-icon.svg`
 	}
 ];
 
 export const AI_CONTRIBUTIONS_TAGS: TagI[] = [
 	{
 		id: AIContributionOptions.STYLISTIC_EDITS,
-		selection: AIContributionOptions.STYLISTIC_EDITS,
-		icon: '/tag-icons/ai-contributions-icons/stylistic-edits-icon.svg',
-		abbreviation: 'Se',
 		name: AIContributionOptions.STYLISTIC_EDITS,
+		abbreviation: 'Se',
 		explanation:
-			'AI was used to make stylistic edits, such as changes to structure, clarity, and tone.'
+			'AI was used to make stylistic edits, such as changes to structure, clarity, and tone.',
+		icon: `${AI_CONTRIBUTIONS_ICONS_FOLDER}/stylistic-edits-icon.svg`
 	},
 	{
 		id: AIContributionOptions.CONTENT_EDITS,
-		selection: AIContributionOptions.CONTENT_EDITS,
-		icon: '/tag-icons/ai-contributions-icons/content-edits-icon.svg',
-		abbreviation: 'Ce',
 		name: AIContributionOptions.CONTENT_EDITS,
+		abbreviation: 'Ce',
 		explanation:
-			'AI was used to make content edits, such as changes to scope, information, and ideas.'
+			'AI was used to make content edits, such as changes to scope, information, and ideas.',
+		icon: `${AI_CONTRIBUTIONS_ICONS_FOLDER}/content-edits-icon.svg`
 	},
 	{
 		id: AIContributionOptions.NEW_CONTENT,
-		selection: AIContributionOptions.NEW_CONTENT,
-		icon: '/tag-icons/ai-contributions-icons/new-content-icon.svg',
-		abbreviation: 'Nc',
 		name: AIContributionOptions.NEW_CONTENT,
-		explanation: 'AI was used to make new content, such as text, analysis, and ideas.'
+		abbreviation: 'Nc',
+		explanation: 'AI was used to make new content, such as text, analysis, and ideas.',
+		icon: `${AI_CONTRIBUTIONS_ICONS_FOLDER}/new-content-icon.svg`
 	}
 ];
 
 export const AI_INITIATIVE_TAGS: TagI[] = [
 	{
 		id: AIInitiativeOptions.HUMAN_INITIATED,
-		selection: AIInitiativeOptions.HUMAN_INITIATED,
-		icon: '/tag-icons/ai-initiative-icons/prompted-icon.svg',
-		abbreviation: 'Pm',
-		name: 'Prompted',
-		explanation: 'The authors prompted the AI for its contributions.'
+		name: AIInitiativeOptions.HUMAN_INITIATED,
+		abbreviation: 'Hin',
+		explanation: 'The authors prompted the AI for its contributions or enabled AI assistance.',
+		icon: `${AI_INITIATIVE_ICONS_FOLDER}/human-initiated-icon.svg`
 	},
 	{
 		id: AIInitiativeOptions.AI_INITIATED,
-		selection: AIInitiativeOptions.AI_INITIATED,
-		icon: '/tag-icons/ai-initiative-icons/proactive-suggestions-icon.svg',
-		abbreviation: 'Pv',
-		name: 'Proactive',
+		name: AIInitiativeOptions.AI_INITIATED,
+		abbreviation: 'Ain',
 		explanation:
-			'The AI proactively made suggestions, such as auto-completion or unprompted changes.'
+			'The AI made proactive contributions, such as auto-completion or unprompted changes.',
+		icon: `${AI_INITIATIVE_ICONS_FOLDER}/ai-initiated-icon.svg`
 	}
 ];
 
 export const HUMAN_REVIEW_TAGS: TagI[] = [
 	{
 		id: HumanReviewOptions.REVIEWED_AND_APPROVED,
-		selection: 'Reviewed and approved',
-		icon: '/tag-icons/human-review-icons/certified-review-icon.svg',
+		name: 'Reviewed',
 		abbreviation: 'R',
-		name: 'Human reviewed',
-		explanation: 'The authors affirmed that all AI-generated content was reviewed and approved.'
+		explanation: 'The authors affirmed that all AI-generated content was reviewed and approved.',
+		icon: `${HUMAN_REVIEW_ICONS_FOLDER}/certified-review-icon.svg`
 	},
 	{
 		id: HumanReviewOptions.NOT_REVIEWED,
-		selection: 'Not reviewed',
-		icon: '/tag-icons/human-review-icons/no-review-icon.svg',
-		abbreviation: 'Nr',
 		name: 'No human review',
-		explanation: 'AI-generated content was not reviewed.'
+		abbreviation: 'Nr',
+		explanation: 'AI-generated content was not reviewed.',
+		icon: `${HUMAN_REVIEW_ICONS_FOLDER}/no-review-icon.svg`
 	}
 ];
 
