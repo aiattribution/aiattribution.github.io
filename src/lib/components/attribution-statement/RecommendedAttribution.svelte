@@ -327,7 +327,7 @@
 
 <h2 class="recommended-attribution-title">Recommended attribution</h2>
 
-{#if utilsService.getAttributionFormItemByType(AttributionType.AI_USED, attibutionFormItems).selectedOptions[0]}
+{#if utilsService.getAttributionFormItemByType(AttributionType.PROPORTIONS_OF_CONTRIBUTIONS, attibutionFormItems).selectedOptions[0]}
 	<div class="recommended-attribution-item-container">
 		<div class="recommended-attribution-item-label">
 			<p>Abbreviated statement</p>

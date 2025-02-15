@@ -1,19 +1,15 @@
-export enum AIUsageOptions {
-	YES = 'Yes',
-	NO = 'No'
+export enum AIProportionOptions {
+	ENTIRELY_AI_GENERATED = 'Entirely AI-generated',
+	PRIMARILY_AI_GENERATED = 'Primarily AI-generated',
+	HUMAN_AI_BLEND = 'Human-AI blend',
+	PRIMARILY_HUMAN_CREATED = 'Primarily human-created',
+	ENTIRELY_HUMAN_CREATED = 'Entirely human-created'
 }
 
 export enum AIContributionOptions {
 	STYLISTIC_EDITS = 'Stylistic edits',
 	CONTENT_EDITS = 'Content edits',
 	NEW_CONTENT = 'New content'
-}
-
-export enum AIProportionOptions {
-	ENTIRELY_AI_GENERATED = 'Entirely AI-generated',
-	PRIMARILY_AI_GENERATED = 'Primarily AI-generated',
-	HUMAN_AI_BLEND = 'Human-AI blend',
-	PRIMARILY_HUMAN_CREATED = 'Primarily human-created'
 }
 
 export enum AIInitiativeOptions {

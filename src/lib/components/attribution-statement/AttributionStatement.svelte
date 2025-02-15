@@ -2,7 +2,7 @@
 	import { Link } from 'carbon-components-svelte';
 	import { FormItem, RecommendedAttribution } from '$lib';
 	import { MONDAY_FORM_LINK } from '$lib/common/constants';
-	import { AIUsageOptions } from '$lib/models/tag-library';
+	import { AIProportionOptions } from '$lib/models/tag-library';
 	import { utilsService } from '$lib/services';
 	import { ATTRIBUTION_FORM_ITEMS } from './constants';
 	import { AttributionType, type FormItemI } from './interfaces';
@@ -14,8 +14,8 @@
 	<h1 class="section-title">Create an attribution statement</h1>
 	<p class="section-text">
 		<span>
-			An <strong>attribution statement</strong> provides transparency on if and how AI was used in a specific
-			work.
+			An <strong>attribution statement</strong> provides transparency on if and how AI was used in a
+			specific work.
 		</span>
 		<br />
 		<span>
@@ -29,12 +29,15 @@
 				<FormItem
 					bind:formItem={attibutionFormItem}
 					isItemDisabled={attibutionFormItem.id ===
-					utilsService.getAttributionFormItemByType(AttributionType.AI_USED, attibutionFormItems).id
+					utilsService.getAttributionFormItemByType(
+						AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+						attibutionFormItems
+					).id
 						? false
 						: utilsService.getAttributionFormItemByType(
-								AttributionType.AI_USED,
+								AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
 								attibutionFormItems
-							).selectedOptions[0] === AIUsageOptions.NO}
+							).selectedOptions[0] === AIProportionOptions.ENTIRELY_HUMAN_CREATED}
 				/>
 			{/each}
 		</div>

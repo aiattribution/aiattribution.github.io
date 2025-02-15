@@ -2,7 +2,6 @@ import {
 	AIContributionOptions,
 	AIInitiativeOptions,
 	AIProportionOptions,
-	AIUsageOptions,
 	HumanReviewOptions
 } from '$lib/models/tag-library';
 import { AttributionType, FormItemType, type FormItemI } from './interfaces';
@@ -10,10 +9,10 @@ import { AttributionType, FormItemType, type FormItemI } from './interfaces';
 export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 	{
 		id: 1,
-		attributionType: AttributionType.AI_USED,
-		text: 'Was AI used to create this content?',
+		attributionType: AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+		text: 'How much of this work was created or assisted by AI?',
 		typeOfItem: FormItemType.radioButton,
-		options: Object.values(AIUsageOptions),
+		options: Object.values(AIProportionOptions),
 		selectedOptions: ['']
 	},
 	{
@@ -34,14 +33,6 @@ export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 	},
 	{
 		id: 4,
-		attributionType: AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-		text: 'Proportion of work created or modified by AI',
-		typeOfItem: FormItemType.radioButton,
-		options: Object.values(AIProportionOptions),
-		selectedOptions: ['']
-	},
-	{
-		id: 5,
 		attributionType: AttributionType.AI_INITIATIVE,
 		text: 'Initiative',
 		typeOfItem: FormItemType.checkbox,
@@ -49,7 +40,7 @@ export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 		selectedOptions: []
 	},
 	{
-		id: 6,
+		id: 5,
 		attributionType: AttributionType.HUMAN_REVIEW,
 		text: 'Human review',
 		typeOfItem: FormItemType.radioButton,

@@ -5,10 +5,9 @@ export enum FormItemType {
 }
 
 export enum AttributionType {
-	AI_USED = 'ai-used',
+	PROPORTIONS_OF_CONTRIBUTIONS = 'proportions-of-contributions',
 	MODEL = 'model',
 	AI_CONTRIBUTION = 'ai-contribution',
-	PROPORTIONS_OF_CONTRIBUTIONS = 'proportions-of-contributions',
 	AI_INITIATIVE = 'ai-initiative',
 	HUMAN_REVIEW = 'human-review'
 }

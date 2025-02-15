@@ -1,7 +1,7 @@
 import { base } from '$app/paths';
 import { ALL_TAGS } from '$lib/common/constants';
 import { AttributionType, type FormItemI } from '$lib/components/attribution-statement/interfaces';
-import { AIUsageOptions, type TagI } from '$lib/models/tag-library';
+import { AIProportionOptions, type TagI } from '$lib/models/tag-library';
 
 class UtilsService {
 	constructor() {}
@@ -17,8 +17,10 @@ class UtilsService {
 
 	public isAIUsageOptionYes(attibutionFormItems: FormItemI[]): boolean {
 		return (
-			this.getAttributionFormItemByType(AttributionType.AI_USED, attibutionFormItems)
-				.selectedOptions[0] === AIUsageOptions.YES
+			this.getAttributionFormItemByType(
+				AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+				attibutionFormItems
+			).selectedOptions[0] !== AIProportionOptions.ENTIRELY_HUMAN_CREATED
 		);
 	}
 
