@@ -9,6 +9,9 @@
 	let isMobile: boolean = false;
 	let currentIndex: number = 0;
 
+	let startX: number = 0;
+	let endX: number = 0;
+
 	onMount(() => {
 		checkScreenSize();
 		window.addEventListener('resize', checkScreenSize);
@@ -25,13 +28,39 @@
 	const updateCurrentIndex = (index: number): void => {
 		currentIndex = index;
 	};
+
+	const handleTouchStart = (event: TouchEvent): void => {
+		startX = event.touches[0].clientX;
+	};
+
+	const handleTouchMove = (event: TouchEvent): void => {
+		endX = event.touches[0].clientX;
+	};
+
+	const handleTouchEnd = (): void => {
+		const deltaX: number = startX - endX;
+
+		if (Math.abs(deltaX) > 50) {
+			if (deltaX > 0 && currentIndex < attributionTag.tags.length - 1) {
+				currentIndex += 1;
+			} else if (deltaX < 0 && currentIndex > 0) {
+				currentIndex -= 1;
+			}
+		}
+	};
 </script>
 
 <div class="attribution-tag-container">
 	<h2 class="attribution-tag-title">{attributionTag.name}</h2>
 	{#if isMobile}
 		<div class="carousel-wrapper">
-			<div class="carousel" style={`--current-index: ${currentIndex};`}>
+			<div
+				class="carousel"
+				style={`--current-index: ${currentIndex};`}
+				on:touchstart={handleTouchStart}
+				on:touchmove={handleTouchMove}
+				on:touchend={handleTouchEnd}
+			>
 				{#each attributionTag.tags as tag (tag.id)}
 					<div class="carousel-item">
 						<TagTile {tag} />
