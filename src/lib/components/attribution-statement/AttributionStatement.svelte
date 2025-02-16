@@ -125,6 +125,7 @@
 		.attribution-form-items {
 			min-width: 100%;
 			width: 100%;
+			gap: 16px;
 			padding: 16px;
 			border-right: unset;
 		}

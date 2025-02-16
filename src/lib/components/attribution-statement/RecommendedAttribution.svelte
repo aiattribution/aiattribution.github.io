@@ -205,7 +205,7 @@
 			if (aiContributionAbbreviatedStatement) {
 				aiContributionAbbreviatedStatement += ':';
 			}
-			attributionIconsDescriptions = `${aiContributionIcons}<span class="attribution-tag-label">${aiContributionAbbreviatedStatement} ${aiContributionExplanations}</span>`;
+			attributionIconsDescriptions = `${aiContributionIcons}<span class="attribution-tag-icon-description">${aiContributionAbbreviatedStatement} ${aiContributionExplanations}</span>`;
 		}
 		return attributionIconsDescriptions;
 	};
@@ -237,7 +237,7 @@
 			if (proportionOfContributionAbbreviatedStatement) {
 				proportionOfContributionAbbreviatedStatement += ':';
 			}
-			attributionIconsDescriptions = `${proportionOfContributionIcons}<span class="attribution-tag-label">${proportionOfContributionAbbreviatedStatement} ${proportionOfContributionExplanations}</span>`;
+			attributionIconsDescriptions = `${proportionOfContributionIcons}<span class="attribution-tag-icon-description">${proportionOfContributionAbbreviatedStatement} ${proportionOfContributionExplanations}</span>`;
 		}
 		return attributionIconsDescriptions;
 	};
@@ -268,7 +268,7 @@
 			if (aiInitiativeAbbreviatedStatement) {
 				aiInitiativeAbbreviatedStatement += ':';
 			}
-			attributionIconsDescriptions = `${aiInitiativeIcons}<span class="attribution-tag-label">${aiInitiativeAbbreviatedStatement} ${aiInitiativeExplanations}</span>`;
+			attributionIconsDescriptions = `${aiInitiativeIcons}<span class="attribution-tag-icon-description">${aiInitiativeAbbreviatedStatement} ${aiInitiativeExplanations}</span>`;
 		}
 		return attributionIconsDescriptions;
 	};
@@ -295,7 +295,7 @@
 			if (humanReviewAbbreviatedStatement) {
 				humanReviewAbbreviatedStatement += ':';
 			}
-			attributionIconsDescriptions = `${humanReviewIcons}<span class="attribution-tag-label">${humanReviewAbbreviatedStatement} ${humanReviewExplanations}</span>`;
+			attributionIconsDescriptions = `${humanReviewIcons}<span class="attribution-tag-icon-description">${humanReviewAbbreviatedStatement} ${humanReviewExplanations}</span>`;
 		}
 		return attributionIconsDescriptions;
 	};
@@ -328,12 +328,12 @@
 		</div>
 		<div class="recommended-attribution-item">
 			<div class="recommended-attribution-item-text-container">
-				<p class="recommended-attribution-item-text">{getAbbreviatedStatement()}</p>
+				<div class="recommended-attribution-item-text">{getAbbreviatedStatement()}</div>
 				<div class="recommended-attribution-item-icons-container">
 					{@html getAttributionIcons()}
 				</div>
 			</div>
-			<div>
+			<div class="recommended-attribution-item-button-container">
 				<Button
 					kind="ghost"
 					iconDescription="Copy"
@@ -343,7 +343,7 @@
 					}}
 				/>
 			</div>
-			<div>
+			<div class="recommended-attribution-item-button-container">
 				<Button kind="ghost" iconDescription="Download" icon={Download} on:click={() => {}} />
 			</div>
 		</div>
@@ -355,12 +355,12 @@
 		</div>
 		<div class="recommended-attribution-item">
 			<div class="recommended-attribution-item-text-container">
-				<p class="recommended-attribution-item-text">{getFullStatement()}</p>
+				<div class="recommended-attribution-item-text">{getFullStatement()}</div>
 				<div class="recommended-attribution-item-icons-container">
 					{@html getAttributionIcons()}
 				</div>
 			</div>
-			<div>
+			<div class="recommended-attribution-item-button-container">
 				<Button
 					kind="ghost"
 					iconDescription="Copy"
@@ -370,7 +370,7 @@
 					}}
 				/>
 			</div>
-			<div>
+			<div class="recommended-attribution-item-button-container">
 				<Button kind="ghost" iconDescription="Download" icon={Download} on:click={() => {}} />
 			</div>
 		</div>
@@ -429,9 +429,12 @@
 
 	.recommended-attribution-item-text-container {
 		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
 		flex-grow: 1;
 		gap: 0.5rem;
 		margin-left: 10.5px;
+		padding: 8px 0;
 	}
 
 	.recommended-attribution-item-text {
@@ -447,12 +450,22 @@
 		gap: 0.5rem;
 	}
 
-	:global(.attribution-tag-label) {
+	.recommended-attribution-item-button-container {
+		display: flex;
+		align-items: flex-start;
+		height: 100%;
+	}
+
+	:global(.attribution-tag-label, .attribution-tag-icon-description) {
 		font-family: IBM Plex Sans;
 		font-weight: 400;
 		font-size: 12px;
 		line-height: 16px;
 		letter-spacing: 0.32px;
+	}
+
+	:global(.attribution-tag-icon-description) {
+		align-self: center;
 	}
 
 	.attribution-icons-descriptions {
@@ -463,7 +476,7 @@
 
 	.attribution-icon-item-container {
 		display: flex;
-		align-items: center;
+		align-items: flex-start;
 		gap: 0.25rem;
 	}
 </style>
