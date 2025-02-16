@@ -34,7 +34,7 @@
 		};
 	});
 
-	const checkScreenSize = () => {
+	const checkScreenSize = (): void => {
 		isMobile = window.matchMedia('(max-width: 1055px)').matches;
 	};
 
