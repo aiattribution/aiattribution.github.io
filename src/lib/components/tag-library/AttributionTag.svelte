@@ -1,39 +1,68 @@
 <script lang="ts">
 	import { base } from '$app/paths';
-	import { Tile } from 'carbon-components-svelte';
+	import { onMount } from 'svelte';
+	import { TagTile } from '$lib';
 	import type { AttributionTagI } from './interfaces';
 
 	export let attributionTag: AttributionTagI;
+
+	let isMobile: boolean = false;
+	let currentIndex: number = 0;
+
+	onMount(() => {
+		checkScreenSize();
+		window.addEventListener('resize', checkScreenSize);
+
+		return () => {
+			window.removeEventListener('resize', checkScreenSize);
+		};
+	});
+
+	const checkScreenSize = (): void => {
+		isMobile = window.matchMedia('(max-width: 480px)').matches;
+	};
+
+	const updateCurrentIndex = (index: number): void => {
+		currentIndex = index;
+	};
 </script>
 
 <div class="attribution-tag-container">
 	<h2 class="attribution-tag-title">{attributionTag.name}</h2>
-	<div class="tiles-container">
-		{#each attributionTag.tags as tag (tag.id)}
-			<Tile class="tag-tile">
-				<div class="tag-title">
-					{tag.name}
-				</div>
-				<div class="abbreviation-and-explanation-container">
-					<div>
-						<div class="label">Abbreviation</div>
-						<div class="text">
-							{tag.abbreviation}
-						</div>
+	{#if isMobile}
+		<div class="carousel-wrapper">
+			<div class="carousel" style={`--current-index: ${currentIndex};`}>
+				{#each attributionTag.tags as tag (tag.id)}
+					<div class="carousel-item">
+						<TagTile {tag} />
 					</div>
-					<div>
-						<div class="label">Explanation</div>
-						<div class="text">
-							{tag.explanation}
-						</div>
-					</div>
-				</div>
-				<div class="icon-container">
-					<img src={`${base}${tag.icon}`} alt={tag.name} width="24" height="24" />
-				</div>
-			</Tile>
-		{/each}
-	</div>
+				{/each}
+			</div>
+		</div>
+		<div class="carousel-navigator">
+			{#each attributionTag.tags as _, index}
+				<!-- svelte-ignore a11y_click_events_have_key_events -->
+				<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+				<img
+					src={currentIndex === index
+						? `${base}/carousel/selected-item.svg`
+						: `${base}/carousel/unselected-item.svg`}
+					alt="Carousel item"
+					width="8"
+					height="8"
+					on:click={() => {
+						updateCurrentIndex(index);
+					}}
+				/>
+			{/each}
+		</div>
+	{:else}
+		<div class="tiles-container">
+			{#each attributionTag.tags as tag (tag.id)}
+				<TagTile {tag} />
+			{/each}
+		</div>
+	{/if}
 </div>
 
 <style lang="scss">
@@ -57,56 +86,31 @@
 		align-items: stretch;
 	}
 
-	:global(.tag-tile) {
+	.carousel-wrapper {
+		width: 100%;
+		overflow: hidden;
+	}
+
+	.carousel {
 		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		gap: 1rem;
-		width: 360px;
-		min-width: 360px;
-		margin: 1px;
-		padding: 1rem;
+		align-items: stretch;
+		width: 100%;
+		transition: transform 0.5s ease-in-out;
+		transform: translateX(calc(-1 * var(--current-index) * 100%));
 	}
 
-	.tag-title {
-		font-family: IBM Plex Sans;
-		font-weight: 600;
-		font-size: 16px;
-		line-height: 22px;
-		letter-spacing: 0px;
-	}
-
-	.abbreviation-and-explanation-container {
+	.carousel-item {
 		display: flex;
-		flex-direction: column;
-		gap: 18px;
-		margin-bottom: 1rem;
+		align-items: stretch;
+		min-width: 100%;
+		flex: 0 0 100%;
 	}
 
-	.label {
-		font-family: IBM Plex Sans;
-		font-weight: 400;
-		font-size: 12px;
-		line-height: 16px;
-		letter-spacing: 0.32px;
-	}
-
-	.text {
-		font-family: IBM Plex Sans;
-		font-weight: 400;
-		font-size: 16px;
-		line-height: 22px;
-		letter-spacing: 0px;
-	}
-
-	.icon-container {
-		margin-top: auto;
-	}
-
-	@media (max-width: 1055px) {
-		:global(.tag-tile) {
-			width: calc(50% - 2px);
-			min-width: auto;
-		}
+	.carousel-navigator {
+		display: flex;
+		justify-content: center;
+		gap: 8px;
+		width: 100%;
+		margin-top: 8px;
 	}
 </style>

@@ -6,6 +6,7 @@ import RecommendedAttribution from './components/attribution-statement/Recommend
 import Header from './components/header/Header.svelte';
 import AttributionTag from './components/tag-library/AttributionTag.svelte';
 import TagLibrary from './components/tag-library/TagLibrary.svelte';
+import TagTile from './components/tag-library/TagTile.svelte';
 
 export {
     About,
@@ -14,5 +15,6 @@ export {
     FormItem,
     Header,
     RecommendedAttribution,
-    TagLibrary
+    TagLibrary,
+    TagTile
 };
