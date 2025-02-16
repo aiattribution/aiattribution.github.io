@@ -30,10 +30,14 @@
 	};
 
 	const handleTouchStart = (event: TouchEvent): void => {
+		event.preventDefault();
+		event.stopPropagation();
 		startX = event.touches[0].clientX;
 	};
 
 	const handleTouchMove = (event: TouchEvent): void => {
+		event.preventDefault();
+		event.stopPropagation();
 		endX = event.touches[0].clientX;
 	};
 
