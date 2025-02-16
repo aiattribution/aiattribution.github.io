@@ -47,11 +47,13 @@
 	</p>
 	<div class="attribution-form">
 		<div class="attribution-form-items">
-			{#each attibutionFormItems as attibutionFormItem (attibutionFormItem.id)}
+			{#each attibutionFormItems as attibutionFormItem, index (attibutionFormItem.id)}
 				{#key isItemDisabled(attibutionFormItem)}
 					<FormItem
 						bind:formItem={attibutionFormItem}
 						isItemDisabled={isItemDisabled(attibutionFormItem)}
+						{attibutionFormItems}
+						{index}
 					/>
 				{/key}
 				<hr class="form-item-division" />
@@ -132,6 +134,11 @@
 			width: calc(100% + 2 * 16px);
 			margin: 0px -16px;
 			height: 1px;
+		}
+
+		.recommended-attribution-container {
+			padding: 16px;
+			padding-bottom: 32px;
 		}
 
 		.attribution-form-comment {

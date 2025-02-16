@@ -14,6 +14,8 @@ export enum AttributionType {
 
 export interface FormItemI {
 	id: number;
+	isItemOpen: boolean;
+	isItemDisabled: boolean;
 	attributionType: AttributionType;
 	text: string;
 	typeOfItem: FormItemType;
