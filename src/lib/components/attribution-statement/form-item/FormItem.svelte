@@ -1,7 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { ChevronDown, ChevronUp } from 'carbon-icons-svelte';
-	import { Checkbox, RadioButton, RadioButtonGroup, TextInput } from 'carbon-components-svelte';
+	import {
+		Button,
+		Checkbox,
+		RadioButton,
+		RadioButtonGroup,
+		TextInput
+	} from 'carbon-components-svelte';
 	import { utilsService } from '$lib/services';
 	import { FormItemType, type FormItemI } from '../interfaces';
 
@@ -16,14 +22,7 @@
 		formItem.isItemDisabled = isItemDisabled;
 		if (isItemDisabled) {
 			formItem.isItemOpen = false;
-			if (
-				formItem.typeOfItem === FormItemType.textInput ||
-				formItem.typeOfItem === FormItemType.radioButton
-			) {
-				formItem.selectedOptions = [''];
-			} else if (formItem.typeOfItem === FormItemType.checkbox) {
-				formItem.selectedOptions = [];
-			}
+			clearSelections();
 		}
 
 		checkScreenSize();
@@ -33,6 +32,17 @@
 			window.removeEventListener('resize', checkScreenSize);
 		};
 	});
+
+	const clearSelections = (): void => {
+		if (
+			formItem.typeOfItem === FormItemType.textInput ||
+			formItem.typeOfItem === FormItemType.radioButton
+		) {
+			formItem.selectedOptions = [''];
+		} else if (formItem.typeOfItem === FormItemType.checkbox) {
+			formItem.selectedOptions = [];
+		}
+	};
 
 	const checkScreenSize = (): void => {
 		isMobile = window.matchMedia('(max-width: 1055px)').matches;
@@ -93,24 +103,36 @@
 		<div class="form-item-text">
 			{formItem.text}
 		</div>
-		{#if isMobile}
-			<!-- svelte-ignore a11y_click_events_have_key_events -->
-			<!-- svelte-ignore a11y_no_static_element_interactions -->
-			<div
-				class="chevron-icon-container"
+		<div class="clear-button-container">
+			<Button
+				kind="ghost"
+				size="small"
+				disabled={isItemDisabled}
 				on:click={() => {
-					if (!isItemDisabled) {
-						formItem.isItemOpen = !formItem.isItemOpen;
-					}
+					clearSelections();
 				}}
 			>
-				{#if formItem.isItemOpen}
-					<ChevronUp />
-				{:else}
-					<ChevronDown />
-				{/if}
-			</div>
-		{/if}
+				Clear
+			</Button>
+			{#if isMobile}
+				<!-- svelte-ignore a11y_click_events_have_key_events -->
+				<!-- svelte-ignore a11y_no_static_element_interactions -->
+				<div
+					class="chevron-icon-container"
+					on:click={() => {
+						if (!isItemDisabled) {
+							formItem.isItemOpen = !formItem.isItemOpen;
+						}
+					}}
+				>
+					{#if formItem.isItemOpen}
+						<ChevronUp />
+					{:else}
+						<ChevronDown />
+					{/if}
+				</div>
+			{/if}
+		</div>
 	</div>
 	{#if !isMobile || formItem.isItemOpen}
 		<div class="form-item-options-container">
@@ -143,6 +165,7 @@
 					<Checkbox
 						labelText={formItemOption}
 						value={formItemOption}
+						checked={formItem.selectedOptions.includes(formItemOption)}
 						disabled={isItemDisabled}
 						on:check={(event) => {
 							onCheckFormItem(event, formItemOption);
@@ -212,6 +235,12 @@
 		letter-spacing: 0px;
 	}
 
+	.clear-button-container {
+		display: flex;
+		align-items: center;
+		margin-left: auto;
+	}
+
 	.form-item-options-container {
 		margin-left: 40px;
 	}
@@ -227,7 +256,6 @@
 		.chevron-icon-container {
 			display: block;
 			height: 16px;
-			margin-left: auto;
 		}
 
 		.selected-option-container {
