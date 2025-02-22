@@ -64,20 +64,6 @@
 		openNextFormItem(1);
 	};
 
-	const onTextInputBlur = (): void => {
-		closeFormItem();
-	};
-
-	const onTextInputKeyUp = (event: KeyboardEvent): void => {
-		if (event.code === 'Enter') {
-			closeFormItem();
-		}
-	};
-
-	const onChangeRadioButton = (): void => {
-		closeFormItem();
-	};
-
 	const onCheckFormItem = (event: CustomEvent<boolean>, formItemOption: string): void => {
 		if (event.detail) {
 			if (!formItem.selectedOptions.includes(formItemOption)) {
@@ -142,8 +128,6 @@
 					hideLabel
 					bind:value={formItem.selectedOptions[0]}
 					disabled={isItemDisabled}
-					on:blur={onTextInputBlur}
-					on:keyup={onTextInputKeyUp}
 				/>
 			{:else if formItem.typeOfItem === FormItemType.radioButton}
 				<RadioButtonGroup
@@ -153,25 +137,35 @@
 					bind:selected={formItem.selectedOptions[0]}
 				>
 					{#each formItem.options as formItemOption}
-						<RadioButton
-							labelText={formItemOption}
-							value={formItemOption}
-							on:change={onChangeRadioButton}
-						/>
+						<RadioButton labelText={formItemOption} value={formItemOption} />
 					{/each}
 				</RadioButtonGroup>
 			{:else if formItem.typeOfItem === FormItemType.checkbox}
-				{#each formItem.options as formItemOption}
-					<Checkbox
-						labelText={formItemOption}
-						value={formItemOption}
-						checked={formItem.selectedOptions.includes(formItemOption)}
-						disabled={isItemDisabled}
-						on:check={(event) => {
-							onCheckFormItem(event, formItemOption);
-						}}
-					/>
-				{/each}
+				<div class="checkboxes-container">
+					{#each formItem.options as formItemOption}
+						<Checkbox
+							labelText={formItemOption}
+							value={formItemOption}
+							checked={formItem.selectedOptions.includes(formItemOption)}
+							disabled={isItemDisabled}
+							on:check={(event) => {
+								onCheckFormItem(event, formItemOption);
+							}}
+						/>
+					{/each}
+				</div>
+			{/if}
+			{#if isMobile}
+				<Button
+					class="next-button"
+					kind="secondary"
+					size="small"
+					on:click={() => {
+						closeFormItem();
+					}}
+				>
+					Next
+				</Button>
 			{/if}
 		</div>
 	{:else if formItem.selectedOptions.length > 0 && formItem.selectedOptions[0]}
@@ -242,6 +236,9 @@
 	}
 
 	.form-item-options-container {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
 		margin-left: 40px;
 	}
 
@@ -250,6 +247,15 @@
 		border: 1px solid #c6c6c6 !important;
 		line-height: 18px;
 		height: 3rem !important;
+	}
+
+	.checkboxes-container {
+		display: flex;
+		flex-direction: column;
+	}
+
+	:global(.next-button) {
+		width: 110px !important;
 	}
 
 	@media (max-width: 1055px) {
