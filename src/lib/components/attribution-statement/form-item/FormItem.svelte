@@ -233,6 +233,8 @@
 		display: flex;
 		align-items: center;
 		margin-left: auto;
+		margin-right: -1rem;
+		height: 2rem;
 	}
 
 	.form-item-options-container {
@@ -271,6 +273,10 @@
 			font-size: 14px;
 			line-height: 18px;
 			letter-spacing: 0.16px;
+		}
+
+		.clear-button-container {
+			margin-right: 0rem !important;
 		}
 	}
 </style>
