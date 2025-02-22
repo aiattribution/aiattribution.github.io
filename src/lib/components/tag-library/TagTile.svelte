@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { base } from '$app/paths';
 	import { Tile } from 'carbon-components-svelte';
 	import type { TagI } from '$lib/models/tag-library';
 
@@ -25,7 +24,7 @@
 		</div>
 	</div>
 	<div class="icon-container">
-		<img src={`${base}${tag.icon}`} alt={tag.name} width="24" height="24" />
+		<svelte:component this={tag.iconComponent} />
 	</div>
 </Tile>
 

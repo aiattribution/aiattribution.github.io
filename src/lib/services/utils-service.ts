@@ -83,7 +83,7 @@ class UtilsService {
 					return tag.id === option;
 				});
 				if (tag) {
-					return `<img src="${base}${tag.icon}" alt="${tag.name}" width="24" height="24" />`;
+					return `<img src="${base}${tag.iconPath}" alt="${tag.name}" width="24" height="24" />`;
 				} else {
 					return '';
 				}

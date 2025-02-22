@@ -1,3 +1,5 @@
+import type { Component } from 'svelte';
+
 export enum AIProportionOptions {
 	ENTIRELY_AI_GENERATED = 'Entirely AI-generated',
 	PRIMARILY_AI_GENERATED = 'Primarily AI-generated',
@@ -27,5 +29,6 @@ export interface TagI {
 	name: string;
 	abbreviation: string;
 	explanation: string;
-	icon: string;
+	iconPath: string;
+	iconComponent: Component;
 }
