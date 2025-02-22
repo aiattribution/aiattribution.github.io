@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { type Component } from 'svelte';
 	import { Button } from 'carbon-components-svelte';
 	import { Copy, Download } from 'carbon-icons-svelte';
 	import {
@@ -8,9 +9,14 @@
 		VERSION
 	} from './constants';
 	import { AttributionType, type FormItemI } from './interfaces';
+	import { ALL_TAGS } from '$lib/common/constants';
+	import type { TagI } from '$lib/models/tag-library';
 	import { utilsService } from '$lib/services';
 
 	export let attibutionFormItems: FormItemI[];
+
+	let abbreviatedStatementHTMLContainer: HTMLDivElement = null;
+	let fullStatementHTMLContainer: HTMLDivElement = null;
 
 	const getAbbreviatedStatement = (): string => {
 		let abbreviatedStatement: string = '';
@@ -146,37 +152,32 @@
 		return atributionTagLabelContent;
 	};
 
-	const getAttributionIcons = (): string => {
-		let attributionIcons: string = '';
-		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attibutionFormItems);
-		const proportionOfContribution: string = utilsService.getConcatenatedOptionsIcons(
-			utilsService.getAttributionFormItemByType(
-				AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-				attibutionFormItems
-			).selectedOptions
-		);
+	const getAttributionIcons = (): Component[] => {
+		let icons: Component[] = [];
+		const isAIUsageOptionYes = utilsService.isAIUsageOptionYes(attibutionFormItems);
+
+		const getIconsFromOptions = (type: AttributionType) => {
+			return utilsService
+				.getAttributionFormItemByType(type, attibutionFormItems)
+				.selectedOptions.map((option: string) => {
+					const tag: TagI = ALL_TAGS.find((tag: TagI) => tag.id === option);
+					return tag ? tag.iconComponent : null;
+				})
+				.filter(Boolean);
+		};
+
+		icons = [...getIconsFromOptions(AttributionType.PROPORTIONS_OF_CONTRIBUTIONS)];
+
 		if (isAIUsageOptionYes) {
-			const aiContribution: string = utilsService.getConcatenatedOptionsIcons(
-				utilsService.getAttributionFormItemByType(
-					AttributionType.AI_CONTRIBUTION,
-					attibutionFormItems
-				).selectedOptions
-			);
-			const aiInitiatives: string = utilsService.getConcatenatedOptionsIcons(
-				utilsService.getAttributionFormItemByType(
-					AttributionType.AI_INITIATIVE,
-					attibutionFormItems
-				).selectedOptions
-			);
-			const humanReview: string = utilsService.getConcatenatedOptionsIcons(
-				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attibutionFormItems)
-					.selectedOptions
-			);
-			attributionIcons = `${proportionOfContribution} ${aiContribution} ${aiInitiatives} ${humanReview}`;
-		} else {
-			attributionIcons = `${proportionOfContribution}`;
+			icons = [
+				...icons,
+				...getIconsFromOptions(AttributionType.AI_CONTRIBUTION),
+				...getIconsFromOptions(AttributionType.AI_INITIATIVE),
+				...getIconsFromOptions(AttributionType.HUMAN_REVIEW)
+			];
 		}
-		return attributionIcons;
+
+		return icons;
 	};
 
 	const getAIContributionIconsDescriptions = (): string => {
@@ -317,6 +318,91 @@
 			console.error('Error copying full statement to clipboard', err);
 		}
 	};
+
+	const downloadStatementSVG = (
+		statementHTMLContainer: HTMLDivElement,
+		downloadName: string
+	): void => {
+		if (!statementHTMLContainer) return;
+
+		const textElement: Element = statementHTMLContainer.querySelector(
+			'.recommended-attribution-item-text'
+		);
+		const iconsContainer: Element = statementHTMLContainer.querySelector(
+			'.recommended-attribution-item-icons-container'
+		);
+
+		const textContent: string = textElement?.textContent?.trim() || '';
+		const iconsHTML: string = iconsContainer?.innerHTML || '';
+
+		const getTextWidth = (text: string, font: string): number => {
+			const canvas: HTMLCanvasElement = document.createElement('canvas');
+			const context: CanvasRenderingContext2D = canvas.getContext('2d');
+			if (context) {
+				context.font = font;
+				return context.measureText(text).width;
+			}
+			return 0;
+		};
+
+		const fontStyle: CSSStyleDeclaration = window.getComputedStyle(textElement || document.body);
+		const font: string = `${fontStyle.fontWeight} ${fontStyle.fontSize} ${fontStyle.fontFamily}`;
+
+		const textWidth: number = getTextWidth(textContent, font);
+		const iconsWidth: number = iconsContainer?.getBoundingClientRect().width || 0;
+		const svgWidth: number = textWidth + iconsWidth + 24;
+
+		const svgContent: string = `
+<svg xmlns="http://www.w3.org/2000/svg" width="${svgWidth}" height="40px">
+	<foreignObject width="100%" height="100%">
+		<style>
+			.recommended-attribution-item-text-container {
+				display: flex;
+				align-items: center;
+				white-space: nowrap;
+				gap: 0.5rem;
+				padding: 8px;
+			}
+
+			.recommended-attribution-item-text {
+				font-family: IBM Plex Sans;
+				font-weight: 400;
+				font-size: 16px;
+				line-height: 22px;
+				letter-spacing: 0px;
+			}
+
+			.recommended-attribution-item-icons-container {
+				display: flex;
+				gap: 0.5rem;
+			}
+		</style>
+		<div xmlns="http://www.w3.org/1999/xhtml" class="recommended-attribution-item-text-container">
+			<div class="recommended-attribution-item-text">${textContent}</div>
+			<div class="recommended-attribution-item-icons-container">${iconsHTML}</div>
+		</div>
+	</foreignObject>
+</svg>`;
+
+		const blob: Blob = new Blob([svgContent], { type: 'image/svg+xml' });
+		const url: string = URL.createObjectURL(blob);
+
+		const link: HTMLAnchorElement = document.createElement('a');
+		link.href = url;
+		link.download = `${downloadName}.svg`;
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+		URL.revokeObjectURL(url);
+	};
+
+	const downloadAbbreviatedStatementSVG = (): void => {
+		downloadStatementSVG(abbreviatedStatementHTMLContainer, 'abbreviated_statement');
+	};
+
+	const downloadFullStatementSVG = (): void => {
+		downloadStatementSVG(fullStatementHTMLContainer, 'full_statement');
+	};
 </script>
 
 <h2 class="recommended-attribution-title">Recommended attribution</h2>
@@ -327,10 +413,15 @@
 			<p>Abbreviated statement</p>
 		</div>
 		<div class="recommended-attribution-item">
-			<div class="recommended-attribution-item-text-container">
+			<div
+				bind:this={abbreviatedStatementHTMLContainer}
+				class="recommended-attribution-item-text-container"
+			>
 				<div class="recommended-attribution-item-text">{getAbbreviatedStatement()}</div>
 				<div class="recommended-attribution-item-icons-container">
-					{@html getAttributionIcons()}
+					{#each getAttributionIcons() as AttributionIcon}
+						<svelte:component this={AttributionIcon} />
+					{/each}
 				</div>
 			</div>
 			<div class="recommended-attribution-item-button-container">
@@ -344,7 +435,14 @@
 				/>
 			</div>
 			<div class="recommended-attribution-item-button-container">
-				<Button kind="ghost" iconDescription="Download" icon={Download} on:click={() => {}} />
+				<Button
+					kind="ghost"
+					iconDescription="Download"
+					icon={Download}
+					on:click={() => {
+						downloadAbbreviatedStatementSVG();
+					}}
+				/>
 			</div>
 		</div>
 	</div>
@@ -354,10 +452,15 @@
 			<p>Full statement</p>
 		</div>
 		<div class="recommended-attribution-item">
-			<div class="recommended-attribution-item-text-container">
+			<div
+				bind:this={fullStatementHTMLContainer}
+				class="recommended-attribution-item-text-container"
+			>
 				<div class="recommended-attribution-item-text">{getFullStatement()}</div>
 				<div class="recommended-attribution-item-icons-container">
-					{@html getAttributionIcons()}
+					{#each getAttributionIcons() as AttributionIcon}
+						<svelte:component this={AttributionIcon} />
+					{/each}
 				</div>
 			</div>
 			<div class="recommended-attribution-item-button-container">
@@ -371,7 +474,14 @@
 				/>
 			</div>
 			<div class="recommended-attribution-item-button-container">
-				<Button kind="ghost" iconDescription="Download" icon={Download} on:click={() => {}} />
+				<Button
+					kind="ghost"
+					iconDescription="Download"
+					icon={Download}
+					on:click={() => {
+						downloadFullStatementSVG();
+					}}
+				/>
 			</div>
 		</div>
 	</div>
