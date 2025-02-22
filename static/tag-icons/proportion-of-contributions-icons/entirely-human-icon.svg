@@ -1,6 +1,7 @@
-<svg width="28" height="27" viewBox="0 0 28 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="13.6208" cy="14.1376" r="11.5" fill="white" stroke="#161616" />
-    <path
-        d="M15.1708 18.1376V15.1876H12.2608V18.1376H10.9408V11.1576H12.2608V14.0176H15.1708V11.1576H16.4908V18.1376H15.1708Z"
-        fill="#161616" />
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="11.5" fill="white" stroke="#161616" />
+    <text x="12" y="13" font-family="'IBM Plex Sans', sans-serif" font-weight="600" font-size="10px" line-height="16px"
+        letter-spacing="0.32px" fill="#161616" text-anchor="middle" alignment-baseline="middle">
+        H
+    </text>
 </svg>

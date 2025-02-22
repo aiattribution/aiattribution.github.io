@@ -3,8 +3,12 @@
     <path d="M11.5 23.4893C5.38069 23.2275 0.5 18.1837 0.5 12C0.5 5.81625 5.38069 0.772452 11.5 0.510674V23.4893Z"
         fill="white" stroke="#161616" />
     <path d="M11 1.05078L12 1V23L11 22.9654V1.05078Z" fill="white" />
-    <path d="M9.55 16V13.05H6.64V16H5.32V9.02H6.64V11.88H9.55V9.02H10.87V16H9.55Z" fill="#161616" />
-    <path
-        d="M19.51 16H18.14L17.58 14.22H15.1L14.55 16H13.21L15.55 9.02H17.19L19.51 16ZM17.26 13.09L16.36 10.22H16.31L15.42 13.09H17.26Z"
-        fill="white" />
+    <text x="8" y="13" font-family="'IBM Plex Sans', sans-serif" font-weight="600" font-size="10px"
+        letter-spacing="0.32px" fill="#161616" text-anchor="middle" alignment-baseline="middle">
+        H
+    </text>
+    <text x="16.75" y="13" font-family="'IBM Plex Sans', sans-serif" font-weight="600" font-size="10px"
+        letter-spacing="0.32px" fill="white" text-anchor="middle" alignment-baseline="middle">
+        A
+    </text>
 </svg>
