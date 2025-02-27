@@ -18,6 +18,12 @@
 	let abbreviatedStatementHTMLContainer: HTMLDivElement = null;
 	let fullStatementHTMLContainer: HTMLDivElement = null;
 
+	const hasAnyResponseToAnyFormItem = (): boolean => {
+		return attibutionFormItems.some(
+			(item: FormItemI) => item.selectedOptions.length > 0 && item.selectedOptions[0]
+		);
+	};
+
 	const getAbbreviatedStatement = (): string => {
 		let abbreviatedStatement: string = '';
 		let aiUsed: string = '';
@@ -71,11 +77,6 @@
 			AttributionType.MODEL,
 			attibutionFormItems
 		).selectedOptions[0];
-		if (isAIUsageOptionYes) {
-			aiUsed = modelSelected.length > 0 ? `, ${modelSelected}` : '';
-		} else {
-			aiUsed = NO_AI_USED_FULL_STATEMENT;
-		}
 
 		if (isAIUsageOptionYes) {
 			const proportionOfContribution: string = utilsService.getConcatenatedOptionsFullStatement(
@@ -85,24 +86,37 @@
 				).selectedOptions,
 				false
 			);
+			if (modelSelected) {
+				if (proportionOfContribution) {
+					aiUsed = `, ${modelSelected}`;
+				} else {
+					aiUsed = modelSelected;
+				}
+			} else {
+				aiUsed = '';
+			}
 			const aiContribution: string = utilsService.getConcatenatedOptionsFullStatement(
 				utilsService.getAttributionFormItemByType(
 					AttributionType.AI_CONTRIBUTION,
 					attibutionFormItems
-				).selectedOptions
+				).selectedOptions,
+				proportionOfContribution || aiUsed ? true : false
 			);
 			const aiInitiatives: string = utilsService.getConcatenatedOptionsFullStatement(
 				utilsService.getAttributionFormItemByType(
 					AttributionType.AI_INITIATIVE,
 					attibutionFormItems
-				).selectedOptions
+				).selectedOptions,
+				proportionOfContribution || aiUsed || aiContribution ? true : false
 			);
 			const humanReview: string = utilsService.getConcatenatedOptionsFullStatement(
 				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attibutionFormItems)
-					.selectedOptions
+					.selectedOptions,
+				proportionOfContribution || aiUsed || aiContribution || aiInitiatives ? true : false
 			);
 			fullStatement = `${AIA} ${proportionOfContribution}${aiUsed}${aiContribution}${aiInitiatives}${humanReview} ${VERSION}`;
 		} else {
+			aiUsed = NO_AI_USED_FULL_STATEMENT;
 			fullStatement = `${AIA} ${aiUsed} ${VERSION}`;
 		}
 		return fullStatement;
@@ -407,7 +421,7 @@
 
 <h2 class="recommended-attribution-title">Recommended attribution</h2>
 
-{#if utilsService.getAttributionFormItemByType(AttributionType.PROPORTIONS_OF_CONTRIBUTIONS, attibutionFormItems).selectedOptions[0]}
+{#if hasAnyResponseToAnyFormItem()}
 	<div class="recommended-attribution-item-container">
 		<div class="recommended-attribution-item-label">
 			<p>Abbreviated statement</p>
