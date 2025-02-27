@@ -142,7 +142,15 @@
 				utilsService.getAttributionFormItemByType(AttributionType.MODEL, attibutionFormItems)
 					.selectedOptions[0]
 			) {
-				modelUsed = `, using ${utilsService.getAttributionFormItemByType(AttributionType.MODEL, attibutionFormItems).selectedOptions[0]}.`;
+				const modelSelected: string = utilsService.getAttributionFormItemByType(
+					AttributionType.MODEL,
+					attibutionFormItems
+				).selectedOptions[0];
+				if (proportionOfContribution) {
+					modelUsed = `, using ${modelSelected}.`;
+				} else {
+					modelUsed = `this work involved the use of ${modelSelected}.`;
+				}
 			}
 			aiContribution = utilsService.getConcatenatedOptionsExplanations(
 				utilsService.getAttributionFormItemByType(
@@ -156,10 +164,16 @@
 					attibutionFormItems
 				).selectedOptions
 			);
+			if (!proportionOfContribution && !modelUsed && !aiContribution) {
+				aiInitiatives = utilsService.lowercaseFirstLetter(aiInitiatives);
+			}
 			humanReview = utilsService.getConcatenatedOptionsExplanations(
 				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attibutionFormItems)
 					.selectedOptions
 			);
+			if (!proportionOfContribution && !modelUsed && !aiContribution && !aiInitiatives) {
+				humanReview = utilsService.lowercaseFirstLetter(humanReview);
+			}
 		}
 		atributionTagLabelContent = `This attribution tag indicates that ${proportionOfContribution}${modelUsed} ${aiContribution} ${aiInitiatives} ${humanReview}`;
 		atributionTagLabelContent = atributionTagLabelContent.replace('.,', ',');
