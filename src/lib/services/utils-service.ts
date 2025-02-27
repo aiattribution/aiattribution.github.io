@@ -16,12 +16,11 @@ class UtilsService {
 	}
 
 	public isAIUsageOptionYes(attibutionFormItems: FormItemI[]): boolean {
-		return (
-			this.getAttributionFormItemByType(
-				AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-				attibutionFormItems
-			).selectedOptions[0] !== AIProportionOptions.ENTIRELY_HUMAN_CREATED
-		);
+		const selectedOption: string = this.getAttributionFormItemByType(
+			AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+			attibutionFormItems
+		).selectedOptions[0];
+		return selectedOption !== AIProportionOptions.ENTIRELY_HUMAN_CREATED;
 	}
 
 	public getConcatenatedOptionsAbbreviatedStatement(options: string[]): string {
