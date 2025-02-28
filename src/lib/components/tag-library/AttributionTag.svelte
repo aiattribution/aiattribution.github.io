@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { base } from '$app/paths';
 	import { onMount } from 'svelte';
 	import { TagTile } from '$lib';
 	import type { AttributionTagI } from './interfaces';
+	import { SelectedItemIcon, UnselectedItemIcon } from '../carousel-icons';
 
 	export let attributionTag: AttributionTagI;
 
@@ -74,19 +74,19 @@
 		</div>
 		<div class="carousel-navigator">
 			{#each attributionTag.tags as _, index}
-				<!-- svelte-ignore a11y_click_events_have_key_events -->
-				<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-				<img
-					src={currentIndex === index
-						? `${base}/carousel/selected-item.svg`
-						: `${base}/carousel/unselected-item.svg`}
-					alt="Carousel item"
-					width="8"
-					height="8"
-					on:click={() => {
-						updateCurrentIndex(index);
-					}}
-				/>
+				{#if currentIndex === index}
+					<SelectedItemIcon
+						on:click={() => {
+							updateCurrentIndex(index);
+						}}
+					/>
+				{:else}
+					<UnselectedItemIcon
+						on:click={() => {
+							updateCurrentIndex(index);
+						}}
+					/>
+				{/if}
 			{/each}
 		</div>
 	{:else}
