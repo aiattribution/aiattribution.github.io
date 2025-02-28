@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { base } from '$app/paths';
-	import { AttributionTag } from '$lib';
+	import { AttributionTag, LinkIcon } from '$lib';
 	import { ATTRIBUTION_TAGS } from './constants';
 	import type { AttributionTagI } from './interfaces';
 
@@ -23,16 +22,7 @@
 	<div class="tag-library-title-and-text-container">
 		<div class="tag-library-title-container">
 			<h1 class="section-title">Tag library</h1>
-			<!-- svelte-ignore a11y_click_events_have_key_events -->
-			<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-			<img
-				class="link-icon"
-				src={`${base}/link-icon.svg`}
-				alt="Link"
-				width="28"
-				height="28"
-				on:click={copyLink}
-			/>
+			<LinkIcon on:iconClick={copyLink} />
 		</div>
 		<p class="section-text">
 			Reference the library to understand the components of an attribution tag.
@@ -62,9 +52,5 @@
 		display: flex;
 		align-items: center;
 		gap: 10px;
-	}
-
-	.link-icon:hover {
-		cursor: pointer;
 	}
 </style>
