@@ -76,13 +76,13 @@
 			{#each attributionTag.tags as _, index}
 				{#if currentIndex === index}
 					<SelectedItemIcon
-						on:click={() => {
+						on:itemClick={() => {
 							updateCurrentIndex(index);
 						}}
 					/>
 				{:else}
 					<UnselectedItemIcon
-						on:click={() => {
+						on:itemClick={() => {
 							updateCurrentIndex(index);
 						}}
 					/>
