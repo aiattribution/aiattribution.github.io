@@ -1,10 +1,20 @@
 <script lang="ts">
 	import 'carbon-components-svelte/css/all.css';
+	import Geolocation from 'svelte-geolocation';
+	import type { GeolocationCoords } from 'svelte-geolocation/Geolocation.svelte';
 	import { About, AttributionStatement, Header, TagLibrary } from '$lib';
 	import { HeaderNavType } from '$lib/components/header/interfaces';
 
 	let headerNavItemSelected: HeaderNavType = HeaderNavType.ATTRIBUTION_STATEMENT;
+	let geolocationCoords: GeolocationCoords = [0, 0];
+
+	const onUserLocationRetrieved = (event: CustomEvent<Partial<GeolocationPosition>>): void => {
+		geolocationCoords[0] = event.detail.coords.longitude;
+		geolocationCoords[1] = event.detail.coords.latitude;
+	};
 </script>
+
+<Geolocation getPosition on:position={onUserLocationRetrieved} />
 
 <div class="page-container">
 	<Header bind:headerNavItemSelected />
