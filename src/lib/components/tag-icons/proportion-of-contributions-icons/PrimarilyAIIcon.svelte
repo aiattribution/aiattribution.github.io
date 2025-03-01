@@ -1,12 +1,9 @@
-<svg width="27" height="26" viewBox="0 0 27 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-	<path
-		d="M16.4278 2.7115C10.1224 -0.178826 -6.07215 10.7126 6.42784 22.2123L13.4277 17.2124L20.9278 22.2125C26.4278 18.7124 26.9278 5.21176 16.4278 2.7115Z"
-		fill="#525252"
-	/>
-	<circle cx="13.4278" cy="13.7119" r="11.5" stroke="#161616" />
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<path d="M12 0C3 0 -6 12 6 22L12 16L18 22C25 16 28 3 12 0Z" fill="#525252" />
+	<circle cx="12" cy="12" r="11.5" stroke="#161616" fill="none" />
 	<text
-		x="13.5"
-		y="13"
+		x="12"
+		y="12"
 		font-family="'IBM Plex Sans', sans-serif"
 		font-weight="600"
 		font-size="10px"
