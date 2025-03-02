@@ -5,7 +5,7 @@
 	import type { GeolocationCoords } from 'svelte-geolocation/Geolocation.svelte';
 	import { About, AttributionStatement, Header, TagLibrary } from '$lib';
 	import { HeaderNavType } from '$lib/components/header/interfaces';
-	import { utilsService } from '$lib/services';
+	import { apiService, utilsService } from '$lib/services';
 
 	let isANewUser: boolean = false;
 	let userId: string;
@@ -26,6 +26,10 @@
 		if (isANewUser) {
 			userGeolocationCoords[0] = event.detail.coords.longitude;
 			userGeolocationCoords[1] = event.detail.coords.latitude;
+			apiService.putUserLocation({
+				longitude: userGeolocationCoords[0].toString(),
+				latitude: userGeolocationCoords[1].toString()
+			});
 		}
 	};
 </script>
