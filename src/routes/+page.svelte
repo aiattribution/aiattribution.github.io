@@ -17,6 +17,7 @@
 		userId = localStorage.getItem('userId');
 		if (!userId) {
 			isANewUser = true;
+			apiService.updateNumberOfUniqueSiteVisitors();
 			userId = utilsService.getUniqueId();
 			localStorage.setItem('userId', userId);
 		}
