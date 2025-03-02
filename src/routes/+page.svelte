@@ -1,20 +1,38 @@
 <script lang="ts">
 	import 'carbon-components-svelte/css/all.css';
+	import { onMount } from 'svelte';
 	import Geolocation from 'svelte-geolocation';
 	import type { GeolocationCoords } from 'svelte-geolocation/Geolocation.svelte';
 	import { About, AttributionStatement, Header, TagLibrary } from '$lib';
 	import { HeaderNavType } from '$lib/components/header/interfaces';
+	import { utilsService } from '$lib/services';
+
+	let isANewUser: boolean = false;
+	let userId: string;
+	let userGeolocationCoords: GeolocationCoords = [0, 0];
 
 	let headerNavItemSelected: HeaderNavType = HeaderNavType.ATTRIBUTION_STATEMENT;
-	let geolocationCoords: GeolocationCoords = [0, 0];
+
+	onMount(() => {
+		userId = localStorage.getItem('userId');
+		if (!userId) {
+			isANewUser = true;
+			userId = utilsService.getUniqueId();
+			localStorage.setItem('userId', userId);
+		}
+	});
 
 	const onUserLocationRetrieved = (event: CustomEvent<Partial<GeolocationPosition>>): void => {
-		geolocationCoords[0] = event.detail.coords.longitude;
-		geolocationCoords[1] = event.detail.coords.latitude;
+		if (isANewUser) {
+			userGeolocationCoords[0] = event.detail.coords.longitude;
+			userGeolocationCoords[1] = event.detail.coords.latitude;
+		}
 	};
 </script>
 
-<Geolocation getPosition on:position={onUserLocationRetrieved} />
+{#if isANewUser}
+	<Geolocation getPosition on:position={onUserLocationRetrieved} />
+{/if}
 
 <div class="page-container">
 	<Header bind:headerNavItemSelected />

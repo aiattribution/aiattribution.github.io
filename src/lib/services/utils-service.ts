@@ -2,9 +2,14 @@ import { ALL_TAGS } from '$lib/common/constants';
 import { AttributionType, type FormItemI } from '$lib/components/attribution-statement/interfaces';
 import { AIProportionOptions, type TagI } from '$lib/models/tag-library';
 import type { Component } from 'svelte';
+import { v4 as uuidv4 } from 'uuid';
 
 class UtilsService {
 	constructor() {}
+
+	public getUniqueId(): string {
+		return uuidv4().toString();
+	}
 
 	public getAttributionFormItemByType(
 		attributionType: AttributionType,
