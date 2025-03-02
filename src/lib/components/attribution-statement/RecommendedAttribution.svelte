@@ -11,7 +11,7 @@
 	import { AttributionType, type FormItemI } from './interfaces';
 	import { ALL_TAGS } from '$lib/common/constants';
 	import type { TagI } from '$lib/models/tag-library';
-	import { utilsService } from '$lib/services';
+	import { apiService, utilsService } from '$lib/services';
 
 	export let attibutionFormItems: FormItemI[];
 
@@ -314,10 +314,54 @@
 		return attributionIconsDescriptions;
 	};
 
+	const getFieldsFilledOut = (): string[] => {
+		return attibutionFormItems
+			.filter(
+				(item: FormItemI) =>
+					item.selectedOptions.length > 0 &&
+					item.selectedOptions.some((option: string) => option && option !== '')
+			)
+			.map((item: FormItemI) => item.text);
+	};
+
+	const getFieldsLeftBlank = (): string[] => {
+		return attibutionFormItems
+			.filter(
+				(item: FormItemI) =>
+					item.selectedOptions.length === 0 ||
+					item.selectedOptions.every((option: string) => !option || option === '')
+			)
+			.map((item: FormItemI) => item.text);
+	};
+
+	const getOptionsSelectedPerField = (): Record<string, string[]> => {
+		return attibutionFormItems
+			.filter(
+				(item: FormItemI) =>
+					item.selectedOptions.length > 0 &&
+					item.selectedOptions.some((option: string) => option && option !== '')
+			)
+			.reduce(
+				(acc: Record<string, string[]>, item: FormItemI) => {
+					acc[item.text] = item.selectedOptions;
+					return acc;
+				},
+				{} as Record<string, string[]>
+			);
+	};
+
 	const copyAbbreviatedStatementToClipboard = async (): Promise<void> => {
 		try {
-			const text: string = getAbbreviatedStatement();
+			const text: string = getAbbreviatedStatement().split(/\s+/).join(' ');
 			await navigator.clipboard.writeText(text);
+			apiService.updateCopyActions({
+				includeNumberOfActionsOnAbbreviatedStatements: true,
+				includeNumberOfActionsOnFullStatements: false,
+				statementDisplayed: text,
+				fieldsFilledOut: getFieldsFilledOut(),
+				fieldsLeftBlank: getFieldsLeftBlank(),
+				optionsSelectedPerField: getOptionsSelectedPerField()
+			});
 		} catch (err) {
 			console.error('Error copying abbreviated statement to clipboard', err);
 		}
@@ -325,8 +369,16 @@
 
 	const copyFullStatementToClipboard = async (): Promise<void> => {
 		try {
-			const text: string = getFullStatement();
+			const text: string = getFullStatement().split(/\s+/).join(' ');
 			await navigator.clipboard.writeText(text);
+			apiService.updateCopyActions({
+				includeNumberOfActionsOnAbbreviatedStatements: false,
+				includeNumberOfActionsOnFullStatements: true,
+				statementDisplayed: text,
+				fieldsFilledOut: getFieldsFilledOut(),
+				fieldsLeftBlank: getFieldsLeftBlank(),
+				optionsSelectedPerField: getOptionsSelectedPerField()
+			});
 		} catch (err) {
 			console.error('Error copying full statement to clipboard', err);
 		}

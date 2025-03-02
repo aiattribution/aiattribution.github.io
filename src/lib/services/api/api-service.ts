@@ -1,5 +1,5 @@
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
-import type { UserLocationPayload } from './interfaces';
+import type { UpdateCopyActionsPayload, UserLocationPayload } from './interfaces';
 import { APIMethodsType } from './types';
 
 class ApiService {
@@ -26,6 +26,16 @@ class ApiService {
 
 	public putUserLocation(payload: UserLocationPayload): void {
 		fetch(`${this.BACKEND_API_URL}/put_user_location`, {
+			method: APIMethodsType.PUT,
+			headers: this.getHeaders(),
+			body: JSON.stringify(payload)
+		}).catch((error) => {
+			console.error('Error sending user location:', error);
+		});
+	}
+
+	public updateCopyActions(payload: UpdateCopyActionsPayload): void {
+		fetch(`${this.BACKEND_API_URL}/update_copy_actions`, {
 			method: APIMethodsType.PUT,
 			headers: this.getHeaders(),
 			body: JSON.stringify(payload)
