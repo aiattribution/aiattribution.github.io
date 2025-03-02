@@ -352,12 +352,12 @@
 
 	const copyAbbreviatedStatementToClipboard = async (): Promise<void> => {
 		try {
-			const text: string = getAbbreviatedStatement().split(/\s+/).join(' ');
-			await navigator.clipboard.writeText(text);
+			const statement: string = getAbbreviatedStatement().split(/\s+/).join(' ');
+			await navigator.clipboard.writeText(statement);
 			apiService.updateCopyActions({
 				includeNumberOfActionsOnAbbreviatedStatements: true,
 				includeNumberOfActionsOnFullStatements: false,
-				statementDisplayed: text,
+				statementDisplayed: statement,
 				fieldsFilledOut: getFieldsFilledOut(),
 				fieldsLeftBlank: getFieldsLeftBlank(),
 				optionsSelectedPerField: getOptionsSelectedPerField()
@@ -369,12 +369,12 @@
 
 	const copyFullStatementToClipboard = async (): Promise<void> => {
 		try {
-			const text: string = getFullStatement().split(/\s+/).join(' ');
-			await navigator.clipboard.writeText(text);
+			const statement: string = getFullStatement().split(/\s+/).join(' ');
+			await navigator.clipboard.writeText(statement);
 			apiService.updateCopyActions({
 				includeNumberOfActionsOnAbbreviatedStatements: false,
 				includeNumberOfActionsOnFullStatements: true,
-				statementDisplayed: text,
+				statementDisplayed: statement,
 				fieldsFilledOut: getFieldsFilledOut(),
 				fieldsLeftBlank: getFieldsLeftBlank(),
 				optionsSelectedPerField: getOptionsSelectedPerField()
@@ -463,10 +463,28 @@
 
 	const downloadAbbreviatedStatementSVG = (): void => {
 		downloadStatementSVG(abbreviatedStatementHTMLContainer, 'abbreviated_statement');
+		const statement: string = getAbbreviatedStatement().split(/\s+/).join(' ');
+		apiService.updateDownloadActions({
+			includeNumberOfActionsOnAbbreviatedStatements: true,
+			includeNumberOfActionsOnFullStatements: false,
+			statementDisplayed: statement,
+			fieldsFilledOut: getFieldsFilledOut(),
+			fieldsLeftBlank: getFieldsLeftBlank(),
+			optionsSelectedPerField: getOptionsSelectedPerField()
+		});
 	};
 
 	const downloadFullStatementSVG = (): void => {
 		downloadStatementSVG(fullStatementHTMLContainer, 'full_statement');
+		const statement: string = getFullStatement().split(/\s+/).join(' ');
+		apiService.updateDownloadActions({
+			includeNumberOfActionsOnAbbreviatedStatements: false,
+			includeNumberOfActionsOnFullStatements: true,
+			statementDisplayed: statement,
+			fieldsFilledOut: getFieldsFilledOut(),
+			fieldsLeftBlank: getFieldsLeftBlank(),
+			optionsSelectedPerField: getOptionsSelectedPerField()
+		});
 	};
 </script>
 

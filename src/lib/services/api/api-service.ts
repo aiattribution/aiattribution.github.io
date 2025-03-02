@@ -1,5 +1,5 @@
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
-import type { UpdateCopyActionsPayload, UserLocationPayload } from './interfaces';
+import type { UpdateStatementActionsPayload, UserLocationPayload } from './interfaces';
 import { APIMethodsType } from './types';
 
 class ApiService {
@@ -34,13 +34,23 @@ class ApiService {
 		});
 	}
 
-	public updateCopyActions(payload: UpdateCopyActionsPayload): void {
+	public updateCopyActions(payload: UpdateStatementActionsPayload): void {
 		fetch(`${this.BACKEND_API_URL}/update_copy_actions`, {
 			method: APIMethodsType.PUT,
 			headers: this.getHeaders(),
 			body: JSON.stringify(payload)
 		}).catch((error) => {
-			console.error('Error sending user location:', error);
+			console.error('Error sending copy action:', error);
+		});
+	}
+
+	public updateDownloadActions(payload: UpdateStatementActionsPayload): void {
+		fetch(`${this.BACKEND_API_URL}/update_download_actions`, {
+			method: APIMethodsType.PUT,
+			headers: this.getHeaders(),
+			body: JSON.stringify(payload)
+		}).catch((error) => {
+			console.error('Error sending download action:', error);
 		});
 	}
 }

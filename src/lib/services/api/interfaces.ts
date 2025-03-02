@@ -3,7 +3,7 @@ export interface UserLocationPayload {
 	longitude: string;
 }
 
-export interface UpdateCopyActionsPayload {
+export interface UpdateStatementActionsPayload {
 	includeNumberOfActionsOnAbbreviatedStatements: boolean;
 	includeNumberOfActionsOnFullStatements: boolean;
 	statementDisplayed: string;
