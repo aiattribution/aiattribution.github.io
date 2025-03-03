@@ -53,6 +53,17 @@ class ApiService {
 			console.error('Error sending download action:', error);
 		});
 	}
+
+	public updateCloseActions(payload: UpdateStatementActionsPayload): void {
+		fetch(`${this.BACKEND_API_URL}/update_close_actions`, {
+			keepalive: true,
+			method: APIMethodsType.PUT,
+			headers: this.getHeaders(),
+			body: JSON.stringify(payload)
+		}).catch((error) => {
+			console.error('Error sending close action:', error);
+		});
+	}
 }
 
 export default new ApiService();

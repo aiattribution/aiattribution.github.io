@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type Component } from 'svelte';
+	import { onDestroy, onMount, type Component } from 'svelte';
 	import { Button } from 'carbon-components-svelte';
 	import { Copy, Download } from 'carbon-icons-svelte';
 	import {
@@ -17,6 +17,32 @@
 
 	let abbreviatedStatementHTMLContainer: HTMLDivElement = null;
 	let fullStatementHTMLContainer: HTMLDivElement = null;
+
+	onMount(() => {
+		if (typeof window !== 'undefined') {
+			window.addEventListener('beforeunload', handleBeforeUnload);
+		}
+	});
+
+	onDestroy(() => {
+		if (typeof window !== 'undefined') {
+			window.removeEventListener('beforeunload', handleBeforeUnload);
+		}
+	});
+
+	const handleBeforeUnload = (event) => {
+		event.preventDefault();
+		const statement: string = getFullStatement().split(/\s+/).join(' ');
+		apiService.updateCloseActions({
+			includeNumberOfActionsOnAbbreviatedStatements: false,
+			includeNumberOfActionsOnFullStatements: false,
+			statementDisplayed: statement,
+			fieldsFilledOut: getFieldsFilledOut(),
+			fieldsLeftBlank: getFieldsLeftBlank(),
+			optionsSelectedPerField: getOptionsSelectedPerField()
+		});
+		return;
+	};
 
 	const hasAnyResponseToAnyFormItem = (): boolean => {
 		return attibutionFormItems.some(
