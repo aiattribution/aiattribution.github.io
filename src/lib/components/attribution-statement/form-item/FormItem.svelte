@@ -207,8 +207,8 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 28px;
-		height: 28px;
+		min-width: 28px;
+		min-height: 28px;
 		background-color: var(--cds-ui-03);
 		border-radius: 50%;
 		font-family: IBM Plex Sans;
