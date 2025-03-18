@@ -15,7 +15,7 @@
 		letter-spacing="0.32px"
 		fill="#161616"
 		text-anchor="middle"
-		alignment-baseline="middle"
+		dominant-baseline="middle"
 	>
 		H
 	</text>
@@ -28,7 +28,7 @@
 		letter-spacing="0.32px"
 		fill="white"
 		text-anchor="middle"
-		alignment-baseline="middle"
+		dominant-baseline="middle"
 	>
 		A
 	</text>
