@@ -234,7 +234,11 @@
 		align-items: center;
 		margin-left: auto;
 		margin-right: -1rem;
-		height: 2rem;
+		height: 28px;
+
+		:global(.bx--btn) {
+			min-height: 28px !important;
+		}
 	}
 
 	.form-item-options-container {
