@@ -22,7 +22,7 @@ export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 		isItemOpen: false,
 		isItemDisabled: false,
 		attributionType: AttributionType.MODEL,
-		text: 'Model or application used',
+		text: 'Which model or application did you use?',
 		typeOfItem: FormItemType.textInput,
 		options: [],
 		selectedOptions: ['']
