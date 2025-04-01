@@ -12,13 +12,9 @@
 	<h1 class="section-title">Create an attribution statement</h1>
 	<p class="section-text">
 		<span>
-			An <strong>attribution statement</strong> provides transparency on if and how AI was used in a
-			specific work.
-		</span>
-		<br />
-		<span>
-			Fill out this form to create a customized tag. The tag and its associated explanations can be
-			copied into your work.
+			Fill out this form to create an attribution statement that provides transparency on if and how
+			AI was used in your work. The statement and explanations can be copied and incorporated into
+			your work. See below for more guidance on how to use the statement.
 		</span>
 	</p>
 	<div class="attribution-form">
