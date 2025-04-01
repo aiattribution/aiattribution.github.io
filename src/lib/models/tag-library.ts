@@ -29,6 +29,5 @@ export interface TagI {
 	name: string;
 	abbreviation: string;
 	explanation: string;
-	iconPath: string;
 	iconComponent: Component;
 }
