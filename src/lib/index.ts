@@ -2,6 +2,7 @@
 import About from './components/about/About.svelte';
 import AttributionStatement from './components/attribution-statement/AttributionStatement.svelte';
 import FormItem from './components/attribution-statement/form-item/FormItem.svelte';
+import FormItems from './components/attribution-statement/form-items/FormItems.svelte';
 import RecommendedAttribution from './components/attribution-statement/RecommendedAttribution.svelte';
 import Header from './components/header/Header.svelte';
 import LinkIcon from './components/link-icon/LinkIcon.svelte';
@@ -14,6 +15,7 @@ export {
     AttributionStatement,
     AttributionTag,
     FormItem,
+    FormItems,
     Header,
     LinkIcon,
     RecommendedAttribution,
