@@ -514,7 +514,7 @@
 	};
 </script>
 
-<h2 class="recommended-attribution-title">Recommended attribution</h2>
+<h2 class="recommended-attribution-title">Recommended attribution statement</h2>
 
 {#if hasAnyResponseToAnyFormItem()}
 	<div class="recommended-attribution-item-container">
@@ -640,9 +640,9 @@
 <style lang="scss">
 	.recommended-attribution-title {
 		font-family: IBM Plex Sans;
-		font-weight: 700;
-		font-size: 20px;
-		line-height: 28px;
+		font-weight: 600;
+		font-size: 16px;
+		line-height: 24px;
 		letter-spacing: 0px;
 	}
 
