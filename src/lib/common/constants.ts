@@ -11,7 +11,7 @@ import {
 	PrimarilyAIIcon,
 	PrimarilyHumanIcon,
 	StylisticEditsIcon
-} from '$lib/components/tag-icons';
+} from '$lib/components/icons/tag-icons';
 import {
 	AIContributionOptions,
 	AIInitiativeOptions,

@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { TagTile } from '$lib';
 	import type { AttributionTagI } from './interfaces';
-	import { SelectedItemIcon, UnselectedItemIcon } from '../carousel-icons';
+	import { SelectedItemIcon, UnselectedItemIcon } from '../icons/carousel-icons';
 
 	export let attributionTag: AttributionTagI;
 
