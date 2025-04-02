@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Link } from 'carbon-components-svelte';
-	import { FormItems, RecommendedAttribution } from '$lib';
+	import { FormItems, RecommendedAttributionStatement } from '$lib';
 	import { MONDAY_FORM_LINK } from '$lib/common/constants';
 	import { ATTRIBUTION_FORM_ITEMS } from './constants';
 	import { type FormItemI } from './interfaces';
@@ -20,7 +20,7 @@
 	<div class="attribution-form">
 		<FormItems bind:attibutionFormItems />
 		<div class="recommended-attribution-container">
-			<RecommendedAttribution {attibutionFormItems} />
+			<RecommendedAttributionStatement {attibutionFormItems} />
 		</div>
 	</div>
 	<div class="attribution-form-comment">

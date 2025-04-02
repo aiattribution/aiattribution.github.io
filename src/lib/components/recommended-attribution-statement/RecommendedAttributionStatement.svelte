@@ -7,8 +7,8 @@
 		NO_AI_USED_ABBREVIATED_STATEMENT,
 		NO_AI_USED_FULL_STATEMENT,
 		VERSION
-	} from './constants';
-	import { AttributionType, type FormItemI } from './interfaces';
+	} from '../attribution-statement/constants';
+	import { AttributionType, type FormItemI } from '../attribution-statement/interfaces';
 	import { ALL_TAGS } from '$lib/common/constants';
 	import type { TagI } from '$lib/models/tag-library';
 	import { apiService, utilsService } from '$lib/services';
