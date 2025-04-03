@@ -1,14 +1,14 @@
 <script lang="ts">
 	import 'carbon-components-svelte/css/all.css';
 	import { onMount } from 'svelte';
-	import { About, AttributionStatement, Header, TagLibrary } from '$lib';
+	import { About, AttributionStatement, Header, Home, TagLibrary } from '$lib';
 	import { HeaderNavType } from '$lib/components/header/interfaces';
 	import { apiService, utilsService } from '$lib/services';
 
 	let isANewUser: boolean = false;
 	let userId: string;
 
-	let headerNavItemSelected: HeaderNavType = HeaderNavType.ATTRIBUTION_STATEMENT;
+	let headerNavItemSelected: HeaderNavType = HeaderNavType.HOME;
 
 	onMount(() => {
 		userId = localStorage.getItem('userId');
@@ -24,10 +24,12 @@
 <div class="page-container">
 	<Header bind:headerNavItemSelected />
 	<div class="page-content">
-		{#if headerNavItemSelected === HeaderNavType.ATTRIBUTION_STATEMENT}
+		{#if headerNavItemSelected === HeaderNavType.HOME}
+			<Home />
+		{:else if headerNavItemSelected === HeaderNavType.CREATE_ATTRIBUTION}
 			<AttributionStatement />
 			<TagLibrary />
-		{:else if headerNavItemSelected === HeaderNavType.ABOUT}
+		{:else if headerNavItemSelected === HeaderNavType.INTERPRET_ATTRIBUTION}
 			<About />
 		{/if}
 		<div class="footer"></div>

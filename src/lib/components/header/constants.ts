@@ -3,12 +3,17 @@ import { HeaderNavType, type HeaderNavItemI } from './interfaces';
 export const HEADER_NAV_ITEMS: HeaderNavItemI[] = [
 	{
 		id: 0,
-		text: HeaderNavType.ATTRIBUTION_STATEMENT,
+		text: HeaderNavType.HOME,
 		isSelected: true
 	},
 	{
 		id: 1,
-		text: HeaderNavType.ABOUT,
+		text: HeaderNavType.CREATE_ATTRIBUTION,
+		isSelected: false
+	},
+	{
+		id: 2,
+		text: HeaderNavType.INTERPRET_ATTRIBUTION,
 		isSelected: false
 	}
 ];
