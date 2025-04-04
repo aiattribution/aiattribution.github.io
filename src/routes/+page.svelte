@@ -25,7 +25,7 @@
 	<Header bind:headerNavItemSelected />
 	<div class="page-content">
 		{#if headerNavItemSelected === HeaderNavType.HOME}
-			<Home />
+			<Home bind:headerNavItemSelected />
 		{:else if headerNavItemSelected === HeaderNavType.CREATE_ATTRIBUTION}
 			<AttributionStatement />
 			<TagLibrary />

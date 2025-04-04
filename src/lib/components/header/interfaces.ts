@@ -7,5 +7,4 @@ export enum HeaderNavType {
 export interface HeaderNavItemI {
 	id: number;
 	text: HeaderNavType;
-	isSelected: boolean;
 }

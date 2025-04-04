@@ -18,14 +18,6 @@
 
 	const onHeaderNavItemClick = (headerNavItem: HeaderNavItemI): void => {
 		headerNavItemSelected = headerNavItem.text;
-		headerNavItems.forEach((value: HeaderNavItemI) => {
-			if (value.id === headerNavItem.id) {
-				value.isSelected = true;
-			} else {
-				value.isSelected = false;
-			}
-		});
-		headerNavItems = headerNavItems;
 	};
 </script>
 
@@ -34,7 +26,7 @@
 		{#each headerNavItems as headerNavItem (headerNavItem.id)}
 			<HeaderNavItem
 				text={headerNavItem.text}
-				isSelected={headerNavItem.isSelected}
+				isSelected={headerNavItem.text === headerNavItemSelected}
 				on:click={() => {
 					onHeaderNavItemClick(headerNavItem);
 				}}
@@ -48,7 +40,7 @@
 		{#each headerNavItems as headerNavItem (headerNavItem.id)}
 			<SideNavLink
 				text={headerNavItem.text}
-				isSelected={headerNavItem.isSelected}
+				isSelected={headerNavItem.text === headerNavItemSelected}
 				on:click={() => {
 					onHeaderNavItemClick(headerNavItem);
 				}}
