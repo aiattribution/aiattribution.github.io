@@ -24,9 +24,11 @@
 		</div>
 	</div>
 	<div class="attribution-form-comment">
-		This attribution form is still in beta, and we are continuing to improve it. If you have any
-		feedback, suggestions, questions, or comments, please let us know via
-		<Link href={MONDAY_FORM_LINK} target="_blank" inline>this form</Link>.
+		This tool is still in beta, and we are continuing to improve it. If you have any feedback,
+		suggestions, questions, or comments, please let us know via
+		<Link class="attribution-form-comment-link" href={MONDAY_FORM_LINK} target="_blank" inline
+			>this form</Link
+		>.
 	</div>
 </div>
 
@@ -48,13 +50,14 @@
 		padding: 20px 40px;
 	}
 
-	.attribution-form-comment {
+	.attribution-form-comment,
+	:global(.attribution-form-comment-link) {
 		font-family: IBM Plex Sans;
 		font-weight: 400;
 		font-size: 16px;
 		line-height: 22px;
 		letter-spacing: 0px;
-		margin-top: 70px;
+		margin-top: 16px;
 	}
 
 	@media (max-width: 1055px) {
