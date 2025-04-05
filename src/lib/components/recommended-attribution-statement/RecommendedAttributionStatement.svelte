@@ -65,7 +65,7 @@
 				humanReview = utilsService.lowercaseFirstLetter(humanReview);
 			}
 		}
-		atributionTagLabelContent = `This attribution tag indicates that ${proportionOfContribution}${modelUsed} ${aiContribution} ${aiInitiatives} ${humanReview}`;
+		atributionTagLabelContent = `This attribution statement indicates that ${proportionOfContribution}${modelUsed} ${aiContribution} ${aiInitiatives} ${humanReview}`;
 		atributionTagLabelContent = atributionTagLabelContent.replace('.,', ',');
 		return atributionTagLabelContent;
 	};
