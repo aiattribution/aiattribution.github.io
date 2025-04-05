@@ -91,7 +91,7 @@
 			if (proportionOfContributionAbbreviatedStatement) {
 				proportionOfContributionAbbreviatedStatement += ':';
 			}
-			attributionIconsDescriptions = `<span class="attribution-statement-icon-description">${proportionOfContributionAbbreviatedStatement} ${proportionOfContributionExplanations}</span>`;
+			attributionIconsDescriptions = `${proportionOfContributionAbbreviatedStatement} ${proportionOfContributionExplanations}`;
 		}
 		return attributionIconsDescriptions;
 	};
@@ -116,7 +116,7 @@
 			if (aiContributionAbbreviatedStatement) {
 				aiContributionAbbreviatedStatement += ':';
 			}
-			attributionIconsDescriptions = `<span class="attribution-statement-icon-description">${aiContributionAbbreviatedStatement} ${aiContributionExplanations}</span>`;
+			attributionIconsDescriptions = `${aiContributionAbbreviatedStatement} ${aiContributionExplanations}`;
 		}
 		return attributionIconsDescriptions;
 	};
@@ -141,7 +141,7 @@
 			if (aiInitiativeAbbreviatedStatement) {
 				aiInitiativeAbbreviatedStatement += ':';
 			}
-			attributionIconsDescriptions = `<span class="attribution-statement-icon-description">${aiInitiativeAbbreviatedStatement} ${aiInitiativeExplanations}</span>`;
+			attributionIconsDescriptions = `${aiInitiativeAbbreviatedStatement} ${aiInitiativeExplanations}`;
 		}
 		return attributionIconsDescriptions;
 	};
@@ -164,7 +164,7 @@
 			if (humanReviewAbbreviatedStatement) {
 				humanReviewAbbreviatedStatement += ':';
 			}
-			attributionIconsDescriptions = `<span class="attribution-statement-icon-description">${humanReviewAbbreviatedStatement} ${humanReviewExplanations}</span>`;
+			attributionIconsDescriptions = `${humanReviewAbbreviatedStatement} ${humanReviewExplanations}`;
 		}
 		return attributionIconsDescriptions;
 	};
@@ -176,41 +176,64 @@
 	{getAttributionStatementLabelContent()}
 </div>
 
+<div class="attribution-statement-label">
+	AIA: This prefix is used to identify an AI attribution statement.
+</div>
+
 <div class="attribution-icons-descriptions">
-	<div class="attribution-icon-item-container">
-		{#each getConcatenatedOptionsIcons(AttributionType.PROPORTIONS_OF_CONTRIBUTIONS) as icon}
-			{#if getProportionsOfContributionIconsDescriptions()}
+	{#if getProportionsOfContributionIconsDescriptions().trim()}
+		<div class="attribution-icon-item-container">
+			{#each getConcatenatedOptionsIcons(AttributionType.PROPORTIONS_OF_CONTRIBUTIONS) as icon}
 				<div>
 					<svelte:component this={icon} />
 				</div>
-			{/if}
-		{/each}
-		{@html getProportionsOfContributionIconsDescriptions()}
-	</div>
-	<div class="attribution-icon-item-container">
-		{#each getConcatenatedOptionsIcons(AttributionType.AI_CONTRIBUTION) as icon}
-			<div>
-				<svelte:component this={icon} />
-			</div>
-		{/each}
-		{@html getAIContributionIconsDescriptions()}
-	</div>
-	<div class="attribution-icon-item-container">
-		{#each getConcatenatedOptionsIcons(AttributionType.AI_INITIATIVE) as icon}
-			<div>
-				<svelte:component this={icon} />
-			</div>
-		{/each}
-		{@html getAIInitiativeIconsDescriptions()}
-	</div>
-	<div class="attribution-icon-item-container">
-		{#each getConcatenatedOptionsIcons(AttributionType.HUMAN_REVIEW) as icon}
-			<div>
-				<svelte:component this={icon} />
-			</div>
-		{/each}
-		{@html getHumanReviewIconsDescriptions()}
-	</div>
+			{/each}
+			<span class="attribution-statement-icon-description">
+				{getProportionsOfContributionIconsDescriptions()}
+			</span>
+		</div>
+	{/if}
+	{#if getAIContributionIconsDescriptions().trim()}
+		<div class="attribution-icon-item-container">
+			{#each getConcatenatedOptionsIcons(AttributionType.AI_CONTRIBUTION) as icon}
+				<div>
+					<svelte:component this={icon} />
+				</div>
+			{/each}
+			<span class="attribution-statement-icon-description">
+				{getAIContributionIconsDescriptions()}
+			</span>
+		</div>
+	{/if}
+	{#if getAIInitiativeIconsDescriptions().trim()}
+		<div class="attribution-icon-item-container">
+			{#each getConcatenatedOptionsIcons(AttributionType.AI_INITIATIVE) as icon}
+				<div>
+					<svelte:component this={icon} />
+				</div>
+			{/each}
+			<span class="attribution-statement-icon-description">
+				{getAIInitiativeIconsDescriptions()}
+			</span>
+		</div>
+	{/if}
+	{#if getHumanReviewIconsDescriptions().trim()}
+		<div class="attribution-icon-item-container">
+			{#each getConcatenatedOptionsIcons(AttributionType.HUMAN_REVIEW) as icon}
+				<div>
+					<svelte:component this={icon} />
+				</div>
+			{/each}
+			<span class="attribution-statement-icon-description">
+				{getHumanReviewIconsDescriptions()}
+			</span>
+		</div>
+	{/if}
+</div>
+
+<div class="attribution-statement-label">
+	1.0: Version number of the attribution statement. The version will change as we update the
+	components of the statement.
 </div>
 
 <style lang="scss">
