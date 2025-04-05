@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { AttributionTag, LinkIcon } from '$lib';
+	import { AttributionTag } from '$lib';
 	import { ATTRIBUTION_TAGS } from './constants';
 	import type { AttributionTagI } from './interfaces';
 
 	let attributionTags: AttributionTagI[] = ATTRIBUTION_TAGS;
 
 	const copyLink = (): void => {
-		const url: string = `${window.location.origin}${window.location.pathname}#tag-library`;
+		const url: string = `${window.location.origin}${window.location.pathname}#component-library`;
 		navigator.clipboard
 			.writeText(url)
 			.then(() => {
@@ -18,14 +18,14 @@
 	};
 </script>
 
-<div id="tag-library" class="section-container">
-	<div class="tag-library-title-and-text-container">
-		<div class="tag-library-title-container">
-			<h1 class="section-title">Tag library</h1>
-			<LinkIcon on:iconClick={copyLink} />
+<div id="component-library" class="section-container">
+	<div class="component-library-title-and-text-container">
+		<div class="component-library-title-container">
+			<h1 class="section-title">Component library</h1>
+			<!-- <LinkIcon on:iconClick={copyLink} /> -->
 		</div>
 		<p class="section-text">
-			Reference the library to understand the components of an attribution tag.
+			All possible components of an attribution statement can be found in this library.
 		</p>
 	</div>
 	{#each attributionTags as attributionTag (attributionTag.id)}
@@ -34,7 +34,7 @@
 </div>
 
 <style lang="scss">
-	#tag-library {
+	#component-library {
 		scroll-margin-top: 3rem;
 	}
 
@@ -42,13 +42,13 @@
 		gap: 2rem;
 	}
 
-	.tag-library-title-and-text-container {
+	.component-library-title-and-text-container {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
 	}
 
-	.tag-library-title-container {
+	.component-library-title-container {
 		display: flex;
 		align-items: center;
 		gap: 10px;

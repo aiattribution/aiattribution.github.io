@@ -9,7 +9,7 @@ import type { AttributionTagI } from './interfaces';
 export const ATTRIBUTION_TAGS: AttributionTagI[] = [
 	{
 		id: 0,
-		name: 'Proportion of contributions',
+		name: 'Proportion of AI use',
 		tags: PROPORTIONS_OF_CONTRIBUTIONS_TAGS
 	},
 	{
