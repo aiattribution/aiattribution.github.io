@@ -70,7 +70,7 @@ export const AI_CONTRIBUTIONS_TAGS: TagI[] = [
 		name: AIContributionOptions.STYLISTIC_EDITS,
 		abbreviation: 'Se',
 		explanation:
-			'AI was used to make stylistic edits, such as changes to structure, clarity, and tone.',
+			'AI was used to make stylistic edits, such as changes to structure, wording, and clarity.',
 		iconComponent: StylisticEditsIcon
 	},
 	{
@@ -85,7 +85,7 @@ export const AI_CONTRIBUTIONS_TAGS: TagI[] = [
 		id: AIContributionOptions.NEW_CONTENT,
 		name: AIContributionOptions.NEW_CONTENT,
 		abbreviation: 'Nc',
-		explanation: 'AI was used to make new content, such as text, analysis, and ideas.',
+		explanation: 'AI was used to make new content, such as text, images, analysis, and ideas.',
 		iconComponent: NewContentIcon
 	}
 ];
@@ -95,7 +95,7 @@ export const AI_INITIATIVE_TAGS: TagI[] = [
 		id: AIInitiativeOptions.HUMAN_INITIATED,
 		name: AIInitiativeOptions.HUMAN_INITIATED,
 		abbreviation: 'Hin',
-		explanation: 'The authors prompted the AI for its contributions or enabled AI assistance.',
+		explanation: 'AI was prompted for its contributions, or AI assistance was enabled.',
 		iconComponent: HumanInitiatedIcon
 	},
 	{
@@ -103,7 +103,7 @@ export const AI_INITIATIVE_TAGS: TagI[] = [
 		name: AIInitiativeOptions.AI_INITIATED,
 		abbreviation: 'Ain',
 		explanation:
-			'The AI made proactive contributions, such as auto-completion or unprompted changes.',
+			'The AI made proactive contributions, such as via auto-completion or unprompted changes.',
 		iconComponent: AIInitiatedIcon
 	}
 ];
@@ -113,7 +113,7 @@ export const HUMAN_REVIEW_TAGS: TagI[] = [
 		id: HumanReviewOptions.REVIEWED_AND_APPROVED,
 		name: 'Reviewed',
 		abbreviation: 'R',
-		explanation: 'The authors affirmed that all AI-generated content was reviewed and approved.',
+		explanation: 'AI-generated content was reviewed and approved.',
 		iconComponent: CertifiedReviewIcon
 	},
 	{
