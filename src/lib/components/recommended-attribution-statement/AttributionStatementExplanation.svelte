@@ -208,7 +208,7 @@
 		{#if descriptionFunction().trim()}
 			<div class="attribution-icon-item-container">
 				{#each iconsFunction(type) as icon}
-					<div>
+					<div class="attribution-icon">
 						<svelte:component this={icon} />
 					</div>
 				{/each}
@@ -256,5 +256,13 @@
 		display: flex;
 		align-items: flex-start;
 		gap: 0.25rem;
+	}
+
+	.attribution-icon {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 16px;
+		height: 16px;
 	}
 </style>
