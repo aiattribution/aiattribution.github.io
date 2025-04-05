@@ -191,6 +191,10 @@
 			iconsFunction: getConcatenatedOptionsIcons
 		}
 	];
+
+	const hasDescription = (): boolean => {
+		return attributionTypes.some(({ descriptionFunction }) => descriptionFunction().trim() !== '');
+	};
 </script>
 
 <p class="explanation-title">Explanation</p>
@@ -203,22 +207,24 @@
 	AIA: This prefix is used to identify an AI attribution statement.
 </div>
 
-<div class="attribution-icons-descriptions">
-	{#each attributionTypes as { type, descriptionFunction, iconsFunction }}
-		{#if descriptionFunction().trim()}
-			<div class="attribution-icon-item-container">
-				{#each iconsFunction(type) as icon}
-					<div class="attribution-icon">
-						<svelte:component this={icon} />
-					</div>
-				{/each}
-				<span class="attribution-statement-icon-description">
-					{descriptionFunction()}
-				</span>
-			</div>
-		{/if}
-	{/each}
-</div>
+{#if hasDescription()}
+	<div class="attribution-icons-descriptions">
+		{#each attributionTypes as { type, descriptionFunction, iconsFunction }}
+			{#if descriptionFunction().trim()}
+				<div class="attribution-icon-item-container">
+					{#each iconsFunction(type) as icon}
+						<div class="attribution-icon">
+							<svelte:component this={icon} />
+						</div>
+					{/each}
+					<span class="attribution-statement-icon-description">
+						{descriptionFunction()}
+					</span>
+				</div>
+			{/if}
+		{/each}
+	</div>
+{/if}
 
 <div class="attribution-statement-label">
 	1.0: Version number of the attribution statement. The version will change as we update the
