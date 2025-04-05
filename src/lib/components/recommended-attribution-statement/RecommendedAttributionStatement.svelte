@@ -223,6 +223,8 @@
 			{@html getHumanReviewIconsDescriptions()}
 		</div>
 	</div>
+{:else}
+	<p class="empty-state-text">Fill out the form to get started.</p>
 {/if}
 
 <style lang="scss">
@@ -307,5 +309,13 @@
 		display: flex;
 		align-items: flex-start;
 		gap: 0.25rem;
+	}
+
+	.empty-state-text {
+		font-family: IBM Plex Sans;
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 18px;
+		letter-spacing: 0.16px;
 	}
 </style>
