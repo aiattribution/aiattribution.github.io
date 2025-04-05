@@ -6,8 +6,8 @@
 		AIA,
 		NO_AI_USED_ABBREVIATED_STATEMENT,
 		VERSION
-	} from '../attribution-statement/constants';
-	import { AttributionType, type FormItemI } from '../attribution-statement/interfaces';
+	} from '../create-attribution-statement/constants';
+	import { AttributionType, type FormItemI } from '../create-attribution-statement/interfaces';
 
 	export let attibutionFormItems: FormItemI[];
 

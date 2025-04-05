@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { AbbreviatedStatement, AttributionStatementExplanation, FullStatement } from '$lib';
-	import { type FormItemI } from '../attribution-statement/interfaces';
+	import { type FormItemI } from '../create-attribution-statement/interfaces';
 
 	export let attibutionFormItems: FormItemI[];
 

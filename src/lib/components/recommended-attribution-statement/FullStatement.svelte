@@ -3,8 +3,12 @@
 	import { Button } from 'carbon-components-svelte';
 	import { Copy, Download } from 'carbon-icons-svelte';
 	import { apiService, utilsService } from '$lib/services';
-	import { AttributionType, type FormItemI } from '../attribution-statement/interfaces';
-	import { AIA, NO_AI_USED_FULL_STATEMENT, VERSION } from '../attribution-statement/constants';
+	import { AttributionType, type FormItemI } from '../create-attribution-statement/interfaces';
+	import {
+		AIA,
+		NO_AI_USED_FULL_STATEMENT,
+		VERSION
+	} from '../create-attribution-statement/constants';
 
 	export let attibutionFormItems: FormItemI[];
 

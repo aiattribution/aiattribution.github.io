@@ -1,5 +1,5 @@
 import { ALL_TAGS } from '$lib/common/constants';
-import { AttributionType, type FormItemI } from '$lib/components/attribution-statement/interfaces';
+import { AttributionType, type FormItemI } from '$lib/components/create-attribution-statement/interfaces';
 import { AIProportionOptions, type TagI } from '$lib/models/tag-library';
 import type { Component } from 'svelte';
 import { v4 as uuidv4 } from 'uuid';

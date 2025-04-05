@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { type Component } from 'svelte';
 	import { utilsService } from '$lib/services';
-	import { AttributionType, type FormItemI } from '../attribution-statement/interfaces';
+	import { AttributionType, type FormItemI } from '../create-attribution-statement/interfaces';
 
 	export let attibutionFormItems: FormItemI[];
 
