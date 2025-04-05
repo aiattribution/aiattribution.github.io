@@ -14,7 +14,7 @@
 		<span>
 			Fill out this form to create an attribution statement that provides transparency on if and how
 			AI was used in your work. The statement and explanations can be copied and incorporated into
-			your work. See below for more guidance on how to use the statement.
+			your work.
 		</span>
 	</p>
 	<div class="attribution-form">
