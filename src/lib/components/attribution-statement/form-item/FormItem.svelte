@@ -209,13 +209,14 @@
 		align-items: center;
 		min-width: 28px;
 		height: 28px;
-		background-color: var(--cds-ui-03);
+		background-color: white;
 		border-radius: 50%;
 		font-family: IBM Plex Sans;
 		font-weight: 600;
 		font-size: 16px;
 		line-height: 24px;
 		letter-spacing: 0px;
+		border: 1px solid #161616;
 	}
 
 	.form-item-text {
