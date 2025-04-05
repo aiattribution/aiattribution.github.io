@@ -7,6 +7,7 @@ import Header from './components/header/Header.svelte';
 import Home from './components/home/Home.svelte';
 import LinkIcon from './components/icons/link-icon/LinkIcon.svelte';
 import AbbreviatedStatement from './components/recommended-attribution-statement/AbbreviatedStatement.svelte';
+import AttributionStatementExplanation from './components/recommended-attribution-statement/AttributionStatementExplanation.svelte';
 import FullStatement from './components/recommended-attribution-statement/FullStatement.svelte';
 import RecommendedAttributionStatement from './components/recommended-attribution-statement/RecommendedAttributionStatement.svelte';
 import AttributionTag from './components/tag-library/AttributionTag.svelte';
@@ -17,6 +18,7 @@ export {
     AbbreviatedStatement,
     About,
     AttributionStatement,
+    AttributionStatementExplanation,
     AttributionTag,
     FormItem,
     FormItems,
