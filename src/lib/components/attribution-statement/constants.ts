@@ -43,7 +43,7 @@ export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 		isItemDisabled: false,
 		attributionType: AttributionType.AI_INITIATIVE,
 		text: 'Initiative',
-		typeOfItem: FormItemType.radioButton,
+		typeOfItem: FormItemType.checkbox,
 		options: Object.values(AIInitiativeOptions),
 		selectedOptions: []
 	},
