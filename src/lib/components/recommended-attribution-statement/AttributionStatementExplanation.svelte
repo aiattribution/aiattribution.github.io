@@ -225,9 +225,9 @@
 	:global(.attribution-statement-label, .attribution-statement-icon-description) {
 		font-family: IBM Plex Sans;
 		font-weight: 400;
-		font-size: 12px;
-		line-height: 16px;
-		letter-spacing: 0.32px;
+		font-size: 14px;
+		line-height: 18px;
+		letter-spacing: 0.16px;
 	}
 
 	:global(.attribution-statement-icon-description) {
