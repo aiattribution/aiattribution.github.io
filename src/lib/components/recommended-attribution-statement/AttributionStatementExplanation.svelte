@@ -168,6 +168,29 @@
 		}
 		return attributionIconsDescriptions;
 	};
+
+	const attributionTypes = [
+		{
+			type: AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+			descriptionFunction: getProportionsOfContributionIconsDescriptions,
+			iconsFunction: getConcatenatedOptionsIcons
+		},
+		{
+			type: AttributionType.AI_CONTRIBUTION,
+			descriptionFunction: getAIContributionIconsDescriptions,
+			iconsFunction: getConcatenatedOptionsIcons
+		},
+		{
+			type: AttributionType.AI_INITIATIVE,
+			descriptionFunction: getAIInitiativeIconsDescriptions,
+			iconsFunction: getConcatenatedOptionsIcons
+		},
+		{
+			type: AttributionType.HUMAN_REVIEW,
+			descriptionFunction: getHumanReviewIconsDescriptions,
+			iconsFunction: getConcatenatedOptionsIcons
+		}
+	];
 </script>
 
 <p class="explanation-title">Explanation</p>
@@ -181,54 +204,20 @@
 </div>
 
 <div class="attribution-icons-descriptions">
-	{#if getProportionsOfContributionIconsDescriptions().trim()}
-		<div class="attribution-icon-item-container">
-			{#each getConcatenatedOptionsIcons(AttributionType.PROPORTIONS_OF_CONTRIBUTIONS) as icon}
-				<div>
-					<svelte:component this={icon} />
-				</div>
-			{/each}
-			<span class="attribution-statement-icon-description">
-				{getProportionsOfContributionIconsDescriptions()}
-			</span>
-		</div>
-	{/if}
-	{#if getAIContributionIconsDescriptions().trim()}
-		<div class="attribution-icon-item-container">
-			{#each getConcatenatedOptionsIcons(AttributionType.AI_CONTRIBUTION) as icon}
-				<div>
-					<svelte:component this={icon} />
-				</div>
-			{/each}
-			<span class="attribution-statement-icon-description">
-				{getAIContributionIconsDescriptions()}
-			</span>
-		</div>
-	{/if}
-	{#if getAIInitiativeIconsDescriptions().trim()}
-		<div class="attribution-icon-item-container">
-			{#each getConcatenatedOptionsIcons(AttributionType.AI_INITIATIVE) as icon}
-				<div>
-					<svelte:component this={icon} />
-				</div>
-			{/each}
-			<span class="attribution-statement-icon-description">
-				{getAIInitiativeIconsDescriptions()}
-			</span>
-		</div>
-	{/if}
-	{#if getHumanReviewIconsDescriptions().trim()}
-		<div class="attribution-icon-item-container">
-			{#each getConcatenatedOptionsIcons(AttributionType.HUMAN_REVIEW) as icon}
-				<div>
-					<svelte:component this={icon} />
-				</div>
-			{/each}
-			<span class="attribution-statement-icon-description">
-				{getHumanReviewIconsDescriptions()}
-			</span>
-		</div>
-	{/if}
+	{#each attributionTypes as { type, descriptionFunction, iconsFunction }}
+		{#if descriptionFunction().trim()}
+			<div class="attribution-icon-item-container">
+				{#each iconsFunction(type) as icon}
+					<div>
+						<svelte:component this={icon} />
+					</div>
+				{/each}
+				<span class="attribution-statement-icon-description">
+					{descriptionFunction()}
+				</span>
+			</div>
+		{/if}
+	{/each}
 </div>
 
 <div class="attribution-statement-label">
