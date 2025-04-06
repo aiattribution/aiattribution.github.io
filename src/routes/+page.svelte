@@ -1,7 +1,7 @@
 <script lang="ts">
 	import 'carbon-components-svelte/css/all.css';
 	import { onMount } from 'svelte';
-	import { About, CreateAttributionStatement, Header, Home, TagLibrary } from '$lib';
+	import { CreateAttributionStatement, Header, Home, InterpretAttribution } from '$lib';
 	import { HeaderNavType } from '$lib/components/header/interfaces';
 	import { apiService, utilsService } from '$lib/services';
 
@@ -28,9 +28,8 @@
 			<Home bind:headerNavItemSelected />
 		{:else if headerNavItemSelected === HeaderNavType.CREATE_ATTRIBUTION}
 			<CreateAttributionStatement />
-			<TagLibrary />
 		{:else if headerNavItemSelected === HeaderNavType.INTERPRET_ATTRIBUTION}
-			<About />
+			<InterpretAttribution />
 		{/if}
 		<div class="footer"></div>
 	</div>
