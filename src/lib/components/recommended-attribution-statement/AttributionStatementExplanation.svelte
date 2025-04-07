@@ -5,64 +5,6 @@
 
 	export let attibutionFormItems: FormItemI[];
 
-	const getAttributionStatementLabelContent = (): string => {
-		let atributionStatementLabelContent: string = '';
-		let proportionOfContribution: string = utilsService.getConcatenatedOptionsExplanations(
-			utilsService.getAttributionFormItemByType(
-				AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-				attibutionFormItems
-			).selectedOptions
-		);
-		proportionOfContribution = proportionOfContribution.replace('The work', 'this work');
-		proportionOfContribution = proportionOfContribution.replace('This work', 'this work');
-		let modelUsed: string = '';
-		let aiContribution: string = '';
-		let aiInitiatives: string = '';
-		let humanReview: string = '';
-		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attibutionFormItems);
-		if (isAIUsageOptionYes) {
-			if (
-				utilsService.getAttributionFormItemByType(AttributionType.MODEL, attibutionFormItems)
-					.selectedOptions[0]
-			) {
-				const modelSelected: string = utilsService.getAttributionFormItemByType(
-					AttributionType.MODEL,
-					attibutionFormItems
-				).selectedOptions[0];
-				if (proportionOfContribution) {
-					modelUsed = `, using ${modelSelected}.`;
-				} else {
-					modelUsed = `this work involved the use of ${modelSelected}.`;
-				}
-			}
-			aiContribution = utilsService.getConcatenatedOptionsExplanations(
-				utilsService.getAttributionFormItemByType(
-					AttributionType.AI_CONTRIBUTION,
-					attibutionFormItems
-				).selectedOptions
-			);
-			aiInitiatives = utilsService.getConcatenatedOptionsExplanations(
-				utilsService.getAttributionFormItemByType(
-					AttributionType.AI_INITIATIVE,
-					attibutionFormItems
-				).selectedOptions
-			);
-			if (!proportionOfContribution && !modelUsed && !aiContribution) {
-				aiInitiatives = utilsService.lowercaseFirstLetter(aiInitiatives);
-			}
-			humanReview = utilsService.getConcatenatedOptionsExplanations(
-				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attibutionFormItems)
-					.selectedOptions
-			);
-			if (!proportionOfContribution && !modelUsed && !aiContribution && !aiInitiatives) {
-				humanReview = utilsService.lowercaseFirstLetter(humanReview);
-			}
-		}
-		atributionStatementLabelContent = `This attribution statement indicates that ${proportionOfContribution}${modelUsed} ${aiContribution} ${aiInitiatives} ${humanReview}`;
-		atributionStatementLabelContent = atributionStatementLabelContent.replace('.,', ',');
-		return atributionStatementLabelContent;
-	};
-
 	const getConcatenatedOptionsIcons = (attributionType: AttributionType): Component[] => {
 		return utilsService.getConcatenatedOptionsIcons(
 			utilsService.getAttributionFormItemByType(attributionType, attibutionFormItems)
@@ -200,7 +142,7 @@
 <p class="explanation-title">Explanation</p>
 
 <div class="attribution-statement-label">
-	{getAttributionStatementLabelContent()}
+	{utilsService.getAttributionStatementExplanation(attibutionFormItems)}
 </div>
 
 <div class="attribution-statement-label">

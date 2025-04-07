@@ -1,5 +1,8 @@
 import { ALL_TAGS } from '$lib/common/constants';
-import { AttributionType, type FormItemI } from '$lib/components/create-attribution-statement/interfaces';
+import {
+	AttributionType,
+	type FormItemI
+} from '$lib/components/create-attribution-statement/interfaces';
 import { AIProportionOptions, type TagI } from '$lib/models/tag-library';
 import type { Component } from 'svelte';
 import { v4 as uuidv4 } from 'uuid';
@@ -161,6 +164,60 @@ class UtilsService {
 		}
 
 		return icons;
+	}
+
+	public getAttributionStatementExplanation(attibutionFormItems: FormItemI[]): string {
+		let atributionStatementLabelContent: string = '';
+		let proportionOfContribution: string = this.getConcatenatedOptionsExplanations(
+			this.getAttributionFormItemByType(
+				AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+				attibutionFormItems
+			).selectedOptions
+		);
+		proportionOfContribution = proportionOfContribution.replace('The work', 'this work');
+		proportionOfContribution = proportionOfContribution.replace('This work', 'this work');
+		let modelUsed: string = '';
+		let aiContribution: string = '';
+		let aiInitiatives: string = '';
+		let humanReview: string = '';
+		const isAIUsageOptionYes: boolean = this.isAIUsageOptionYes(attibutionFormItems);
+		if (isAIUsageOptionYes) {
+			if (
+				this.getAttributionFormItemByType(AttributionType.MODEL, attibutionFormItems)
+					.selectedOptions[0]
+			) {
+				const modelSelected: string = this.getAttributionFormItemByType(
+					AttributionType.MODEL,
+					attibutionFormItems
+				).selectedOptions[0];
+				if (proportionOfContribution) {
+					modelUsed = `, using ${modelSelected}.`;
+				} else {
+					modelUsed = `this work involved the use of ${modelSelected}.`;
+				}
+			}
+			aiContribution = this.getConcatenatedOptionsExplanations(
+				this.getAttributionFormItemByType(AttributionType.AI_CONTRIBUTION, attibutionFormItems)
+					.selectedOptions
+			);
+			aiInitiatives = this.getConcatenatedOptionsExplanations(
+				this.getAttributionFormItemByType(AttributionType.AI_INITIATIVE, attibutionFormItems)
+					.selectedOptions
+			);
+			if (!proportionOfContribution && !modelUsed && !aiContribution) {
+				aiInitiatives = this.lowercaseFirstLetter(aiInitiatives);
+			}
+			humanReview = this.getConcatenatedOptionsExplanations(
+				this.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attibutionFormItems)
+					.selectedOptions
+			);
+			if (!proportionOfContribution && !modelUsed && !aiContribution && !aiInitiatives) {
+				humanReview = this.lowercaseFirstLetter(humanReview);
+			}
+		}
+		atributionStatementLabelContent = `This attribution statement indicates that ${proportionOfContribution}${modelUsed} ${aiContribution} ${aiInitiatives} ${humanReview}`;
+		atributionStatementLabelContent = atributionStatementLabelContent.replace('.,', ',');
+		return atributionStatementLabelContent;
 	}
 
 	public downloadStatementSVG(statementHTMLContainer: HTMLDivElement, downloadName: string): void {

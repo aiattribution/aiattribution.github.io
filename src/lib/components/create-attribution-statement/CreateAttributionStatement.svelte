@@ -5,7 +5,7 @@
 	import { ATTRIBUTION_FORM_ITEMS } from './constants';
 	import { type FormItemI } from './interfaces';
 
-	let attibutionFormItems: FormItemI[] = ATTRIBUTION_FORM_ITEMS;
+	let attibutionFormItems: FormItemI[] = structuredClone(ATTRIBUTION_FORM_ITEMS);
 </script>
 
 <div class="section-container">
