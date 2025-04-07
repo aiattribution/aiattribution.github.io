@@ -141,11 +141,11 @@
 
 <p class="explanation-title">Explanation</p>
 
-<div class="attribution-statement-label">
+<div class="attribution-statement-explanation-text">
 	{utilsService.getAttributionStatementExplanation(attibutionFormItems)}
 </div>
 
-<div class="attribution-statement-label">
+<div class="attribution-statement-explanation-text">
 	AIA: This prefix is used to identify an AI attribution statement.
 </div>
 
@@ -168,7 +168,7 @@
 	</div>
 {/if}
 
-<div class="attribution-statement-label">
+<div class="attribution-statement-explanation-text">
 	1.0: Version number of the attribution statement. The version will change as we update the
 	components of the statement.
 </div>
@@ -182,7 +182,7 @@
 		letter-spacing: 0px;
 	}
 
-	:global(.attribution-statement-label, .attribution-statement-icon-description) {
+	:global(.attribution-statement-explanation-text, .attribution-statement-icon-description) {
 		font-family: IBM Plex Sans;
 		font-weight: 400;
 		font-size: 14px;
