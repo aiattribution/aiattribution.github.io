@@ -11,11 +11,9 @@
 <div class="section-container">
 	<h1 class="section-title">Create an attribution statement</h1>
 	<p class="section-text">
-		<span>
-			Fill out this form to create an attribution statement that provides transparency on if and how
-			AI was used in your work. The statement and explanations can be copied and incorporated into
-			your work.
-		</span>
+		Fill out this form to create an attribution statement that provides transparency on whether and
+		how AI was used in your work. The statement and explanations can be copied and incorporated into
+		your work.
 	</p>
 	<div class="attribution-form">
 		<FormItems bind:attibutionFormItems />
@@ -26,9 +24,9 @@
 	<div class="attribution-form-comment">
 		This tool is still in beta, and we are continuing to improve it. If you have any feedback,
 		suggestions, questions, or comments, please let us know via
-		<Link class="attribution-form-comment-link" href={MONDAY_FORM_LINK} target="_blank" inline
-			>this form</Link
-		>.
+		<Link class="attribution-form-comment-link" href={MONDAY_FORM_LINK} target="_blank" inline>
+			this form
+		</Link>.
 	</div>
 </div>
 
