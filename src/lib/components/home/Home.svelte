@@ -2,6 +2,7 @@
 	import { HeaderNavType } from '$lib/components/header/interfaces';
 	import {
 		AnatomyAttributionStatement,
+		HowToUseAnAttributionStatement,
 		PrincipalContainer,
 		ShareYourFeedback,
 		WhyIsThisNeeded
@@ -13,6 +14,7 @@
 <PrincipalContainer bind:headerNavItemSelected />
 <AnatomyAttributionStatement />
 <div class="center-content-container">
+	<HowToUseAnAttributionStatement />
 	<WhyIsThisNeeded />
 	<ShareYourFeedback />
 </div>
@@ -25,7 +27,6 @@
 	}
 
 	:global(.center-content-container .section-container) {
-		gap: 32px;
 		padding: 32px 424px 0px;
 	}
 </style>
