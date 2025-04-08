@@ -19,7 +19,10 @@
 			<Switch text="Full statement" />
 			<Switch text="Abbreviated statement" />
 		</ContentSwitcher>
-		<div class="anatomy-statement-image-container">
+		<div
+			class="anatomy-statement-image-container"
+			style={`--padding-top-bottom: ${selectedContentSwitcherIndex === 0 ? '62px' : '48.5px'};`}
+		>
 			{#if selectedContentSwitcherIndex === 0}
 				<AnatomyFullStatement />
 			{:else}
@@ -38,7 +41,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: 62px 206px;
+		padding: var(--padding-top-bottom) 206px;
 		border: 1px solid var(--cds-border-inverse);
 		margin-top: -1px;
 	}
