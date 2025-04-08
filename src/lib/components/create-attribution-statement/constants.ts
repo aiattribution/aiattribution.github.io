@@ -21,16 +21,6 @@ export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 		id: 2,
 		isItemOpen: false,
 		isItemDisabled: false,
-		attributionType: AttributionType.MODEL,
-		text: 'Which model or application did you use?',
-		typeOfItem: FormItemType.textInput,
-		options: [],
-		selectedOptions: ['']
-	},
-	{
-		id: 3,
-		isItemOpen: false,
-		isItemDisabled: false,
 		attributionType: AttributionType.AI_CONTRIBUTION,
 		text: 'AI contributions',
 		typeOfItem: FormItemType.checkbox,
@@ -38,7 +28,7 @@ export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 		selectedOptions: []
 	},
 	{
-		id: 4,
+		id: 3,
 		isItemOpen: false,
 		isItemDisabled: false,
 		attributionType: AttributionType.AI_INITIATIVE,
@@ -48,13 +38,23 @@ export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 		selectedOptions: []
 	},
 	{
-		id: 5,
+		id: 4,
 		isItemOpen: false,
 		isItemDisabled: false,
 		attributionType: AttributionType.HUMAN_REVIEW,
 		text: 'Human review',
 		typeOfItem: FormItemType.radioButton,
 		options: Object.values(HumanReviewOptions),
+		selectedOptions: ['']
+	},
+	{
+		id: 5,
+		isItemOpen: false,
+		isItemDisabled: false,
+		attributionType: AttributionType.MODEL,
+		text: 'Model or application used',
+		typeOfItem: FormItemType.textInput,
+		options: [],
 		selectedOptions: ['']
 	}
 ];
