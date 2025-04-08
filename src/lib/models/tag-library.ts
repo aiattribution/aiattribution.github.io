@@ -30,4 +30,5 @@ export interface TagI {
 	abbreviation: string;
 	explanation: string;
 	iconComponent: Component;
+	tooltipDescription?: string;
 }
