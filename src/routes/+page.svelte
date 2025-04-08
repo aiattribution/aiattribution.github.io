@@ -67,8 +67,7 @@
 		flex-direction: column;
 		gap: 1rem;
 		width: 100%;
-		padding: 0px $section-container-margin-left-right;
-		padding-top: 32px;
+		padding: 32px $section-container-margin-left-right 0px;
 	}
 
 	:global(.section-title) {
@@ -79,7 +78,8 @@
 		letter-spacing: 0px;
 	}
 
-	:global(.section-text) {
+	:global(.section-text),
+	:global(.bx--link) {
 		font-family: IBM Plex Sans;
 		font-size: 16px;
 		line-height: 22px;
@@ -88,8 +88,7 @@
 
 	@media (max-width: 1055px) {
 		:global(.section-container) {
-			padding: 0px 16px;
-			padding-top: 32px;
+			padding: 32px 16px 0px;
 		}
 	}
 </style>

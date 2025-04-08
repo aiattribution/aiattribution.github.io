@@ -7,7 +7,13 @@
 
 <PrincipalContainer bind:headerNavItemSelected />
 <AnatomyAttributionStatement />
-<ShareYourFeedback />
+<div class="center-content-container">
+	<ShareYourFeedback />
+</div>
 
 <style lang="scss">
+	:global(.center-content-container .section-container) {
+		gap: 32px;
+		padding: 32px 424px 0px;
+	}
 </style>
