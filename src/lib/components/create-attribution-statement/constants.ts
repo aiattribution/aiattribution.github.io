@@ -55,7 +55,8 @@ export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 		text: 'Model or application used',
 		typeOfItem: FormItemType.textInput,
 		options: [],
-		selectedOptions: ['']
+		selectedOptions: [''],
+		tooltipDescription: 'Examples: ChatGPT, DALL-E, llama-3-3-70b-instruct, granite3.2'
 	}
 ];
 

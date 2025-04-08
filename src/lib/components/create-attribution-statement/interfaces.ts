@@ -21,4 +21,5 @@ export interface FormItemI {
 	typeOfItem: FormItemType;
 	options: string[];
 	selectedOptions: string[];
+	tooltipDescription?: string;
 }
