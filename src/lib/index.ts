@@ -6,6 +6,8 @@ import FormItems from './components/create-attribution-statement/form-items/Form
 import Header from './components/header/Header.svelte';
 import Home from './components/home/Home.svelte';
 import LinkIcon from './components/icons/link-icon/LinkIcon.svelte';
+import AnatomyAbbreviatedStatement from './components/images/AnatomyAbbreviatedStatement.svelte';
+import AnatomyFullStatement from './components/images/AnatomyFullStatement.svelte';
 import InterpretAttribution from './components/interpret-attribution/InterpretAttribution.svelte';
 import AbbreviatedStatement from './components/recommended-attribution-statement/AbbreviatedStatement.svelte';
 import AttributionStatementExplanation from './components/recommended-attribution-statement/AttributionStatementExplanation.svelte';
@@ -18,6 +20,8 @@ import TagTile from './components/tag-library/TagTile.svelte';
 export {
     AbbreviatedStatement,
     About,
+    AnatomyAbbreviatedStatement,
+    AnatomyFullStatement,
     AttributionStatementExplanation,
     AttributionTag,
     CreateAttributionStatement,

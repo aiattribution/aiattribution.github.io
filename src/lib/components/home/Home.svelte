@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { HeaderNavType } from '$lib/components/header/interfaces';
-	import { PaperSectionContainer, PrincipalContainer, ShareYourFeedback } from '.';
+	import { AnatomyAttributionStatement, PrincipalContainer, ShareYourFeedback } from '.';
 
 	export let headerNavItemSelected: HeaderNavType;
 </script>
 
 <PrincipalContainer bind:headerNavItemSelected />
-<PaperSectionContainer />
+<AnatomyAttributionStatement />
 <ShareYourFeedback />
 
 <style lang="scss">
