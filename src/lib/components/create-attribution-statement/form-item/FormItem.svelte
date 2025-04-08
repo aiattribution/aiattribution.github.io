@@ -1,15 +1,16 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { ChevronDown, ChevronUp } from 'carbon-icons-svelte';
+	import { ChevronDown, ChevronUp, Help } from 'carbon-icons-svelte';
 	import {
 		Button,
 		Checkbox,
 		RadioButton,
 		RadioButtonGroup,
-		TextInput
+		TextInput,
+		TooltipIcon
 	} from 'carbon-components-svelte';
 	import { utilsService } from '$lib/services';
-	import { FormItemType, type FormItemI } from '../interfaces';
+	import { FormItemType, type FormItemI, type StatementOption } from '../interfaces';
 
 	export let formItem: FormItemI;
 	export let isItemDisabled: boolean;
@@ -75,9 +76,11 @@
 			);
 		}
 
-		formItem.selectedOptions = formItem.options.filter((option: string) =>
-			formItem.selectedOptions.includes(option)
-		);
+		formItem.selectedOptions = formItem.options
+			.filter((statementOption: StatementOption) =>
+				formItem.selectedOptions.includes(statementOption.option)
+			)
+			.map((statementOption: StatementOption) => statementOption.option);
 	};
 </script>
 
@@ -88,6 +91,14 @@
 		</div>
 		<div class="form-item-text">
 			{formItem.text}
+			{#if formItem.tooltipDescription && formItem.tooltipDescription.trim()}
+				<TooltipIcon
+					class="tooltip"
+					tooltipText={formItem.tooltipDescription}
+					icon={Help}
+					direction="right"
+				/>
+			{/if}
 		</div>
 		<div class="clear-button-container">
 			<Button
@@ -137,21 +148,31 @@
 					bind:selected={formItem.selectedOptions[0]}
 				>
 					{#each formItem.options as formItemOption}
-						<RadioButton labelText={formItemOption} value={formItemOption} />
+						<RadioButton labelText={formItemOption.option} value={formItemOption.option} />
 					{/each}
 				</RadioButtonGroup>
 			{:else if formItem.typeOfItem === FormItemType.checkbox}
 				<div class="checkboxes-container">
 					{#each formItem.options as formItemOption}
-						<Checkbox
-							labelText={formItemOption}
-							value={formItemOption}
-							checked={formItem.selectedOptions.includes(formItemOption)}
-							disabled={isItemDisabled}
-							on:check={(event) => {
-								onCheckFormItem(event, formItemOption);
-							}}
-						/>
+						<div class="checkbox-container">
+							<Checkbox
+								labelText={formItemOption.option}
+								value={formItemOption}
+								checked={formItem.selectedOptions.includes(formItemOption.option)}
+								disabled={isItemDisabled}
+								on:check={(event) => {
+									onCheckFormItem(event, formItemOption.option);
+								}}
+							/>
+							{#if formItemOption.tooltipDescription && formItemOption.tooltipDescription.trim()}
+								<TooltipIcon
+									class="tooltip"
+									tooltipText={formItemOption.tooltipDescription}
+									icon={Help}
+									direction="right"
+								/>
+							{/if}
+						</div>
 					{/each}
 				</div>
 			{/if}
@@ -223,6 +244,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		gap: 4px;
 		font-family: IBM Plex Sans;
 		font-weight: 600;
 		font-size: 16px;
@@ -259,6 +281,16 @@
 	.checkboxes-container {
 		display: flex;
 		flex-direction: column;
+	}
+
+	.checkbox-container {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+	}
+
+	:global(.checkbox-container .bx--checkbox-wrapper) {
+		flex: unset !important;
 	}
 
 	:global(.next-button) {

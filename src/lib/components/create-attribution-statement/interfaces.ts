@@ -12,6 +12,11 @@ export enum AttributionType {
 	HUMAN_REVIEW = 'human-review'
 }
 
+export interface StatementOption {
+	option: string;
+	tooltipDescription?: string;
+}
+
 export interface FormItemI {
 	id: number;
 	isItemOpen: boolean;
@@ -19,7 +24,7 @@ export interface FormItemI {
 	attributionType: AttributionType;
 	text: string;
 	typeOfItem: FormItemType;
-	options: string[];
+	options: StatementOption[];
 	selectedOptions: string[];
 	tooltipDescription?: string;
 }

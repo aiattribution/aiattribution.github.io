@@ -86,6 +86,11 @@
 		letter-spacing: 0px;
 	}
 
+	:global(.tooltip .bx--assistive-text) {
+		min-width: 18rem !important;
+		padding: 16px !important;
+	}
+
 	@media (max-width: 1055px) {
 		:global(.section-container) {
 			padding: 32px 16px 0px;

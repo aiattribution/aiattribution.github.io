@@ -4,7 +4,63 @@ import {
 	AIProportionOptions,
 	HumanReviewOptions
 } from '$lib/models/tag-library';
-import { AttributionType, FormItemType, type FormItemI } from './interfaces';
+import { AttributionType, FormItemType, type FormItemI, type StatementOption } from './interfaces';
+
+export const AI_PROPORTIONS_OPTIONS: StatementOption[] = [
+	{
+		option: AIProportionOptions.ENTIRELY_AI_GENERATED
+	},
+	{
+		option: AIProportionOptions.PRIMARILY_AI_GENERATED
+	},
+	{
+		option: AIProportionOptions.HUMAN_AI_BLEND
+	},
+	{
+		option: AIProportionOptions.PRIMARILY_HUMAN_CREATED
+	},
+	{
+		option: AIProportionOptions.ENTIRELY_HUMAN_CREATED
+	}
+];
+
+export const AI_CONTRIBUTION_OPTIONS: StatementOption[] = [
+	{
+		option: AIContributionOptions.STYLISTIC_EDITS,
+		tooltipDescription:
+			'AI made stylistic edits to human-created content, such as changes to structure, wording, or clarity.'
+	},
+	{
+		option: AIContributionOptions.CONTENT_EDITS,
+		tooltipDescription:
+			'AI made content edits to human-created content, such as changes to scope, information, or ideas.'
+	},
+	{
+		option: AIContributionOptions.NEW_CONTENT,
+		tooltipDescription: 'AI created or added content, such as new text, images, analysis, or ideas.'
+	}
+];
+
+export const AI_INITIATIVE_OPTIONS: StatementOption[] = [
+	{
+		option: AIInitiativeOptions.HUMAN_INITIATED,
+		tooltipDescription: 'AI was prompted for its contributions, or AI assistance was enabled.'
+	},
+	{
+		option: AIInitiativeOptions.AI_INITIATED,
+		tooltipDescription:
+			'AI made proactive contributions, such as via auto-completion or unprompted changes.'
+	}
+];
+
+export const HUMAN_REVIEW_OPTIONS: StatementOption[] = [
+	{
+		option: HumanReviewOptions.REVIEWED_AND_APPROVED
+	},
+	{
+		option: HumanReviewOptions.NOT_REVIEWED
+	}
+];
 
 export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 	{
@@ -14,7 +70,7 @@ export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 		attributionType: AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
 		text: 'How much of this work was created or assisted by AI?',
 		typeOfItem: FormItemType.radioButton,
-		options: Object.values(AIProportionOptions),
+		options: AI_PROPORTIONS_OPTIONS,
 		selectedOptions: ['']
 	},
 	{
@@ -24,7 +80,7 @@ export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 		attributionType: AttributionType.AI_CONTRIBUTION,
 		text: 'AI contributions',
 		typeOfItem: FormItemType.checkbox,
-		options: Object.values(AIContributionOptions),
+		options: AI_CONTRIBUTION_OPTIONS,
 		selectedOptions: []
 	},
 	{
@@ -34,7 +90,7 @@ export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 		attributionType: AttributionType.AI_INITIATIVE,
 		text: 'Initiative',
 		typeOfItem: FormItemType.checkbox,
-		options: Object.values(AIInitiativeOptions),
+		options: AI_INITIATIVE_OPTIONS,
 		selectedOptions: []
 	},
 	{
@@ -44,7 +100,7 @@ export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 		attributionType: AttributionType.HUMAN_REVIEW,
 		text: 'Human review',
 		typeOfItem: FormItemType.radioButton,
-		options: Object.values(HumanReviewOptions),
+		options: HUMAN_REVIEW_OPTIONS,
 		selectedOptions: ['']
 	},
 	{

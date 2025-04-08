@@ -71,9 +71,7 @@ export const AI_CONTRIBUTIONS_TAGS: TagI[] = [
 		abbreviation: 'Se',
 		explanation:
 			'AI was used to make stylistic edits, such as changes to structure, wording, and clarity.',
-		iconComponent: StylisticEditsIcon,
-		tooltipDescription:
-			'AI made stylistic edits to human-created content, such as changes to structure, wording, or clarity.'
+		iconComponent: StylisticEditsIcon
 	},
 	{
 		id: AIContributionOptions.CONTENT_EDITS,
@@ -81,17 +79,14 @@ export const AI_CONTRIBUTIONS_TAGS: TagI[] = [
 		abbreviation: 'Ce',
 		explanation:
 			'AI was used to make content edits, such as changes to scope, information, and ideas.',
-		iconComponent: ContentEditsIcon,
-		tooltipDescription:
-			'AI made content edits to human-created content, such as changes to scope, information, or ideas.'
+		iconComponent: ContentEditsIcon
 	},
 	{
 		id: AIContributionOptions.NEW_CONTENT,
 		name: AIContributionOptions.NEW_CONTENT,
 		abbreviation: 'Nc',
 		explanation: 'AI was used to make new content, such as text, images, analysis, and ideas.',
-		iconComponent: NewContentIcon,
-		tooltipDescription: 'AI created or added content, such as new text, images, analysis, or ideas.'
+		iconComponent: NewContentIcon
 	}
 ];
 
@@ -101,8 +96,7 @@ export const AI_INITIATIVE_TAGS: TagI[] = [
 		name: AIInitiativeOptions.HUMAN_INITIATED,
 		abbreviation: 'Hin',
 		explanation: 'AI was prompted for its contributions, or AI assistance was enabled.',
-		iconComponent: HumanInitiatedIcon,
-		tooltipDescription: 'AI was prompted for its contributions, or AI assistance was enabled.'
+		iconComponent: HumanInitiatedIcon
 	},
 	{
 		id: AIInitiativeOptions.AI_INITIATED,
@@ -110,9 +104,7 @@ export const AI_INITIATIVE_TAGS: TagI[] = [
 		abbreviation: 'Ain',
 		explanation:
 			'The AI made proactive contributions, such as via auto-completion or unprompted changes.',
-		iconComponent: AIInitiatedIcon,
-		tooltipDescription:
-			'AI made proactive contributions, such as via auto-completion or unprompted changes.'
+		iconComponent: AIInitiatedIcon
 	}
 ];
 
