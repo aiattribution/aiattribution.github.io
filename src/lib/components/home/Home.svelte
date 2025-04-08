@@ -24,6 +24,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 32px;
+		margin-top: 32px;
 	}
 
 	:global(.center-content-container .section-container) {
