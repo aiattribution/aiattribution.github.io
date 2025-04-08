@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, ButtonSet } from 'carbon-components-svelte';
+	import { Button, ButtonSet, Link } from 'carbon-components-svelte';
 	import { HeaderNavType } from '$lib/components/header/interfaces';
 
 	export let headerNavItemSelected: HeaderNavType;
@@ -13,6 +13,12 @@
 			was used. This approach makes important distinctions between different types and amounts of AI
 			contributions, allowing creators to maintain ownership over co-created work and consumers to
 			calibrate their trust.
+		</p>
+		<p class="principal-container-text">
+			This tool was motivated by findings from our
+			<Link class="paper-link" href="https://arxiv.org/pdf/2502.18357" target="_blank" inline
+				>CHI 2025 paper</Link
+			>.
 		</p>
 		<ButtonSet class="button-set">
 			<Button
@@ -53,6 +59,7 @@
 	.text-container {
 		display: flex;
 		flex-direction: column;
+		gap: 32px;
 		padding: 40px 64px;
 	}
 
@@ -69,15 +76,16 @@
 		font-size: 54px;
 		line-height: 64px;
 		letter-spacing: 0px;
-		margin-bottom: 32px;
 	}
 
-	.principal-container-text {
+	.principal-container-text,
+	:global(.paper-link) {
 		font-family: IBM Plex Sans;
 		font-weight: 400;
 		font-size: 16px;
 		line-height: 22px;
 		letter-spacing: 0px;
+		color: var(--cds-text-01);
 	}
 
 	.co-created-attribution-image {
@@ -100,7 +108,6 @@
 
 	:global(.button-set) {
 		gap: 8px;
-		margin-top: 64px;
 	}
 
 	:global(.button-set .bx--btn) {
