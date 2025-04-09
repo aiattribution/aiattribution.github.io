@@ -55,7 +55,6 @@
 		font-size: 16px;
 		line-height: 22px;
 		letter-spacing: 0px;
-		margin-top: 16px;
 	}
 
 	@media (max-width: 1055px) {
@@ -68,10 +67,6 @@
 		.recommended-attribution-container {
 			padding: 16px;
 			padding-bottom: 32px;
-		}
-
-		.attribution-form-comment {
-			margin-top: 0;
 		}
 	}
 
