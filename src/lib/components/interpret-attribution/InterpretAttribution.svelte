@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { Button, TextInput } from 'carbon-components-svelte';
 	import { ArrowRight } from 'carbon-icons-svelte';
-	import { TagLibrary } from '$lib';
+	import { AttributionTag, TagLibrary } from '$lib';
 	import {
 		AI_CONTRIBUTIONS_TAGS,
 		AI_INITIATIVE_TAGS,
+		ALL_TAGS,
 		HUMAN_REVIEW_TAGS,
 		PROPORTIONS_OF_CONTRIBUTIONS_TAGS
 	} from '$lib/common/constants';
@@ -16,6 +17,8 @@
 		FormItemType,
 		type FormItemI
 	} from '../create-attribution-statement/interfaces';
+	import type { AttributionTagI } from '../tag-library/interfaces';
+	import { ATTRIBUTION_TAGS } from '../tag-library/constants';
 
 	let attibutionFormItems: FormItemI[] = structuredClone(ATTRIBUTION_FORM_ITEMS);
 
@@ -24,8 +27,11 @@
 	let statementHasAnError: boolean = false;
 	let statementError: string = '';
 
+	let attributionTags: AttributionTagI[] = ATTRIBUTION_TAGS;
+
 	const resetState = (): void => {
 		attibutionFormItems = structuredClone(ATTRIBUTION_FORM_ITEMS);
+		attributionTags = ATTRIBUTION_TAGS;
 		statementExplained = '';
 		statementHasAnError = false;
 		statementError = '';
@@ -223,6 +229,29 @@
 			}
 		}
 		statementExplained = utilsService.getAttributionStatementExplanation(attibutionFormItems);
+		const targetAttributionTypes: AttributionType[] = [
+			AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+			AttributionType.AI_CONTRIBUTION,
+			AttributionType.AI_INITIATIVE,
+			AttributionType.HUMAN_REVIEW
+		];
+		const selectedOptionsList: string[] = attibutionFormItems
+			.filter((item: FormItemI) => targetAttributionTypes.includes(item.attributionType))
+			.flatMap((item: FormItemI) => item.selectedOptions)
+			.filter((selectedOption: string) => selectedOption.trim());
+		const tagsIdentified: TagI[] = selectedOptionsList.map((selectedOption: string) => {
+			return ALL_TAGS.find((tag: TagI) => tag.id === selectedOption);
+		});
+		attributionTags = attributionTags.map((attributionTag: AttributionTagI) => {
+			const filteredTags: TagI[] = attributionTag.tags.filter((tag: TagI) =>
+				tagsIdentified.some((identifiedTag: TagI) => identifiedTag.id === tag.id)
+			);
+
+			return {
+				...attributionTag,
+				tags: filteredTags
+			};
+		});
 	};
 </script>
 
@@ -259,6 +288,13 @@
 		{#if statementExplained.trim() && !statementHasAnError}
 			<p class="explanation-title">Explanation</p>
 			<p class="explanation-text">{statementExplained}</p>
+			<div class="attribution-tags-container">
+				{#each attributionTags as attributionTag (attributionTag.id)}
+					{#if attributionTag.tags.length > 0}
+						<AttributionTag {attributionTag} />
+					{/if}
+				{/each}
+			</div>
 		{/if}
 	</div>
 </div>
@@ -301,5 +337,31 @@
 		font-size: 14px;
 		line-height: 18px;
 		letter-spacing: 0.16px;
+	}
+
+	.attribution-tags-container {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: stretch;
+		gap: 1rem;
+		margin-top: 1rem;
+	}
+
+	:global(.attribution-tags-container .attribution-tag-title) {
+		font-weight: 600 !important;
+		font-size: 16px !important;
+		line-height: 22px !important;
+	}
+
+	:global(.attribution-tags-container .tiles-container) {
+		gap: 1rem !important;
+		flex: 1 !important;
+		flex-wrap: unset !important;
+		align-items: unset !important;
+	}
+
+	:global(.attribution-tags-container .tag-tile) {
+		background-color: var(--cds-ui-02) !important;
+		border: 1px solid var(--cds-border-interactive);
 	}
 </style>
