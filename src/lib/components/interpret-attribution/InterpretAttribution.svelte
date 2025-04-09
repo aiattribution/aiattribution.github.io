@@ -48,20 +48,19 @@
 				statementComponents[0] = part1;
 				statementComponents.splice(1, 0, rest.join(' '));
 			}
-
-			if (
-				statementComponents.length > 0 &&
-				statementComponents[statementComponents.length - 1].includes(' ')
-			) {
-				const lastElement: string = statementComponents[statementComponents.length - 1];
-				if (lastElement.endsWith(VERSION)) {
-					const parts: string[] = lastElement.split(' ');
-					statementComponents[statementComponents.length - 1] = parts.slice(0, -1).join(' ');
-				}
-			}
 		} else {
 			statementComponents = statementToInterpret.trim().split(/\s+/);
 		}
+		if (statementComponents.length > 0) {
+			const lastElement: string = statementComponents[statementComponents.length - 1];
+			if (lastElement === VERSION) {
+				statementComponents.pop();
+			} else if (lastElement.includes(' ') && lastElement.endsWith(VERSION)) {
+				const parts: string[] = lastElement.split(' ');
+				statementComponents[statementComponents.length - 1] = parts.slice(0, -1).join(' ');
+			}
+		}
+
 		console.log(statementComponents);
 		return statementComponents;
 	};
@@ -70,17 +69,44 @@
 		return statementComponents.length > index;
 	};
 
-	const isValidTag = (tags: TagI[], wordToEvaluate: string): string => {
-		let tagId: string = null;
-		tags.some((tag: TagI) => {
+	const isValidTag = (
+		attributionType: AttributionType,
+		tags: TagI[],
+		wordToEvaluate: string
+	): string[] => {
+		let tagIds: string[] = [];
+		const isValid: boolean = tags.some((tag: TagI) => {
 			if (wordToEvaluate === tag.name || wordToEvaluate === tag.abbreviation) {
-				tagId = tag.id;
+				tagIds = [...tagIds, tag.id];
 				return true;
 			}
 
 			return false;
 		});
-		return tagId;
+		if (!isValid) {
+			const formItem: FormItemI = utilsService.getAttributionFormItemByType(
+				attributionType,
+				attibutionFormItems
+			);
+			if (formItem.typeOfItem === FormItemType.checkbox) {
+				const abbreviations: string[] = tags.map((tag: TagI) => tag.abbreviation);
+				const abbreviationToId: Record<string, string> = tags.reduce(
+					(map: Record<string, string>, tag: TagI) => {
+						map[tag.abbreviation] = tag.id;
+						return map;
+					},
+					{} as Record<string, string>
+				);
+
+				const regexPattern: RegExp = new RegExp(`(${abbreviations.join('|')})`, 'g');
+				const matches: RegExpMatchArray = wordToEvaluate.match(regexPattern);
+
+				if (matches && matches.join('') === wordToEvaluate) {
+					tagIds = matches.map((match: string) => abbreviationToId[match]);
+				}
+			}
+		}
+		return tagIds;
 	};
 
 	const isValidFormItemAccordingToTheType = (attributionType: AttributionType): boolean => {
@@ -101,7 +127,7 @@
 		return isValid;
 	};
 
-	const addSelectedOption = (attributionType: AttributionType, selectedOption: string): void => {
+	const addSelectedOption = (attributionType: AttributionType, selectedOptions: string[]): void => {
 		const formItem: FormItemI = utilsService.getAttributionFormItemByType(
 			attributionType,
 			attibutionFormItems
@@ -112,20 +138,23 @@
 		) {
 			attibutionFormItems[
 				utilsService.getAttributionFormItemIndexByType(attributionType, attibutionFormItems)
-			].selectedOptions[0] = selectedOption;
+			].selectedOptions[0] = selectedOptions[0];
 		} else if (formItem.typeOfItem === FormItemType.checkbox) {
-			attibutionFormItems[
-				utilsService.getAttributionFormItemIndexByType(attributionType, attibutionFormItems)
-			].selectedOptions.push(selectedOption);
+			selectedOptions.forEach((selectedOption: string) => {
+				attibutionFormItems[
+					utilsService.getAttributionFormItemIndexByType(attributionType, attibutionFormItems)
+				].selectedOptions.push(selectedOption);
+			});
 		}
 	};
 
 	const interpretStatement = (): void => {
 		resetState();
 
-		let tagIdIdentified: string = '';
+		let tagsIdIdentified: string[] = [];
 
 		let statementComponents: string[] = getStatementComponents();
+		let attributionType: AttributionType = null;
 		let model: string = null;
 
 		let nextIndexToEvaluate: number = 0;
@@ -143,34 +172,41 @@
 			if (isValidIndex(statementComponents, forIndex)) {
 				const wordToEvaluate: string = statementComponents[forIndex];
 
-				tagIdIdentified = isValidTag(PROPORTIONS_OF_CONTRIBUTIONS_TAGS, wordToEvaluate);
+				attributionType = AttributionType.PROPORTIONS_OF_CONTRIBUTIONS;
+				tagsIdIdentified = isValidTag(
+					attributionType,
+					PROPORTIONS_OF_CONTRIBUTIONS_TAGS,
+					wordToEvaluate
+				);
 				const validProportionOfContributionTag: boolean =
-					tagIdIdentified &&
-					isValidFormItemAccordingToTheType(AttributionType.PROPORTIONS_OF_CONTRIBUTIONS);
+					tagsIdIdentified.length > 0 && isValidFormItemAccordingToTheType(attributionType);
 
 				if (validProportionOfContributionTag) {
-					addSelectedOption(AttributionType.PROPORTIONS_OF_CONTRIBUTIONS, tagIdIdentified);
+					addSelectedOption(attributionType, tagsIdIdentified);
 				} else {
-					tagIdIdentified = isValidTag(AI_CONTRIBUTIONS_TAGS, wordToEvaluate);
+					attributionType = AttributionType.AI_CONTRIBUTION;
+					tagsIdIdentified = isValidTag(attributionType, AI_CONTRIBUTIONS_TAGS, wordToEvaluate);
 					const validAIContributionTag: boolean =
-						tagIdIdentified && isValidFormItemAccordingToTheType(AttributionType.AI_CONTRIBUTION);
+						tagsIdIdentified.length > 0 && isValidFormItemAccordingToTheType(attributionType);
 
 					if (validAIContributionTag) {
-						addSelectedOption(AttributionType.AI_CONTRIBUTION, tagIdIdentified);
+						addSelectedOption(attributionType, tagsIdIdentified);
 					} else {
-						tagIdIdentified = isValidTag(AI_INITIATIVE_TAGS, wordToEvaluate);
+						attributionType = AttributionType.AI_INITIATIVE;
+						tagsIdIdentified = isValidTag(attributionType, AI_INITIATIVE_TAGS, wordToEvaluate);
 						const validAIInitiativeTag: boolean =
-							tagIdIdentified && isValidFormItemAccordingToTheType(AttributionType.AI_INITIATIVE);
+							tagsIdIdentified.length > 0 && isValidFormItemAccordingToTheType(attributionType);
 
 						if (validAIInitiativeTag) {
-							addSelectedOption(AttributionType.AI_INITIATIVE, tagIdIdentified);
+							addSelectedOption(attributionType, tagsIdIdentified);
 						} else {
-							tagIdIdentified = isValidTag(HUMAN_REVIEW_TAGS, wordToEvaluate);
+							attributionType = AttributionType.HUMAN_REVIEW;
+							tagsIdIdentified = isValidTag(attributionType, HUMAN_REVIEW_TAGS, wordToEvaluate);
 							const validHumanReviewTag: boolean =
-								tagIdIdentified && isValidFormItemAccordingToTheType(AttributionType.HUMAN_REVIEW);
+								tagsIdIdentified.length > 0 && isValidFormItemAccordingToTheType(attributionType);
 
 							if (validHumanReviewTag) {
-								addSelectedOption(AttributionType.HUMAN_REVIEW, tagIdIdentified);
+								addSelectedOption(attributionType, tagsIdIdentified);
 							} else {
 								if (model || forIndex !== statementComponents.length - 1) {
 									statementHasAnError = true;
@@ -178,7 +214,7 @@
 									return;
 								} else {
 									model = wordToEvaluate;
-									addSelectedOption(AttributionType.MODEL, model);
+									addSelectedOption(AttributionType.MODEL, [model]);
 								}
 							}
 						}
