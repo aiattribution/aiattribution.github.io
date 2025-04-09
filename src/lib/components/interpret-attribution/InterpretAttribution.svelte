@@ -22,6 +22,13 @@
 		statementError = '';
 	};
 
+	const onInputKeyDown = (event: KeyboardEvent): void => {
+		if (event.key === 'Enter') {
+			event.preventDefault();
+			interpretStatement();
+		}
+	};
+
 	const interpretStatement = (): void => {
 		resetState();
 
@@ -101,6 +108,9 @@
 				bind:value={statementToInterpret}
 				on:input={() => {
 					resetState();
+				}}
+				on:keydown={(event) => {
+					onInputKeyDown(event);
 				}}
 			/>
 			<Button
