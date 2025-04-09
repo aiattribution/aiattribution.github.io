@@ -182,20 +182,6 @@ class UtilsService {
 		let humanReview: string = '';
 		const isAIUsageOptionYes: boolean = this.isAIUsageOptionYes(attibutionFormItems);
 		if (isAIUsageOptionYes) {
-			if (
-				this.getAttributionFormItemByType(AttributionType.MODEL, attibutionFormItems)
-					.selectedOptions[0]
-			) {
-				const modelSelected: string = this.getAttributionFormItemByType(
-					AttributionType.MODEL,
-					attibutionFormItems
-				).selectedOptions[0];
-				if (proportionOfContribution) {
-					modelUsed = `, using ${modelSelected}.`;
-				} else {
-					modelUsed = `this work involved the use of ${modelSelected}.`;
-				}
-			}
 			aiContribution = this.getConcatenatedOptionsExplanations(
 				this.getAttributionFormItemByType(AttributionType.AI_CONTRIBUTION, attibutionFormItems)
 					.selectedOptions
@@ -214,8 +200,22 @@ class UtilsService {
 			if (!proportionOfContribution && !modelUsed && !aiContribution && !aiInitiatives) {
 				humanReview = this.lowercaseFirstLetter(humanReview);
 			}
+			if (
+				this.getAttributionFormItemByType(AttributionType.MODEL, attibutionFormItems)
+					.selectedOptions[0]
+			) {
+				const modelSelected: string = this.getAttributionFormItemByType(
+					AttributionType.MODEL,
+					attibutionFormItems
+				).selectedOptions[0];
+				if (proportionOfContribution || aiContribution || aiInitiatives || humanReview) {
+					modelUsed = `${modelSelected} was used.`;
+				} else {
+					modelUsed = `this work involved the use of ${modelSelected}.`;
+				}
+			}
 		}
-		atributionStatementLabelContent = `This attribution statement indicates that ${proportionOfContribution}${modelUsed} ${aiContribution} ${aiInitiatives} ${humanReview}`;
+		atributionStatementLabelContent = `This attribution statement indicates that ${proportionOfContribution} ${aiContribution} ${aiInitiatives} ${humanReview} ${modelUsed}`;
 		atributionStatementLabelContent = atributionStatementLabelContent.replace('.,', ',');
 		return atributionStatementLabelContent;
 	}
