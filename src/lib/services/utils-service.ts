@@ -23,6 +23,15 @@ class UtilsService {
 		});
 	}
 
+	public getAttributionFormItemIndexByType(
+		attributionType: AttributionType,
+		attibutionFormItems: FormItemI[]
+	): number {
+		return attibutionFormItems.findIndex((formItem: FormItemI) => {
+			return formItem.attributionType === attributionType;
+		});
+	}
+
 	public isAIUsageOptionYes(attibutionFormItems: FormItemI[]): boolean {
 		const selectedOption: string = this.getAttributionFormItemByType(
 			AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,

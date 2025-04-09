@@ -5,8 +5,8 @@
 	import { PROPORTIONS_OF_CONTRIBUTIONS_TAGS } from '$lib/common/constants';
 	import type { TagI } from '$lib/models/tag-library';
 	import { utilsService } from '$lib/services';
-	import { AIA, ATTRIBUTION_FORM_ITEMS, VERSION } from '../create-attribution-statement/constants';
-	import { type FormItemI } from '../create-attribution-statement/interfaces';
+	import { AIA, ATTRIBUTION_FORM_ITEMS } from '../create-attribution-statement/constants';
+	import { AttributionType, type FormItemI } from '../create-attribution-statement/interfaces';
 
 	let attibutionFormItems: FormItemI[] = structuredClone(ATTRIBUTION_FORM_ITEMS);
 
@@ -29,11 +29,7 @@
 		}
 	};
 
-	const interpretStatement = (): void => {
-		resetState();
-
-		let proportionOfContribution: string = '';
-
+	const getStatementComponents = (): string[] => {
 		let statementComponents: string[] = [];
 		if (statementToInterpret.includes(',')) {
 			statementComponents = statementToInterpret.split(',').map((item: string) => item.trim());
@@ -57,37 +53,60 @@
 			statementComponents = statementToInterpret.trim().split(/\s+/);
 		}
 		console.log(statementComponents);
+		return statementComponents;
+	};
 
-		if (statementComponents.length > 0 && statementComponents[0] !== AIA) {
-			statementHasAnError = true;
-			statementError = 'The entered AI attribution statement does not contain the AIA prefix.';
-			return;
-		}
+	const isValidIndex = (statementComponents: string[], index: number): boolean => {
+		return statementComponents.length > index;
+	};
+
+	const interpretStatement = (): void => {
+		resetState();
+
+		let proportionOfContribution: string = '';
+
+		let statementComponents: string[] = getStatementComponents();
+
+		let nextIndexToEvaluate: number = 0;
 		if (
-			statementComponents.length > 0 &&
-			statementComponents[statementComponents.length - 1] !== VERSION
+			isValidIndex(statementComponents, nextIndexToEvaluate) &&
+			statementComponents[nextIndexToEvaluate] === AIA
 		) {
-			statementHasAnError = true;
-			statementError = `The entered AI attribution statement is missing the version number or it is not located at the end of the statement. An example of a version could be ${VERSION}.`;
-			return;
+			nextIndexToEvaluate = 1;
 		}
-		let nextIndex: number = 1;
-		if (statementComponents.length > 1) {
-			const secondWord: string = statementComponents[1];
-			const validProportionOfContributionTag: boolean = PROPORTIONS_OF_CONTRIBUTIONS_TAGS.some(
-				(tag: TagI) => {
-					if (secondWord === tag.name || secondWord === tag.abbreviation) {
-						nextIndex = 2;
-						proportionOfContribution = tag.id;
-						return true;
-					}
+		for (
+			let forIndex: number = nextIndexToEvaluate;
+			forIndex < statementComponents.length;
+			forIndex++
+		) {
+			if (isValidIndex(statementComponents, forIndex)) {
+				const wordToEvaluate: string = statementComponents[forIndex];
+				const validProportionOfContributionTag: boolean =
+					PROPORTIONS_OF_CONTRIBUTIONS_TAGS.some((tag: TagI) => {
+						if (wordToEvaluate === tag.name || wordToEvaluate === tag.abbreviation) {
+							proportionOfContribution = tag.id;
+							return true;
+						}
 
-					return false;
+						return false;
+					}) &&
+					!(
+						attibutionFormItems[
+							utilsService.getAttributionFormItemIndexByType(
+								AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+								attibutionFormItems
+							)
+						].selectedOptions[0] !== ''
+					);
+
+				if (validProportionOfContributionTag) {
+					attibutionFormItems[
+						utilsService.getAttributionFormItemIndexByType(
+							AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+							attibutionFormItems
+						)
+					].selectedOptions[0] = proportionOfContribution;
 				}
-			);
-
-			if (validProportionOfContributionTag) {
-				attibutionFormItems[0].selectedOptions[0] = proportionOfContribution;
 			}
 		}
 		statementExplained = utilsService.getAttributionStatementExplanation(attibutionFormItems);
