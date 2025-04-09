@@ -57,15 +57,6 @@
 				).selectedOptions,
 				false
 			);
-			if (modelSelected) {
-				if (proportionOfContribution) {
-					aiUsed = `, ${modelSelected}`;
-				} else {
-					aiUsed = modelSelected;
-				}
-			} else {
-				aiUsed = '';
-			}
 			const aiContribution: string = utilsService.getConcatenatedOptionsFullStatement(
 				utilsService.getAttributionFormItemByType(
 					AttributionType.AI_CONTRIBUTION,
@@ -85,7 +76,16 @@
 					.selectedOptions,
 				proportionOfContribution || aiUsed || aiContribution || aiInitiatives ? true : false
 			);
-			fullStatement = `${AIA} ${proportionOfContribution}${aiUsed}${aiContribution}${aiInitiatives}${humanReview} ${VERSION}`;
+			if (modelSelected) {
+				if (proportionOfContribution || aiContribution || aiInitiatives || humanReview) {
+					aiUsed = `, ${modelSelected}`;
+				} else {
+					aiUsed = modelSelected;
+				}
+			} else {
+				aiUsed = '';
+			}
+			fullStatement = `${AIA} ${proportionOfContribution}${aiContribution}${aiInitiatives}${humanReview}${aiUsed} ${VERSION}`;
 		} else {
 			aiUsed = NO_AI_USED_FULL_STATEMENT;
 			fullStatement = `${AIA} ${aiUsed} ${VERSION}`;

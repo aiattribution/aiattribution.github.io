@@ -51,7 +51,7 @@
 				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attibutionFormItems)
 					.selectedOptions
 			);
-			abbreviatedStatement = `${AIA} ${proportionOfContribution} ${aiUsed} ${aiContribution} ${aiInitiatives} ${humanReview} ${VERSION}`;
+			abbreviatedStatement = `${AIA} ${proportionOfContribution} ${aiContribution} ${aiInitiatives} ${humanReview} ${aiUsed} ${VERSION}`;
 		} else {
 			abbreviatedStatement = `${AIA} ${aiUsed} ${VERSION}`;
 		}
