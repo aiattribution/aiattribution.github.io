@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { TextInput } from 'carbon-components-svelte';
+	import { Button, TextInput } from 'carbon-components-svelte';
+	import { ArrowRight } from 'carbon-icons-svelte';
 	import { TagLibrary } from '$lib';
 	import { PROPORTIONS_OF_CONTRIBUTIONS_TAGS } from '$lib/common/constants';
 	import type { TagI } from '$lib/models/tag-library';
@@ -14,11 +15,15 @@
 	let statementHasAnError: boolean = false;
 	let statementError: string = '';
 
-	const interpretStatement = (): void => {
+	const resetState = (): void => {
 		attibutionFormItems = structuredClone(ATTRIBUTION_FORM_ITEMS);
-
+		statementExplained = '';
 		statementHasAnError = false;
 		statementError = '';
+	};
+
+	const interpretStatement = (): void => {
+		resetState();
 
 		let proportionOfContribution: string = '';
 
@@ -86,18 +91,30 @@
 	<h1 class="section-title">Interpret an attribution statement</h1>
 	<div class="statement-interpreter-container">
 		<p class="section-text">Enter an attribution statement to learn what it means.</p>
-		<TextInput
-			class="text-input"
-			hideLabel
-			placeholder="Type or paste an AI attribution statement"
-			invalid={statementToInterpret.trim() && statementHasAnError}
-			invalidText={statementError}
-			bind:value={statementToInterpret}
-			on:input={() => {
-				interpretStatement();
-			}}
-		/>
-		{#if statementToInterpret.trim() && !statementHasAnError}
+		<div class="text-input-container">
+			<TextInput
+				class="text-input"
+				hideLabel
+				placeholder="Type or paste an AI attribution statement"
+				invalid={statementToInterpret.trim() && statementHasAnError}
+				invalidText={statementError}
+				bind:value={statementToInterpret}
+				on:input={() => {
+					resetState();
+				}}
+			/>
+			<Button
+				class="interpret-statement-button"
+				kind="secondary"
+				icon={ArrowRight}
+				on:click={() => {
+					interpretStatement();
+				}}
+			>
+				Interpret
+			</Button>
+		</div>
+		{#if statementExplained.trim() && !statementHasAnError}
 			<p class="explanation-title">Explanation</p>
 			<p class="explanation-text">{statementExplained}</p>
 		{/if}
@@ -117,6 +134,14 @@
 		margin: 0px calc(-1 * $section-container-margin-left-right);
 		background-color: var(--cds-ui-01);
 		padding: 20px 40px;
+	}
+
+	.text-input-container {
+		display: flex;
+	}
+
+	:global(.interpret-statement-button) {
+		max-height: 3rem;
 	}
 
 	.explanation-title {
