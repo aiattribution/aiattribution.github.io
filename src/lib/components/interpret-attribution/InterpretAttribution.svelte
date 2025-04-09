@@ -2,10 +2,15 @@
 	import { Button, TextInput } from 'carbon-components-svelte';
 	import { ArrowRight } from 'carbon-icons-svelte';
 	import { TagLibrary } from '$lib';
-	import { AI_CONTRIBUTIONS_TAGS, PROPORTIONS_OF_CONTRIBUTIONS_TAGS } from '$lib/common/constants';
+	import {
+		AI_CONTRIBUTIONS_TAGS,
+		AI_INITIATIVE_TAGS,
+		HUMAN_REVIEW_TAGS,
+		PROPORTIONS_OF_CONTRIBUTIONS_TAGS
+	} from '$lib/common/constants';
 	import type { TagI } from '$lib/models/tag-library';
 	import { utilsService } from '$lib/services';
-	import { AIA, ATTRIBUTION_FORM_ITEMS } from '../create-attribution-statement/constants';
+	import { AIA, ATTRIBUTION_FORM_ITEMS, VERSION } from '../create-attribution-statement/constants';
 	import {
 		AttributionType,
 		FormItemType,
@@ -49,9 +54,10 @@
 				statementComponents[statementComponents.length - 1].includes(' ')
 			) {
 				const lastElement: string = statementComponents[statementComponents.length - 1];
-				const parts: string[] = lastElement.split(' ');
-				statementComponents[statementComponents.length - 1] = parts.slice(0, -1).join(' ');
-				statementComponents.push(parts[parts.length - 1]);
+				if (lastElement.endsWith(VERSION)) {
+					const parts: string[] = lastElement.split(' ');
+					statementComponents[statementComponents.length - 1] = parts.slice(0, -1).join(' ');
+				}
 			}
 		} else {
 			statementComponents = statementToInterpret.trim().split(/\s+/);
@@ -95,14 +101,32 @@
 		return isValid;
 	};
 
+	const addSelectedOption = (attributionType: AttributionType, selectedOption: string): void => {
+		const formItem: FormItemI = utilsService.getAttributionFormItemByType(
+			attributionType,
+			attibutionFormItems
+		);
+		if (
+			formItem.typeOfItem === FormItemType.radioButton ||
+			formItem.typeOfItem === FormItemType.textInput
+		) {
+			attibutionFormItems[
+				utilsService.getAttributionFormItemIndexByType(attributionType, attibutionFormItems)
+			].selectedOptions[0] = selectedOption;
+		} else if (formItem.typeOfItem === FormItemType.checkbox) {
+			attibutionFormItems[
+				utilsService.getAttributionFormItemIndexByType(attributionType, attibutionFormItems)
+			].selectedOptions.push(selectedOption);
+		}
+	};
+
 	const interpretStatement = (): void => {
 		resetState();
 
 		let tagIdIdentified: string = '';
-		let proportionOfContribution: string = '';
-		let aiContribution: string = '';
 
 		let statementComponents: string[] = getStatementComponents();
+		let model: string = null;
 
 		let nextIndexToEvaluate: number = 0;
 		if (
@@ -125,26 +149,39 @@
 					isValidFormItemAccordingToTheType(AttributionType.PROPORTIONS_OF_CONTRIBUTIONS);
 
 				if (validProportionOfContributionTag) {
-					proportionOfContribution = tagIdIdentified;
-					attibutionFormItems[
-						utilsService.getAttributionFormItemIndexByType(
-							AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-							attibutionFormItems
-						)
-					].selectedOptions[0] = proportionOfContribution;
+					addSelectedOption(AttributionType.PROPORTIONS_OF_CONTRIBUTIONS, tagIdIdentified);
 				} else {
 					tagIdIdentified = isValidTag(AI_CONTRIBUTIONS_TAGS, wordToEvaluate);
 					const validAIContributionTag: boolean =
 						tagIdIdentified && isValidFormItemAccordingToTheType(AttributionType.AI_CONTRIBUTION);
 
 					if (validAIContributionTag) {
-						aiContribution = tagIdIdentified;
-						attibutionFormItems[
-							utilsService.getAttributionFormItemIndexByType(
-								AttributionType.AI_CONTRIBUTION,
-								attibutionFormItems
-							)
-						].selectedOptions.push(aiContribution);
+						addSelectedOption(AttributionType.AI_CONTRIBUTION, tagIdIdentified);
+					} else {
+						tagIdIdentified = isValidTag(AI_INITIATIVE_TAGS, wordToEvaluate);
+						const validAIInitiativeTag: boolean =
+							tagIdIdentified && isValidFormItemAccordingToTheType(AttributionType.AI_INITIATIVE);
+
+						if (validAIInitiativeTag) {
+							addSelectedOption(AttributionType.AI_INITIATIVE, tagIdIdentified);
+						} else {
+							tagIdIdentified = isValidTag(HUMAN_REVIEW_TAGS, wordToEvaluate);
+							const validHumanReviewTag: boolean =
+								tagIdIdentified && isValidFormItemAccordingToTheType(AttributionType.HUMAN_REVIEW);
+
+							if (validHumanReviewTag) {
+								addSelectedOption(AttributionType.HUMAN_REVIEW, tagIdIdentified);
+							} else {
+								if (model || forIndex !== statementComponents.length - 1) {
+									statementHasAnError = true;
+									statementError = `The following parts of the statement were not recognized: ${wordToEvaluate}`;
+									return;
+								} else {
+									model = wordToEvaluate;
+									addSelectedOption(AttributionType.MODEL, model);
+								}
+							}
+						}
 					}
 				}
 			}
