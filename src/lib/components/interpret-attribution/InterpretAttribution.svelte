@@ -2,11 +2,15 @@
 	import { Button, TextInput } from 'carbon-components-svelte';
 	import { ArrowRight } from 'carbon-icons-svelte';
 	import { TagLibrary } from '$lib';
-	import { PROPORTIONS_OF_CONTRIBUTIONS_TAGS } from '$lib/common/constants';
+	import { AI_CONTRIBUTIONS_TAGS, PROPORTIONS_OF_CONTRIBUTIONS_TAGS } from '$lib/common/constants';
 	import type { TagI } from '$lib/models/tag-library';
 	import { utilsService } from '$lib/services';
 	import { AIA, ATTRIBUTION_FORM_ITEMS } from '../create-attribution-statement/constants';
-	import { AttributionType, type FormItemI } from '../create-attribution-statement/interfaces';
+	import {
+		AttributionType,
+		FormItemType,
+		type FormItemI
+	} from '../create-attribution-statement/interfaces';
 
 	let attibutionFormItems: FormItemI[] = structuredClone(ATTRIBUTION_FORM_ITEMS);
 
@@ -60,10 +64,43 @@
 		return statementComponents.length > index;
 	};
 
+	const isValidTag = (tags: TagI[], wordToEvaluate: string): string => {
+		let tagId: string = null;
+		tags.some((tag: TagI) => {
+			if (wordToEvaluate === tag.name || wordToEvaluate === tag.abbreviation) {
+				tagId = tag.id;
+				return true;
+			}
+
+			return false;
+		});
+		return tagId;
+	};
+
+	const isValidFormItemAccordingToTheType = (attributionType: AttributionType): boolean => {
+		let isValid: boolean = false;
+		const formItem: FormItemI = utilsService.getAttributionFormItemByType(
+			attributionType,
+			attibutionFormItems
+		);
+		if (formItem.typeOfItem === FormItemType.radioButton) {
+			isValid = !(
+				attibutionFormItems[
+					utilsService.getAttributionFormItemIndexByType(attributionType, attibutionFormItems)
+				].selectedOptions[0] !== ''
+			);
+		} else if (formItem.typeOfItem === FormItemType.checkbox) {
+			isValid = true;
+		}
+		return isValid;
+	};
+
 	const interpretStatement = (): void => {
 		resetState();
 
+		let tagIdIdentified: string = '';
 		let proportionOfContribution: string = '';
+		let aiContribution: string = '';
 
 		let statementComponents: string[] = getStatementComponents();
 
@@ -81,31 +118,34 @@
 		) {
 			if (isValidIndex(statementComponents, forIndex)) {
 				const wordToEvaluate: string = statementComponents[forIndex];
-				const validProportionOfContributionTag: boolean =
-					PROPORTIONS_OF_CONTRIBUTIONS_TAGS.some((tag: TagI) => {
-						if (wordToEvaluate === tag.name || wordToEvaluate === tag.abbreviation) {
-							proportionOfContribution = tag.id;
-							return true;
-						}
 
-						return false;
-					}) &&
-					!(
-						attibutionFormItems[
-							utilsService.getAttributionFormItemIndexByType(
-								AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-								attibutionFormItems
-							)
-						].selectedOptions[0] !== ''
-					);
+				tagIdIdentified = isValidTag(PROPORTIONS_OF_CONTRIBUTIONS_TAGS, wordToEvaluate);
+				const validProportionOfContributionTag: boolean =
+					tagIdIdentified &&
+					isValidFormItemAccordingToTheType(AttributionType.PROPORTIONS_OF_CONTRIBUTIONS);
 
 				if (validProportionOfContributionTag) {
+					proportionOfContribution = tagIdIdentified;
 					attibutionFormItems[
 						utilsService.getAttributionFormItemIndexByType(
 							AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
 							attibutionFormItems
 						)
 					].selectedOptions[0] = proportionOfContribution;
+				} else {
+					tagIdIdentified = isValidTag(AI_CONTRIBUTIONS_TAGS, wordToEvaluate);
+					const validAIContributionTag: boolean =
+						tagIdIdentified && isValidFormItemAccordingToTheType(AttributionType.AI_CONTRIBUTION);
+
+					if (validAIContributionTag) {
+						aiContribution = tagIdIdentified;
+						attibutionFormItems[
+							utilsService.getAttributionFormItemIndexByType(
+								AttributionType.AI_CONTRIBUTION,
+								attibutionFormItems
+							)
+						].selectedOptions.push(aiContribution);
+					}
 				}
 			}
 		}

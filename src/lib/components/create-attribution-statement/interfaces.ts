@@ -6,10 +6,10 @@ export enum FormItemType {
 
 export enum AttributionType {
 	PROPORTIONS_OF_CONTRIBUTIONS = 'proportions-of-contributions',
-	MODEL = 'model',
 	AI_CONTRIBUTION = 'ai-contribution',
 	AI_INITIATIVE = 'ai-initiative',
-	HUMAN_REVIEW = 'human-review'
+	HUMAN_REVIEW = 'human-review',
+	MODEL = 'model'
 }
 
 export interface StatementOption {
