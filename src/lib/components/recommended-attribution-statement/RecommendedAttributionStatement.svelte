@@ -1,5 +1,10 @@
 <script lang="ts">
-	import { AbbreviatedStatement, AttributionStatementExplanation, FullStatement } from '$lib';
+	import {
+		AbbreviatedStatement,
+		AttributionStatementExplanation,
+		ExpandedStatement,
+		FullStatement
+	} from '$lib';
 	import { type FormItemI } from '../create-attribution-statement/interfaces';
 
 	export let attibutionFormItems: FormItemI[];
@@ -16,6 +21,7 @@
 {#if hasAnyResponseToAnyFormItem()}
 	<AbbreviatedStatement {attibutionFormItems} />
 	<FullStatement {attibutionFormItems} />
+	<ExpandedStatement {attibutionFormItems} />
 	<AttributionStatementExplanation {attibutionFormItems} />
 {:else}
 	<p class="empty-state-text">Fill out the form to get started.</p>

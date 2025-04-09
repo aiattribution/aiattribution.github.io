@@ -11,6 +11,7 @@ import AnatomyFullStatement from './components/images/AnatomyFullStatement.svelt
 import InterpretAttribution from './components/interpret-attribution/InterpretAttribution.svelte';
 import AbbreviatedStatement from './components/recommended-attribution-statement/AbbreviatedStatement.svelte';
 import AttributionStatementExplanation from './components/recommended-attribution-statement/AttributionStatementExplanation.svelte';
+import ExpandedStatement from './components/recommended-attribution-statement/ExpandedStatement.svelte';
 import FullStatement from './components/recommended-attribution-statement/FullStatement.svelte';
 import RecommendedAttributionStatement from './components/recommended-attribution-statement/RecommendedAttributionStatement.svelte';
 import AttributionTag from './components/tag-library/AttributionTag.svelte';
@@ -25,6 +26,7 @@ export {
     AttributionStatementExplanation,
     AttributionTag,
     CreateAttributionStatement,
+    ExpandedStatement,
     FormItem,
     FormItems,
     FullStatement,

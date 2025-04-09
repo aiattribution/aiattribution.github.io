@@ -142,10 +142,6 @@
 <p class="explanation-title">Explanation</p>
 
 <div class="attribution-statement-explanation-text">
-	{utilsService.getAttributionStatementExplanation(attibutionFormItems)}
-</div>
-
-<div class="attribution-statement-explanation-text">
 	AIA: This prefix is used to identify an AI attribution statement.
 </div>
 
