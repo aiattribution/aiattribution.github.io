@@ -51,4 +51,11 @@
 			padding: 6px 12px;
 		}
 	}
+
+	@media (max-width: 480px) {
+		.image-attribution-statement {
+			font-size: 10px;
+			padding: 4px 8px;
+		}
+	}
 </style>
