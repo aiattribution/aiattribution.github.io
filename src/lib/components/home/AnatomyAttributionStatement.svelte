@@ -33,6 +33,10 @@
 </div>
 
 <style lang="scss">
+	.section-container {
+		margin-top: 32px;
+	}
+
 	:global(.content-switcher-container) {
 		width: 514px !important;
 	}
@@ -44,5 +48,11 @@
 		padding: var(--padding-top-bottom) 206px;
 		border: 1px solid var(--cds-border-inverse);
 		margin-top: -1px;
+	}
+
+	@media (max-width: 1055px) {
+		.section-container {
+			margin-top: unset !important;
+		}
 	}
 </style>

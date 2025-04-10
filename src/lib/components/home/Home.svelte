@@ -28,6 +28,17 @@
 	}
 
 	:global(.center-content-container .section-container) {
-		padding: 32px 424px 0px;
+		padding: 32px 25% 0px;
+	}
+
+	@media (max-width: 1055px) {
+		.center-content-container {
+			gap: unset !important;
+			margin-top: unset !important;
+		}
+
+		:global(.center-content-container .section-container) {
+			padding: 32px 16px 0px;
+		}
 	}
 </style>
