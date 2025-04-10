@@ -15,7 +15,7 @@
 	<div class="attribution-statement-examples-container">
 		<div class="attribution-statement-example">
 			<img
-				class="attribution-statement-example-image first-image-example"
+				class="attribution-statement-example-image"
 				src="home-images/attribution-statement-example-1.png"
 				alt="Attribution Statement Example"
 			/>
@@ -26,7 +26,7 @@
 		</div>
 		<div class="attribution-statement-example">
 			<img
-				class="attribution-statement-example-image second-image-example"
+				class="attribution-statement-example-image"
 				src="home-images/attribution-statement-example-2.png"
 				alt="Attribution Statement Example"
 			/>
@@ -56,19 +56,5 @@
 	.attribution-statement-example-image {
 		width: 100%;
 		border: 1px solid var(--cds-border-subtle);
-	}
-
-	.first-image-example {
-		height: 300px;
-		object-fit: cover;
-		object-position: bottom;
-		overflow: hidden;
-	}
-
-	.second-image-example {
-		height: 55px;
-		object-fit: cover;
-		object-position: top;
-		overflow: hidden;
 	}
 </style>
