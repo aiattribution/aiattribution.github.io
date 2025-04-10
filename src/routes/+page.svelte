@@ -19,6 +19,14 @@
 			localStorage.setItem('userId', userId);
 		}
 	});
+
+	const updatePageScroll = (): void => {
+		if (typeof window !== 'undefined') {
+			window.scrollTo(0, 0);
+		}
+	};
+
+	$: headerNavItemSelected, updatePageScroll();
 </script>
 
 <div class="page-container">
