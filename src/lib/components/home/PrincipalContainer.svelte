@@ -1,13 +1,33 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { Button, ButtonSet, Link } from 'carbon-components-svelte';
 	import { HeaderNavType } from '$lib/components/header/interfaces';
+	import { PrincipalContainerImage } from '.';
 
 	export let headerNavItemSelected: HeaderNavType;
+
+	let isMobileOrTablet: boolean = false;
+
+	onMount(() => {
+		checkScreenSize();
+		window.addEventListener('resize', checkScreenSize);
+
+		return () => {
+			window.removeEventListener('resize', checkScreenSize);
+		};
+	});
+
+	const checkScreenSize = (): void => {
+		isMobileOrTablet = window.matchMedia('(max-width: 1055px)').matches;
+	};
 </script>
 
 <div class="principal-container">
 	<div class="text-container">
 		<h1 class="home-title">Detailed AI attribution for improved transparency</h1>
+		{#if isMobileOrTablet}
+			<PrincipalContainerImage />
+		{/if}
 		<p class="principal-container-text">
 			An attribution statement identifies not only the presence of AI involvement, but also how AI
 			was used. This approach makes important distinctions between different types and amounts of AI
@@ -16,9 +36,9 @@
 		</p>
 		<p class="principal-container-text">
 			This tool was motivated by findings from our
-			<Link class="paper-link" href="https://arxiv.org/pdf/2502.18357" target="_blank" inline
-				>CHI 2025 paper</Link
-			>.
+			<Link class="paper-link" href="https://arxiv.org/pdf/2502.18357" target="_blank" inline>
+				CHI 2025 paper
+			</Link>.
 		</p>
 		<ButtonSet class="button-set">
 			<Button
@@ -39,14 +59,9 @@
 			</Button>
 		</ButtonSet>
 	</div>
-	<div class="image-container">
-		<img
-			class="co-created-attribution-image"
-			src="home-images/DALL-E Human-AI Attribution Illustration.png"
-			alt="Co-created attribution"
-		/>
-		<div class="image-attribution-statement">AIA PAI DALL-E Nc Hin R 1.0</div>
-	</div>
+	{#if !isMobileOrTablet}
+		<PrincipalContainerImage />
+	{/if}
 </div>
 
 <style lang="scss">
@@ -61,14 +76,6 @@
 		flex-direction: column;
 		gap: 32px;
 		padding: 40px 64px;
-	}
-
-	.image-container {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 16px 40px;
 	}
 
 	.home-title {
@@ -87,24 +94,6 @@
 		line-height: 22px;
 		letter-spacing: 0px;
 		color: var(--cds-text-01);
-	}
-
-	.co-created-attribution-image {
-		box-shadow: 10px 10px 20px 0px #00000040;
-	}
-
-	.image-attribution-statement {
-		display: flex;
-		width: fit-content;
-		padding: 8px 16px;
-		margin-top: -17px;
-		background-color: #514c46;
-		font-family: IBM Plex Sans;
-		font-weight: 500;
-		font-size: 14px;
-		line-height: 18px;
-		letter-spacing: 0.16px;
-		color: #ffffff;
 	}
 
 	:global(.button-set) {
@@ -131,5 +120,28 @@
 	:global(.button-set .bx--btn--tertiary):hover {
 		border-color: var(--cds-interactive-03, #0f62fe);
 		color: white;
+	}
+
+	@media (max-width: 1055px) {
+		.principal-container {
+			flex-direction: column;
+			gap: 1rem;
+			padding: 20px;
+		}
+
+		.text-container {
+			padding: 20px;
+		}
+
+		.home-title {
+			font-size: 42px;
+			line-height: 52px;
+		}
+
+		.principal-container-text,
+		:global(.paper-link) {
+			font-size: 14px !important;
+			line-height: 20px !important;
+		}
 	}
 </style>
