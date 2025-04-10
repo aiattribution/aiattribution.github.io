@@ -6,6 +6,7 @@
 
 	export let headerNavItemSelected: HeaderNavType;
 
+	let isMobile: boolean = false;
 	let isMobileOrTablet: boolean = false;
 
 	onMount(() => {
@@ -18,6 +19,7 @@
 	});
 
 	const checkScreenSize = (): void => {
+		isMobile = window.matchMedia('(max-width: 545px)').matches;
 		isMobileOrTablet = window.matchMedia('(max-width: 1055px)').matches;
 	};
 </script>
@@ -40,7 +42,7 @@
 				CHI 2025 paper
 			</Link>.
 		</p>
-		<ButtonSet class="button-set">
+		<ButtonSet class="button-set" stacked={isMobile}>
 			<Button
 				kind="primary"
 				on:click={() => {
