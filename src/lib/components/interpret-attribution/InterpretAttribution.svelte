@@ -340,10 +340,8 @@
 		margin-top: 1rem;
 	}
 
-	:global(.attribution-tags-container .attribution-tag-title) {
-		font-weight: 600 !important;
-		font-size: 16px !important;
-		line-height: 22px !important;
+	:global(.attribution-tags-container .attribution-tag-title.attribution-tag-title) {
+		@include type.type-style('productive-heading-02');
 	}
 
 	:global(.attribution-tags-container .tiles-container) {
