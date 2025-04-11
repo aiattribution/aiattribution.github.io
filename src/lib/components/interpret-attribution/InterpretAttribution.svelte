@@ -344,13 +344,6 @@
 		@include type.type-style('productive-heading-02');
 	}
 
-	:global(.attribution-tags-container .tiles-container) {
-		gap: 1rem !important;
-		flex: 1 !important;
-		flex-wrap: unset !important;
-		align-items: unset !important;
-	}
-
 	:global(.attribution-tags-container .tag-tile) {
 		background-color: var(--cds-ui-02) !important;
 		border: 1px solid var(--cds-border-interactive);

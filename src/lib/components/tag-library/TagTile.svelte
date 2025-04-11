@@ -38,8 +38,8 @@
 		gap: 1rem;
 		width: 360px;
 		min-width: 360px;
-		margin: 1px;
 		padding: 1rem;
+		border: 1px solid #ffffff;
 	}
 
 	.tag-title {
