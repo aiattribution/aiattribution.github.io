@@ -71,7 +71,7 @@
 
 	.principal-container {
 		display: flex;
-		gap: 15rem;
+		gap: 7.5625rem;
 		background-color: #f0ebe1;
 	}
 
@@ -118,6 +118,12 @@
 		color: white;
 	}
 
+	@media (max-width: 1383px) {
+		.principal-container {
+			gap: 0;
+		}
+	}
+
 	@media (max-width: 1055px) {
 		.principal-container {
 			flex-direction: column;
@@ -130,13 +136,22 @@
 		}
 
 		.home-title {
-			font-size: 42px;
-			line-height: 52px;
+			font-size: type.type-scale(10);
+		}
+	}
+
+	@media (max-width: 480px) {
+		.text-container {
+			padding: 4px;
+		}
+
+		.home-title {
+			font-size: type.type-scale(8);
 		}
 
 		.principal-container-text,
 		:global(.paper-link) {
-			font-size: 14px !important;
+			font-size: type.type-scale(2) !important;
 			line-height: 20px !important;
 		}
 	}

@@ -19,7 +19,7 @@
 				src="home-images/attribution-statement-example-1.png"
 				alt="Attribution Statement Example"
 			/>
-			<p class="section-text image-caption">
+			<p class="image-caption">
 				This image was used in a conference presentation, with the attribution statement placed
 				below the image.
 			</p>
@@ -30,7 +30,7 @@
 				src="home-images/attribution-statement-example-2.png"
 				alt="Attribution Statement Example"
 			/>
-			<p class="section-text image-caption">
+			<p class="image-caption">
 				This example is from our research paper, where we included an attribution statement in the
 				Acknowledgments section.
 			</p>
@@ -39,6 +39,8 @@
 </div>
 
 <style lang="scss">
+	@use '@carbon/type';
+
 	.attribution-statement-examples-container {
 		display: flex;
 		align-items: baseline;
@@ -58,9 +60,13 @@
 		border: 1px solid var(--cds-border-subtle);
 	}
 
+	.image-caption {
+		@include type.type-style('body-short-02');
+	}
+
 	@media (max-width: 1055px) {
 		.image-caption {
-			font-size: 12px;
+			font-size: type.type-scale(1);
 			line-height: 16px;
 		}
 	}

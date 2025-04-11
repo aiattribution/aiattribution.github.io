@@ -98,4 +98,11 @@
 			padding: 32px 16px 0px;
 		}
 	}
+
+	@media (max-width: 480px) {
+		:global(.section-text),
+		:global(.bx--link) {
+			font-size: type.type-scale(2) !important;
+		}
+	}
 </style>

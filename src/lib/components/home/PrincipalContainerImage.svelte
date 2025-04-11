@@ -10,6 +10,8 @@
 </div>
 
 <style lang="scss">
+	@use '@carbon/type';
+
 	.image-container {
 		display: flex;
 		flex-direction: column;
@@ -36,26 +38,27 @@
 		color: #ffffff;
 	}
 
+	@media (max-width: 1262px) {
+		.co-created-attribution-image {
+			width: calc(100vw - 816px);
+		}
+	}
+
 	@media (max-width: 1055px) {
 		.image-container {
 			padding: unset !important;
 		}
 
 		.co-created-attribution-image {
-			width: 50% !important;
-			max-width: 375px;
-		}
-
-		.image-attribution-statement {
-			font-size: 12px;
-			padding: 6px 12px;
+			width: 75% !important;
+			max-width: 447px;
 		}
 	}
 
 	@media (max-width: 480px) {
 		.image-attribution-statement {
-			font-size: 10px;
-			padding: 4px 8px;
+			font-size: type.type-scale(1);
+			padding: 6px 12px;
 		}
 	}
 </style>
