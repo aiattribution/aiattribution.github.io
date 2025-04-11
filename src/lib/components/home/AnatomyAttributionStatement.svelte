@@ -45,7 +45,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: var(--padding-top-bottom) 206px;
+		padding: var(--padding-top-bottom) 11.9%;
 		border: 1px solid var(--cds-border-inverse);
 		margin-top: -1px;
 	}
@@ -53,6 +53,12 @@
 	@media (max-width: 1055px) {
 		.section-container {
 			margin-top: unset !important;
+		}
+	}
+
+	@media (max-width: 545px) {
+		:global(.content-switcher-container) {
+			width: 100% !important;
 		}
 	}
 </style>
