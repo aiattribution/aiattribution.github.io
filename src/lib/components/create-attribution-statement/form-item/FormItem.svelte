@@ -17,7 +17,7 @@
 	export let attibutionFormItems: FormItemI[];
 	export let index: number;
 
-	let isMobile: boolean = false;
+	let isMobileOrTablet: boolean = false;
 
 	onMount(() => {
 		formItem.isItemDisabled = isItemDisabled;
@@ -46,7 +46,7 @@
 	};
 
 	const checkScreenSize = (): void => {
-		isMobile = window.matchMedia('(max-width: 1055px)').matches;
+		isMobileOrTablet = window.matchMedia('(max-width: 1055px)').matches;
 	};
 
 	const openNextFormItem = (increment: number): void => {
@@ -96,7 +96,7 @@
 					class="tooltip"
 					tooltipText={formItem.tooltipDescription}
 					icon={Help}
-					direction="right"
+					direction={isMobileOrTablet ? 'top' : 'right'}
 				/>
 			{/if}
 		</div>
@@ -111,7 +111,7 @@
 			>
 				Clear
 			</Button>
-			{#if isMobile}
+			{#if isMobileOrTablet}
 				<!-- svelte-ignore a11y_click_events_have_key_events -->
 				<!-- svelte-ignore a11y_no_static_element_interactions -->
 				<div
@@ -131,7 +131,7 @@
 			{/if}
 		</div>
 	</div>
-	{#if !isMobile || formItem.isItemOpen}
+	{#if !isMobileOrTablet || formItem.isItemOpen}
 		<div class="form-item-options-container">
 			{#if formItem.typeOfItem === FormItemType.textInput}
 				<TextInput
@@ -169,14 +169,14 @@
 									class="tooltip"
 									tooltipText={formItemOption.tooltipDescription}
 									icon={Help}
-									direction="right"
+									direction={isMobileOrTablet ? 'top' : 'right'}
 								/>
 							{/if}
 						</div>
 					{/each}
 				</div>
 			{/if}
-			{#if isMobile}
+			{#if isMobileOrTablet}
 				<Button
 					class="next-button"
 					kind="secondary"
