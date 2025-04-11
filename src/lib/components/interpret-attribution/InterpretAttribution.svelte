@@ -348,4 +348,12 @@
 		background-color: var(--cds-ui-02) !important;
 		border: 1px solid var(--cds-border-interactive);
 	}
+
+	@media (max-width: 1055px) {
+		.statement-interpreter-container {
+			width: calc(100% + 2 * 16px);
+			margin: 0 -16px;
+			padding: 20px;
+		}
+	}
 </style>
