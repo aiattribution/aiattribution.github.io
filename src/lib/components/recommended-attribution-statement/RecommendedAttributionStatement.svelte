@@ -28,12 +28,10 @@
 {/if}
 
 <style lang="scss">
+	@use '@carbon/type';
+
 	.recommended-attribution-title {
-		font-family: IBM Plex Sans;
-		font-weight: 600;
-		font-size: 16px;
-		line-height: 24px;
-		letter-spacing: 0px;
+		@include type.type-style('heading-02');
 	}
 
 	:global(.recommended-attribution-item-container) {
@@ -43,11 +41,7 @@
 	}
 
 	:global(.recommended-attribution-item-label) {
-		font-family: IBM Plex Sans;
-		font-weight: 400;
-		font-size: 14px;
-		line-height: 18px;
-		letter-spacing: 0.16px;
+		@include type.type-style('body-short-01');
 		color: #525252;
 	}
 
@@ -69,11 +63,7 @@
 	}
 
 	:global(.recommended-attribution-item-text) {
-		font-family: IBM Plex Sans;
-		font-weight: 400;
-		font-size: 16px;
-		line-height: 22px;
-		letter-spacing: 0px;
+		@include type.type-style('body-short-02');
 	}
 
 	:global(.recommended-attribution-item-icons-container) {
@@ -88,10 +78,6 @@
 	}
 
 	.empty-state-text {
-		font-family: IBM Plex Sans;
-		font-weight: 400;
-		font-size: 14px;
-		line-height: 18px;
-		letter-spacing: 0.16px;
+		@include type.type-style('body-short-01');
 	}
 </style>

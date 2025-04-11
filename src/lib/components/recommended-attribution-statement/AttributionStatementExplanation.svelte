@@ -170,23 +170,18 @@
 </div>
 
 <style lang="scss">
+	@use '@carbon/type';
+
 	.explanation-title {
-		font-family: IBM Plex Sans;
-		font-weight: 600;
-		font-size: 16px;
-		line-height: 24px;
-		letter-spacing: 0px;
+		@include type.type-style('heading-02');
 	}
 
-	:global(.attribution-statement-explanation-text, .attribution-statement-icon-description) {
-		font-family: IBM Plex Sans;
-		font-weight: 400;
-		font-size: 14px;
-		line-height: 18px;
-		letter-spacing: 0.16px;
+	.attribution-statement-explanation-text,
+	.attribution-statement-icon-description {
+		@include type.type-style('body-short-01');
 	}
 
-	:global(.attribution-statement-icon-description) {
+	.attribution-statement-icon-description {
 		align-self: center;
 	}
 

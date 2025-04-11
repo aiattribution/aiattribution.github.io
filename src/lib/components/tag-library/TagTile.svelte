@@ -29,6 +29,8 @@
 </Tile>
 
 <style lang="scss">
+	@use '@carbon/type';
+
 	:global(.tag-tile) {
 		display: flex;
 		flex-direction: column;
@@ -41,11 +43,7 @@
 	}
 
 	.tag-title {
-		font-family: IBM Plex Sans;
-		font-weight: 600;
-		font-size: 16px;
-		line-height: 22px;
-		letter-spacing: 0px;
+		@include type.type-style('productive-heading-02');
 	}
 
 	.abbreviation-and-explanation-container {
@@ -56,19 +54,11 @@
 	}
 
 	.label {
-		font-family: IBM Plex Sans;
-		font-weight: 400;
-		font-size: 12px;
-		line-height: 16px;
-		letter-spacing: 0.32px;
+		@include type.type-style('label-01');
 	}
 
 	.text {
-		font-family: IBM Plex Sans;
-		font-weight: 400;
-		font-size: 16px;
-		line-height: 22px;
-		letter-spacing: 0px;
+		@include type.type-style('body-short-02');
 	}
 
 	.icon-container {

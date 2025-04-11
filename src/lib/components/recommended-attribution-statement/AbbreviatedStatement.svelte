@@ -90,9 +90,7 @@
 </script>
 
 <div class="recommended-attribution-item-container">
-	<div class="recommended-attribution-item-label">
-		<p>Abbreviated statement</p>
-	</div>
+	<div class="recommended-attribution-item-label">Abbreviated statement</div>
 	<div class="recommended-attribution-item">
 		<div
 			bind:this={abbreviatedStatementHTMLContainer}

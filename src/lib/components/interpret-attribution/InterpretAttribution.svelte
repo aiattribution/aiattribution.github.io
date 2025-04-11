@@ -302,6 +302,7 @@
 <TagLibrary />
 
 <style lang="scss">
+	@use '@carbon/type';
 	@import '../../../styles/utils.scss';
 
 	.statement-interpreter-container {
@@ -324,19 +325,11 @@
 
 	.explanation-title {
 		margin-top: 1rem;
-		font-family: IBM Plex Sans;
-		font-weight: 400;
-		font-size: 20px;
-		line-height: 28px;
-		letter-spacing: 0px;
+		@include type.type-style('productive-heading-03');
 	}
 
 	.explanation-text {
-		font-family: IBM Plex Sans;
-		font-weight: 400;
-		font-size: 14px;
-		line-height: 18px;
-		letter-spacing: 0.16px;
+		@include type.type-style('body-short-01');
 	}
 
 	.attribution-tags-container {

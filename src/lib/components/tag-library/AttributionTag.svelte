@@ -99,6 +99,8 @@
 </div>
 
 <style lang="scss">
+	@use '@carbon/type';
+
 	.attribution-tag-container {
 		display: flex;
 		flex-direction: column;
@@ -106,11 +108,7 @@
 	}
 
 	.attribution-tag-title {
-		font-family: IBM Plex Sans;
-		font-weight: 400;
-		font-size: 20px;
-		line-height: 28px;
-		letter-spacing: 0px;
+		@include type.type-style('productive-heading-03');
 	}
 
 	.tiles-container {

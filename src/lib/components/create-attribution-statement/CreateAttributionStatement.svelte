@@ -31,6 +31,7 @@
 </div>
 
 <style lang="scss">
+	@use '@carbon/type';
 	@import '../../../styles/utils.scss';
 
 	.attribution-form {
@@ -50,11 +51,7 @@
 
 	.attribution-form-comment,
 	:global(.attribution-form-comment-link) {
-		font-family: IBM Plex Sans;
-		font-weight: 400;
-		font-size: 16px;
-		line-height: 22px;
-		letter-spacing: 0px;
+		@include type.type-style('body-short-02');
 	}
 
 	@media (max-width: 1055px) {

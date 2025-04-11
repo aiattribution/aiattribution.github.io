@@ -125,9 +125,7 @@
 </script>
 
 <div class="recommended-attribution-item-container">
-	<div class="recommended-attribution-item-label">
-		<p>Full statement</p>
-	</div>
+	<div class="recommended-attribution-item-label">Full statement</div>
 	<div class="recommended-attribution-item">
 		<div bind:this={fullStatementHTMLContainer} class="recommended-attribution-item-text-container">
 			<div class="recommended-attribution-item-text">{getFullStatement()}</div>

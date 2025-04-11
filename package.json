@@ -38,6 +38,7 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"@carbon/type": "^11.38.0",
 		"@sveltejs/adapter-static": "^3.0.8",
 		"@vitejs/plugin-basic-ssl": "^1.2.0",
 		"carbon-components-svelte": "^0.87.5",

@@ -44,6 +44,7 @@
 </div>
 
 <style lang="scss">
+	@use '@carbon/type';
 	@import '../styles/utils.scss';
 	$header-height: 3rem;
 
@@ -79,19 +80,12 @@
 	}
 
 	:global(.section-title) {
-		font-family: IBM Plex Sans;
-		font-weight: 400;
-		font-size: 28px;
-		line-height: 36px;
-		letter-spacing: 0px;
+		@include type.type-style('productive-heading-04');
 	}
 
 	:global(.section-text),
 	:global(.bx--link) {
-		font-family: IBM Plex Sans;
-		font-size: 16px;
-		line-height: 22px;
-		letter-spacing: 0px;
+		@include type.type-style('body-short-02');
 	}
 
 	:global(.tooltip .bx--assistive-text) {

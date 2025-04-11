@@ -201,6 +201,8 @@
 </div>
 
 <style lang="scss">
+	@use '@carbon/type';
+
 	.form-item-container {
 		display: flex;
 		flex-direction: column;
@@ -214,6 +216,7 @@
 	.form-item-text-container {
 		display: flex;
 		gap: 12px;
+		@include type.type-style('heading-02');
 	}
 
 	.form-item-text-container.disabled {
@@ -232,11 +235,6 @@
 		height: 28px;
 		background-color: white;
 		border-radius: 50%;
-		font-family: IBM Plex Sans;
-		font-weight: 600;
-		font-size: 16px;
-		line-height: 24px;
-		letter-spacing: 0px;
 		border: 1px solid #161616;
 	}
 
@@ -245,11 +243,6 @@
 		justify-content: center;
 		align-items: center;
 		gap: 4px;
-		font-family: IBM Plex Sans;
-		font-weight: 600;
-		font-size: 16px;
-		line-height: 24px;
-		letter-spacing: 0px;
 	}
 
 	.clear-button-container {
@@ -305,11 +298,7 @@
 
 		.selected-option-container {
 			margin-left: 40px;
-			font-family: IBM Plex Sans;
-			font-weight: 400;
-			font-size: 14px;
-			line-height: 18px;
-			letter-spacing: 0.16px;
+			@include type.type-style('body-short-01');
 		}
 
 		.clear-button-container {

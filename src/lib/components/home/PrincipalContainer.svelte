@@ -67,6 +67,8 @@
 </div>
 
 <style lang="scss">
+	@use '@carbon/type';
+
 	.principal-container {
 		display: flex;
 		gap: 15rem;
@@ -81,20 +83,12 @@
 	}
 
 	.home-title {
-		font-family: IBM Plex Sans;
-		font-weight: 300;
-		font-size: 54px;
-		line-height: 64px;
-		letter-spacing: 0px;
+		@include type.type-style('heading-07');
 	}
 
 	.principal-container-text,
 	:global(.paper-link) {
-		font-family: IBM Plex Sans;
-		font-weight: 400;
-		font-size: 16px;
-		line-height: 22px;
-		letter-spacing: 0px;
+		@include type.type-style('body-short-02');
 		color: var(--cds-text-01);
 	}
 
