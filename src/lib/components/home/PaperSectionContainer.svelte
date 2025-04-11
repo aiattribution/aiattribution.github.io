@@ -29,6 +29,8 @@
 </div>
 
 <style lang="scss">
+	@use '@carbon/type';
+
 	.paper-section-container {
 		display: flex;
 		padding: 64px 40px;
@@ -67,10 +69,6 @@
 	.paper-description-text {
 		margin-left: 4px;
 		margin-top: 8px;
-		font-family: IBM Plex Sans;
-		font-weight: 400;
-		font-size: 16px;
-		line-height: 22px;
-		letter-spacing: 0px;
+		@include type.type-style('body-short-02');
 	}
 </style>
