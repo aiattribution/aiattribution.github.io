@@ -345,7 +345,8 @@
 
 	:global(.attribution-tags-container .tag-tile) {
 		background-color: var(--cds-ui-02) !important;
-		border: 1px solid var(--cds-border-interactive);
+		border: unset;
+		box-shadow: 0 0 0 1px var(--cds-border-interactive);
 	}
 
 	@media (max-width: 1055px) {
@@ -357,6 +358,13 @@
 
 		:global(.attribution-tags-container .attribution-tag-container) {
 			width: 100%;
+		}
+	}
+
+	@media (max-width: 480px) {
+		:global(.attribution-tags-container .tag-tile) {
+			border: 1px solid var(--cds-border-interactive);
+			box-shadow: unset;
 		}
 	}
 </style>
