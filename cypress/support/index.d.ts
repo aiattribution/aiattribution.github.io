@@ -6,5 +6,6 @@ declare namespace Cypress {
 		viewportTablet(): Chainable<void>;
 		viewportMobile(): Chainable<void>;
 		visitAppHome(): Chainable<void>;
+		clickHamburgerMenuButton(): Chainable<void>;
 	}
 }

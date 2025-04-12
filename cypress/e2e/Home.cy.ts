@@ -1,5 +1,9 @@
 import { HEADER_NAV_ITEMS } from '../../src/lib/components/header/constants';
 import type { HeaderNavItemI } from '../../src/lib/components/header/interfaces.ts';
+import {
+	HEADER_MENU_BAR_CLASS,
+	SIDE_NAV_ITEMS_CLASS
+} from '../support/constants.ts';
 
 describe('Home', () => {
 	const headerNavItems: HeaderNavItemI[] = HEADER_NAV_ITEMS;
@@ -23,18 +27,18 @@ describe('Home', () => {
 	};
 
 	it('MACBOOK 16: should allow access to the navigation items', () => {
-		testNavigationItems(cy.viewportMacbook16, '.bx--header__menu-bar', undefined);
+		testNavigationItems(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS, undefined);
 	});
 
 	it('TABLET: should allow access to the navigation items', () => {
-		testNavigationItems(cy.viewportTablet, '.bx--side-nav__items', () =>
-			cy.get('.bx--header__menu-trigger').click()
+		testNavigationItems(cy.viewportTablet, SIDE_NAV_ITEMS_CLASS, () =>
+			cy.clickHamburgerMenuButton()
 		);
 	});
 
 	it('MOBILE: should allow access to the navigation items', () => {
-		testNavigationItems(cy.viewportMobile, '.bx--side-nav__items', () =>
-			cy.get('.bx--header__menu-trigger').click()
+		testNavigationItems(cy.viewportMobile, SIDE_NAV_ITEMS_CLASS, () =>
+			cy.clickHamburgerMenuButton()
 		);
 	});
 });
