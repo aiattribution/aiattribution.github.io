@@ -335,7 +335,6 @@
 	.attribution-tags-container {
 		display: flex;
 		flex-wrap: wrap;
-		align-items: stretch;
 		gap: 1rem;
 		margin-top: 1rem;
 	}
@@ -354,6 +353,10 @@
 			width: calc(100% + 2 * 16px);
 			margin: 0 -16px;
 			padding: 20px;
+		}
+
+		:global(.attribution-tags-container .attribution-tag-container) {
+			width: 100%;
 		}
 	}
 </style>

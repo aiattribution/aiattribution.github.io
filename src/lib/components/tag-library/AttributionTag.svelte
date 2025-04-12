@@ -113,6 +113,7 @@
 
 	.tiles-container {
 		display: flex;
+		flex: 1;
 		flex-wrap: wrap;
 		align-items: stretch;
 	}
