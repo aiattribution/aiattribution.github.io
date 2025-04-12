@@ -14,4 +14,13 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import './commands';
+
+const app: Window | null = window.top;
+
+if (app && !app.document.head.querySelector('[data-hide-command-log-request]')) {
+	const style: HTMLStyleElement = app.document.createElement('style');
+	style.innerHTML = '.command-name-request, .command-name-xhr {display: none}';
+	style.setAttribute('data-hide-command-log-request', '');
+	app.document.head.appendChild(style);
+}
