@@ -2,7 +2,10 @@ import { HEADER_NAV_ITEMS } from '../../src/lib/components/header/constants';
 import type { HeaderNavItemI } from '../../src/lib/components/header/interfaces.ts';
 import {
 	HEADER_MENU_BAR_CLASS,
-	SIDE_NAV_ITEMS_CLASS
+	SIDE_NAV_ITEMS_CLASS,
+	TEST_MACBOOK_16,
+	TEST_MOBILE,
+	TEST_TABLET
 } from '../support/constants.ts';
 
 describe('Home', () => {
@@ -26,17 +29,17 @@ describe('Home', () => {
 		});
 	};
 
-	it('MACBOOK 16: should allow access to the navigation items', () => {
-		testNavigationItems(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS, undefined);
+	it(`${TEST_MACBOOK_16}: should allow access to the navigation items`, () => {
+		testNavigationItems(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS);
 	});
 
-	it('TABLET: should allow access to the navigation items', () => {
+	it(`${TEST_TABLET}: should allow access to the navigation items`, () => {
 		testNavigationItems(cy.viewportTablet, SIDE_NAV_ITEMS_CLASS, () =>
 			cy.clickHamburgerMenuButton()
 		);
 	});
 
-	it('MOBILE: should allow access to the navigation items', () => {
+	it(`${TEST_MOBILE}: should allow access to the navigation items`, () => {
 		testNavigationItems(cy.viewportMobile, SIDE_NAV_ITEMS_CLASS, () =>
 			cy.clickHamburgerMenuButton()
 		);
