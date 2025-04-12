@@ -72,23 +72,25 @@
 				{/each}
 			</div>
 		</div>
-		<div class="carousel-navigator">
-			{#each attributionTag.tags as _, index}
-				{#if currentIndex === index}
-					<SelectedItemIcon
-						on:itemClick={() => {
-							updateCurrentIndex(index);
-						}}
-					/>
-				{:else}
-					<UnselectedItemIcon
-						on:itemClick={() => {
-							updateCurrentIndex(index);
-						}}
-					/>
-				{/if}
-			{/each}
-		</div>
+		{#if attributionTag.tags.length > 1}
+			<div class="carousel-navigator">
+				{#each attributionTag.tags as _, index}
+					{#if currentIndex === index}
+						<SelectedItemIcon
+							on:itemClick={() => {
+								updateCurrentIndex(index);
+							}}
+						/>
+					{:else}
+						<UnselectedItemIcon
+							on:itemClick={() => {
+								updateCurrentIndex(index);
+							}}
+						/>
+					{/if}
+				{/each}
+			</div>
+		{/if}
 	{:else}
 		<div class="tiles-container">
 			{#each attributionTag.tags as tag (tag.id)}
