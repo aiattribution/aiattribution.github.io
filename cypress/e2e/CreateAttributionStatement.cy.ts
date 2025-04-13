@@ -1,13 +1,21 @@
 import {
+	AIA,
+	AIA_EXPLANATION,
 	ATTRIBUTION_FORM_ITEMS,
-	CREATE_ATTRIBUTION_SECTION_TITLE
+	CREATE_ATTRIBUTION_SECTION_TITLE,
+	EXPANDED_STATEMENT_INITIAL_TEXT,
+	VERSION,
+	VERSION_EXPLANATION
 } from '../../src/lib/components/create-attribution-statement/constants.ts';
 import {
+	AttributionType,
 	type FormItemI
 } from '../../src/lib/components/create-attribution-statement/interfaces.ts';
 import { HEADER_NAV_ITEMS } from '../../src/lib/components/header/constants.ts';
 import { HeaderNavType, type HeaderNavItemI } from '../../src/lib/components/header/interfaces.ts';
+import { AIProportionOptions, TagI } from '../../src/lib/models/tag-library.ts';
 import {
+	ALL_TAGS,
 	HEADER_MENU_BAR_CLASS,
 	SIDE_NAV_ITEMS_CLASS,
 	TEST_MACBOOK_16,
@@ -117,6 +125,138 @@ describe('should initialize the form with correct default state', () => {
 	it(TEST_MOBILE, () => {
 		testInitialFormState(cy.viewportMobile, SIDE_NAV_ITEMS_CLASS, true, () =>
 			cy.clickHamburgerMenuButton()
+		);
+	});
+});
+
+const allTags: TagI[] = ALL_TAGS;
+
+const getTagAbbreviation = (tagId: string): string => {
+	let tagAbbreviation: string = '';
+	for (let index: number = 0; index < allTags.length; index++) {
+		const tag: TagI = allTags[index];
+		if (tagId === tag.id) {
+			tagAbbreviation = tag.abbreviation;
+			break;
+		}
+	}
+	return tagAbbreviation;
+};
+
+const getAbbreviatedStatement = (tagId: string): string => {
+	let tagAbbreviation: string = getTagAbbreviation(tagId);
+	return `${AIA} ${tagAbbreviation} ${VERSION}`;
+};
+
+const getFullStatement = (tagId: string): string => {
+	let tagName: string = '';
+	for (let index: number = 0; index < allTags.length; index++) {
+		const tag: TagI = allTags[index];
+		if (tagId === tag.id) {
+			tagName = tag.name;
+			break;
+		}
+	}
+	return `${AIA} ${tagName} ${VERSION}`;
+};
+
+const getTagExplanation = (tagId: string): string => {
+	let tagExplanation: string = '';
+	for (let index: number = 0; index < allTags.length; index++) {
+		const tag: TagI = allTags[index];
+		if (tagId === tag.id) {
+			tagExplanation = tag.explanation;
+			break;
+		}
+	}
+	return tagExplanation;
+};
+
+const getExpandedStatement = (tagId: string): string => {
+	let tagExplanation: string = getTagExplanation(tagId);
+	tagExplanation = tagExplanation.replace('The work', 'this work');
+	tagExplanation = tagExplanation.replace('This work', 'this work');
+	return `${EXPANDED_STATEMENT_INITIAL_TEXT} ${tagExplanation}`;
+};
+
+describe("should correctly set form state when AI proportion is 'Entirely AI-generated'", () => {
+	const disabledClass: string = 'disabled';
+	const recommendedAttributionContainerClass: string = '.recommended-attribution-container';
+	const recommendedAttributionItemContainerClass: string =
+		'.recommended-attribution-item-container';
+	const recommendedAttributionItemTextClass: string = '.recommended-attribution-item-text';
+	const explanationTitleClass: string = '.explanation-title';
+	const attributionStatementExplanationTextClass: string =
+		'.attribution-statement-explanation-text';
+	const attributionIconsDescriptionsClass: string = '.attribution-icons-descriptions';
+	const attributionIconItemContainerClass: string = '.attribution-icon-item-container';
+	const attributionStatementIconDescriptionClass: string =
+		'.attribution-statement-icon-description';
+
+	it(TEST_MACBOOK_16, () => {
+		openCreateAttributionSection(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS);
+		cy.contains('label', AIProportionOptions.ENTIRELY_AI_GENERATED).click();
+		attributionFormItems.forEach((attributionFormItem: FormItemI, index: number) => {
+			if (attributionFormItem.attributionType === AttributionType.AI_CONTRIBUTION) {
+				cy.get(`${attributionFormItemsClass} ${formItemContainerClass}`)
+					.eq(index)
+					.should('have.class', disabledClass);
+			} else {
+				cy.get(`${attributionFormItemsClass} ${formItemContainerClass}`)
+					.eq(index)
+					.should('not.have.class', disabledClass);
+			}
+		});
+		cy.get(emptyStateTextClass).should('not.exist');
+
+		cy.get(recommendedAttributionContainerClass)
+			.find(recommendedAttributionItemContainerClass)
+			.should('have.length', 3);
+
+		cy.get(recommendedAttributionItemTextClass)
+			.eq(0)
+			.invoke('text')
+			.then((text: string) => {
+				const cleaned: string = text.trim().replace(/\s+/g, ' ');
+				expect(cleaned).to.eq(getAbbreviatedStatement(AIProportionOptions.ENTIRELY_AI_GENERATED));
+			});
+
+		cy.get(recommendedAttributionItemTextClass)
+			.eq(1)
+			.invoke('text')
+			.then((text: string) => {
+				const cleaned: string = text.trim().replace(/\s+/g, ' ');
+				expect(cleaned).to.eq(getFullStatement(AIProportionOptions.ENTIRELY_AI_GENERATED));
+			});
+
+		cy.get(recommendedAttributionItemTextClass)
+			.eq(2)
+			.invoke('text')
+			.then((text: string) => {
+				const cleaned: string = text.trim().replace(/\s+/g, ' ');
+				expect(cleaned).to.eq(getExpandedStatement(AIProportionOptions.ENTIRELY_AI_GENERATED));
+			});
+
+		cy.get(explanationTitleClass).should('have.text', 'Explanation');
+		cy.get(attributionStatementExplanationTextClass).eq(0).should('have.text', AIA_EXPLANATION);
+		cy.get(attributionStatementExplanationTextClass).eq(1).should('have.text', VERSION_EXPLANATION);
+
+		cy.get(`${attributionIconsDescriptionsClass} ${attributionIconItemContainerClass}`).should(
+			'have.length',
+			1
+		);
+
+		cy.get(`${attributionIconsDescriptionsClass} ${attributionStatementIconDescriptionClass}`).each(
+			($el: JQuery<HTMLElement>, index: number) => {
+				cy.wrap($el)
+					.invoke('text')
+					.then((text: string) => {
+						const cleaned: string = text.trim().replace(/\s+/g, ' ');
+						expect(cleaned).to.eq(
+							`${getTagAbbreviation(AIProportionOptions.ENTIRELY_AI_GENERATED)}: ${getTagExplanation(AIProportionOptions.ENTIRELY_AI_GENERATED)}`
+						);
+					});
+			}
 		);
 	});
 });

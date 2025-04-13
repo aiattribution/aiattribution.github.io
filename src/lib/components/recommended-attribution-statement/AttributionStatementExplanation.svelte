@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { type Component } from 'svelte';
 	import { utilsService } from '$lib/services';
+	import { AIA_EXPLANATION, VERSION_EXPLANATION } from '../create-attribution-statement/constants';
 	import { AttributionType, type FormItemI } from '../create-attribution-statement/interfaces';
 
 	export let attibutionFormItems: FormItemI[];
@@ -142,7 +143,7 @@
 <p class="explanation-title">Explanation</p>
 
 <div class="attribution-statement-explanation-text">
-	AIA: This prefix is used to identify an AI attribution statement.
+	{AIA_EXPLANATION}
 </div>
 
 {#if hasDescription()}
@@ -165,8 +166,7 @@
 {/if}
 
 <div class="attribution-statement-explanation-text">
-	1.0: Version number of the attribution statement. The version will change as we update the
-	components of the statement.
+	{VERSION_EXPLANATION}
 </div>
 
 <style lang="scss">

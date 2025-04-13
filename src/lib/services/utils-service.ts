@@ -1,4 +1,5 @@
 import { ALL_TAGS } from '$lib/common/constants';
+import { EXPANDED_STATEMENT_INITIAL_TEXT } from '$lib/components/create-attribution-statement/constants';
 import {
 	AttributionType,
 	type FormItemI
@@ -224,7 +225,7 @@ class UtilsService {
 				}
 			}
 		}
-		atributionStatementLabelContent = `This attribution statement indicates that ${proportionOfContribution} ${aiContribution} ${aiInitiatives} ${humanReview} ${modelUsed}`;
+		atributionStatementLabelContent = `${EXPANDED_STATEMENT_INITIAL_TEXT} ${proportionOfContribution} ${aiContribution} ${aiInitiatives} ${humanReview} ${modelUsed}`;
 		atributionStatementLabelContent = atributionStatementLabelContent.replace('.,', ',');
 		return atributionStatementLabelContent;
 	}
