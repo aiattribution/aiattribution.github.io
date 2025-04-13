@@ -3,8 +3,10 @@ import {
 	AIInitiativeOptions,
 	AIProportionOptions,
 	HumanReviewOptions
-} from '$lib/models/tag-library';
+} from '../../models/tag-library';
 import { AttributionType, FormItemType, type FormItemI, type StatementOption } from './interfaces';
+
+export const CREATE_ATTRIBUTION_SECTION_TITLE: string = 'Create an attribution statement';
 
 export const AI_PROPORTIONS_OPTIONS: StatementOption[] = [
 	{

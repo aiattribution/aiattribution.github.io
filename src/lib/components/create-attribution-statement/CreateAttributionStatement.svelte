@@ -2,14 +2,14 @@
 	import { Link } from 'carbon-components-svelte';
 	import { FormItems, RecommendedAttributionStatement } from '$lib';
 	import { MONDAY_FORM_LINK } from '$lib/common/constants';
-	import { ATTRIBUTION_FORM_ITEMS } from './constants';
+	import { ATTRIBUTION_FORM_ITEMS, CREATE_ATTRIBUTION_SECTION_TITLE } from './constants';
 	import { type FormItemI } from './interfaces';
 
 	let attibutionFormItems: FormItemI[] = structuredClone(ATTRIBUTION_FORM_ITEMS);
 </script>
 
 <div class="section-container">
-	<h1 class="section-title">Create an attribution statement</h1>
+	<h1 class="section-title">{CREATE_ATTRIBUTION_SECTION_TITLE}</h1>
 	<p class="section-text">
 		Fill out this form to create an attribution statement that provides transparency on whether and
 		how AI was used in your work. The statement and explanations can be copied and incorporated into
