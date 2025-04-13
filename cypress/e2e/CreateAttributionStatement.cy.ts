@@ -26,9 +26,9 @@ describe('Attribution Statement Creation', () => {
 
 	const openCreateAttributionSection = (
 		viewportFuction: () => void,
-		itemSelector: string,
+		navigationSelector: string,
 		openSideNavFunction?: () => void
-	) => {
+	): void => {
 		viewportFuction();
 		cy.visitAppHome();
 		if (openSideNavFunction) {
@@ -37,7 +37,7 @@ describe('Attribution Statement Creation', () => {
 
 		for (const [index, item] of headerNavItems.entries()) {
 			if (item.text === HeaderNavType.CREATE_ATTRIBUTION) {
-				cy.get(`${itemSelector} li a`).eq(index).click();
+				cy.get(`${navigationSelector} li a`).eq(index).click();
 				break;
 			}
 		}
@@ -66,8 +66,14 @@ describe('Attribution Statement Creation', () => {
 		cy.get(`${sectionTitleClass}`).should('have.text', CREATE_ATTRIBUTION_SECTION_TITLE);
 	});
 
-	it(`${TEST_MACBOOK_16}: should initialize the form with correct default state`, () => {
-		openCreateAttributionSection(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS);
+	const testInitialFormState = (
+		viewportFuction: () => void,
+		navigationSelector: string,
+		checkOptionsOnlyInFirstItem: boolean,
+		openSideNavFunction?: () => void
+	): void => {
+		openCreateAttributionSection(viewportFuction, navigationSelector, openSideNavFunction);
+
 		cy.get(`${attributionFormItemsClass} ${formItemContainerClass}`).should(
 			'have.length',
 			attributionFormItems.length
@@ -76,65 +82,35 @@ describe('Attribution Statement Creation', () => {
 			'have.length',
 			attributionFormItems.length
 		);
+
 		attributionFormItems.forEach((_, index: number) => {
 			cy.get(`${attributionFormItemsClass} ${formItemContainerClass}`)
 				.eq(index)
 				.within(() => {
-					cy.get(`${formItemOptionsContainerClass}`).should('exist');
+					if (!checkOptionsOnlyInFirstItem || index === 0) {
+						cy.get(`${formItemOptionsContainerClass}`).should('exist');
+					} else {
+						cy.get(`${formItemOptionsContainerClass}`).should('not.exist');
+					}
 				});
 		});
+
 		cy.get(`${emptyStateTextClass}`).should('exist');
+	};
+
+	it(`${TEST_MACBOOK_16}: should initialize the form with correct default state`, () => {
+		testInitialFormState(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS, false);
 	});
 
 	it(`${TEST_TABLET}: should initialize the form with correct default state`, () => {
-		openCreateAttributionSection(cy.viewportTablet, SIDE_NAV_ITEMS_CLASS, () =>
+		testInitialFormState(cy.viewportTablet, SIDE_NAV_ITEMS_CLASS, true, () =>
 			cy.clickHamburgerMenuButton()
 		);
-		cy.get(`${attributionFormItemsClass} ${formItemContainerClass}`).should(
-			'have.length',
-			attributionFormItems.length
-		);
-		cy.get(`${attributionFormItemsClass} ${formItemDivisionClass}`).should(
-			'have.length',
-			attributionFormItems.length
-		);
-		attributionFormItems.forEach((_, index: number) => {
-			cy.get(`${attributionFormItemsClass} ${formItemContainerClass}`)
-				.eq(index)
-				.within(() => {
-					if (index === 0) {
-						cy.get(`${formItemOptionsContainerClass}`).should('exist');
-					} else {
-						cy.get(`${formItemOptionsContainerClass}`).should('not.exist');
-					}
-				});
-		});
-		cy.get(`${emptyStateTextClass}`).should('exist');
 	});
 
 	it(`${TEST_MOBILE}: should initialize the form with correct default state`, () => {
-		openCreateAttributionSection(cy.viewportMobile, SIDE_NAV_ITEMS_CLASS, () =>
+		testInitialFormState(cy.viewportMobile, SIDE_NAV_ITEMS_CLASS, true, () =>
 			cy.clickHamburgerMenuButton()
 		);
-		cy.get(`${attributionFormItemsClass} ${formItemContainerClass}`).should(
-			'have.length',
-			attributionFormItems.length
-		);
-		cy.get(`${attributionFormItemsClass} ${formItemDivisionClass}`).should(
-			'have.length',
-			attributionFormItems.length
-		);
-		attributionFormItems.forEach((_, index: number) => {
-			cy.get(`${attributionFormItemsClass} ${formItemContainerClass}`)
-				.eq(index)
-				.within(() => {
-					if (index === 0) {
-						cy.get(`${formItemOptionsContainerClass}`).should('exist');
-					} else {
-						cy.get(`${formItemOptionsContainerClass}`).should('not.exist');
-					}
-				});
-		});
-		cy.get(`${emptyStateTextClass}`).should('exist');
 	});
 });
