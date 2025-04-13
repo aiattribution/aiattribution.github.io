@@ -8,7 +8,7 @@ import {
 	TEST_TABLET
 } from '../support/constants.ts';
 
-describe('Home', () => {
+describe('should allow access to the navigation items', () => {
 	const headerNavItems: HeaderNavItemI[] = HEADER_NAV_ITEMS;
 
 	const testNavigationItems = (
@@ -29,17 +29,17 @@ describe('Home', () => {
 		});
 	};
 
-	it(`${TEST_MACBOOK_16}: should allow access to the navigation items`, () => {
+	it(`${TEST_MACBOOK_16}`, () => {
 		testNavigationItems(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS);
 	});
 
-	it(`${TEST_TABLET}: should allow access to the navigation items`, () => {
+	it(`${TEST_TABLET}`, () => {
 		testNavigationItems(cy.viewportTablet, SIDE_NAV_ITEMS_CLASS, () =>
 			cy.clickHamburgerMenuButton()
 		);
 	});
 
-	it(`${TEST_MOBILE}: should allow access to the navigation items`, () => {
+	it(`${TEST_MOBILE}`, () => {
 		testNavigationItems(cy.viewportMobile, SIDE_NAV_ITEMS_CLASS, () =>
 			cy.clickHamburgerMenuButton()
 		);
