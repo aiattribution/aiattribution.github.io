@@ -13,7 +13,7 @@ describe('should allow access to the navigation items', () => {
 
 	const testNavigationItems = (
 		viewportFuction: () => void,
-		itemSelector: string,
+		navigationSelector: string,
 		openSideNavFunction?: () => void
 	) => {
 		viewportFuction();
@@ -22,24 +22,24 @@ describe('should allow access to the navigation items', () => {
 			openSideNavFunction();
 		}
 
-		cy.get(`${itemSelector} li`).should('have.length', headerNavItems.length);
+		cy.get(`${navigationSelector} li`).should('have.length', headerNavItems.length);
 
 		headerNavItems.forEach((item: HeaderNavItemI, index: number) => {
-			cy.get(`${itemSelector} li a span`).eq(index).should('have.text', item.text);
+			cy.get(`${navigationSelector} li a span`).eq(index).should('have.text', item.text);
 		});
 	};
 
-	it(`${TEST_MACBOOK_16}`, () => {
+	it(TEST_MACBOOK_16, () => {
 		testNavigationItems(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS);
 	});
 
-	it(`${TEST_TABLET}`, () => {
+	it(TEST_TABLET, () => {
 		testNavigationItems(cy.viewportTablet, SIDE_NAV_ITEMS_CLASS, () =>
 			cy.clickHamburgerMenuButton()
 		);
 	});
 
-	it(`${TEST_MOBILE}`, () => {
+	it(TEST_MOBILE, () => {
 		testNavigationItems(cy.viewportMobile, SIDE_NAV_ITEMS_CLASS, () =>
 			cy.clickHamburgerMenuButton()
 		);

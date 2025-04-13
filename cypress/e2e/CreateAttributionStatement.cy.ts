@@ -43,23 +43,23 @@ const openCreateAttributionSection = (
 describe('should allow access to the navigation item for creating an attribution statement', () => {
 	const sectionTitleClass: string = '.section-title';
 
-	it(`${TEST_MACBOOK_16}`, () => {
+	it(TEST_MACBOOK_16, () => {
 		openCreateAttributionSection(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS);
-		cy.get(`${sectionTitleClass}`).should('have.text', CREATE_ATTRIBUTION_SECTION_TITLE);
+		cy.get(sectionTitleClass).should('have.text', CREATE_ATTRIBUTION_SECTION_TITLE);
 	});
 
-	it(`${TEST_TABLET}`, () => {
+	it(TEST_TABLET, () => {
 		openCreateAttributionSection(cy.viewportTablet, SIDE_NAV_ITEMS_CLASS, () =>
 			cy.clickHamburgerMenuButton()
 		);
-		cy.get(`${sectionTitleClass}`).should('have.text', CREATE_ATTRIBUTION_SECTION_TITLE);
+		cy.get(sectionTitleClass).should('have.text', CREATE_ATTRIBUTION_SECTION_TITLE);
 	});
 
-	it(`${TEST_MOBILE}`, () => {
+	it(TEST_MOBILE, () => {
 		openCreateAttributionSection(cy.viewportMobile, SIDE_NAV_ITEMS_CLASS, () =>
 			cy.clickHamburgerMenuButton()
 		);
-		cy.get(`${sectionTitleClass}`).should('have.text', CREATE_ATTRIBUTION_SECTION_TITLE);
+		cy.get(sectionTitleClass).should('have.text', CREATE_ATTRIBUTION_SECTION_TITLE);
 	});
 });
 
@@ -94,27 +94,27 @@ describe('should initialize the form with correct default state', () => {
 				.eq(index)
 				.within(() => {
 					if (!checkOptionsOnlyInFirstItem || index === 0) {
-						cy.get(`${formItemOptionsContainerClass}`).should('exist');
+						cy.get(formItemOptionsContainerClass).should('exist');
 					} else {
-						cy.get(`${formItemOptionsContainerClass}`).should('not.exist');
+						cy.get(formItemOptionsContainerClass).should('not.exist');
 					}
 				});
 		});
 
-		cy.get(`${emptyStateTextClass}`).should('exist');
+		cy.get(emptyStateTextClass).should('exist');
 	};
 
-	it(`${TEST_MACBOOK_16}`, () => {
+	it(TEST_MACBOOK_16, () => {
 		testInitialFormState(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS, false);
 	});
 
-	it(`${TEST_TABLET}`, () => {
+	it(TEST_TABLET, () => {
 		testInitialFormState(cy.viewportTablet, SIDE_NAV_ITEMS_CLASS, true, () =>
 			cy.clickHamburgerMenuButton()
 		);
 	});
 
-	it(`${TEST_MOBILE}`, () => {
+	it(TEST_MOBILE, () => {
 		testInitialFormState(cy.viewportMobile, SIDE_NAV_ITEMS_CLASS, true, () =>
 			cy.clickHamburgerMenuButton()
 		);
