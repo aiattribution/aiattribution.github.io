@@ -21,12 +21,10 @@
 			<RecommendedAttributionStatement {attibutionFormItems} />
 		</div>
 	</div>
-	<div class="attribution-form-comment">
+	<div class="section-text">
 		This tool is still in beta, and we are continuing to improve it. If you have any feedback,
 		suggestions, questions, or comments, please let us know via
-		<Link class="attribution-form-comment-link" href={MONDAY_FORM_LINK} target="_blank" inline>
-			this form
-		</Link>.
+		<Link href={MONDAY_FORM_LINK} target="_blank" inline>this form</Link>.
 	</div>
 </div>
 
@@ -47,11 +45,6 @@
 		flex-grow: 1;
 		gap: 1rem;
 		padding: 20px 40px;
-	}
-
-	.attribution-form-comment,
-	:global(.attribution-form-comment-link) {
-		@include type.type-style('body-short-02');
 	}
 
 	@media (max-width: 1055px) {

@@ -84,7 +84,7 @@
 	}
 
 	:global(.section-text),
-	:global(.bx--link) {
+	:global(.section-text .bx--link) {
 		@include type.type-style('body-short-02');
 	}
 
@@ -101,7 +101,7 @@
 
 	@media (max-width: 480px) {
 		:global(.section-text),
-		:global(.bx--link) {
+		:global(.section-text .bx--link) {
 			font-size: type.type-scale(2) !important;
 		}
 	}
