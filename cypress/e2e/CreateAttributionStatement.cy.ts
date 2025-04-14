@@ -16,7 +16,7 @@ import {
 	TEST_MOBILE,
 	TEST_TABLET
 } from '../support/constants.ts';
-import { getTagAbbreviation, getTagExplanation } from '../support/utils.ts';
+import { getTagDescription } from '../support/utils.ts';
 
 const headerNavItems: HeaderNavItemI[] = HEADER_NAV_ITEMS;
 
@@ -123,7 +123,7 @@ describe('should initialize the form with correct default state', () => {
 	});
 });
 
-describe("should correctly set form state when AI proportion is 'Entirely AI-generated'", () => {
+describe(`should correctly set form state when AI proportion is '${AIProportionOptions.ENTIRELY_AI_GENERATED}'`, () => {
 	it(TEST_MACBOOK_16, () => {
 		openCreateAttributionSection(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS);
 		cy.contains('label', AIProportionOptions.ENTIRELY_AI_GENERATED).click();
@@ -140,12 +140,12 @@ describe("should correctly set form state when AI proportion is 'Entirely AI-gen
 		cy.shouldNotHaveEmptyCreateStatementFormState(AIProportionOptions.ENTIRELY_AI_GENERATED);
 		cy.shouldHaveExpectedAttributionStatementExplanation(
 			1,
-			`${getTagAbbreviation(AIProportionOptions.ENTIRELY_AI_GENERATED)}: ${getTagExplanation(AIProportionOptions.ENTIRELY_AI_GENERATED)}`
+			getTagDescription(AIProportionOptions.ENTIRELY_AI_GENERATED)
 		);
 	});
 });
 
-describe("should correctly set form state when AI proportion is 'Entirely human-created'", () => {
+describe(`should correctly set form state when AI proportion is '${AIProportionOptions.ENTIRELY_HUMAN_CREATED}'`, () => {
 	it(TEST_MACBOOK_16, () => {
 		openCreateAttributionSection(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS);
 		cy.contains('label', AIProportionOptions.ENTIRELY_HUMAN_CREATED).click();
@@ -161,5 +161,33 @@ describe("should correctly set form state when AI proportion is 'Entirely human-
 		});
 		cy.shouldNotHaveEmptyCreateStatementFormState(AIProportionOptions.ENTIRELY_HUMAN_CREATED);
 		cy.shouldHaveExpectedAttributionStatementExplanation(0, '');
+	});
+});
+
+const testAIProportionsThatDoNotHaveSpecialCases = (tagId: string) => {
+	openCreateAttributionSection(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS);
+	cy.contains('label', tagId).click();
+	attributionFormItems.forEach((_, index: number) => {
+		cy.shouldNotHaveDisabledClass(`${attributionFormItemsClass} ${formItemContainerClass}`, index);
+	});
+	cy.shouldNotHaveEmptyCreateStatementFormState(tagId);
+	cy.shouldHaveExpectedAttributionStatementExplanation(1, getTagDescription(tagId));
+};
+
+describe(`should correctly set form state when AI proportion is '${AIProportionOptions.PRIMARILY_AI_GENERATED}'`, () => {
+	it(TEST_MACBOOK_16, () => {
+		testAIProportionsThatDoNotHaveSpecialCases(AIProportionOptions.PRIMARILY_AI_GENERATED);
+	});
+});
+
+describe(`should correctly set form state when AI proportion is '${AIProportionOptions.HUMAN_AI_BLEND}'`, () => {
+	it(TEST_MACBOOK_16, () => {
+		testAIProportionsThatDoNotHaveSpecialCases(AIProportionOptions.HUMAN_AI_BLEND);
+	});
+});
+
+describe(`should correctly set form state when AI proportion is '${AIProportionOptions.PRIMARILY_HUMAN_CREATED}'`, () => {
+	it(TEST_MACBOOK_16, () => {
+		testAIProportionsThatDoNotHaveSpecialCases(AIProportionOptions.PRIMARILY_HUMAN_CREATED);
 	});
 });

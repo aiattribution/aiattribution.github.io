@@ -1,9 +1,9 @@
 import {
-    AIA,
-    EXPANDED_STATEMENT_INITIAL_TEXT,
-    NO_AI_USED_ABBREVIATED_STATEMENT,
-    NO_AI_USED_FULL_STATEMENT,
-    VERSION
+	AIA,
+	EXPANDED_STATEMENT_INITIAL_TEXT,
+	NO_AI_USED_ABBREVIATED_STATEMENT,
+	NO_AI_USED_FULL_STATEMENT,
+	VERSION
 } from '../../src/lib/components/create-attribution-statement/constants.ts';
 import { AIProportionOptions, TagI } from '../../src/lib/models/tag-library.ts';
 import { ALL_TAGS } from '../support/constants.ts';
@@ -62,4 +62,8 @@ export const getExpandedStatement = (tagId: string): string => {
 	tagExplanation = tagExplanation.replace('The work', 'this work');
 	tagExplanation = tagExplanation.replace('This work', 'this work');
 	return `${EXPANDED_STATEMENT_INITIAL_TEXT} ${tagExplanation}`;
+};
+
+export const getTagDescription = (tagId: string): string => {
+	return `${getTagAbbreviation(tagId)}: ${getTagExplanation(tagId)}`;
 };
