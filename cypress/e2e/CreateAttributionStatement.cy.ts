@@ -322,3 +322,29 @@ describe(`should correctly set form state when only the model is set`, () => {
 		testAIProportionsThatDoNotHaveSpecialCases([], modelName);
 	});
 });
+
+describe(`should correctly set form state when multiple form items are selected and the model is set`, () => {
+	it(TEST_MACBOOK_16, () => {
+		const modelName: string = 'granite-3-8b-instruct';
+		testAIProportionsThatDoNotHaveSpecialCases(
+			[
+				HumanReviewOptions.REVIEWED_AND_APPROVED,
+				AIContributionOptions.NEW_CONTENT,
+				AIContributionOptions.CONTENT_EDITS,
+				AIInitiativeOptions.HUMAN_INITIATED,
+				AIProportionOptions.PRIMARILY_AI_GENERATED
+			],
+			modelName
+		);
+	});
+});
+
+describe(`should correctly set form state when AI proportion is '${AIProportionOptions.PRIMARILY_AI_GENERATED}' and the model is set`, () => {
+	it(TEST_MACBOOK_16, () => {
+		const modelName: string = 'granite-3-8b-instruct';
+		testAIProportionsThatDoNotHaveSpecialCases(
+			[AIProportionOptions.PRIMARILY_AI_GENERATED],
+			modelName
+		);
+	});
+});
