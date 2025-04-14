@@ -11,7 +11,8 @@ import { HeaderNavType, type HeaderNavItemI } from '../../src/lib/components/hea
 import {
 	AIContributionOptions,
 	AIInitiativeOptions,
-	AIProportionOptions
+	AIProportionOptions,
+	HumanReviewOptions
 } from '../../src/lib/models/tag-library.ts';
 import {
 	HEADER_MENU_BAR_CLASS,
@@ -270,5 +271,17 @@ describe(`should correctly set form state when AI Initiative are '${AIInitiative
 			AIInitiativeOptions.AI_INITIATED,
 			AIInitiativeOptions.HUMAN_INITIATED
 		]);
+	});
+});
+
+describe(`should correctly set form state when Human Review is '${HumanReviewOptions.REVIEWED_AND_APPROVED}'`, () => {
+	it(TEST_MACBOOK_16, () => {
+		testAIProportionsThatDoNotHaveSpecialCases([HumanReviewOptions.REVIEWED_AND_APPROVED]);
+	});
+});
+
+describe(`should correctly set form state when Human Review is '${HumanReviewOptions.NOT_REVIEWED}'`, () => {
+	it(TEST_MACBOOK_16, () => {
+		testAIProportionsThatDoNotHaveSpecialCases([HumanReviewOptions.NOT_REVIEWED]);
 	});
 });
