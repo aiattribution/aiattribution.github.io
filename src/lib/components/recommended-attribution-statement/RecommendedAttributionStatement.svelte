@@ -11,7 +11,10 @@
 
 	const hasAnyResponseToAnyFormItem = (): boolean => {
 		return attibutionFormItems.some(
-			(item: FormItemI) => item.selectedOptions.length > 0 && item.selectedOptions[0]
+			(item: FormItemI) =>
+				item.selectedOptions.length > 0 &&
+				item.selectedOptions[0] &&
+				item.selectedOptions[0].trim() !== ''
 		);
 	};
 </script>
