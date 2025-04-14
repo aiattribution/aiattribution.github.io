@@ -72,20 +72,13 @@ const formItemContainerClass: string = '.form-item-container';
 const formItemDivisionClass: string = '.form-item-division';
 const formItemOptionsContainerClass: string = '.form-item-options-container';
 
-const testInitialFormState = (
-	viewportFuction: () => void,
-	navigationSelector: string,
-	checkOptionsOnlyInFirstItem: boolean,
-	openSideNavFunction?: () => void
-): void => {
-	openCreateAttributionSection(viewportFuction, navigationSelector, openSideNavFunction);
-
-	cy.get(`${attributionFormItemsClass} ${formItemContainerClass}`).should(
-		'have.length',
+const testInitialFormState = (checkOptionsOnlyInFirstItem: boolean): void => {
+	cy.verifyElementCount(
+		`${attributionFormItemsClass} ${formItemContainerClass}`,
 		attributionFormItems.length
 	);
-	cy.get(`${attributionFormItemsClass} ${formItemDivisionClass}`).should(
-		'have.length',
+	cy.verifyElementCount(
+		`${attributionFormItemsClass} ${formItemDivisionClass}`,
 		attributionFormItems.length
 	);
 
@@ -106,19 +99,22 @@ const testInitialFormState = (
 
 describe('should initialize the form with correct default state', () => {
 	it(TEST_MACBOOK_16, () => {
-		testInitialFormState(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS, false);
+		openCreateAttributionSection(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS);
+		testInitialFormState(false);
 	});
 
 	it(TEST_TABLET, () => {
-		testInitialFormState(cy.viewportTablet, SIDE_NAV_ITEMS_CLASS, true, () =>
+		openCreateAttributionSection(cy.viewportTablet, SIDE_NAV_ITEMS_CLASS, () =>
 			cy.clickHamburgerMenuButton()
 		);
+		testInitialFormState(true);
 	});
 
 	it(TEST_MOBILE, () => {
-		testInitialFormState(cy.viewportMobile, SIDE_NAV_ITEMS_CLASS, true, () =>
+		openCreateAttributionSection(cy.viewportMobile, SIDE_NAV_ITEMS_CLASS, () =>
 			cy.clickHamburgerMenuButton()
 		);
+		testInitialFormState(true);
 	});
 });
 
@@ -191,10 +187,25 @@ describe(`should correctly set form state when AI proportion is '${AIProportionO
 	});
 });
 
+const clearFormItemSelection = (attributionType: AttributionType): void => {
+	let formItemText: string = '';
+	for (const [_, item] of attributionFormItems.entries()) {
+		if (item.attributionType === attributionType) {
+			formItemText = item.text;
+			break;
+		}
+	}
+	cy.contains('.form-item-text', formItemText)
+		.closest('.form-item-text-container')
+		.find('button')
+		.contains('Clear')
+		.click();
+};
+
 describe(`should correctly set form state when AI proportion is selected and then cleared`, () => {
 	it(TEST_MACBOOK_16, () => {
 		testAIProportionsThatDoNotHaveSpecialCases(AIProportionOptions.PRIMARILY_AI_GENERATED);
-		cy.contains('label', AIProportionOptions.PRIMARILY_AI_GENERATED).click();
-		testInitialFormState(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS, false);
+		clearFormItemSelection(AttributionType.PROPORTIONS_OF_CONTRIBUTIONS);
+		testInitialFormState(false);
 	});
 });

@@ -22,7 +22,7 @@ describe('should allow access to the navigation items', () => {
 			openSideNavFunction();
 		}
 
-		cy.get(`${navigationSelector} li`).should('have.length', headerNavItems.length);
+		cy.verifyElementCount(`${navigationSelector} li`, headerNavItems.length);
 
 		headerNavItems.forEach((item: HeaderNavItemI, index: number) => {
 			cy.get(`${navigationSelector} li a span`).eq(index).should('have.text', item.text);

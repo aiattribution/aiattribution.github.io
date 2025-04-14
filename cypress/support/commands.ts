@@ -27,6 +27,10 @@ Cypress.Commands.add('clickHamburgerMenuButton', () => {
 	cy.get(HEADER_HAMBURGER_MENU_BUTTON_CLASS).click();
 });
 
+Cypress.Commands.add('verifyElementCount', (selector: string, expectedCount: number) => {
+	cy.get(selector).should('have.length', expectedCount);
+});
+
 const disabledClass: string = 'disabled';
 Cypress.Commands.add('shouldHaveDisabledClass', (elementSelector: string, index: number) => {
 	cy.get(elementSelector).eq(index).should('have.class', disabledClass);
@@ -87,8 +91,8 @@ Cypress.Commands.add(
 		cy.get(attributionStatementExplanationTextClass).eq(0).should('have.text', AIA_EXPLANATION);
 		cy.get(attributionStatementExplanationTextClass).eq(1).should('have.text', VERSION_EXPLANATION);
 
-		cy.get(`${attributionIconsDescriptionsClass} ${attributionIconItemContainerClass}`).should(
-			'have.length',
+		cy.verifyElementCount(
+			`${attributionIconsDescriptionsClass} ${attributionIconItemContainerClass}`,
 			numberAttributionIconItemContainerExpected
 		);
 
