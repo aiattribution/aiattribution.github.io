@@ -83,15 +83,19 @@ Cypress.Commands.add(
 			numberAttributionIconItemContainerExpected
 		);
 
-		cy.get(`${attributionIconsDescriptionsClass} ${attributionStatementIconDescriptionClass}`).each(
-			($el: JQuery<HTMLElement>, index: number) => {
+		if (statementExplanation) {
+			cy.get(
+				`${attributionIconsDescriptionsClass} ${attributionStatementIconDescriptionClass}`
+			).each(($el: JQuery<HTMLElement>, index: number) => {
 				cy.wrap($el)
 					.invoke('text')
 					.then((text: string) => {
 						const cleaned: string = text.trim().replace(/\s+/g, ' ');
 						expect(cleaned).to.eq(statementExplanation);
 					});
-			}
-		);
+			});
+		} else {
+			cy.get(`${attributionIconsDescriptionsClass}`).should('not.exist');
+		}
 	}
 );

@@ -3,6 +3,8 @@ import {
 	ATTRIBUTION_FORM_ITEMS,
 	CREATE_ATTRIBUTION_SECTION_TITLE,
 	EXPANDED_STATEMENT_INITIAL_TEXT,
+	NO_AI_USED_ABBREVIATED_STATEMENT,
+	NO_AI_USED_FULL_STATEMENT,
 	VERSION
 } from '../../src/lib/components/create-attribution-statement/constants.ts';
 import {
@@ -132,7 +134,10 @@ const getTagAbbreviation = (tagId: string): string => {
 	let tagAbbreviation: string = '';
 	for (let index: number = 0; index < allTags.length; index++) {
 		const tag: TagI = allTags[index];
-		if (tagId === tag.id) {
+		if (tagId === tag.id && tagId === AIProportionOptions.ENTIRELY_HUMAN_CREATED) {
+			tagAbbreviation = NO_AI_USED_ABBREVIATED_STATEMENT;
+			break;
+		} else if (tagId === tag.id) {
 			tagAbbreviation = tag.abbreviation;
 			break;
 		}
@@ -149,7 +154,10 @@ const getFullStatement = (tagId: string): string => {
 	let tagName: string = '';
 	for (let index: number = 0; index < allTags.length; index++) {
 		const tag: TagI = allTags[index];
-		if (tagId === tag.id) {
+		if (tagId === tag.id && tagId === AIProportionOptions.ENTIRELY_HUMAN_CREATED) {
+			tagName = NO_AI_USED_FULL_STATEMENT;
+			break;
+		} else if (tagId === tag.id) {
 			tagName = tag.name;
 			break;
 		}
@@ -208,5 +216,37 @@ describe("should correctly set form state when AI proportion is 'Entirely AI-gen
 			1,
 			`${getTagAbbreviation(AIProportionOptions.ENTIRELY_AI_GENERATED)}: ${getTagExplanation(AIProportionOptions.ENTIRELY_AI_GENERATED)}`
 		);
+	});
+});
+
+describe("should correctly set form state when AI proportion is 'Entirely human-created'", () => {
+	it(TEST_MACBOOK_16, () => {
+		openCreateAttributionSection(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS);
+		cy.contains('label', AIProportionOptions.ENTIRELY_HUMAN_CREATED).click();
+		attributionFormItems.forEach((attributionFormItem: FormItemI, index: number) => {
+			if (attributionFormItem.attributionType === AttributionType.PROPORTIONS_OF_CONTRIBUTIONS) {
+				cy.shouldNotHaveDisabledClass(
+					`${attributionFormItemsClass} ${formItemContainerClass}`,
+					index
+				);
+			} else {
+				cy.shouldHaveDisabledClass(`${attributionFormItemsClass} ${formItemContainerClass}`, index);
+			}
+		});
+		cy.shouldNotHaveEmptyCreateStatementFormState();
+		cy.shouldHaveCorrectNumberOfRecommendedAttributionItems();
+		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
+			0,
+			getAbbreviatedStatement(AIProportionOptions.ENTIRELY_HUMAN_CREATED)
+		);
+		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
+			1,
+			getFullStatement(AIProportionOptions.ENTIRELY_HUMAN_CREATED)
+		);
+		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
+			2,
+			getExpandedStatement(AIProportionOptions.ENTIRELY_HUMAN_CREATED)
+		);
+		cy.shouldHaveExpectedAttributionStatementExplanation(0, '');
 	});
 });
