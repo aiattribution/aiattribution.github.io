@@ -8,7 +8,7 @@ import {
 } from '../../src/lib/components/create-attribution-statement/interfaces.ts';
 import { HEADER_NAV_ITEMS } from '../../src/lib/components/header/constants.ts';
 import { HeaderNavType, type HeaderNavItemI } from '../../src/lib/components/header/interfaces.ts';
-import { AIProportionOptions } from '../../src/lib/models/tag-library.ts';
+import { AIContributionOptions, AIProportionOptions } from '../../src/lib/models/tag-library.ts';
 import {
 	HEADER_MENU_BAR_CLASS,
 	SIDE_NAV_ITEMS_CLASS,
@@ -16,7 +16,7 @@ import {
 	TEST_MOBILE,
 	TEST_TABLET
 } from '../support/constants.ts';
-import { getTagDescription } from '../support/utils.ts';
+import { getTagDescriptions } from '../support/utils.ts';
 
 const headerNavItems: HeaderNavItemI[] = HEADER_NAV_ITEMS;
 
@@ -133,9 +133,10 @@ describe(`should correctly set form state when AI proportion is '${AIProportionO
 			}
 		});
 		cy.shouldNotHaveEmptyCreateStatementFormState([AIProportionOptions.ENTIRELY_AI_GENERATED]);
-		cy.shouldHaveExpectedAttributionStatementExplanation(1, [
-			getTagDescription(AIProportionOptions.ENTIRELY_AI_GENERATED)
+		const tagDescriptions: string[] = getTagDescriptions([
+			AIProportionOptions.ENTIRELY_AI_GENERATED
 		]);
+		cy.shouldHaveExpectedAttributionStatementExplanation(tagDescriptions.length, tagDescriptions);
 	});
 });
 
@@ -154,7 +155,8 @@ describe(`should correctly set form state when AI proportion is '${AIProportionO
 			}
 		});
 		cy.shouldNotHaveEmptyCreateStatementFormState([AIProportionOptions.ENTIRELY_HUMAN_CREATED]);
-		cy.shouldHaveExpectedAttributionStatementExplanation(0, []);
+		const tagDescriptions: string[] = [];
+		cy.shouldHaveExpectedAttributionStatementExplanation(tagDescriptions.length, []);
 	});
 });
 
@@ -167,8 +169,8 @@ const testAIProportionsThatDoNotHaveSpecialCases = (tagIds: string[]) => {
 		cy.shouldNotHaveDisabledClass(`${attributionFormItemsClass} ${formItemContainerClass}`, index);
 	});
 	cy.shouldNotHaveEmptyCreateStatementFormState(tagIds);
-	const tagDescriptions: string[] = tagIds.map((tagId: string) => getTagDescription(tagId));
-	cy.shouldHaveExpectedAttributionStatementExplanation(tagIds.length, tagDescriptions);
+	const tagDescriptions: string[] = getTagDescriptions(tagIds);
+	cy.shouldHaveExpectedAttributionStatementExplanation(tagDescriptions.length, tagDescriptions);
 };
 
 describe(`should correctly set form state when AI proportion is '${AIProportionOptions.PRIMARILY_AI_GENERATED}'`, () => {
@@ -209,5 +211,20 @@ describe(`should correctly set form state when AI proportion is selected and the
 		testAIProportionsThatDoNotHaveSpecialCases([AIProportionOptions.PRIMARILY_AI_GENERATED]);
 		clearFormItemSelection(AttributionType.PROPORTIONS_OF_CONTRIBUTIONS);
 		testInitialFormState(false);
+	});
+});
+
+describe(`should correctly set form state when AI contributions is '${AIContributionOptions.STYLISTIC_EDITS}'`, () => {
+	it(TEST_MACBOOK_16, () => {
+		testAIProportionsThatDoNotHaveSpecialCases([AIContributionOptions.STYLISTIC_EDITS]);
+	});
+});
+
+describe(`should correctly set form state when AI contributions are '${AIContributionOptions.CONTENT_EDITS}' and '${AIContributionOptions.NEW_CONTENT}'`, () => {
+	it(TEST_MACBOOK_16, () => {
+		testAIProportionsThatDoNotHaveSpecialCases([
+			AIContributionOptions.CONTENT_EDITS,
+			AIContributionOptions.NEW_CONTENT
+		]);
 	});
 });

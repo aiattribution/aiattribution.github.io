@@ -1,10 +1,12 @@
+import { AttributionType } from '../../src/lib/components/create-attribution-statement/interfaces';
 import {
-    AIContributionOptions,
-    AIInitiativeOptions,
-    AIProportionOptions,
-    HumanReviewOptions,
-    TagI
+	AIContributionOptions,
+	AIInitiativeOptions,
+	AIProportionOptions,
+	HumanReviewOptions,
+	TagI
 } from '../../src/lib/models/tag-library';
+import { type TagsWithAttributionType } from './interfaces';
 
 export const TEST_MACBOOK_16: string = 'MACBOOK 16';
 export const TEST_TABLET: string = 'TABLET';
@@ -106,4 +108,23 @@ export const ALL_TAGS: TagI[] = [
 	...AI_CONTRIBUTIONS_TAGS,
 	...AI_INITIATIVE_TAGS,
 	...HUMAN_REVIEW_TAGS
+];
+
+export const TAGS_WITH_ATTRIBUTION_TYPE: TagsWithAttributionType[] = [
+	{
+		attributionType: AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+		tags: PROPORTIONS_OF_CONTRIBUTIONS_TAGS
+	},
+	{
+		attributionType: AttributionType.AI_CONTRIBUTION,
+		tags: AI_CONTRIBUTIONS_TAGS
+	},
+	{
+		attributionType: AttributionType.AI_INITIATIVE,
+		tags: AI_INITIATIVE_TAGS
+	},
+	{
+		attributionType: AttributionType.HUMAN_REVIEW,
+		tags: HUMAN_REVIEW_TAGS
+	}
 ];
