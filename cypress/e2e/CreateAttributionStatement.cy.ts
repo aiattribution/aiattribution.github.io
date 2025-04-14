@@ -69,43 +69,42 @@ describe('should allow access to the navigation item for creating an attribution
 const attributionFormItems: FormItemI[] = structuredClone(ATTRIBUTION_FORM_ITEMS);
 const attributionFormItemsClass: string = '.attribution-form-items';
 const formItemContainerClass: string = '.form-item-container';
+const formItemDivisionClass: string = '.form-item-division';
+const formItemOptionsContainerClass: string = '.form-item-options-container';
+
+const testInitialFormState = (
+	viewportFuction: () => void,
+	navigationSelector: string,
+	checkOptionsOnlyInFirstItem: boolean,
+	openSideNavFunction?: () => void
+): void => {
+	openCreateAttributionSection(viewportFuction, navigationSelector, openSideNavFunction);
+
+	cy.get(`${attributionFormItemsClass} ${formItemContainerClass}`).should(
+		'have.length',
+		attributionFormItems.length
+	);
+	cy.get(`${attributionFormItemsClass} ${formItemDivisionClass}`).should(
+		'have.length',
+		attributionFormItems.length
+	);
+
+	attributionFormItems.forEach((_, index: number) => {
+		cy.get(`${attributionFormItemsClass} ${formItemContainerClass}`)
+			.eq(index)
+			.within(() => {
+				if (!checkOptionsOnlyInFirstItem || index === 0) {
+					cy.get(formItemOptionsContainerClass).should('exist');
+				} else {
+					cy.get(formItemOptionsContainerClass).should('not.exist');
+				}
+			});
+	});
+
+	cy.shouldHaveEmptyCreateStatementFormState();
+};
 
 describe('should initialize the form with correct default state', () => {
-	const formItemDivisionClass: string = '.form-item-division';
-	const formItemOptionsContainerClass: string = '.form-item-options-container';
-
-	const testInitialFormState = (
-		viewportFuction: () => void,
-		navigationSelector: string,
-		checkOptionsOnlyInFirstItem: boolean,
-		openSideNavFunction?: () => void
-	): void => {
-		openCreateAttributionSection(viewportFuction, navigationSelector, openSideNavFunction);
-
-		cy.get(`${attributionFormItemsClass} ${formItemContainerClass}`).should(
-			'have.length',
-			attributionFormItems.length
-		);
-		cy.get(`${attributionFormItemsClass} ${formItemDivisionClass}`).should(
-			'have.length',
-			attributionFormItems.length
-		);
-
-		attributionFormItems.forEach((_, index: number) => {
-			cy.get(`${attributionFormItemsClass} ${formItemContainerClass}`)
-				.eq(index)
-				.within(() => {
-					if (!checkOptionsOnlyInFirstItem || index === 0) {
-						cy.get(formItemOptionsContainerClass).should('exist');
-					} else {
-						cy.get(formItemOptionsContainerClass).should('not.exist');
-					}
-				});
-		});
-
-		cy.shouldHaveEmptyCreateStatementFormState();
-	};
-
 	it(TEST_MACBOOK_16, () => {
 		testInitialFormState(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS, false);
 	});
@@ -189,5 +188,13 @@ describe(`should correctly set form state when AI proportion is '${AIProportionO
 describe(`should correctly set form state when AI proportion is '${AIProportionOptions.PRIMARILY_HUMAN_CREATED}'`, () => {
 	it(TEST_MACBOOK_16, () => {
 		testAIProportionsThatDoNotHaveSpecialCases(AIProportionOptions.PRIMARILY_HUMAN_CREATED);
+	});
+});
+
+describe(`should correctly set form state when AI proportion is selected and then cleared`, () => {
+	it(TEST_MACBOOK_16, () => {
+		testAIProportionsThatDoNotHaveSpecialCases(AIProportionOptions.PRIMARILY_AI_GENERATED);
+		cy.contains('label', AIProportionOptions.PRIMARILY_AI_GENERATED).click();
+		testInitialFormState(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS, false);
 	});
 });
