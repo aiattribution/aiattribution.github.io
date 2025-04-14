@@ -10,6 +10,11 @@ import { ALL_TAGS, TAGS_WITH_ATTRIBUTION_TYPE } from '../support/constants.ts';
 
 const allTags: TagI[] = ALL_TAGS;
 
+export const lowercaseFirstLetter = (str: string): string => {
+	if (!str || str.startsWith('AI')) return str;
+	return str.charAt(0).toLowerCase() + str.slice(1);
+};
+
 export const getGroupedTags = (tagIds: string[]): Record<string, string[]> => {
 	const groupedTags: Record<string, string[]> = {};
 
@@ -139,6 +144,10 @@ export const getExpandedStatement = (tagIds: string[]): string => {
 				groupedExplanations.push(explanation);
 			}
 		}
+	}
+
+	if (groupedExplanations.length === 1) {
+		groupedExplanations[0] = lowercaseFirstLetter(groupedExplanations[0]);
 	}
 
 	return `${EXPANDED_STATEMENT_INITIAL_TEXT} ${groupedExplanations.join(' ')}`;

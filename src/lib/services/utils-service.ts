@@ -109,7 +109,7 @@ class UtilsService {
 	}
 
 	public lowercaseFirstLetter(str: string): string {
-		if (!str) return str;
+		if (!str || str.startsWith('AI')) return str;
 		return str.charAt(0).toLowerCase() + str.slice(1);
 	}
 
@@ -186,28 +186,31 @@ class UtilsService {
 		);
 		proportionOfContribution = proportionOfContribution.replace('The work', 'this work');
 		proportionOfContribution = proportionOfContribution.replace('This work', 'this work');
-		let modelUsed: string = '';
 		let aiContribution: string = '';
 		let aiInitiatives: string = '';
 		let humanReview: string = '';
+		let modelUsed: string = '';
 		const isAIUsageOptionYes: boolean = this.isAIUsageOptionYes(attibutionFormItems);
 		if (isAIUsageOptionYes) {
 			aiContribution = this.getConcatenatedOptionsExplanations(
 				this.getAttributionFormItemByType(AttributionType.AI_CONTRIBUTION, attibutionFormItems)
 					.selectedOptions
 			);
+			if (!proportionOfContribution && !aiInitiatives && !humanReview && !modelUsed) {
+				aiContribution = this.lowercaseFirstLetter(aiContribution);
+			}
 			aiInitiatives = this.getConcatenatedOptionsExplanations(
 				this.getAttributionFormItemByType(AttributionType.AI_INITIATIVE, attibutionFormItems)
 					.selectedOptions
 			);
-			if (!proportionOfContribution && !modelUsed && !aiContribution) {
+			if (!proportionOfContribution && !aiContribution && !humanReview && !modelUsed) {
 				aiInitiatives = this.lowercaseFirstLetter(aiInitiatives);
 			}
 			humanReview = this.getConcatenatedOptionsExplanations(
 				this.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attibutionFormItems)
 					.selectedOptions
 			);
-			if (!proportionOfContribution && !modelUsed && !aiContribution && !aiInitiatives) {
+			if (!proportionOfContribution && !aiContribution && !aiInitiatives && !modelUsed) {
 				humanReview = this.lowercaseFirstLetter(humanReview);
 			}
 			if (

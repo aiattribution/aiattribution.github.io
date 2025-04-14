@@ -8,7 +8,11 @@ import {
 } from '../../src/lib/components/create-attribution-statement/interfaces.ts';
 import { HEADER_NAV_ITEMS } from '../../src/lib/components/header/constants.ts';
 import { HeaderNavType, type HeaderNavItemI } from '../../src/lib/components/header/interfaces.ts';
-import { AIContributionOptions, AIProportionOptions } from '../../src/lib/models/tag-library.ts';
+import {
+	AIContributionOptions,
+	AIInitiativeOptions,
+	AIProportionOptions
+} from '../../src/lib/models/tag-library.ts';
 import {
 	HEADER_MENU_BAR_CLASS,
 	SIDE_NAV_ITEMS_CLASS,
@@ -244,6 +248,27 @@ describe(`should correctly set form state when AI contributions are '${AIContrib
 			AIContributionOptions.NEW_CONTENT,
 			AIContributionOptions.CONTENT_EDITS,
 			AIProportionOptions.PRIMARILY_AI_GENERATED
+		]);
+	});
+});
+
+describe(`should correctly set form state when AI Initiative is '${AIInitiativeOptions.HUMAN_INITIATED}'`, () => {
+	it(TEST_MACBOOK_16, () => {
+		testAIProportionsThatDoNotHaveSpecialCases([AIInitiativeOptions.HUMAN_INITIATED]);
+	});
+});
+
+describe(`should correctly set form state when AI Initiative is '${AIInitiativeOptions.AI_INITIATED}'`, () => {
+	it(TEST_MACBOOK_16, () => {
+		testAIProportionsThatDoNotHaveSpecialCases([AIInitiativeOptions.AI_INITIATED]);
+	});
+});
+
+describe(`should correctly set form state when AI Initiative are '${AIInitiativeOptions.AI_INITIATED}' and '${AIInitiativeOptions.HUMAN_INITIATED}'`, () => {
+	it(TEST_MACBOOK_16, () => {
+		testAIProportionsThatDoNotHaveSpecialCases([
+			AIInitiativeOptions.AI_INITIATED,
+			AIInitiativeOptions.HUMAN_INITIATED
 		]);
 	});
 });
