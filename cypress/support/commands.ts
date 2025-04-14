@@ -67,16 +67,16 @@ Cypress.Commands.add(
 	}
 );
 
-Cypress.Commands.add('shouldHaveExpectedTextsInRecommendedAttributionItems', (tagId: string) => {
-	cy.shouldHaveExpectedTextInRecommendedAttributionItem(0, getAbbreviatedStatement(tagId));
-	cy.shouldHaveExpectedTextInRecommendedAttributionItem(1, getFullStatement(tagId));
-	cy.shouldHaveExpectedTextInRecommendedAttributionItem(2, getExpandedStatement(tagId));
+Cypress.Commands.add('shouldHaveExpectedTextsInRecommendedAttributionItems', (tagIds: string[]) => {
+	cy.shouldHaveExpectedTextInRecommendedAttributionItem(0, getAbbreviatedStatement(tagIds));
+	cy.shouldHaveExpectedTextInRecommendedAttributionItem(1, getFullStatement(tagIds));
+	cy.shouldHaveExpectedTextInRecommendedAttributionItem(2, getExpandedStatement(tagIds));
 });
 
-Cypress.Commands.add('shouldNotHaveEmptyCreateStatementFormState', (tagId: string) => {
+Cypress.Commands.add('shouldNotHaveEmptyCreateStatementFormState', (tagIds: string[]) => {
 	cy.get(emptyStateTextClass).should('not.exist');
 	cy.shouldHaveCorrectNumberOfRecommendedAttributionItems();
-	cy.shouldHaveExpectedTextsInRecommendedAttributionItems(tagId);
+	cy.shouldHaveExpectedTextsInRecommendedAttributionItems(tagIds);
 });
 
 const explanationTitleClass: string = '.explanation-title';
@@ -86,7 +86,7 @@ const attributionIconItemContainerClass: string = '.attribution-icon-item-contai
 const attributionStatementIconDescriptionClass: string = '.attribution-statement-icon-description';
 Cypress.Commands.add(
 	'shouldHaveExpectedAttributionStatementExplanation',
-	(numberAttributionIconItemContainerExpected: number, statementExplanation: string) => {
+	(numberAttributionIconItemContainerExpected: number, statementExplanations: string[]) => {
 		cy.get(explanationTitleClass).should('have.text', 'Explanation');
 		cy.get(attributionStatementExplanationTextClass).eq(0).should('have.text', AIA_EXPLANATION);
 		cy.get(attributionStatementExplanationTextClass).eq(1).should('have.text', VERSION_EXPLANATION);
@@ -96,7 +96,7 @@ Cypress.Commands.add(
 			numberAttributionIconItemContainerExpected
 		);
 
-		if (statementExplanation) {
+		if (statementExplanations.length > 0) {
 			cy.get(
 				`${attributionIconsDescriptionsClass} ${attributionStatementIconDescriptionClass}`
 			).each(($el: JQuery<HTMLElement>, index: number) => {
@@ -104,7 +104,7 @@ Cypress.Commands.add(
 					.invoke('text')
 					.then((text: string) => {
 						const cleaned: string = text.trim().replace(/\s+/g, ' ');
-						expect(cleaned).to.eq(statementExplanation);
+						expect(cleaned).to.eq(statementExplanations[index]);
 					});
 			});
 		} else {

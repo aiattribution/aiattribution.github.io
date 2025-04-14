@@ -25,12 +25,14 @@ export const getTagAbbreviation = (tagId: string): string => {
 	return tagAbbreviation;
 };
 
-export const getAbbreviatedStatement = (tagId: string): string => {
-	let tagAbbreviation: string = getTagAbbreviation(tagId);
-	return `${AIA} ${tagAbbreviation} ${VERSION}`;
+export const getAbbreviatedStatement = (tagIds: string[]): string => {
+	const abbreviations: string[] = tagIds
+		.map((tagId: string) => getTagAbbreviation(tagId))
+		.filter((abbreviation: string) => abbreviation.trim() !== '');
+	return `${AIA} ${abbreviations.join(' ')} ${VERSION}`;
 };
 
-export const getFullStatement = (tagId: string): string => {
+export const getTagName = (tagId: string): string => {
 	let tagName: string = '';
 	for (let index: number = 0; index < allTags.length; index++) {
 		const tag: TagI = allTags[index];
@@ -42,7 +44,14 @@ export const getFullStatement = (tagId: string): string => {
 			break;
 		}
 	}
-	return `${AIA} ${tagName} ${VERSION}`;
+	return tagName;
+};
+
+export const getFullStatement = (tagIds: string[]): string => {
+	const tagNames: string[] = tagIds
+		.map((tagId: string) => getTagName(tagId))
+		.filter((name: string) => name.trim() !== '');
+	return `${AIA} ${tagNames.join(', ')} ${VERSION}`;
 };
 
 export const getTagExplanation = (tagId: string): string => {
@@ -57,11 +66,16 @@ export const getTagExplanation = (tagId: string): string => {
 	return tagExplanation;
 };
 
-export const getExpandedStatement = (tagId: string): string => {
-	let tagExplanation: string = getTagExplanation(tagId);
-	tagExplanation = tagExplanation.replace('The work', 'this work');
-	tagExplanation = tagExplanation.replace('This work', 'this work');
-	return `${EXPANDED_STATEMENT_INITIAL_TEXT} ${tagExplanation}`;
+export const getExpandedStatement = (tagIds: string[]): string => {
+	const explanations: string[] = tagIds
+		.map((tagId: string) => {
+			let tagExplanation: string = getTagExplanation(tagId);
+			tagExplanation = tagExplanation.replace('The work', 'this work');
+			tagExplanation = tagExplanation.replace('This work', 'this work');
+			return tagExplanation;
+		})
+		.filter((explanation: string) => explanation.trim() !== '');
+	return `${EXPANDED_STATEMENT_INITIAL_TEXT} ${explanations.join(' ')}`;
 };
 
 export const getTagDescription = (tagId: string): string => {

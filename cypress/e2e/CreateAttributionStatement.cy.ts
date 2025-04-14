@@ -132,11 +132,10 @@ describe(`should correctly set form state when AI proportion is '${AIProportionO
 				);
 			}
 		});
-		cy.shouldNotHaveEmptyCreateStatementFormState(AIProportionOptions.ENTIRELY_AI_GENERATED);
-		cy.shouldHaveExpectedAttributionStatementExplanation(
-			1,
+		cy.shouldNotHaveEmptyCreateStatementFormState([AIProportionOptions.ENTIRELY_AI_GENERATED]);
+		cy.shouldHaveExpectedAttributionStatementExplanation(1, [
 			getTagDescription(AIProportionOptions.ENTIRELY_AI_GENERATED)
-		);
+		]);
 	});
 });
 
@@ -154,36 +153,39 @@ describe(`should correctly set form state when AI proportion is '${AIProportionO
 				cy.shouldHaveDisabledClass(`${attributionFormItemsClass} ${formItemContainerClass}`, index);
 			}
 		});
-		cy.shouldNotHaveEmptyCreateStatementFormState(AIProportionOptions.ENTIRELY_HUMAN_CREATED);
-		cy.shouldHaveExpectedAttributionStatementExplanation(0, '');
+		cy.shouldNotHaveEmptyCreateStatementFormState([AIProportionOptions.ENTIRELY_HUMAN_CREATED]);
+		cy.shouldHaveExpectedAttributionStatementExplanation(0, []);
 	});
 });
 
-const testAIProportionsThatDoNotHaveSpecialCases = (tagId: string) => {
+const testAIProportionsThatDoNotHaveSpecialCases = (tagIds: string[]) => {
 	openCreateAttributionSection(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS);
-	cy.contains('label', tagId).click();
+	tagIds.forEach((tagId: string) => {
+		cy.contains('label', tagId).click();
+	});
 	attributionFormItems.forEach((_, index: number) => {
 		cy.shouldNotHaveDisabledClass(`${attributionFormItemsClass} ${formItemContainerClass}`, index);
 	});
-	cy.shouldNotHaveEmptyCreateStatementFormState(tagId);
-	cy.shouldHaveExpectedAttributionStatementExplanation(1, getTagDescription(tagId));
+	cy.shouldNotHaveEmptyCreateStatementFormState(tagIds);
+	const tagDescriptions: string[] = tagIds.map((tagId: string) => getTagDescription(tagId));
+	cy.shouldHaveExpectedAttributionStatementExplanation(tagIds.length, tagDescriptions);
 };
 
 describe(`should correctly set form state when AI proportion is '${AIProportionOptions.PRIMARILY_AI_GENERATED}'`, () => {
 	it(TEST_MACBOOK_16, () => {
-		testAIProportionsThatDoNotHaveSpecialCases(AIProportionOptions.PRIMARILY_AI_GENERATED);
+		testAIProportionsThatDoNotHaveSpecialCases([AIProportionOptions.PRIMARILY_AI_GENERATED]);
 	});
 });
 
 describe(`should correctly set form state when AI proportion is '${AIProportionOptions.HUMAN_AI_BLEND}'`, () => {
 	it(TEST_MACBOOK_16, () => {
-		testAIProportionsThatDoNotHaveSpecialCases(AIProportionOptions.HUMAN_AI_BLEND);
+		testAIProportionsThatDoNotHaveSpecialCases([AIProportionOptions.HUMAN_AI_BLEND]);
 	});
 });
 
 describe(`should correctly set form state when AI proportion is '${AIProportionOptions.PRIMARILY_HUMAN_CREATED}'`, () => {
 	it(TEST_MACBOOK_16, () => {
-		testAIProportionsThatDoNotHaveSpecialCases(AIProportionOptions.PRIMARILY_HUMAN_CREATED);
+		testAIProportionsThatDoNotHaveSpecialCases([AIProportionOptions.PRIMARILY_HUMAN_CREATED]);
 	});
 });
 
@@ -204,7 +206,7 @@ const clearFormItemSelection = (attributionType: AttributionType): void => {
 
 describe(`should correctly set form state when AI proportion is selected and then cleared`, () => {
 	it(TEST_MACBOOK_16, () => {
-		testAIProportionsThatDoNotHaveSpecialCases(AIProportionOptions.PRIMARILY_AI_GENERATED);
+		testAIProportionsThatDoNotHaveSpecialCases([AIProportionOptions.PRIMARILY_AI_GENERATED]);
 		clearFormItemSelection(AttributionType.PROPORTIONS_OF_CONTRIBUTIONS);
 		testInitialFormState(false);
 	});
