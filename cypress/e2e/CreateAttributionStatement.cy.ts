@@ -285,3 +285,15 @@ describe(`should correctly set form state when Human Review is '${HumanReviewOpt
 		testAIProportionsThatDoNotHaveSpecialCases([HumanReviewOptions.NOT_REVIEWED]);
 	});
 });
+
+describe(`should correctly set form state when multiple form items are selected`, () => {
+	it(TEST_MACBOOK_16, () => {
+		testAIProportionsThatDoNotHaveSpecialCases([
+			HumanReviewOptions.REVIEWED_AND_APPROVED,
+			AIContributionOptions.NEW_CONTENT,
+			AIContributionOptions.CONTENT_EDITS,
+			AIInitiativeOptions.HUMAN_INITIATED,
+			AIProportionOptions.PRIMARILY_AI_GENERATED
+		]);
+	});
+});
