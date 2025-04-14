@@ -5,6 +5,7 @@ import {
 	VERSION_EXPLANATION
 } from '../../src/lib/components/create-attribution-statement/constants';
 import { HEADER_HAMBURGER_MENU_BUTTON_CLASS } from './constants';
+import { getAbbreviatedStatement, getExpandedStatement, getFullStatement } from './utils';
 
 Cypress.Commands.add('viewportMacbook16', () => {
 	cy.viewport(1728, 1117);
@@ -40,10 +41,6 @@ Cypress.Commands.add('shouldHaveEmptyCreateStatementFormState', () => {
 	cy.get(emptyStateTextClass).should('exist');
 });
 
-Cypress.Commands.add('shouldNotHaveEmptyCreateStatementFormState', () => {
-	cy.get(emptyStateTextClass).should('not.exist');
-});
-
 const recommendedAttributionContainerClass: string = '.recommended-attribution-container';
 const recommendedAttributionItemContainerClass: string = '.recommended-attribution-item-container';
 Cypress.Commands.add('shouldHaveCorrectNumberOfRecommendedAttributionItems', () => {
@@ -65,6 +62,18 @@ Cypress.Commands.add(
 			});
 	}
 );
+
+Cypress.Commands.add('shouldHaveExpectedTextsInRecommendedAttributionItems', (tagId: string) => {
+	cy.shouldHaveExpectedTextInRecommendedAttributionItem(0, getAbbreviatedStatement(tagId));
+	cy.shouldHaveExpectedTextInRecommendedAttributionItem(1, getFullStatement(tagId));
+	cy.shouldHaveExpectedTextInRecommendedAttributionItem(2, getExpandedStatement(tagId));
+});
+
+Cypress.Commands.add('shouldNotHaveEmptyCreateStatementFormState', (tagId: string) => {
+	cy.get(emptyStateTextClass).should('not.exist');
+	cy.shouldHaveCorrectNumberOfRecommendedAttributionItems();
+	cy.shouldHaveExpectedTextsInRecommendedAttributionItems(tagId);
+});
 
 const explanationTitleClass: string = '.explanation-title';
 const attributionStatementExplanationTextClass: string = '.attribution-statement-explanation-text';

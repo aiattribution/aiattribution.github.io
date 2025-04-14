@@ -10,12 +10,13 @@ declare namespace Cypress {
 		shouldHaveDisabledClass(elementSelector: string, index: number): Chainable<void>;
 		shouldNotHaveDisabledClass(elementSelector: string, index: number): Chainable<void>;
 		shouldHaveEmptyCreateStatementFormState(): Chainable<void>;
-		shouldNotHaveEmptyCreateStatementFormState(): Chainable<void>;
 		shouldHaveCorrectNumberOfRecommendedAttributionItems(): Chainable<void>;
 		shouldHaveExpectedTextInRecommendedAttributionItem(
 			recommendedAttributionItemNumber: number,
 			expectedText: string
 		): Chainable<void>;
+		shouldHaveExpectedTextsInRecommendedAttributionItems(tagId: string): Chainable<void>;
+		shouldNotHaveEmptyCreateStatementFormState(tagId: string): Chainable<void>;
 		shouldHaveExpectedAttributionStatementExplanation(
 			numberAttributionIconItemContainerExpected: number,
 			statementExplanation: string

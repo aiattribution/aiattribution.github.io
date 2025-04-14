@@ -1,11 +1,6 @@
 import {
-	AIA,
 	ATTRIBUTION_FORM_ITEMS,
-	CREATE_ATTRIBUTION_SECTION_TITLE,
-	EXPANDED_STATEMENT_INITIAL_TEXT,
-	NO_AI_USED_ABBREVIATED_STATEMENT,
-	NO_AI_USED_FULL_STATEMENT,
-	VERSION
+	CREATE_ATTRIBUTION_SECTION_TITLE
 } from '../../src/lib/components/create-attribution-statement/constants.ts';
 import {
 	AttributionType,
@@ -13,15 +8,15 @@ import {
 } from '../../src/lib/components/create-attribution-statement/interfaces.ts';
 import { HEADER_NAV_ITEMS } from '../../src/lib/components/header/constants.ts';
 import { HeaderNavType, type HeaderNavItemI } from '../../src/lib/components/header/interfaces.ts';
-import { AIProportionOptions, TagI } from '../../src/lib/models/tag-library.ts';
+import { AIProportionOptions } from '../../src/lib/models/tag-library.ts';
 import {
-	ALL_TAGS,
 	HEADER_MENU_BAR_CLASS,
 	SIDE_NAV_ITEMS_CLASS,
 	TEST_MACBOOK_16,
 	TEST_MOBILE,
 	TEST_TABLET
 } from '../support/constants.ts';
+import { getTagAbbreviation, getTagExplanation } from '../support/utils.ts';
 
 const headerNavItems: HeaderNavItemI[] = HEADER_NAV_ITEMS;
 
@@ -128,62 +123,6 @@ describe('should initialize the form with correct default state', () => {
 	});
 });
 
-const allTags: TagI[] = ALL_TAGS;
-
-const getTagAbbreviation = (tagId: string): string => {
-	let tagAbbreviation: string = '';
-	for (let index: number = 0; index < allTags.length; index++) {
-		const tag: TagI = allTags[index];
-		if (tagId === tag.id && tagId === AIProportionOptions.ENTIRELY_HUMAN_CREATED) {
-			tagAbbreviation = NO_AI_USED_ABBREVIATED_STATEMENT;
-			break;
-		} else if (tagId === tag.id) {
-			tagAbbreviation = tag.abbreviation;
-			break;
-		}
-	}
-	return tagAbbreviation;
-};
-
-const getAbbreviatedStatement = (tagId: string): string => {
-	let tagAbbreviation: string = getTagAbbreviation(tagId);
-	return `${AIA} ${tagAbbreviation} ${VERSION}`;
-};
-
-const getFullStatement = (tagId: string): string => {
-	let tagName: string = '';
-	for (let index: number = 0; index < allTags.length; index++) {
-		const tag: TagI = allTags[index];
-		if (tagId === tag.id && tagId === AIProportionOptions.ENTIRELY_HUMAN_CREATED) {
-			tagName = NO_AI_USED_FULL_STATEMENT;
-			break;
-		} else if (tagId === tag.id) {
-			tagName = tag.name;
-			break;
-		}
-	}
-	return `${AIA} ${tagName} ${VERSION}`;
-};
-
-const getTagExplanation = (tagId: string): string => {
-	let tagExplanation: string = '';
-	for (let index: number = 0; index < allTags.length; index++) {
-		const tag: TagI = allTags[index];
-		if (tagId === tag.id) {
-			tagExplanation = tag.explanation;
-			break;
-		}
-	}
-	return tagExplanation;
-};
-
-const getExpandedStatement = (tagId: string): string => {
-	let tagExplanation: string = getTagExplanation(tagId);
-	tagExplanation = tagExplanation.replace('The work', 'this work');
-	tagExplanation = tagExplanation.replace('This work', 'this work');
-	return `${EXPANDED_STATEMENT_INITIAL_TEXT} ${tagExplanation}`;
-};
-
 describe("should correctly set form state when AI proportion is 'Entirely AI-generated'", () => {
 	it(TEST_MACBOOK_16, () => {
 		openCreateAttributionSection(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS);
@@ -198,20 +137,7 @@ describe("should correctly set form state when AI proportion is 'Entirely AI-gen
 				);
 			}
 		});
-		cy.shouldNotHaveEmptyCreateStatementFormState();
-		cy.shouldHaveCorrectNumberOfRecommendedAttributionItems();
-		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
-			0,
-			getAbbreviatedStatement(AIProportionOptions.ENTIRELY_AI_GENERATED)
-		);
-		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
-			1,
-			getFullStatement(AIProportionOptions.ENTIRELY_AI_GENERATED)
-		);
-		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
-			2,
-			getExpandedStatement(AIProportionOptions.ENTIRELY_AI_GENERATED)
-		);
+		cy.shouldNotHaveEmptyCreateStatementFormState(AIProportionOptions.ENTIRELY_AI_GENERATED);
 		cy.shouldHaveExpectedAttributionStatementExplanation(
 			1,
 			`${getTagAbbreviation(AIProportionOptions.ENTIRELY_AI_GENERATED)}: ${getTagExplanation(AIProportionOptions.ENTIRELY_AI_GENERATED)}`
@@ -233,20 +159,7 @@ describe("should correctly set form state when AI proportion is 'Entirely human-
 				cy.shouldHaveDisabledClass(`${attributionFormItemsClass} ${formItemContainerClass}`, index);
 			}
 		});
-		cy.shouldNotHaveEmptyCreateStatementFormState();
-		cy.shouldHaveCorrectNumberOfRecommendedAttributionItems();
-		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
-			0,
-			getAbbreviatedStatement(AIProportionOptions.ENTIRELY_HUMAN_CREATED)
-		);
-		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
-			1,
-			getFullStatement(AIProportionOptions.ENTIRELY_HUMAN_CREATED)
-		);
-		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
-			2,
-			getExpandedStatement(AIProportionOptions.ENTIRELY_HUMAN_CREATED)
-		);
+		cy.shouldNotHaveEmptyCreateStatementFormState(AIProportionOptions.ENTIRELY_HUMAN_CREATED);
 		cy.shouldHaveExpectedAttributionStatementExplanation(0, '');
 	});
 });
