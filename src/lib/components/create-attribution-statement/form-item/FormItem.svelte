@@ -89,16 +89,20 @@
 		<div class="form-item-number">
 			{formItem.id}
 		</div>
-		<div class="form-item-text">
-			{formItem.text}
-			{#if formItem.tooltipDescription && formItem.tooltipDescription.trim()}
-				<TooltipIcon
-					class="tooltip"
-					tooltipText={formItem.tooltipDescription}
-					icon={Help}
-					direction={isMobileOrTablet ? 'top' : 'right'}
-				/>
-			{/if}
+		<div class="form-item-text-and-tooltip-container">
+			<div class="form-item-text">
+				{formItem.text}
+			</div>
+			<div class="form-item-tooltip">
+				{#if formItem.tooltipDescription && formItem.tooltipDescription.trim()}
+					<TooltipIcon
+						class="tooltip"
+						tooltipText={formItem.tooltipDescription}
+						icon={Help}
+						direction={isMobileOrTablet ? 'top' : 'right'}
+					/>
+				{/if}
+			</div>
 		</div>
 		<div class="clear-button-container">
 			<Button
@@ -238,11 +242,18 @@
 		border: 1px solid #161616;
 	}
 
-	.form-item-text {
+	.form-item-text-and-tooltip-container {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		gap: 4px;
+	}
+
+	.form-item-text,
+	.form-item-tooltip {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.clear-button-container {
