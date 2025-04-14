@@ -10,6 +10,33 @@ import { ALL_TAGS, TAGS_WITH_ATTRIBUTION_TYPE } from '../support/constants.ts';
 
 const allTags: TagI[] = ALL_TAGS;
 
+export const getGroupedTags = (tagIds: string[]): Record<string, string[]> => {
+	const groupedTags: Record<string, string[]> = {};
+
+	for (const tagId of tagIds) {
+		for (const group of TAGS_WITH_ATTRIBUTION_TYPE) {
+			if (group.tags.some((tag: TagI) => tag.id === tagId)) {
+				if (!groupedTags[group.attributionType]) {
+					groupedTags[group.attributionType] = [];
+				}
+				groupedTags[group.attributionType].push(tagId);
+				break;
+			}
+		}
+	}
+
+	for (const { attributionType, tags } of TAGS_WITH_ATTRIBUTION_TYPE) {
+		if (groupedTags[attributionType]) {
+			const orderedIds: string[] = tags
+				.map((tag: TagI) => tag.id)
+				.filter((id: string) => groupedTags[attributionType].includes(id));
+			groupedTags[attributionType] = orderedIds;
+		}
+	}
+
+	return groupedTags;
+};
+
 export const getTagAbbreviation = (tagId: string): string => {
 	let tagAbbreviation: string = '';
 	for (let index: number = 0; index < allTags.length; index++) {
@@ -26,10 +53,23 @@ export const getTagAbbreviation = (tagId: string): string => {
 };
 
 export const getAbbreviatedStatement = (tagIds: string[]): string => {
-	const abbreviations: string[] = tagIds
-		.map((tagId: string) => getTagAbbreviation(tagId))
-		.filter((abbreviation: string) => abbreviation.trim() !== '');
-	return `${AIA} ${abbreviations.join('')} ${VERSION}`;
+	const groupedTags: Record<string, string[]> = getGroupedTags(tagIds);
+	const groupedAbbreviations: string[] = [];
+
+	for (const { attributionType } of TAGS_WITH_ATTRIBUTION_TYPE) {
+		const ids: string[] = groupedTags[attributionType];
+		if (ids && ids.length) {
+			const abbreviation: string = ids
+				.map((id: string) => getTagAbbreviation(id))
+				.filter((abbreviation: string) => abbreviation.trim() !== '')
+				.join('');
+			if (abbreviation) {
+				groupedAbbreviations.push(abbreviation);
+			}
+		}
+	}
+
+	return `${AIA} ${groupedAbbreviations.join(' ')} ${VERSION}`;
 };
 
 export const getTagName = (tagId: string): string => {
@@ -48,10 +88,23 @@ export const getTagName = (tagId: string): string => {
 };
 
 export const getFullStatement = (tagIds: string[]): string => {
-	const tagNames: string[] = tagIds
-		.map((tagId: string) => getTagName(tagId))
-		.filter((name: string) => name.trim() !== '');
-	return `${AIA} ${tagNames.join(', ')} ${VERSION}`;
+	const groupedTags: Record<string, string[]> = getGroupedTags(tagIds);
+	const groupedNames: string[] = [];
+
+	for (const { attributionType } of TAGS_WITH_ATTRIBUTION_TYPE) {
+		const ids: string[] = groupedTags[attributionType];
+		if (ids && ids.length) {
+			const name: string = ids
+				.map((id: string) => getTagName(id))
+				.filter((name: string) => name.trim() !== '')
+				.join(', ');
+			if (name) {
+				groupedNames.push(name);
+			}
+		}
+	}
+
+	return `${AIA} ${groupedNames.join(', ')} ${VERSION}`;
 };
 
 export const getTagExplanation = (tagId: string): string => {
@@ -67,32 +120,32 @@ export const getTagExplanation = (tagId: string): string => {
 };
 
 export const getExpandedStatement = (tagIds: string[]): string => {
-	const explanations: string[] = tagIds
-		.map((tagId: string) => {
-			let tagExplanation: string = getTagExplanation(tagId);
-			tagExplanation = tagExplanation.replace('The work', 'this work');
-			tagExplanation = tagExplanation.replace('This work', 'this work');
-			return tagExplanation;
-		})
-		.filter((explanation: string) => explanation.trim() !== '');
-	return `${EXPANDED_STATEMENT_INITIAL_TEXT} ${explanations.join(' ')}`;
-};
+	const groupedTags: Record<string, string[]> = getGroupedTags(tagIds);
+	const groupedExplanations: string[] = [];
 
-export const getTagDescriptions = (tagIds: string[]): string[] => {
-	const groupedTags: Record<string, string[]> = {};
-
-	for (const tagId of tagIds) {
-		for (const group of TAGS_WITH_ATTRIBUTION_TYPE) {
-			if (group.tags.some((tag: TagI) => tag.id === tagId)) {
-				if (!groupedTags[group.attributionType]) {
-					groupedTags[group.attributionType] = [];
-				}
-				groupedTags[group.attributionType].push(tagId);
-				break;
+	for (const { attributionType } of TAGS_WITH_ATTRIBUTION_TYPE) {
+		const ids: string[] = groupedTags[attributionType];
+		if (ids && ids.length) {
+			const explanation: string = ids
+				.map((id: string) => {
+					let tagExplanation: string = getTagExplanation(id);
+					tagExplanation = tagExplanation.replace('The work', 'this work');
+					tagExplanation = tagExplanation.replace('This work', 'this work');
+					return tagExplanation;
+				})
+				.filter((explanation: string) => explanation.trim() !== '')
+				.join(' ');
+			if (explanation) {
+				groupedExplanations.push(explanation);
 			}
 		}
 	}
 
+	return `${EXPANDED_STATEMENT_INITIAL_TEXT} ${groupedExplanations.join(' ')}`;
+};
+
+export const getTagDescriptions = (tagIds: string[]): string[] => {
+	const groupedTags: Record<string, string[]> = getGroupedTags(tagIds);
 	const groupedDescriptions: string[] = [];
 
 	for (const ids of Object.values(groupedTags)) {
