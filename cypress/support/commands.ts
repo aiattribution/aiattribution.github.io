@@ -67,17 +67,29 @@ Cypress.Commands.add(
 	}
 );
 
-Cypress.Commands.add('shouldHaveExpectedTextsInRecommendedAttributionItems', (tagIds: string[]) => {
-	cy.shouldHaveExpectedTextInRecommendedAttributionItem(0, getAbbreviatedStatement(tagIds));
-	cy.shouldHaveExpectedTextInRecommendedAttributionItem(1, getFullStatement(tagIds));
-	cy.shouldHaveExpectedTextInRecommendedAttributionItem(2, getExpandedStatement(tagIds));
-});
+Cypress.Commands.add(
+	'shouldHaveExpectedTextsInRecommendedAttributionItems',
+	(tagIds: string[], modelName?: string) => {
+		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
+			0,
+			getAbbreviatedStatement(tagIds, modelName)
+		);
+		cy.shouldHaveExpectedTextInRecommendedAttributionItem(1, getFullStatement(tagIds, modelName));
+		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
+			2,
+			getExpandedStatement(tagIds, modelName)
+		);
+	}
+);
 
-Cypress.Commands.add('shouldNotHaveEmptyCreateStatementFormState', (tagIds: string[]) => {
-	cy.get(emptyStateTextClass).should('not.exist');
-	cy.shouldHaveCorrectNumberOfRecommendedAttributionItems();
-	cy.shouldHaveExpectedTextsInRecommendedAttributionItems(tagIds);
-});
+Cypress.Commands.add(
+	'shouldNotHaveEmptyCreateStatementFormState',
+	(tagIds: string[], modelName?: string) => {
+		cy.get(emptyStateTextClass).should('not.exist');
+		cy.shouldHaveCorrectNumberOfRecommendedAttributionItems();
+		cy.shouldHaveExpectedTextsInRecommendedAttributionItems(tagIds, modelName);
+	}
+);
 
 const explanationTitleClass: string = '.explanation-title';
 const attributionStatementExplanationTextClass: string = '.attribution-statement-explanation-text';

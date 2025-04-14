@@ -57,7 +57,7 @@ export const getTagAbbreviation = (tagId: string): string => {
 	return tagAbbreviation;
 };
 
-export const getAbbreviatedStatement = (tagIds: string[]): string => {
+export const getAbbreviatedStatement = (tagIds: string[], modelName?: string): string => {
 	const groupedTags: Record<string, string[]> = getGroupedTags(tagIds);
 	const groupedAbbreviations: string[] = [];
 
@@ -72,6 +72,10 @@ export const getAbbreviatedStatement = (tagIds: string[]): string => {
 				groupedAbbreviations.push(abbreviation);
 			}
 		}
+	}
+
+	if (modelName) {
+		groupedAbbreviations.push(modelName);
 	}
 
 	return `${AIA} ${groupedAbbreviations.join(' ')} ${VERSION}`;
@@ -92,7 +96,7 @@ export const getTagName = (tagId: string): string => {
 	return tagName;
 };
 
-export const getFullStatement = (tagIds: string[]): string => {
+export const getFullStatement = (tagIds: string[], modelName?: string): string => {
 	const groupedTags: Record<string, string[]> = getGroupedTags(tagIds);
 	const groupedNames: string[] = [];
 
@@ -107,6 +111,10 @@ export const getFullStatement = (tagIds: string[]): string => {
 				groupedNames.push(name);
 			}
 		}
+	}
+
+	if (modelName) {
+		groupedNames.push(modelName);
 	}
 
 	return `${AIA} ${groupedNames.join(', ')} ${VERSION}`;
@@ -124,7 +132,7 @@ export const getTagExplanation = (tagId: string): string => {
 	return tagExplanation;
 };
 
-export const getExpandedStatement = (tagIds: string[]): string => {
+export const getExpandedStatement = (tagIds: string[], modelName?: string): string => {
 	const groupedTags: Record<string, string[]> = getGroupedTags(tagIds);
 	const groupedExplanations: string[] = [];
 
@@ -146,7 +154,17 @@ export const getExpandedStatement = (tagIds: string[]): string => {
 		}
 	}
 
-	if (groupedExplanations.length === 1) {
+	if (modelName) {
+		let modelUsed: string = '';
+		if (groupedExplanations.length > 0) {
+			modelUsed = `${modelName} was used.`;
+		} else {
+			modelUsed = `this work involved the use of ${modelName}.`;
+		}
+		groupedExplanations.push(modelUsed);
+	}
+
+	if (groupedExplanations.length === 1 && !modelName) {
 		groupedExplanations[0] = lowercaseFirstLetter(groupedExplanations[0]);
 	}
 

@@ -16,8 +16,14 @@ declare namespace Cypress {
 			recommendedAttributionItemNumber: number,
 			expectedText: string
 		): Chainable<void>;
-		shouldHaveExpectedTextsInRecommendedAttributionItems(tagIds: string[]): Chainable<void>;
-		shouldNotHaveEmptyCreateStatementFormState(tagIds: string[]): Chainable<void>;
+		shouldHaveExpectedTextsInRecommendedAttributionItems(
+			tagIds: string[],
+			modelName?: string
+		): Chainable<void>;
+		shouldNotHaveEmptyCreateStatementFormState(
+			tagIds: string[],
+			modelName?: string
+		): Chainable<void>;
 		shouldHaveExpectedAttributionStatementExplanation(
 			numberAttributionIconItemContainerExpected: number,
 			statementExplanations: string[]

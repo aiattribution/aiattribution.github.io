@@ -165,15 +165,33 @@ describe(`should correctly set form state when AI proportion is '${AIProportionO
 	});
 });
 
-const testAIProportionsThatDoNotHaveSpecialCases = (tagIds: string[]) => {
+const writeModelName = (modelName: string): void => {
+	let formItemText: string = '';
+	for (const [_, item] of attributionFormItems.entries()) {
+		if (item.attributionType === AttributionType.MODEL) {
+			formItemText = item.text;
+			break;
+		}
+	}
+	cy.contains('.form-item-text', formItemText)
+		.closest('.form-item-container')
+		.find('.form-item-options-container')
+		.find('.text-input')
+		.type(modelName);
+};
+
+const testAIProportionsThatDoNotHaveSpecialCases = (tagIds: string[], modelName?: string) => {
 	openCreateAttributionSection(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS);
+	if (modelName) {
+		writeModelName(modelName);
+	}
 	tagIds.forEach((tagId: string) => {
 		cy.contains('label', tagId).click();
 	});
 	attributionFormItems.forEach((_, index: number) => {
 		cy.shouldNotHaveDisabledClass(`${attributionFormItemsClass} ${formItemContainerClass}`, index);
 	});
-	cy.shouldNotHaveEmptyCreateStatementFormState(tagIds);
+	cy.shouldNotHaveEmptyCreateStatementFormState(tagIds, modelName);
 	const tagDescriptions: string[] = getTagDescriptions(tagIds);
 	cy.shouldHaveExpectedAttributionStatementExplanation(tagDescriptions.length, tagDescriptions);
 };
@@ -295,5 +313,12 @@ describe(`should correctly set form state when multiple form items are selected`
 			AIInitiativeOptions.HUMAN_INITIATED,
 			AIProportionOptions.PRIMARILY_AI_GENERATED
 		]);
+	});
+});
+
+describe(`should correctly set form state when only the model is set`, () => {
+	it(TEST_MACBOOK_16, () => {
+		const modelName: string = 'granite-3-8b-instruct';
+		testAIProportionsThatDoNotHaveSpecialCases([], modelName);
 	});
 });
