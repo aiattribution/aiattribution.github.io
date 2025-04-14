@@ -148,24 +148,27 @@ export const getTagDescriptions = (tagIds: string[]): string[] => {
 	const groupedTags: Record<string, string[]> = getGroupedTags(tagIds);
 	const groupedDescriptions: string[] = [];
 
-	for (const ids of Object.values(groupedTags)) {
-		const abbreviations: string[] = [];
-		const explanations: string[] = [];
+	for (const { attributionType } of TAGS_WITH_ATTRIBUTION_TYPE) {
+		const ids: string[] = groupedTags[attributionType];
+		if (ids && ids.length) {
+			const abbreviations: string[] = [];
+			const explanations: string[] = [];
 
-		for (const id of ids) {
-			const abbreviation: string = getTagAbbreviation(id);
-			const explanation: string = getTagExplanation(id);
+			for (const id of ids) {
+				const abbreviation: string = getTagAbbreviation(id);
+				const explanation: string = getTagExplanation(id);
 
-			if (abbreviation) {
-				abbreviations.push(abbreviation);
+				if (abbreviation) {
+					abbreviations.push(abbreviation);
+				}
+				if (explanation) {
+					explanations.push(explanation);
+				}
 			}
-			if (explanation) {
-				explanations.push(explanation);
-			}
-		}
 
-		if (abbreviations.length && explanations.length) {
-			groupedDescriptions.push(`${abbreviations.join('')}: ${explanations.join(' ')}`);
+			if (abbreviations.length && explanations.length) {
+				groupedDescriptions.push(`${abbreviations.join('')}: ${explanations.join(' ')}`);
+			}
 		}
 	}
 

@@ -237,3 +237,13 @@ describe(`should correctly set form state when AI contributions are '${AIContrib
 		]);
 	});
 });
+
+describe(`should correctly set form state when AI contributions are '${AIContributionOptions.NEW_CONTENT}' and '${AIContributionOptions.CONTENT_EDITS}' and when AI proportion is '${AIProportionOptions.PRIMARILY_AI_GENERATED}'`, () => {
+	it(TEST_MACBOOK_16, () => {
+		testAIProportionsThatDoNotHaveSpecialCases([
+			AIContributionOptions.NEW_CONTENT,
+			AIContributionOptions.CONTENT_EDITS,
+			AIProportionOptions.PRIMARILY_AI_GENERATED
+		]);
+	});
+});
