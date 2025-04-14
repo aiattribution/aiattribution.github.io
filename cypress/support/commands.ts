@@ -1,5 +1,9 @@
 /// <reference types="cypress" />
 
+import {
+	AIA_EXPLANATION,
+	VERSION_EXPLANATION
+} from '../../src/lib/components/create-attribution-statement/constants';
 import { HEADER_HAMBURGER_MENU_BUTTON_CLASS } from './constants';
 
 Cypress.Commands.add('viewportMacbook16', () => {
@@ -21,3 +25,73 @@ Cypress.Commands.add('visitAppHome', () => {
 Cypress.Commands.add('clickHamburgerMenuButton', () => {
 	cy.get(HEADER_HAMBURGER_MENU_BUTTON_CLASS).click();
 });
+
+const disabledClass: string = 'disabled';
+Cypress.Commands.add('shouldHaveDisabledClass', (elementSelector: string, index: number) => {
+	cy.get(elementSelector).eq(index).should('have.class', disabledClass);
+});
+
+Cypress.Commands.add('shouldNotHaveDisabledClass', (elementSelector: string, index: number) => {
+	cy.get(elementSelector).eq(index).should('not.have.class', disabledClass);
+});
+
+const emptyStateTextClass: string = '.empty-state-text';
+Cypress.Commands.add('shouldHaveEmptyCreateStatementFormState', () => {
+	cy.get(emptyStateTextClass).should('exist');
+});
+
+Cypress.Commands.add('shouldNotHaveEmptyCreateStatementFormState', () => {
+	cy.get(emptyStateTextClass).should('not.exist');
+});
+
+const recommendedAttributionContainerClass: string = '.recommended-attribution-container';
+const recommendedAttributionItemContainerClass: string = '.recommended-attribution-item-container';
+Cypress.Commands.add('shouldHaveCorrectNumberOfRecommendedAttributionItems', () => {
+	cy.get(recommendedAttributionContainerClass)
+		.find(recommendedAttributionItemContainerClass)
+		.should('have.length', 3);
+});
+
+const recommendedAttributionItemTextClass: string = '.recommended-attribution-item-text';
+Cypress.Commands.add(
+	'shouldHaveExpectedTextInRecommendedAttributionItem',
+	(recommendedAttributionItemNumber: number, expectedText: string) => {
+		cy.get(recommendedAttributionItemTextClass)
+			.eq(recommendedAttributionItemNumber)
+			.invoke('text')
+			.then((text: string) => {
+				const cleaned: string = text.trim().replace(/\s+/g, ' ');
+				expect(cleaned).to.eq(expectedText);
+			});
+	}
+);
+
+const explanationTitleClass: string = '.explanation-title';
+const attributionStatementExplanationTextClass: string = '.attribution-statement-explanation-text';
+const attributionIconsDescriptionsClass: string = '.attribution-icons-descriptions';
+const attributionIconItemContainerClass: string = '.attribution-icon-item-container';
+const attributionStatementIconDescriptionClass: string = '.attribution-statement-icon-description';
+Cypress.Commands.add(
+	'shouldHaveExpectedAttributionStatementExplanation',
+	(numberAttributionIconItemContainerExpected: number, statementExplanation: string) => {
+		cy.get(explanationTitleClass).should('have.text', 'Explanation');
+		cy.get(attributionStatementExplanationTextClass).eq(0).should('have.text', AIA_EXPLANATION);
+		cy.get(attributionStatementExplanationTextClass).eq(1).should('have.text', VERSION_EXPLANATION);
+
+		cy.get(`${attributionIconsDescriptionsClass} ${attributionIconItemContainerClass}`).should(
+			'have.length',
+			numberAttributionIconItemContainerExpected
+		);
+
+		cy.get(`${attributionIconsDescriptionsClass} ${attributionStatementIconDescriptionClass}`).each(
+			($el: JQuery<HTMLElement>, index: number) => {
+				cy.wrap($el)
+					.invoke('text')
+					.then((text: string) => {
+						const cleaned: string = text.trim().replace(/\s+/g, ' ');
+						expect(cleaned).to.eq(statementExplanation);
+					});
+			}
+		);
+	}
+);

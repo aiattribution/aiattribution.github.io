@@ -7,5 +7,18 @@ declare namespace Cypress {
 		viewportMobile(): Chainable<void>;
 		visitAppHome(): Chainable<void>;
 		clickHamburgerMenuButton(): Chainable<void>;
+		shouldHaveDisabledClass(elementSelector: string, index: number): Chainable<void>;
+		shouldNotHaveDisabledClass(elementSelector: string, index: number): Chainable<void>;
+		shouldHaveEmptyCreateStatementFormState(): Chainable<void>;
+		shouldNotHaveEmptyCreateStatementFormState(): Chainable<void>;
+		shouldHaveCorrectNumberOfRecommendedAttributionItems(): Chainable<void>;
+		shouldHaveExpectedTextInRecommendedAttributionItem(
+			recommendedAttributionItemNumber: number,
+			expectedText: string
+		): Chainable<void>;
+		shouldHaveExpectedAttributionStatementExplanation(
+			numberAttributionIconItemContainerExpected: number,
+			statementExplanation: string
+		): Chainable<void>;
 	}
 }

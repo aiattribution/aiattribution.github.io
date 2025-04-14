@@ -1,11 +1,9 @@
 import {
 	AIA,
-	AIA_EXPLANATION,
 	ATTRIBUTION_FORM_ITEMS,
 	CREATE_ATTRIBUTION_SECTION_TITLE,
 	EXPANDED_STATEMENT_INITIAL_TEXT,
-	VERSION,
-	VERSION_EXPLANATION
+	VERSION
 } from '../../src/lib/components/create-attribution-statement/constants.ts';
 import {
 	AttributionType,
@@ -74,7 +72,6 @@ describe('should allow access to the navigation item for creating an attribution
 const attributionFormItems: FormItemI[] = structuredClone(ATTRIBUTION_FORM_ITEMS);
 const attributionFormItemsClass: string = '.attribution-form-items';
 const formItemContainerClass: string = '.form-item-container';
-const emptyStateTextClass: string = '.empty-state-text';
 
 describe('should initialize the form with correct default state', () => {
 	const formItemDivisionClass: string = '.form-item-division';
@@ -109,7 +106,7 @@ describe('should initialize the form with correct default state', () => {
 				});
 		});
 
-		cy.get(emptyStateTextClass).should('exist');
+		cy.shouldHaveEmptyCreateStatementFormState();
 	};
 
 	it(TEST_MACBOOK_16, () => {
@@ -180,83 +177,36 @@ const getExpandedStatement = (tagId: string): string => {
 };
 
 describe("should correctly set form state when AI proportion is 'Entirely AI-generated'", () => {
-	const disabledClass: string = 'disabled';
-	const recommendedAttributionContainerClass: string = '.recommended-attribution-container';
-	const recommendedAttributionItemContainerClass: string =
-		'.recommended-attribution-item-container';
-	const recommendedAttributionItemTextClass: string = '.recommended-attribution-item-text';
-	const explanationTitleClass: string = '.explanation-title';
-	const attributionStatementExplanationTextClass: string =
-		'.attribution-statement-explanation-text';
-	const attributionIconsDescriptionsClass: string = '.attribution-icons-descriptions';
-	const attributionIconItemContainerClass: string = '.attribution-icon-item-container';
-	const attributionStatementIconDescriptionClass: string =
-		'.attribution-statement-icon-description';
-
 	it(TEST_MACBOOK_16, () => {
 		openCreateAttributionSection(cy.viewportMacbook16, HEADER_MENU_BAR_CLASS);
 		cy.contains('label', AIProportionOptions.ENTIRELY_AI_GENERATED).click();
 		attributionFormItems.forEach((attributionFormItem: FormItemI, index: number) => {
 			if (attributionFormItem.attributionType === AttributionType.AI_CONTRIBUTION) {
-				cy.get(`${attributionFormItemsClass} ${formItemContainerClass}`)
-					.eq(index)
-					.should('have.class', disabledClass);
+				cy.shouldHaveDisabledClass(`${attributionFormItemsClass} ${formItemContainerClass}`, index);
 			} else {
-				cy.get(`${attributionFormItemsClass} ${formItemContainerClass}`)
-					.eq(index)
-					.should('not.have.class', disabledClass);
+				cy.shouldNotHaveDisabledClass(
+					`${attributionFormItemsClass} ${formItemContainerClass}`,
+					index
+				);
 			}
 		});
-		cy.get(emptyStateTextClass).should('not.exist');
-
-		cy.get(recommendedAttributionContainerClass)
-			.find(recommendedAttributionItemContainerClass)
-			.should('have.length', 3);
-
-		cy.get(recommendedAttributionItemTextClass)
-			.eq(0)
-			.invoke('text')
-			.then((text: string) => {
-				const cleaned: string = text.trim().replace(/\s+/g, ' ');
-				expect(cleaned).to.eq(getAbbreviatedStatement(AIProportionOptions.ENTIRELY_AI_GENERATED));
-			});
-
-		cy.get(recommendedAttributionItemTextClass)
-			.eq(1)
-			.invoke('text')
-			.then((text: string) => {
-				const cleaned: string = text.trim().replace(/\s+/g, ' ');
-				expect(cleaned).to.eq(getFullStatement(AIProportionOptions.ENTIRELY_AI_GENERATED));
-			});
-
-		cy.get(recommendedAttributionItemTextClass)
-			.eq(2)
-			.invoke('text')
-			.then((text: string) => {
-				const cleaned: string = text.trim().replace(/\s+/g, ' ');
-				expect(cleaned).to.eq(getExpandedStatement(AIProportionOptions.ENTIRELY_AI_GENERATED));
-			});
-
-		cy.get(explanationTitleClass).should('have.text', 'Explanation');
-		cy.get(attributionStatementExplanationTextClass).eq(0).should('have.text', AIA_EXPLANATION);
-		cy.get(attributionStatementExplanationTextClass).eq(1).should('have.text', VERSION_EXPLANATION);
-
-		cy.get(`${attributionIconsDescriptionsClass} ${attributionIconItemContainerClass}`).should(
-			'have.length',
-			1
+		cy.shouldNotHaveEmptyCreateStatementFormState();
+		cy.shouldHaveCorrectNumberOfRecommendedAttributionItems();
+		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
+			0,
+			getAbbreviatedStatement(AIProportionOptions.ENTIRELY_AI_GENERATED)
 		);
-
-		cy.get(`${attributionIconsDescriptionsClass} ${attributionStatementIconDescriptionClass}`).each(
-			($el: JQuery<HTMLElement>, index: number) => {
-				cy.wrap($el)
-					.invoke('text')
-					.then((text: string) => {
-						const cleaned: string = text.trim().replace(/\s+/g, ' ');
-						expect(cleaned).to.eq(
-							`${getTagAbbreviation(AIProportionOptions.ENTIRELY_AI_GENERATED)}: ${getTagExplanation(AIProportionOptions.ENTIRELY_AI_GENERATED)}`
-						);
-					});
-			}
+		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
+			1,
+			getFullStatement(AIProportionOptions.ENTIRELY_AI_GENERATED)
+		);
+		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
+			2,
+			getExpandedStatement(AIProportionOptions.ENTIRELY_AI_GENERATED)
+		);
+		cy.shouldHaveExpectedAttributionStatementExplanation(
+			1,
+			`${getTagAbbreviation(AIProportionOptions.ENTIRELY_AI_GENERATED)}: ${getTagExplanation(AIProportionOptions.ENTIRELY_AI_GENERATED)}`
 		);
 	});
 });
