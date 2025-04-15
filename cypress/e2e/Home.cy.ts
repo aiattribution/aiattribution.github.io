@@ -1,6 +1,7 @@
 import { CREATE_ATTRIBUTION_SECTION_TITLE } from '../../src/lib/components/create-attribution-statement/constants.ts';
 import { HEADER_NAV_ITEMS } from '../../src/lib/components/header/constants';
 import type { HeaderNavItemI } from '../../src/lib/components/header/interfaces.ts';
+import { INTERPRET_ATTRIBUTION_SECTION_TITLE } from '../../src/lib/components/interpret-attribution/constants.ts';
 import {
 	HEADER_MENU_BAR_CLASS,
 	SIDE_NAV_ITEMS_CLASS,
@@ -106,5 +107,27 @@ describe('should navigate to the attribution statement creation section when cli
 
 	it(TEST_MOBILE, () => {
 		testClickCreateAnAttributionButton(cy.viewportMobile);
+	});
+});
+
+describe('should navigate to the attribution statement interpretation section when clicking the "Interpret an attribution" button', () => {
+	const testClickInterpretAnAttributionButton = (viewportFuction: () => void): void => {
+		viewportFuction();
+		cy.visitAppHome();
+		cy.get('.button-set').find('button').contains('Interpret an attribution').click();
+		const sectionTitleClass: string = '.section-title';
+		cy.get(sectionTitleClass).eq(0).should('have.text', INTERPRET_ATTRIBUTION_SECTION_TITLE);
+	};
+
+	it(TEST_MACBOOK_16, () => {
+		testClickInterpretAnAttributionButton(cy.viewportMacbook16);
+	});
+
+	it(TEST_TABLET, () => {
+		testClickInterpretAnAttributionButton(cy.viewportTablet);
+	});
+
+	it(TEST_MOBILE, () => {
+		testClickInterpretAnAttributionButton(cy.viewportMobile);
 	});
 });

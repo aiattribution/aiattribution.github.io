@@ -19,6 +19,7 @@
 	} from '../create-attribution-statement/interfaces';
 	import type { AttributionTagI } from '../tag-library/interfaces';
 	import { ATTRIBUTION_TAGS } from '../tag-library/constants';
+	import { INTERPRET_ATTRIBUTION_SECTION_TITLE } from './constants';
 
 	let attibutionFormItems: FormItemI[] = structuredClone(ATTRIBUTION_FORM_ITEMS);
 
@@ -256,7 +257,7 @@
 </script>
 
 <div class="section-container">
-	<h1 class="section-title">Interpret an attribution statement</h1>
+	<h1 class="section-title">{INTERPRET_ATTRIBUTION_SECTION_TITLE}</h1>
 	<div class="statement-interpreter-container">
 		<p class="section-text">Enter an attribution statement to learn what it means.</p>
 		<div class="text-input-container">
