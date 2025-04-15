@@ -286,7 +286,7 @@
 				Interpret
 			</Button>
 		</div>
-		{#if statementExplained.trim() && !statementHasAnError}
+		{#if statementToInterpret.trim() && statementExplained.trim() && !statementHasAnError}
 			<p class="explanation-title">Explanation</p>
 			<p class="explanation-text">{statementExplained}</p>
 			<div class="attribution-tags-container">
