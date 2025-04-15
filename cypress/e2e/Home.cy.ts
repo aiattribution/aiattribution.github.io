@@ -45,3 +45,25 @@ describe('should allow access to the navigation items', () => {
 		);
 	});
 });
+
+describe('should open the CHI 2025 paper link successfully', () => {
+	const testChiPaperLink = (viewportFuction: () => void) => {
+		viewportFuction();
+		cy.visitAppHome();
+		cy.contains('a.paper-link', 'CHI 2025 paper')
+			.should('have.attr', 'href', 'https://arxiv.org/pdf/2502.18357')
+			.and('have.attr', 'target', '_blank');
+	};
+
+	it(TEST_MACBOOK_16, () => {
+		testChiPaperLink(cy.viewportMacbook16);
+	});
+
+	it(TEST_TABLET, () => {
+		testChiPaperLink(cy.viewportTablet);
+	});
+
+	it(TEST_MOBILE, () => {
+		testChiPaperLink(cy.viewportMobile);
+	});
+});
