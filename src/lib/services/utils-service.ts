@@ -222,9 +222,9 @@ class UtilsService {
 					attibutionFormItems
 				).selectedOptions[0];
 				if (proportionOfContribution || aiContribution || aiInitiatives || humanReview) {
-					modelUsed = `${modelSelected} was used.`;
+					modelUsed = `The ${modelSelected} model or application was used.`;
 				} else {
-					modelUsed = `this work involved the use of ${modelSelected}.`;
+					modelUsed = `this work involved the use of the ${modelSelected} model or application.`;
 				}
 			}
 		}

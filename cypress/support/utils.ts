@@ -157,9 +157,9 @@ export const getExpandedStatement = (tagIds: string[], modelName?: string): stri
 	if (modelName) {
 		let modelUsed: string = '';
 		if (groupedExplanations.length > 0) {
-			modelUsed = `${modelName} was used.`;
+			modelUsed = `The ${modelName} model or application was used.`;
 		} else {
-			modelUsed = `this work involved the use of ${modelName}.`;
+			modelUsed = `this work involved the use of the ${modelName} model or application.`;
 		}
 		groupedExplanations.push(modelUsed);
 	}
