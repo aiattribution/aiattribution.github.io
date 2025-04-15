@@ -50,9 +50,7 @@ describe('should open the CHI 2025 paper link successfully', () => {
 	const testChiPaperLink = (viewportFuction: () => void) => {
 		viewportFuction();
 		cy.visitAppHome();
-		cy.contains('a.paper-link', 'CHI 2025 paper')
-			.should('have.attr', 'href', 'https://arxiv.org/pdf/2502.18357')
-			.and('have.attr', 'target', '_blank');
+		cy.verifyLink('CHI 2025 paper', 'https://arxiv.org/pdf/2502.18357');
 	};
 
 	it(TEST_MACBOOK_16, () => {
@@ -65,5 +63,25 @@ describe('should open the CHI 2025 paper link successfully', () => {
 
 	it(TEST_MOBILE, () => {
 		testChiPaperLink(cy.viewportMobile);
+	});
+});
+
+describe('should open the GitHub repo issues link successfully', () => {
+	const testGitHubRepoIssuesLink = (viewportFuction: () => void) => {
+		viewportFuction();
+		cy.visitAppHome();
+		cy.verifyLink('GitHub', 'https://github.com/aiattribution/aiattribution.github.io/issues');
+	};
+
+	it(TEST_MACBOOK_16, () => {
+		testGitHubRepoIssuesLink(cy.viewportMacbook16);
+	});
+
+	it(TEST_TABLET, () => {
+		testGitHubRepoIssuesLink(cy.viewportTablet);
+	});
+
+	it(TEST_MOBILE, () => {
+		testGitHubRepoIssuesLink(cy.viewportMobile);
 	});
 });

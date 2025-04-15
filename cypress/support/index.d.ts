@@ -7,6 +7,7 @@ declare namespace Cypress {
 		viewportMobile(): Chainable<void>;
 		visitAppHome(): Chainable<void>;
 		clickHamburgerMenuButton(): Chainable<void>;
+		verifyLink(text: string, link: string): Chainable<void>;
 		verifyElementCount(selector: string, expectedCount: number): Chainable<void>;
 		shouldHaveDisabledClass(elementSelector: string, index: number): Chainable<void>;
 		shouldNotHaveDisabledClass(elementSelector: string, index: number): Chainable<void>;

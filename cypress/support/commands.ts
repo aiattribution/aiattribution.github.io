@@ -27,6 +27,12 @@ Cypress.Commands.add('clickHamburgerMenuButton', () => {
 	cy.get(HEADER_HAMBURGER_MENU_BUTTON_CLASS).click();
 });
 
+Cypress.Commands.add('verifyLink', (text: string, link: string) => {
+	cy.contains('a.bx--link', text)
+		.should('have.attr', 'href', link)
+		.and('have.attr', 'target', '_blank');
+});
+
 Cypress.Commands.add('verifyElementCount', (selector: string, expectedCount: number) => {
 	cy.get(selector).should('have.length', expectedCount);
 });
