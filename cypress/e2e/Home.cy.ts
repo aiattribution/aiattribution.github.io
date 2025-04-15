@@ -1,3 +1,4 @@
+import { CREATE_ATTRIBUTION_SECTION_TITLE } from '../../src/lib/components/create-attribution-statement/constants.ts';
 import { HEADER_NAV_ITEMS } from '../../src/lib/components/header/constants';
 import type { HeaderNavItemI } from '../../src/lib/components/header/interfaces.ts';
 import {
@@ -83,5 +84,27 @@ describe('should open the GitHub repo issues link successfully', () => {
 
 	it(TEST_MOBILE, () => {
 		testGitHubRepoIssuesLink(cy.viewportMobile);
+	});
+});
+
+describe('should navigate to the attribution statement creation section when clicking the "Create an attribution" button', () => {
+	const testClickCreateAnAttributionButton = (viewportFuction: () => void): void => {
+		viewportFuction();
+		cy.visitAppHome();
+		cy.get('.button-set').find('button').contains('Create an attribution').click();
+		const sectionTitleClass: string = '.section-title';
+		cy.get(sectionTitleClass).should('have.text', CREATE_ATTRIBUTION_SECTION_TITLE);
+	};
+
+	it(TEST_MACBOOK_16, () => {
+		testClickCreateAnAttributionButton(cy.viewportMacbook16);
+	});
+
+	it(TEST_TABLET, () => {
+		testClickCreateAnAttributionButton(cy.viewportTablet);
+	});
+
+	it(TEST_MOBILE, () => {
+		testClickCreateAnAttributionButton(cy.viewportMobile);
 	});
 });
