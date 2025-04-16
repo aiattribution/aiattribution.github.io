@@ -77,4 +77,28 @@ describe('getStatementComponents', () => {
 			expect(getStatementComponents(statementToInterpret)).toEqual([statementComponentName]);
 		});
 	});
+
+	it('should recognize model name of one component with AIA and version', () => {
+		const modelName: string = 'granite-3-8b-instruct';
+		const statementToInterpret: string = `${AIA} ${modelName} ${VERSION}`;
+		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
+	});
+
+	it('should recognize model name of one component with AIA', () => {
+		const modelName: string = 'granite-3-8b-instruct';
+		const statementToInterpret: string = `${AIA} ${modelName}`;
+		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
+	});
+
+	it('should recognize model name of one component with version', () => {
+		const modelName: string = 'granite-3-8b-instruct';
+		const statementToInterpret: string = `${modelName} ${VERSION}`;
+		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
+	});
+
+	it('should recognize model name of one component', () => {
+		const modelName: string = 'granite-3-8b-instruct';
+		const statementToInterpret: string = `${modelName}`;
+		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
+	});
 });
