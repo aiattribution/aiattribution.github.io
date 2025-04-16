@@ -1,9 +1,57 @@
+import { ALL_TAGS } from '$lib/common/constants';
+import type { TagI } from '$lib/models/tag-library';
 import {
-    AIA,
-    NO_AI_USED_ABBREVIATED_STATEMENT,
-    NO_AI_USED_FULL_STATEMENT,
-    VERSION
+	AIA,
+	NO_AI_USED_ABBREVIATED_STATEMENT,
+	NO_AI_USED_FULL_STATEMENT,
+	VERSION
 } from '../create-attribution-statement/constants';
+
+const getMaxTagNameWordLength = (): number => {
+	let maxTagNameWordLength: number = 0;
+	for (const tag of ALL_TAGS) {
+		const wordCount: number = tag.name.trim().split(/\s+/).length;
+		if (wordCount > maxTagNameWordLength) {
+			maxTagNameWordLength = wordCount;
+		}
+	}
+	return maxTagNameWordLength;
+};
+
+const mergeTagsInStatement = (statementComponents: string[]): string[] => {
+	const maxWords: number = getMaxTagNameWordLength();
+
+	for (let i = 0; i < statementComponents.length; i++) {
+		// Case 1: "No", "AI"
+		if (statementComponents[i] === 'No' && statementComponents[i + 1] === 'AI') {
+			statementComponents.splice(i, 2, NO_AI_USED_ABBREVIATED_STATEMENT);
+			break;
+		}
+
+		// Case 2: "AI", "not", "used"
+		if (
+			statementComponents[i] === 'AI' &&
+			statementComponents[i + 1] === 'not' &&
+			statementComponents[i + 2] === 'used'
+		) {
+			statementComponents.splice(i, 3, NO_AI_USED_FULL_STATEMENT);
+			break;
+		}
+
+		for (let length: number = maxWords; length >= 2; length--) {
+			const slice: string = statementComponents.slice(i, i + length).join(' ');
+
+			const matchingTag: TagI = ALL_TAGS.find((tag: TagI) => tag.name === slice);
+
+			if (matchingTag) {
+				statementComponents.splice(i, length, matchingTag.name);
+				break;
+			}
+		}
+	}
+
+	return statementComponents;
+};
 
 export const getStatementComponents = (statementToInterpret: string): string[] => {
 	let statementComponents: string[] = [];
@@ -32,24 +80,7 @@ export const getStatementComponents = (statementToInterpret: string): string[] =
 		}
 	}
 
-	for (let i = 0; i < statementComponents.length; i++) {
-		// Case 1: "No", "AI"
-		if (statementComponents[i] === 'No' && statementComponents[i + 1] === 'AI') {
-			statementComponents.splice(i, 2, NO_AI_USED_ABBREVIATED_STATEMENT);
-			break;
-		}
+	statementComponents = mergeTagsInStatement(statementComponents);
 
-		// Case 2: "AI", "not", "used"
-		if (
-			statementComponents[i] === 'AI' &&
-			statementComponents[i + 1] === 'not' &&
-			statementComponents[i + 2] === 'used'
-		) {
-			statementComponents.splice(i, 3, NO_AI_USED_FULL_STATEMENT);
-			break;
-		}
-	}
-
-	console.log(statementComponents);
 	return statementComponents;
 };
