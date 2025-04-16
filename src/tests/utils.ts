@@ -1,12 +1,12 @@
+import { ALL_TAGS, TAGS_WITH_ATTRIBUTION_TYPE } from '../../cypress/support/constants.js';
 import {
 	AIA,
 	EXPANDED_STATEMENT_INITIAL_TEXT,
 	NO_AI_USED_ABBREVIATED_STATEMENT,
 	NO_AI_USED_FULL_STATEMENT,
 	VERSION
-} from '../../src/lib/components/create-attribution-statement/constants.ts';
-import { AIProportionOptions, TagI } from '../../src/lib/models/tag-library.ts';
-import { ALL_TAGS, TAGS_WITH_ATTRIBUTION_TYPE } from '../support/constants.ts';
+} from '../lib/components/create-attribution-statement/constants.js';
+import { AIProportionOptions, type TagI } from '../lib/models/tag-library.js';
 
 const allTags: TagI[] = ALL_TAGS;
 

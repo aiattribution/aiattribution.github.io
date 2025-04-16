@@ -4,8 +4,12 @@ import {
 	AIA_EXPLANATION,
 	VERSION_EXPLANATION
 } from '../../src/lib/components/create-attribution-statement/constants';
+import {
+	getAbbreviatedStatement,
+	getExpandedStatement,
+	getFullStatement
+} from '../../src/tests/utils';
 import { HEADER_HAMBURGER_MENU_BUTTON_CLASS } from './constants';
-import { getAbbreviatedStatement, getExpandedStatement, getFullStatement } from './utils';
 
 Cypress.Commands.add('viewportMacbook16', () => {
 	cy.viewport(1728, 1117);

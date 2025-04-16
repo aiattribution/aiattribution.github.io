@@ -9,9 +9,9 @@
 		HUMAN_REVIEW_TAGS,
 		PROPORTIONS_OF_CONTRIBUTIONS_TAGS
 	} from '$lib/common/constants';
-	import type { TagI } from '$lib/models/tag-library';
+	import { AIProportionOptions, type TagI } from '$lib/models/tag-library';
 	import { utilsService } from '$lib/services';
-	import { AIA, ATTRIBUTION_FORM_ITEMS, VERSION } from '../create-attribution-statement/constants';
+	import { AIA, ATTRIBUTION_FORM_ITEMS } from '../create-attribution-statement/constants';
 	import {
 		AttributionType,
 		FormItemType,
@@ -20,6 +20,7 @@
 	import type { AttributionTagI } from '../tag-library/interfaces';
 	import { ATTRIBUTION_TAGS } from '../tag-library/constants';
 	import { INTERPRET_ATTRIBUTION_SECTION_TITLE } from './constants';
+	import { getStatementComponents } from './utils';
 
 	let attibutionFormItems: FormItemI[] = structuredClone(ATTRIBUTION_FORM_ITEMS);
 
@@ -43,33 +44,6 @@
 			event.preventDefault();
 			interpretStatement();
 		}
-	};
-
-	const getStatementComponents = (): string[] => {
-		let statementComponents: string[] = [];
-		if (statementToInterpret.includes(',')) {
-			statementComponents = statementToInterpret.split(',').map((item: string) => item.trim());
-			if (statementComponents.length > 0 && statementComponents[0].includes(' ')) {
-				const firstElement: string = statementComponents[0];
-				const [part1, ...rest] = firstElement.split(' ');
-				statementComponents[0] = part1;
-				statementComponents.splice(1, 0, rest.join(' '));
-			}
-		} else {
-			statementComponents = statementToInterpret.trim().split(/\s+/);
-		}
-		if (statementComponents.length > 0) {
-			const lastElement: string = statementComponents[statementComponents.length - 1];
-			if (lastElement === VERSION) {
-				statementComponents.pop();
-			} else if (lastElement.includes(' ') && lastElement.endsWith(VERSION)) {
-				const parts: string[] = lastElement.split(' ');
-				statementComponents[statementComponents.length - 1] = parts.slice(0, -1).join(' ');
-			}
-		}
-
-		console.log(statementComponents);
-		return statementComponents;
 	};
 
 	const isValidIndex = (statementComponents: string[], index: number): boolean => {
@@ -160,7 +134,7 @@
 
 		let tagsIdIdentified: string[] = [];
 
-		let statementComponents: string[] = getStatementComponents();
+		let statementComponents: string[] = getStatementComponents(statementToInterpret);
 		let attributionType: AttributionType = null;
 		let model: string = null;
 
@@ -236,6 +210,37 @@
 			AttributionType.AI_INITIATIVE,
 			AttributionType.HUMAN_REVIEW
 		];
+		for (let index: number = 0; index < attibutionFormItems.length; index++) {
+			if (
+				attibutionFormItems[index].attributionType === AttributionType.PROPORTIONS_OF_CONTRIBUTIONS
+			) {
+				if (
+					attibutionFormItems[index].selectedOptions[0] ===
+					AIProportionOptions.ENTIRELY_HUMAN_CREATED
+				) {
+					const formItemFound: FormItemI = attibutionFormItems.find(
+						(attibutionFormItem: FormItemI) => {
+							if (
+								attibutionFormItem.attributionType !== AttributionType.PROPORTIONS_OF_CONTRIBUTIONS
+							) {
+								return (
+									attibutionFormItem.selectedOptions.length > 0 &&
+									attibutionFormItem.selectedOptions[0].trim() !== ''
+								);
+							}
+						}
+					);
+					if (formItemFound) {
+						statementHasAnError = true;
+						statementError = `If this work was entirely human-created, without the use of AI, then it is not possible for ${formItemFound.selectedOptions[0]} to be part of the attribution statement.`;
+						break;
+					}
+				}
+			}
+		}
+		if (statementHasAnError) {
+			return;
+		}
 		const selectedOptionsList: string[] = attibutionFormItems
 			.filter((item: FormItemI) => targetAttributionTypes.includes(item.attributionType))
 			.flatMap((item: FormItemI) => item.selectedOptions)

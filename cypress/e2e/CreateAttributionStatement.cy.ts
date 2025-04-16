@@ -14,6 +14,7 @@ import {
 	AIProportionOptions,
 	HumanReviewOptions
 } from '../../src/lib/models/tag-library.ts';
+import { getTagDescriptions } from '../../src/tests/utils.ts';
 import {
 	HEADER_MENU_BAR_CLASS,
 	SIDE_NAV_ITEMS_CLASS,
@@ -21,7 +22,6 @@ import {
 	TEST_MOBILE,
 	TEST_TABLET
 } from '../support/constants.ts';
-import { getTagDescriptions } from '../support/utils.ts';
 
 const headerNavItems: HeaderNavItemI[] = HEADER_NAV_ITEMS;
 

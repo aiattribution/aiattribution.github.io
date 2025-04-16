@@ -1,0 +1,48 @@
+import { ALL_TAGS } from '$lib/common/constants';
+import { AIA, VERSION } from '$lib/components/create-attribution-statement/constants';
+import { getStatementComponents } from '$lib/components/interpret-attribution/utils';
+import { type TagI } from '$lib/models/tag-library';
+import { describe, expect, it } from 'vitest';
+import { getTagAbbreviation } from './utils';
+
+describe('getStatementComponents', () => {
+	it('should recognize abbreviated statement of one component with AIA and version', () => {
+		ALL_TAGS.forEach((tag: TagI) => {
+			const statementComponentAbbreviation: string = getTagAbbreviation(tag.id);
+			const statementToInterpret: string = `${AIA} ${statementComponentAbbreviation} ${VERSION}`;
+			expect(getStatementComponents(statementToInterpret)).toEqual([
+				statementComponentAbbreviation
+			]);
+		});
+	});
+
+	it('should recognize abbreviated statement of one component with AIA', () => {
+		ALL_TAGS.forEach((tag: TagI) => {
+			const statementComponentAbbreviation: string = getTagAbbreviation(tag.id);
+			const statementToInterpret: string = `${AIA} ${statementComponentAbbreviation}`;
+			expect(getStatementComponents(statementToInterpret)).toEqual([
+				statementComponentAbbreviation
+			]);
+		});
+	});
+
+	it('should recognize abbreviated statement of one component with version', () => {
+		ALL_TAGS.forEach((tag: TagI) => {
+			const statementComponentAbbreviation: string = getTagAbbreviation(tag.id);
+			const statementToInterpret: string = `${statementComponentAbbreviation} ${VERSION}`;
+			expect(getStatementComponents(statementToInterpret)).toEqual([
+				statementComponentAbbreviation
+			]);
+		});
+	});
+
+	it('should recognize abbreviated statement of one component', () => {
+		ALL_TAGS.forEach((tag: TagI) => {
+			const statementComponentAbbreviation: string = getTagAbbreviation(tag.id);
+			const statementToInterpret: string = `${statementComponentAbbreviation}`;
+			expect(getStatementComponents(statementToInterpret)).toEqual([
+				statementComponentAbbreviation
+			]);
+		});
+	});
+});
