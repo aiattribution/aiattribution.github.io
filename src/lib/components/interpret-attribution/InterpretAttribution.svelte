@@ -31,6 +31,13 @@
 
 	let attributionTags: AttributionTagI[] = ATTRIBUTION_TAGS;
 
+	const targetAttributionTypes: AttributionType[] = [
+		AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+		AttributionType.AI_CONTRIBUTION,
+		AttributionType.AI_INITIATIVE,
+		AttributionType.HUMAN_REVIEW
+	];
+
 	const resetState = (): void => {
 		attributionFormItems = structuredClone(ATTRIBUTION_FORM_ITEMS);
 		attributionTags = ATTRIBUTION_TAGS;
@@ -205,23 +212,7 @@
 		}
 	};
 
-	const interpretStatement = (): void => {
-		resetState();
-
-		let statementComponents: string[] = getStatementComponents(statementToInterpret);
-		if (statementComponents.length === 0) {
-			return;
-		}
-
-		identifyTags(statementComponents);
-
-		statementExplained = utilsService.getAttributionStatementExplanation(attributionFormItems);
-		const targetAttributionTypes: AttributionType[] = [
-			AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-			AttributionType.AI_CONTRIBUTION,
-			AttributionType.AI_INITIATIVE,
-			AttributionType.HUMAN_REVIEW
-		];
+	const verifyIfStatementIsValid = (): void => {
 		for (let index: number = 0; index < attributionFormItems.length; index++) {
 			if (
 				attributionFormItems[index].attributionType === AttributionType.PROPORTIONS_OF_CONTRIBUTIONS
@@ -250,9 +241,22 @@
 				}
 			}
 		}
+	};
+
+	const interpretStatement = (): void => {
+		resetState();
+
+		let statementComponents: string[] = getStatementComponents(statementToInterpret);
+		if (statementComponents.length === 0) {
+			return;
+		}
+
+		identifyTags(statementComponents);
+		verifyIfStatementIsValid();
 		if (statementHasAnError) {
 			return;
 		}
+		statementExplained = utilsService.getAttributionStatementExplanation(attributionFormItems);
 		const selectedOptionsList: string[] = attributionFormItems
 			.filter((item: FormItemI) => targetAttributionTypes.includes(item.attributionType))
 			.flatMap((item: FormItemI) => item.selectedOptions)
