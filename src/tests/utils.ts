@@ -1,6 +1,13 @@
+import {
+	AttributionType,
+	FormItemType,
+	type FormItemI,
+	type StatementOption
+} from '$lib/components/create-attribution-statement/interfaces.js';
 import { ALL_TAGS, TAGS_WITH_ATTRIBUTION_TYPE } from '../../cypress/support/constants.js';
 import {
 	AIA,
+	ATTRIBUTION_FORM_ITEMS,
 	EXPANDED_STATEMENT_INITIAL_TEXT,
 	NO_AI_USED_ABBREVIATED_STATEMENT,
 	NO_AI_USED_FULL_STATEMENT,
@@ -200,4 +207,86 @@ export const getTagDescriptions = (tagIds: string[]): string[] => {
 	}
 
 	return groupedDescriptions;
+};
+
+const getCreateAttributeFormOptionsCombinations = (arr: string[]): string[] => {
+	let result: string[] = [''];
+	const f = (prefix: string, arr: string[]) => {
+		for (let i: number = 0; i < arr.length; i++) {
+			const current: string = (prefix + arr[i]).trim();
+			result.push(current);
+			f((current + ' ').trim() + ' ', arr.slice(i + 1));
+		}
+	};
+	f('', arr);
+	return result.filter((str: string) => str.length > 0);
+};
+
+const cartesianProduct = (arrays: string[][]): string[] => {
+	if (arrays.length === 0) return [];
+
+	return arrays.reduce((acc: string[], curr: string[]) => {
+		let result: string[] = [];
+		for (const a of acc) {
+			for (const c of curr) {
+				if (a && c) {
+					result.push(`${a} ${c}`.trim());
+				} else {
+					result.push((a + c).trim());
+				}
+			}
+		}
+		return result;
+	});
+};
+
+export const generateCreateAttributeFormOptionsCombinations = (
+	isAbbreviated: boolean,
+	modelName: string
+): string[] => {
+	let attributionFormItems: FormItemI[] = ATTRIBUTION_FORM_ITEMS;
+
+	const modelIndex: number = attributionFormItems.findIndex(
+		(value: FormItemI) => value.attributionType === AttributionType.MODEL
+	);
+	if (modelIndex >= 0) {
+		attributionFormItems[modelIndex].options[0] = {
+			option: modelName
+		};
+	}
+
+	const itemCombinations: string[][] = [];
+
+	for (const item of attributionFormItems) {
+		let options: string[] = item.options.map((statementOption: StatementOption) => {
+			if (item.attributionType === AttributionType.MODEL) {
+				return statementOption.option;
+			} else {
+				const tag: TagI | undefined = ALL_TAGS.find(
+					(tag: TagI) => tag.id === statementOption.option
+				);
+				if (tag) {
+					return isAbbreviated ? tag.abbreviation : tag.name;
+				} else {
+					return statementOption.option;
+				}
+			}
+		});
+
+		if (
+			item.typeOfItem === FormItemType.radioButton ||
+			item.typeOfItem === FormItemType.textInput
+		) {
+			itemCombinations.push(['', ...options]);
+		} else if (item.typeOfItem === FormItemType.checkbox) {
+			const combinations: string[] = getCreateAttributeFormOptionsCombinations(options);
+			itemCombinations.push(['', ...combinations]);
+		}
+	}
+
+	const allCombinations: string[] = cartesianProduct(itemCombinations)
+		.map((c: string) => c.trim())
+		.filter((c: string) => c.length > 0);
+
+	return allCombinations;
 };

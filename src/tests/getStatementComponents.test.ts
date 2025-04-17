@@ -3,7 +3,11 @@ import { AIA, VERSION } from '$lib/components/create-attribution-statement/const
 import { getStatementComponents } from '$lib/components/interpret-attribution/utils';
 import { type TagI } from '$lib/models/tag-library';
 import { describe, expect, it } from 'vitest';
-import { getTagAbbreviation, getTagName } from './utils';
+import {
+    generateCreateAttributeFormOptionsCombinations,
+    getTagAbbreviation,
+    getTagName
+} from './utils';
 
 describe('getStatementComponents', () => {
 	it('should recognize abbreviated statement of one component with AIA and version', () => {
@@ -124,5 +128,53 @@ describe('getStatementComponents', () => {
 		const modelName: string = 'granite 3 8b instruct';
 		const statementToInterpret: string = `${modelName}`;
 		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
+	});
+
+	it('should recognize all possible combination of abbreviated components (model without spaces) with AIA and version', () => {
+		const modelName: string = 'granite-3-8b-instruct';
+		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
+			true,
+			modelName
+		);
+		allCombinations.forEach((combination: string) => {
+			const statementToInterpret: string = `${AIA} ${combination} ${VERSION}`;
+			expect(getStatementComponents(statementToInterpret)).toEqual(combination.split(/\s+/));
+		});
+	});
+
+	it('should recognize all possible combination of abbreviated components (model without spaces) with AIA', () => {
+		const modelName: string = 'granite-3-8b-instruct';
+		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
+			true,
+			modelName
+		);
+		allCombinations.forEach((combination: string) => {
+			const statementToInterpret: string = `${AIA} ${combination}`;
+			expect(getStatementComponents(statementToInterpret)).toEqual(combination.split(/\s+/));
+		});
+	});
+
+	it('should recognize all possible combination of abbreviated components (model without spaces) with version', () => {
+		const modelName: string = 'granite-3-8b-instruct';
+		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
+			true,
+			modelName
+		);
+		allCombinations.forEach((combination: string) => {
+			const statementToInterpret: string = `${combination} ${VERSION}`;
+			expect(getStatementComponents(statementToInterpret)).toEqual(combination.split(/\s+/));
+		});
+	});
+
+	it('should recognize all possible combination of abbreviated components (model without spaces)', () => {
+		const modelName: string = 'granite-3-8b-instruct';
+		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
+			true,
+			modelName
+		);
+		allCombinations.forEach((combination: string) => {
+			const statementToInterpret: string = `${combination}`;
+			expect(getStatementComponents(statementToInterpret)).toEqual(combination.split(/\s+/));
+		});
 	});
 });
