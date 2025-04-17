@@ -21,7 +21,7 @@ const getMaxTagNameWordLength = (): number => {
 const mergeTagsInStatement = (statementComponents: string[]): string[] => {
 	const maxWords: number = getMaxTagNameWordLength();
 
-	for (let i = 0; i < statementComponents.length; i++) {
+	for (let i: number = 0; i < statementComponents.length; i++) {
 		// Case 1: "No", "AI"
 		if (statementComponents[i] === 'No' && statementComponents[i + 1] === 'AI') {
 			statementComponents.splice(i, 2, NO_AI_USED_ABBREVIATED_STATEMENT);
@@ -50,7 +50,48 @@ const mergeTagsInStatement = (statementComponents: string[]): string[] => {
 		}
 	}
 
-	return statementComponents;
+	let taggedStatementComponents: { statement: string; isValidTag: boolean }[] = [];
+
+	for (let i: number = 0; i < statementComponents.length; i++) {
+		const statementComponent: string = statementComponents[i];
+		if (
+			ALL_TAGS.find(
+				(tag: TagI) => tag.abbreviation === statementComponent || tag.name === statementComponent
+			)
+		) {
+			taggedStatementComponents.push({ statement: statementComponent, isValidTag: true });
+		} else {
+			taggedStatementComponents.push({ statement: statementComponent, isValidTag: false });
+		}
+	}
+
+	let groupedStatementComponents: string[] = [];
+	let currentGroup: string = '';
+
+	for (let i: number = 0; i < taggedStatementComponents.length; i++) {
+		const item = taggedStatementComponents[i];
+
+		if (item.isValidTag === false) {
+			if (currentGroup) {
+				currentGroup += ' ' + item.statement;
+			} else {
+				currentGroup = item.statement;
+			}
+		} else {
+			if (currentGroup) {
+				groupedStatementComponents.push(currentGroup);
+				currentGroup = '';
+			}
+			groupedStatementComponents.push(item.statement);
+		}
+	}
+
+	if (currentGroup) {
+		groupedStatementComponents.push(currentGroup);
+	}
+
+	console.log(groupedStatementComponents);
+	return groupedStatementComponents;
 };
 
 export const getStatementComponents = (statementToInterpret: string): string[] => {

@@ -78,26 +78,50 @@ describe('getStatementComponents', () => {
 		});
 	});
 
-	it('should recognize model name of one component with AIA and version', () => {
+	it('should recognize model name (without spaces) of one component with AIA and version', () => {
 		const modelName: string = 'granite-3-8b-instruct';
 		const statementToInterpret: string = `${AIA} ${modelName} ${VERSION}`;
 		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
 	});
 
-	it('should recognize model name of one component with AIA', () => {
+	it('should recognize model name (without spaces) of one component with AIA', () => {
 		const modelName: string = 'granite-3-8b-instruct';
 		const statementToInterpret: string = `${AIA} ${modelName}`;
 		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
 	});
 
-	it('should recognize model name of one component with version', () => {
+	it('should recognize model name (without spaces) of one component with version', () => {
 		const modelName: string = 'granite-3-8b-instruct';
 		const statementToInterpret: string = `${modelName} ${VERSION}`;
 		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
 	});
 
-	it('should recognize model name of one component', () => {
+	it('should recognize model name (without spaces) of one component', () => {
 		const modelName: string = 'granite-3-8b-instruct';
+		const statementToInterpret: string = `${modelName}`;
+		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
+	});
+
+	it('should recognize model name (with spaces) of one component with AIA and version', () => {
+		const modelName: string = 'granite 3 8b instruct';
+		const statementToInterpret: string = `${AIA} ${modelName} ${VERSION}`;
+		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
+	});
+
+	it('should recognize model name (with spaces) of one component with AIA', () => {
+		const modelName: string = 'granite 3 8b instruct';
+		const statementToInterpret: string = `${AIA} ${modelName}`;
+		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
+	});
+
+	it('should recognize model name (with spaces) of one component with version', () => {
+		const modelName: string = 'granite 3 8b instruct';
+		const statementToInterpret: string = `${modelName} ${VERSION}`;
+		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
+	});
+
+	it('should recognize model name (with spaces) of one component', () => {
+		const modelName: string = 'granite 3 8b instruct';
 		const statementToInterpret: string = `${modelName}`;
 		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
 	});
