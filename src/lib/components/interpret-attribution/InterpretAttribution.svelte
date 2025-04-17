@@ -22,7 +22,7 @@
 	import { INTERPRET_ATTRIBUTION_SECTION_TITLE } from './constants';
 	import { getStatementComponents } from './utils';
 
-	let attibutionFormItems: FormItemI[] = structuredClone(ATTRIBUTION_FORM_ITEMS);
+	let attributionFormItems: FormItemI[] = structuredClone(ATTRIBUTION_FORM_ITEMS);
 
 	let statementToInterpret: string = '';
 	let statementExplained: string = '';
@@ -32,7 +32,7 @@
 	let attributionTags: AttributionTagI[] = ATTRIBUTION_TAGS;
 
 	const resetState = (): void => {
-		attibutionFormItems = structuredClone(ATTRIBUTION_FORM_ITEMS);
+		attributionFormItems = structuredClone(ATTRIBUTION_FORM_ITEMS);
 		attributionTags = ATTRIBUTION_TAGS;
 		statementExplained = '';
 		statementHasAnError = false;
@@ -70,7 +70,7 @@
 		if (!isValid) {
 			const formItem: FormItemI = utilsService.getAttributionFormItemByType(
 				attributionType,
-				attibutionFormItems
+				attributionFormItems
 			);
 			if (formItem.typeOfItem === FormItemType.checkbox) {
 				const abbreviations: string[] = tags.map((tag: TagI) => tag.abbreviation);
@@ -97,12 +97,12 @@
 		let isValid: boolean = false;
 		const formItem: FormItemI = utilsService.getAttributionFormItemByType(
 			attributionType,
-			attibutionFormItems
+			attributionFormItems
 		);
 		if (formItem.typeOfItem === FormItemType.radioButton) {
 			isValid = !(
-				attibutionFormItems[
-					utilsService.getAttributionFormItemIndexByType(attributionType, attibutionFormItems)
+				attributionFormItems[
+					utilsService.getAttributionFormItemIndexByType(attributionType, attributionFormItems)
 				].selectedOptions[0] !== ''
 			);
 		} else if (formItem.typeOfItem === FormItemType.checkbox) {
@@ -114,19 +114,19 @@
 	const addSelectedOption = (attributionType: AttributionType, selectedOptions: string[]): void => {
 		const formItem: FormItemI = utilsService.getAttributionFormItemByType(
 			attributionType,
-			attibutionFormItems
+			attributionFormItems
 		);
 		if (
 			formItem.typeOfItem === FormItemType.radioButton ||
 			formItem.typeOfItem === FormItemType.textInput
 		) {
-			attibutionFormItems[
-				utilsService.getAttributionFormItemIndexByType(attributionType, attibutionFormItems)
+			attributionFormItems[
+				utilsService.getAttributionFormItemIndexByType(attributionType, attributionFormItems)
 			].selectedOptions[0] = selectedOptions[0];
 		} else if (formItem.typeOfItem === FormItemType.checkbox) {
 			selectedOptions.forEach((selectedOption: string) => {
-				attibutionFormItems[
-					utilsService.getAttributionFormItemIndexByType(attributionType, attibutionFormItems)
+				attributionFormItems[
+					utilsService.getAttributionFormItemIndexByType(attributionType, attributionFormItems)
 				].selectedOptions.push(selectedOption);
 			});
 		}
@@ -215,29 +215,29 @@
 
 		identifyTags(statementComponents);
 
-		statementExplained = utilsService.getAttributionStatementExplanation(attibutionFormItems);
+		statementExplained = utilsService.getAttributionStatementExplanation(attributionFormItems);
 		const targetAttributionTypes: AttributionType[] = [
 			AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
 			AttributionType.AI_CONTRIBUTION,
 			AttributionType.AI_INITIATIVE,
 			AttributionType.HUMAN_REVIEW
 		];
-		for (let index: number = 0; index < attibutionFormItems.length; index++) {
+		for (let index: number = 0; index < attributionFormItems.length; index++) {
 			if (
-				attibutionFormItems[index].attributionType === AttributionType.PROPORTIONS_OF_CONTRIBUTIONS
+				attributionFormItems[index].attributionType === AttributionType.PROPORTIONS_OF_CONTRIBUTIONS
 			) {
 				if (
-					attibutionFormItems[index].selectedOptions[0] ===
+					attributionFormItems[index].selectedOptions[0] ===
 					AIProportionOptions.ENTIRELY_HUMAN_CREATED
 				) {
-					const formItemFound: FormItemI = attibutionFormItems.find(
-						(attibutionFormItem: FormItemI) => {
+					const formItemFound: FormItemI = attributionFormItems.find(
+						(attributionFormItem: FormItemI) => {
 							if (
-								attibutionFormItem.attributionType !== AttributionType.PROPORTIONS_OF_CONTRIBUTIONS
+								attributionFormItem.attributionType !== AttributionType.PROPORTIONS_OF_CONTRIBUTIONS
 							) {
 								return (
-									attibutionFormItem.selectedOptions.length > 0 &&
-									attibutionFormItem.selectedOptions[0].trim() !== ''
+									attributionFormItem.selectedOptions.length > 0 &&
+									attributionFormItem.selectedOptions[0].trim() !== ''
 								);
 							}
 						}
@@ -253,7 +253,7 @@
 		if (statementHasAnError) {
 			return;
 		}
-		const selectedOptionsList: string[] = attibutionFormItems
+		const selectedOptionsList: string[] = attributionFormItems
 			.filter((item: FormItemI) => targetAttributionTypes.includes(item.attributionType))
 			.flatMap((item: FormItemI) => item.selectedOptions)
 			.filter((selectedOption: string) => selectedOption.trim());

@@ -7,10 +7,10 @@
 	} from '$lib';
 	import { type FormItemI } from '../create-attribution-statement/interfaces';
 
-	export let attibutionFormItems: FormItemI[];
+	export let attributionFormItems: FormItemI[];
 
 	const hasAnyResponseToAnyFormItem = (): boolean => {
-		return attibutionFormItems.some(
+		return attributionFormItems.some(
 			(item: FormItemI) =>
 				item.selectedOptions.length > 0 &&
 				item.selectedOptions[0] &&
@@ -22,10 +22,10 @@
 <h2 class="recommended-attribution-title">Recommended attribution statement</h2>
 
 {#if hasAnyResponseToAnyFormItem()}
-	<AbbreviatedStatement {attibutionFormItems} />
-	<FullStatement {attibutionFormItems} />
-	<ExpandedStatement {attibutionFormItems} />
-	<AttributionStatementExplanation {attibutionFormItems} />
+	<AbbreviatedStatement {attributionFormItems} />
+	<FullStatement {attributionFormItems} />
+	<ExpandedStatement {attributionFormItems} />
+	<AttributionStatementExplanation {attributionFormItems} />
 {:else}
 	<p class="empty-state-text">Fill out the form to get started.</p>
 {/if}

@@ -4,12 +4,12 @@
 	import { utilsService } from '$lib/services';
 	import type { FormItemI } from '../create-attribution-statement/interfaces';
 
-	export let attibutionFormItems: FormItemI[];
+	export let attributionFormItems: FormItemI[];
 
 	const copyExpandedStatementToClipboard = async (): Promise<void> => {
 		try {
 			const statement: string = utilsService
-				.getAttributionStatementExplanation(attibutionFormItems)
+				.getAttributionStatementExplanation(attributionFormItems)
 				.split(/\s+/)
 				.join(' ');
 			await navigator.clipboard.writeText(statement);
@@ -24,7 +24,7 @@
 	<div class="recommended-attribution-item">
 		<div class="recommended-attribution-item-text-container">
 			<div class="recommended-attribution-item-text">
-				{utilsService.getAttributionStatementExplanation(attibutionFormItems)}
+				{utilsService.getAttributionStatementExplanation(attributionFormItems)}
 			</div>
 		</div>
 		<div class="recommended-attribution-item-button-container">

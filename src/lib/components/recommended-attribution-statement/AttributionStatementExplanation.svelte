@@ -4,31 +4,31 @@
 	import { AIA_EXPLANATION, VERSION_EXPLANATION } from '../create-attribution-statement/constants';
 	import { AttributionType, type FormItemI } from '../create-attribution-statement/interfaces';
 
-	export let attibutionFormItems: FormItemI[];
+	export let attributionFormItems: FormItemI[];
 
 	const getConcatenatedOptionsIcons = (attributionType: AttributionType): Component[] => {
 		return utilsService.getConcatenatedOptionsIcons(
-			utilsService.getAttributionFormItemByType(attributionType, attibutionFormItems)
+			utilsService.getAttributionFormItemByType(attributionType, attributionFormItems)
 				.selectedOptions
 		);
 	};
 
 	const getProportionsOfContributionIconsDescriptions = (): string => {
 		let attributionIconsDescriptions: string = '';
-		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attibutionFormItems);
+		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attributionFormItems);
 		if (isAIUsageOptionYes) {
 			let proportionOfContributionAbbreviatedStatement: string =
 				utilsService.getConcatenatedOptionsAbbreviatedStatement(
 					utilsService.getAttributionFormItemByType(
 						AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-						attibutionFormItems
+						attributionFormItems
 					).selectedOptions
 				);
 			const proportionOfContributionExplanations: string =
 				utilsService.getConcatenatedOptionsExplanations(
 					utilsService.getAttributionFormItemByType(
 						AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-						attibutionFormItems
+						attributionFormItems
 					).selectedOptions
 				);
 			if (proportionOfContributionAbbreviatedStatement) {
@@ -41,19 +41,19 @@
 
 	const getAIContributionIconsDescriptions = (): string => {
 		let attributionIconsDescriptions: string = '';
-		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attibutionFormItems);
+		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attributionFormItems);
 		if (isAIUsageOptionYes) {
 			let aiContributionAbbreviatedStatement: string =
 				utilsService.getConcatenatedOptionsAbbreviatedStatement(
 					utilsService.getAttributionFormItemByType(
 						AttributionType.AI_CONTRIBUTION,
-						attibutionFormItems
+						attributionFormItems
 					).selectedOptions
 				);
 			const aiContributionExplanations: string = utilsService.getConcatenatedOptionsExplanations(
 				utilsService.getAttributionFormItemByType(
 					AttributionType.AI_CONTRIBUTION,
-					attibutionFormItems
+					attributionFormItems
 				).selectedOptions
 			);
 			if (aiContributionAbbreviatedStatement) {
@@ -66,19 +66,19 @@
 
 	const getAIInitiativeIconsDescriptions = (): string => {
 		let attributionIconsDescriptions: string = '';
-		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attibutionFormItems);
+		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attributionFormItems);
 		if (isAIUsageOptionYes) {
 			let aiInitiativeAbbreviatedStatement: string =
 				utilsService.getConcatenatedOptionsAbbreviatedStatement(
 					utilsService.getAttributionFormItemByType(
 						AttributionType.AI_INITIATIVE,
-						attibutionFormItems
+						attributionFormItems
 					).selectedOptions
 				);
 			const aiInitiativeExplanations: string = utilsService.getConcatenatedOptionsExplanations(
 				utilsService.getAttributionFormItemByType(
 					AttributionType.AI_INITIATIVE,
-					attibutionFormItems
+					attributionFormItems
 				).selectedOptions
 			);
 			if (aiInitiativeAbbreviatedStatement) {
@@ -91,17 +91,17 @@
 
 	const getHumanReviewIconsDescriptions = (): string => {
 		let attributionIconsDescriptions: string = '';
-		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attibutionFormItems);
+		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attributionFormItems);
 		if (isAIUsageOptionYes) {
 			let humanReviewAbbreviatedStatement: string =
 				utilsService.getConcatenatedOptionsAbbreviatedStatement(
 					utilsService.getAttributionFormItemByType(
 						AttributionType.HUMAN_REVIEW,
-						attibutionFormItems
+						attributionFormItems
 					).selectedOptions
 				);
 			const humanReviewExplanations: string = utilsService.getConcatenatedOptionsExplanations(
-				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attibutionFormItems)
+				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attributionFormItems)
 					.selectedOptions
 			);
 			if (humanReviewAbbreviatedStatement) {

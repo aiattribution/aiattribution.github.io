@@ -17,26 +17,26 @@ class UtilsService {
 
 	public getAttributionFormItemByType(
 		attributionType: AttributionType,
-		attibutionFormItems: FormItemI[]
+		attributionFormItems: FormItemI[]
 	): FormItemI {
-		return attibutionFormItems.find((formItem: FormItemI) => {
+		return attributionFormItems.find((formItem: FormItemI) => {
 			return formItem.attributionType === attributionType;
 		});
 	}
 
 	public getAttributionFormItemIndexByType(
 		attributionType: AttributionType,
-		attibutionFormItems: FormItemI[]
+		attributionFormItems: FormItemI[]
 	): number {
-		return attibutionFormItems.findIndex((formItem: FormItemI) => {
+		return attributionFormItems.findIndex((formItem: FormItemI) => {
 			return formItem.attributionType === attributionType;
 		});
 	}
 
-	public isAIUsageOptionYes(attibutionFormItems: FormItemI[]): boolean {
+	public isAIUsageOptionYes(attributionFormItems: FormItemI[]): boolean {
 		const selectedOption: string = this.getAttributionFormItemByType(
 			AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-			attibutionFormItems
+			attributionFormItems
 		).selectedOptions[0];
 		return selectedOption !== AIProportionOptions.ENTIRELY_HUMAN_CREATED;
 	}
@@ -113,8 +113,8 @@ class UtilsService {
 		return str.charAt(0).toLowerCase() + str.slice(1);
 	}
 
-	public getOptionsSelectedPerField(attibutionFormItems: FormItemI[]): Record<string, string[]> {
-		return attibutionFormItems
+	public getOptionsSelectedPerField(attributionFormItems: FormItemI[]): Record<string, string[]> {
+		return attributionFormItems
 			.filter(
 				(item: FormItemI) =>
 					item.selectedOptions.length > 0 &&
@@ -129,8 +129,8 @@ class UtilsService {
 			);
 	}
 
-	public getFieldsFilledOut(attibutionFormItems: FormItemI[]): string[] {
-		return attibutionFormItems
+	public getFieldsFilledOut(attributionFormItems: FormItemI[]): string[] {
+		return attributionFormItems
 			.filter(
 				(item: FormItemI) =>
 					item.selectedOptions.length > 0 &&
@@ -139,8 +139,8 @@ class UtilsService {
 			.map((item: FormItemI) => item.text);
 	}
 
-	public getFieldsLeftBlank(attibutionFormItems: FormItemI[]): string[] {
-		return attibutionFormItems
+	public getFieldsLeftBlank(attributionFormItems: FormItemI[]): string[] {
+		return attributionFormItems
 			.filter(
 				(item: FormItemI) =>
 					item.selectedOptions.length === 0 ||
@@ -149,12 +149,12 @@ class UtilsService {
 			.map((item: FormItemI) => item.text);
 	}
 
-	public getAttributionIcons(attibutionFormItems: FormItemI[]): Component[] {
+	public getAttributionIcons(attributionFormItems: FormItemI[]): Component[] {
 		let icons: Component[] = [];
-		const isAIUsageOptionYes = this.isAIUsageOptionYes(attibutionFormItems);
+		const isAIUsageOptionYes = this.isAIUsageOptionYes(attributionFormItems);
 
 		const getIconsFromOptions = (type: AttributionType) => {
-			return this.getAttributionFormItemByType(type, attibutionFormItems)
+			return this.getAttributionFormItemByType(type, attributionFormItems)
 				.selectedOptions.map((option: string) => {
 					const tag: TagI = ALL_TAGS.find((tag: TagI) => tag.id === option);
 					return tag ? tag.iconComponent : null;
@@ -176,12 +176,12 @@ class UtilsService {
 		return icons;
 	}
 
-	public getAttributionStatementExplanation(attibutionFormItems: FormItemI[]): string {
+	public getAttributionStatementExplanation(attributionFormItems: FormItemI[]): string {
 		let atributionStatementLabelContent: string = '';
 		let proportionOfContribution: string = this.getConcatenatedOptionsExplanations(
 			this.getAttributionFormItemByType(
 				AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-				attibutionFormItems
+				attributionFormItems
 			).selectedOptions
 		);
 		proportionOfContribution = proportionOfContribution.replace('The work', 'this work');
@@ -190,36 +190,36 @@ class UtilsService {
 		let aiInitiatives: string = '';
 		let humanReview: string = '';
 		let modelUsed: string = '';
-		const isAIUsageOptionYes: boolean = this.isAIUsageOptionYes(attibutionFormItems);
+		const isAIUsageOptionYes: boolean = this.isAIUsageOptionYes(attributionFormItems);
 		if (isAIUsageOptionYes) {
 			aiContribution = this.getConcatenatedOptionsExplanations(
-				this.getAttributionFormItemByType(AttributionType.AI_CONTRIBUTION, attibutionFormItems)
+				this.getAttributionFormItemByType(AttributionType.AI_CONTRIBUTION, attributionFormItems)
 					.selectedOptions
 			);
 			if (!proportionOfContribution && !aiInitiatives && !humanReview && !modelUsed) {
 				aiContribution = this.lowercaseFirstLetter(aiContribution);
 			}
 			aiInitiatives = this.getConcatenatedOptionsExplanations(
-				this.getAttributionFormItemByType(AttributionType.AI_INITIATIVE, attibutionFormItems)
+				this.getAttributionFormItemByType(AttributionType.AI_INITIATIVE, attributionFormItems)
 					.selectedOptions
 			);
 			if (!proportionOfContribution && !aiContribution && !humanReview && !modelUsed) {
 				aiInitiatives = this.lowercaseFirstLetter(aiInitiatives);
 			}
 			humanReview = this.getConcatenatedOptionsExplanations(
-				this.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attibutionFormItems)
+				this.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attributionFormItems)
 					.selectedOptions
 			);
 			if (!proportionOfContribution && !aiContribution && !aiInitiatives && !modelUsed) {
 				humanReview = this.lowercaseFirstLetter(humanReview);
 			}
 			if (
-				this.getAttributionFormItemByType(AttributionType.MODEL, attibutionFormItems)
+				this.getAttributionFormItemByType(AttributionType.MODEL, attributionFormItems)
 					.selectedOptions[0]
 			) {
 				const modelSelected: string = this.getAttributionFormItemByType(
 					AttributionType.MODEL,
-					attibutionFormItems
+					attributionFormItems
 				).selectedOptions[0];
 				if (proportionOfContribution || aiContribution || aiInitiatives || humanReview) {
 					modelUsed = `The ${modelSelected} model or application was used.`;

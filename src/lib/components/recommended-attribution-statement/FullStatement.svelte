@@ -10,7 +10,7 @@
 		VERSION
 	} from '../create-attribution-statement/constants';
 
-	export let attibutionFormItems: FormItemI[];
+	export let attributionFormItems: FormItemI[];
 
 	let fullStatementHTMLContainer: HTMLDivElement = null;
 
@@ -33,9 +33,9 @@
 			includeNumberOfActionsOnAbbreviatedStatements: false,
 			includeNumberOfActionsOnFullStatements: false,
 			statementDisplayed: statement,
-			fieldsFilledOut: utilsService.getFieldsFilledOut(attibutionFormItems),
-			fieldsLeftBlank: utilsService.getFieldsLeftBlank(attibutionFormItems),
-			optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attibutionFormItems)
+			fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
+			fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
+			optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
 		});
 		return;
 	};
@@ -43,36 +43,36 @@
 	const getFullStatement = (): string => {
 		let fullStatement: string = '';
 		let aiUsed: string = '';
-		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attibutionFormItems);
+		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attributionFormItems);
 		const modelSelected: string = utilsService.getAttributionFormItemByType(
 			AttributionType.MODEL,
-			attibutionFormItems
+			attributionFormItems
 		).selectedOptions[0];
 
 		if (isAIUsageOptionYes) {
 			const proportionOfContribution: string = utilsService.getConcatenatedOptionsFullStatement(
 				utilsService.getAttributionFormItemByType(
 					AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-					attibutionFormItems
+					attributionFormItems
 				).selectedOptions,
 				false
 			);
 			const aiContribution: string = utilsService.getConcatenatedOptionsFullStatement(
 				utilsService.getAttributionFormItemByType(
 					AttributionType.AI_CONTRIBUTION,
-					attibutionFormItems
+					attributionFormItems
 				).selectedOptions,
 				proportionOfContribution || aiUsed ? true : false
 			);
 			const aiInitiatives: string = utilsService.getConcatenatedOptionsFullStatement(
 				utilsService.getAttributionFormItemByType(
 					AttributionType.AI_INITIATIVE,
-					attibutionFormItems
+					attributionFormItems
 				).selectedOptions,
 				proportionOfContribution || aiUsed || aiContribution ? true : false
 			);
 			const humanReview: string = utilsService.getConcatenatedOptionsFullStatement(
-				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attibutionFormItems)
+				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attributionFormItems)
 					.selectedOptions,
 				proportionOfContribution || aiUsed || aiContribution || aiInitiatives ? true : false
 			);
@@ -101,9 +101,9 @@
 				includeNumberOfActionsOnAbbreviatedStatements: false,
 				includeNumberOfActionsOnFullStatements: true,
 				statementDisplayed: statement,
-				fieldsFilledOut: utilsService.getFieldsFilledOut(attibutionFormItems),
-				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attibutionFormItems),
-				optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attibutionFormItems)
+				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
+				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
+				optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
 			});
 		} catch (err) {
 			console.error('Error copying full statement to clipboard', err);
@@ -117,9 +117,9 @@
 			includeNumberOfActionsOnAbbreviatedStatements: false,
 			includeNumberOfActionsOnFullStatements: true,
 			statementDisplayed: statement,
-			fieldsFilledOut: utilsService.getFieldsFilledOut(attibutionFormItems),
-			fieldsLeftBlank: utilsService.getFieldsLeftBlank(attibutionFormItems),
-			optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attibutionFormItems)
+			fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
+			fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
+			optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
 		});
 	};
 </script>
@@ -130,7 +130,7 @@
 		<div bind:this={fullStatementHTMLContainer} class="recommended-attribution-item-text-container">
 			<div class="recommended-attribution-item-text">{getFullStatement()}</div>
 			<div class="recommended-attribution-item-icons-container">
-				{#each utilsService.getAttributionIcons(attibutionFormItems) as AttributionIcon}
+				{#each utilsService.getAttributionIcons(attributionFormItems) as AttributionIcon}
 					<svelte:component this={AttributionIcon} />
 				{/each}
 			</div>

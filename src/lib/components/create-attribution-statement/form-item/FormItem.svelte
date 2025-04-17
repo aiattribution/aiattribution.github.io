@@ -14,7 +14,7 @@
 
 	export let formItem: FormItemI;
 	export let isItemDisabled: boolean;
-	export let attibutionFormItems: FormItemI[];
+	export let attributionFormItems: FormItemI[];
 	export let index: number;
 
 	let isMobileOrTablet: boolean = false;
@@ -51,9 +51,9 @@
 
 	const openNextFormItem = (increment: number): void => {
 		const indexToEvaluate: number = index + increment;
-		if (indexToEvaluate < attibutionFormItems.length) {
-			if (!attibutionFormItems[indexToEvaluate].isItemDisabled) {
-				attibutionFormItems[indexToEvaluate].isItemOpen = true;
+		if (indexToEvaluate < attributionFormItems.length) {
+			if (!attributionFormItems[indexToEvaluate].isItemDisabled) {
+				attributionFormItems[indexToEvaluate].isItemOpen = true;
 			} else {
 				openNextFormItem(increment + 1);
 			}

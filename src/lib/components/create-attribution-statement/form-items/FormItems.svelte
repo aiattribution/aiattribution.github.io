@@ -4,38 +4,38 @@
 	import { utilsService } from '$lib/services';
 	import { AttributionType, type FormItemI } from '../interfaces';
 
-	export let attibutionFormItems: FormItemI[];
+	export let attributionFormItems: FormItemI[];
 
-	const isItemDisabled = (attibutionFormItem: FormItemI): boolean => {
-		return attibutionFormItem.id ===
+	const isItemDisabled = (attributionFormItem: FormItemI): boolean => {
+		return attributionFormItem.id ===
 			utilsService.getAttributionFormItemByType(
 				AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-				attibutionFormItems
+				attributionFormItems
 			).id
 			? false
 			: utilsService.getAttributionFormItemByType(
 					AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-					attibutionFormItems
+					attributionFormItems
 				).selectedOptions[0] === AIProportionOptions.ENTIRELY_HUMAN_CREATED ||
-					(attibutionFormItem.id ===
+					(attributionFormItem.id ===
 						utilsService.getAttributionFormItemByType(
 							AttributionType.AI_CONTRIBUTION,
-							attibutionFormItems
+							attributionFormItems
 						).id &&
 						utilsService.getAttributionFormItemByType(
 							AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-							attibutionFormItems
+							attributionFormItems
 						).selectedOptions[0] === AIProportionOptions.ENTIRELY_AI_GENERATED);
 	};
 </script>
 
 <div class="attribution-form-items">
-	{#each attibutionFormItems as attibutionFormItem, index (attibutionFormItem.id)}
-		{#key isItemDisabled(attibutionFormItem)}
+	{#each attributionFormItems as attributionFormItem, index (attributionFormItem.id)}
+		{#key isItemDisabled(attributionFormItem)}
 			<FormItem
-				bind:formItem={attibutionFormItem}
-				isItemDisabled={isItemDisabled(attibutionFormItem)}
-				{attibutionFormItems}
+				bind:formItem={attributionFormItem}
+				isItemDisabled={isItemDisabled(attributionFormItem)}
+				{attributionFormItems}
 				{index}
 			/>
 		{/key}

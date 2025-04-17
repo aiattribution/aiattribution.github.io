@@ -5,7 +5,7 @@
 	import { ATTRIBUTION_FORM_ITEMS, CREATE_ATTRIBUTION_SECTION_TITLE } from './constants';
 	import { type FormItemI } from './interfaces';
 
-	let attibutionFormItems: FormItemI[] = structuredClone(ATTRIBUTION_FORM_ITEMS);
+	let attributionFormItems: FormItemI[] = structuredClone(ATTRIBUTION_FORM_ITEMS);
 </script>
 
 <div class="section-container">
@@ -16,9 +16,9 @@
 		your work.
 	</p>
 	<div class="attribution-form">
-		<FormItems bind:attibutionFormItems />
+		<FormItems bind:attributionFormItems />
 		<div class="recommended-attribution-container">
-			<RecommendedAttributionStatement {attibutionFormItems} />
+			<RecommendedAttributionStatement {attributionFormItems} />
 		</div>
 	</div>
 	<div class="section-text">

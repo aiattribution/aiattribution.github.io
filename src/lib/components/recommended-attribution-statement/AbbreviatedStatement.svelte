@@ -9,17 +9,17 @@
 	} from '../create-attribution-statement/constants';
 	import { AttributionType, type FormItemI } from '../create-attribution-statement/interfaces';
 
-	export let attibutionFormItems: FormItemI[];
+	export let attributionFormItems: FormItemI[];
 
 	let abbreviatedStatementHTMLContainer: HTMLDivElement = null;
 
 	const getAbbreviatedStatement = (): string => {
 		let abbreviatedStatement: string = '';
 		let aiUsed: string = '';
-		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attibutionFormItems);
+		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attributionFormItems);
 		const modelSelected: string = utilsService.getAttributionFormItemByType(
 			AttributionType.MODEL,
-			attibutionFormItems
+			attributionFormItems
 		).selectedOptions[0];
 		if (isAIUsageOptionYes) {
 			aiUsed = modelSelected.length > 0 ? modelSelected : '';
@@ -32,23 +32,23 @@
 				utilsService.getConcatenatedOptionsAbbreviatedStatement(
 					utilsService.getAttributionFormItemByType(
 						AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-						attibutionFormItems
+						attributionFormItems
 					).selectedOptions
 				);
 			const aiContribution: string = utilsService.getConcatenatedOptionsAbbreviatedStatement(
 				utilsService.getAttributionFormItemByType(
 					AttributionType.AI_CONTRIBUTION,
-					attibutionFormItems
+					attributionFormItems
 				).selectedOptions
 			);
 			const aiInitiatives: string = utilsService.getConcatenatedOptionsAbbreviatedStatement(
 				utilsService.getAttributionFormItemByType(
 					AttributionType.AI_INITIATIVE,
-					attibutionFormItems
+					attributionFormItems
 				).selectedOptions
 			);
 			const humanReview: string = utilsService.getConcatenatedOptionsAbbreviatedStatement(
-				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attibutionFormItems)
+				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attributionFormItems)
 					.selectedOptions
 			);
 			abbreviatedStatement = `${AIA} ${proportionOfContribution} ${aiContribution} ${aiInitiatives} ${humanReview} ${aiUsed} ${VERSION}`;
@@ -66,9 +66,9 @@
 				includeNumberOfActionsOnAbbreviatedStatements: true,
 				includeNumberOfActionsOnFullStatements: false,
 				statementDisplayed: statement,
-				fieldsFilledOut: utilsService.getFieldsFilledOut(attibutionFormItems),
-				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attibutionFormItems),
-				optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attibutionFormItems)
+				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
+				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
+				optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
 			});
 		} catch (err) {
 			console.error('Error copying abbreviated statement to clipboard', err);
@@ -82,9 +82,9 @@
 			includeNumberOfActionsOnAbbreviatedStatements: true,
 			includeNumberOfActionsOnFullStatements: false,
 			statementDisplayed: statement,
-			fieldsFilledOut: utilsService.getFieldsFilledOut(attibutionFormItems),
-			fieldsLeftBlank: utilsService.getFieldsLeftBlank(attibutionFormItems),
-			optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attibutionFormItems)
+			fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
+			fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
+			optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
 		});
 	};
 </script>
@@ -98,7 +98,7 @@
 		>
 			<div class="recommended-attribution-item-text">{getAbbreviatedStatement()}</div>
 			<div class="recommended-attribution-item-icons-container">
-				{#each utilsService.getAttributionIcons(attibutionFormItems) as AttributionIcon}
+				{#each utilsService.getAttributionIcons(attributionFormItems) as AttributionIcon}
 					<svelte:component this={AttributionIcon} />
 				{/each}
 			</div>
