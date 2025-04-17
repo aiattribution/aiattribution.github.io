@@ -6,10 +6,14 @@ import { describe, expect, it } from 'vitest';
 import {
     generateCreateAttributeFormOptionsCombinations,
     getTagAbbreviation,
-    getTagName
+    getTagName,
+    splitCombination
 } from './utils';
 
 describe('getStatementComponents', () => {
+	const modelNameWithoutSpaces: string = 'granite-3-8b-instruct';
+	const modelNameWithSpaces: string = 'granite 3 8b instruct';
+
 	it('should recognize abbreviated statement of one component with AIA and version', () => {
 		ALL_TAGS.forEach((tag: TagI) => {
 			const statementComponentAbbreviation: string = getTagAbbreviation(tag.id);
@@ -83,98 +87,142 @@ describe('getStatementComponents', () => {
 	});
 
 	it('should recognize model name (without spaces) of one component with AIA and version', () => {
-		const modelName: string = 'granite-3-8b-instruct';
-		const statementToInterpret: string = `${AIA} ${modelName} ${VERSION}`;
-		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
+		const statementToInterpret: string = `${AIA} ${modelNameWithoutSpaces} ${VERSION}`;
+		expect(getStatementComponents(statementToInterpret)).toEqual([modelNameWithoutSpaces]);
 	});
 
 	it('should recognize model name (without spaces) of one component with AIA', () => {
-		const modelName: string = 'granite-3-8b-instruct';
-		const statementToInterpret: string = `${AIA} ${modelName}`;
-		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
+		const statementToInterpret: string = `${AIA} ${modelNameWithoutSpaces}`;
+		expect(getStatementComponents(statementToInterpret)).toEqual([modelNameWithoutSpaces]);
 	});
 
 	it('should recognize model name (without spaces) of one component with version', () => {
-		const modelName: string = 'granite-3-8b-instruct';
-		const statementToInterpret: string = `${modelName} ${VERSION}`;
-		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
+		const statementToInterpret: string = `${modelNameWithoutSpaces} ${VERSION}`;
+		expect(getStatementComponents(statementToInterpret)).toEqual([modelNameWithoutSpaces]);
 	});
 
 	it('should recognize model name (without spaces) of one component', () => {
-		const modelName: string = 'granite-3-8b-instruct';
-		const statementToInterpret: string = `${modelName}`;
-		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
+		const statementToInterpret: string = `${modelNameWithoutSpaces}`;
+		expect(getStatementComponents(statementToInterpret)).toEqual([modelNameWithoutSpaces]);
 	});
 
 	it('should recognize model name (with spaces) of one component with AIA and version', () => {
-		const modelName: string = 'granite 3 8b instruct';
-		const statementToInterpret: string = `${AIA} ${modelName} ${VERSION}`;
-		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
+		const statementToInterpret: string = `${AIA} ${modelNameWithSpaces} ${VERSION}`;
+		expect(getStatementComponents(statementToInterpret)).toEqual([modelNameWithSpaces]);
 	});
 
 	it('should recognize model name (with spaces) of one component with AIA', () => {
-		const modelName: string = 'granite 3 8b instruct';
-		const statementToInterpret: string = `${AIA} ${modelName}`;
-		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
+		const statementToInterpret: string = `${AIA} ${modelNameWithSpaces}`;
+		expect(getStatementComponents(statementToInterpret)).toEqual([modelNameWithSpaces]);
 	});
 
 	it('should recognize model name (with spaces) of one component with version', () => {
-		const modelName: string = 'granite 3 8b instruct';
-		const statementToInterpret: string = `${modelName} ${VERSION}`;
-		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
+		const statementToInterpret: string = `${modelNameWithSpaces} ${VERSION}`;
+		expect(getStatementComponents(statementToInterpret)).toEqual([modelNameWithSpaces]);
 	});
 
 	it('should recognize model name (with spaces) of one component', () => {
-		const modelName: string = 'granite 3 8b instruct';
-		const statementToInterpret: string = `${modelName}`;
-		expect(getStatementComponents(statementToInterpret)).toEqual([modelName]);
+		const statementToInterpret: string = `${modelNameWithSpaces}`;
+		expect(getStatementComponents(statementToInterpret)).toEqual([modelNameWithSpaces]);
 	});
 
 	it('should recognize all possible combination of abbreviated components (model without spaces) with AIA and version', () => {
-		const modelName: string = 'granite-3-8b-instruct';
 		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
 			true,
-			modelName
+			modelNameWithoutSpaces
 		);
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${AIA} ${combination} ${VERSION}`;
-			expect(getStatementComponents(statementToInterpret)).toEqual(combination.split(/\s+/));
+			const combinations: string[] = splitCombination(combination, modelNameWithoutSpaces);
+			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
 		});
 	});
 
 	it('should recognize all possible combination of abbreviated components (model without spaces) with AIA', () => {
-		const modelName: string = 'granite-3-8b-instruct';
 		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
 			true,
-			modelName
+			modelNameWithoutSpaces
 		);
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${AIA} ${combination}`;
-			expect(getStatementComponents(statementToInterpret)).toEqual(combination.split(/\s+/));
+			const combinations: string[] = splitCombination(combination, modelNameWithoutSpaces);
+			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
 		});
 	});
 
 	it('should recognize all possible combination of abbreviated components (model without spaces) with version', () => {
-		const modelName: string = 'granite-3-8b-instruct';
 		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
 			true,
-			modelName
+			modelNameWithoutSpaces
 		);
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${combination} ${VERSION}`;
-			expect(getStatementComponents(statementToInterpret)).toEqual(combination.split(/\s+/));
+			const combinations: string[] = splitCombination(combination, modelNameWithoutSpaces);
+			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
 		});
 	});
 
 	it('should recognize all possible combination of abbreviated components (model without spaces)', () => {
-		const modelName: string = 'granite-3-8b-instruct';
 		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
 			true,
-			modelName
+			modelNameWithoutSpaces
 		);
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${combination}`;
-			expect(getStatementComponents(statementToInterpret)).toEqual(combination.split(/\s+/));
+			const combinations: string[] = splitCombination(combination, modelNameWithoutSpaces);
+			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+		});
+	});
+
+	it('should recognize all possible combination of abbreviated components (model with spaces) with AIA and version', () => {
+		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
+			true,
+			modelNameWithSpaces
+		);
+
+		allCombinations.forEach((combination: string) => {
+			const statementToInterpret: string = `${AIA} ${combination} ${VERSION}`;
+			const combinations: string[] = splitCombination(combination, modelNameWithSpaces);
+			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+		});
+	});
+
+	it('should recognize all possible combination of abbreviated components (model with spaces) with AIA', () => {
+		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
+			true,
+			modelNameWithSpaces
+		);
+
+		allCombinations.forEach((combination: string) => {
+			const statementToInterpret: string = `${AIA} ${combination}`;
+			const combinations: string[] = splitCombination(combination, modelNameWithSpaces);
+			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+		});
+	});
+
+	it('should recognize all possible combination of abbreviated components (model with spaces) with version', () => {
+		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
+			true,
+			modelNameWithSpaces
+		);
+
+		allCombinations.forEach((combination: string) => {
+			const statementToInterpret: string = `${combination} ${VERSION}`;
+			const combinations: string[] = splitCombination(combination, modelNameWithSpaces);
+			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+		});
+	});
+
+	it('should recognize all possible combination of abbreviated components (model with spaces)', () => {
+		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
+			true,
+			modelNameWithSpaces
+		);
+
+		allCombinations.forEach((combination: string) => {
+			const statementToInterpret: string = `${combination}`;
+			const combinations: string[] = splitCombination(combination, modelNameWithSpaces);
+			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
 		});
 	});
 });

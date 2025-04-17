@@ -290,3 +290,19 @@ export const generateCreateAttributeFormOptionsCombinations = (
 
 	return allCombinations;
 };
+
+export const splitCombination = (combination: string, modelName?: string): string[] => {
+	const modelIndex: number = combination.indexOf(modelName);
+	const beforeModel: string = combination.slice(0, modelIndex).trim();
+	const afterModel: string = combination.slice(modelIndex + modelName?.length).trim();
+
+	const parts: string[] =
+		modelName && combination.includes(modelName)
+			? [
+					...beforeModel.split(/\s+/).filter(Boolean),
+					modelName,
+					...afterModel.split(/\s+/).filter(Boolean)
+				]
+			: combination.split(/\s+/);
+	return parts;
+};
