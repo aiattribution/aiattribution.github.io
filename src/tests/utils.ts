@@ -3,8 +3,9 @@ import {
 	FormItemType,
 	type FormItemI,
 	type StatementOption
-} from '$lib/components/create-attribution-statement/interfaces.js';
-import { ALL_TAGS, TAGS_WITH_ATTRIBUTION_TYPE } from '../../cypress/support/constants.js';
+} from '$lib/components/create-attribution-statement/interfaces';
+import { mergeTagsInStatement } from '$lib/components/interpret-attribution/utils';
+import { ALL_TAGS, TAGS_WITH_ATTRIBUTION_TYPE } from '../../cypress/support/constants';
 import {
 	AIA,
 	ATTRIBUTION_FORM_ITEMS,
@@ -12,8 +13,8 @@ import {
 	NO_AI_USED_ABBREVIATED_STATEMENT,
 	NO_AI_USED_FULL_STATEMENT,
 	VERSION
-} from '../lib/components/create-attribution-statement/constants.js';
-import { AIProportionOptions, type TagI } from '../lib/models/tag-library.js';
+} from '../lib/components/create-attribution-statement/constants';
+import { AIProportionOptions, type TagI } from '../lib/models/tag-library';
 
 const allTags: TagI[] = ALL_TAGS;
 
@@ -291,18 +292,8 @@ export const generateCreateAttributeFormOptionsCombinations = (
 	return allCombinations;
 };
 
-export const splitCombination = (combination: string, modelName?: string): string[] => {
-	const modelIndex: number = combination.indexOf(modelName);
-	const beforeModel: string = combination.slice(0, modelIndex).trim();
-	const afterModel: string = combination.slice(modelIndex + modelName?.length).trim();
-
-	const parts: string[] =
-		modelName && combination.includes(modelName)
-			? [
-					...beforeModel.split(/\s+/).filter(Boolean),
-					modelName,
-					...afterModel.split(/\s+/).filter(Boolean)
-				]
-			: combination.split(/\s+/);
-	return parts;
+export const splitCombination = (combination: string): string[] => {
+	let combinations: string[] = combination.split(/\s+/);
+	combinations = mergeTagsInStatement(combinations);
+	return combinations;
 };

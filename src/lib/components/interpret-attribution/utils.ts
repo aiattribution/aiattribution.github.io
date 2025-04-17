@@ -18,7 +18,7 @@ const getMaxTagNameWordLength = (): number => {
 	return maxTagNameWordLength;
 };
 
-const mergeTagsInStatement = (statementComponents: string[]): string[] => {
+export const mergeTagsInStatement = (statementComponents: string[]): string[] => {
 	const maxWords: number = getMaxTagNameWordLength();
 
 	for (let i: number = 0; i < statementComponents.length; i++) {

@@ -133,7 +133,7 @@ describe('getStatementComponents', () => {
 		);
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${AIA} ${combination} ${VERSION}`;
-			const combinations: string[] = splitCombination(combination, modelNameWithoutSpaces);
+			const combinations: string[] = splitCombination(combination);
 			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
 		});
 	});
@@ -145,7 +145,7 @@ describe('getStatementComponents', () => {
 		);
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${AIA} ${combination}`;
-			const combinations: string[] = splitCombination(combination, modelNameWithoutSpaces);
+			const combinations: string[] = splitCombination(combination);
 			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
 		});
 	});
@@ -157,7 +157,7 @@ describe('getStatementComponents', () => {
 		);
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${combination} ${VERSION}`;
-			const combinations: string[] = splitCombination(combination, modelNameWithoutSpaces);
+			const combinations: string[] = splitCombination(combination);
 			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
 		});
 	});
@@ -169,7 +169,7 @@ describe('getStatementComponents', () => {
 		);
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${combination}`;
-			const combinations: string[] = splitCombination(combination, modelNameWithoutSpaces);
+			const combinations: string[] = splitCombination(combination);
 			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
 		});
 	});
@@ -182,7 +182,7 @@ describe('getStatementComponents', () => {
 
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${AIA} ${combination} ${VERSION}`;
-			const combinations: string[] = splitCombination(combination, modelNameWithSpaces);
+			const combinations: string[] = splitCombination(combination);
 			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
 		});
 	});
@@ -195,7 +195,7 @@ describe('getStatementComponents', () => {
 
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${AIA} ${combination}`;
-			const combinations: string[] = splitCombination(combination, modelNameWithSpaces);
+			const combinations: string[] = splitCombination(combination);
 			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
 		});
 	});
@@ -208,7 +208,7 @@ describe('getStatementComponents', () => {
 
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${combination} ${VERSION}`;
-			const combinations: string[] = splitCombination(combination, modelNameWithSpaces);
+			const combinations: string[] = splitCombination(combination);
 			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
 		});
 	});
@@ -221,7 +221,107 @@ describe('getStatementComponents', () => {
 
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${combination}`;
-			const combinations: string[] = splitCombination(combination, modelNameWithSpaces);
+			const combinations: string[] = splitCombination(combination);
+			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+		});
+	});
+
+	it('should recognize all possible combination of full components (model without spaces) with AIA and version', () => {
+		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
+			false,
+			modelNameWithoutSpaces
+		);
+		allCombinations.forEach((combination: string) => {
+			const statementToInterpret: string = `${AIA} ${combination} ${VERSION}`;
+			const combinations: string[] = splitCombination(combination);
+			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+		});
+	});
+
+	it('should recognize all possible combination of full components (model without spaces) with AIA', () => {
+		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
+			false,
+			modelNameWithoutSpaces
+		);
+		allCombinations.forEach((combination: string) => {
+			const statementToInterpret: string = `${AIA} ${combination}`;
+			const combinations: string[] = splitCombination(combination);
+			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+		});
+	});
+
+	it('should recognize all possible combination of full components (model without spaces) with version', () => {
+		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
+			false,
+			modelNameWithoutSpaces
+		);
+		allCombinations.forEach((combination: string) => {
+			const statementToInterpret: string = `${combination} ${VERSION}`;
+			const combinations: string[] = splitCombination(combination);
+			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+		});
+	});
+
+	it('should recognize all possible combination of full components (model without spaces)', () => {
+		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
+			false,
+			modelNameWithoutSpaces
+		);
+		allCombinations.forEach((combination: string) => {
+			const statementToInterpret: string = `${combination}`;
+			const combinations: string[] = splitCombination(combination);
+			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+		});
+	});
+
+	it('should recognize all possible combination of full components (model with spaces) with AIA and version', () => {
+		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
+			false,
+			modelNameWithSpaces
+		);
+
+		allCombinations.forEach((combination: string) => {
+			const statementToInterpret: string = `${AIA} ${combination} ${VERSION}`;
+			const combinations: string[] = splitCombination(combination);
+			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+		});
+	});
+
+	it('should recognize all possible combination of full components (model with spaces) with AIA', () => {
+		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
+			false,
+			modelNameWithSpaces
+		);
+
+		allCombinations.forEach((combination: string) => {
+			const statementToInterpret: string = `${AIA} ${combination}`;
+			const combinations: string[] = splitCombination(combination);
+			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+		});
+	});
+
+	it('should recognize all possible combination of full components (model with spaces) with version', () => {
+		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
+			false,
+			modelNameWithSpaces
+		);
+
+		allCombinations.forEach((combination: string) => {
+			const statementToInterpret: string = `${combination} ${VERSION}`;
+			const combinations: string[] = splitCombination(combination);
+			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+		});
+	});
+
+	it('should recognize all possible combination of full components (model with spaces)', () => {
+		const allCombinations: string[] = generateCreateAttributeFormOptionsCombinations(
+			false,
+			modelNameWithSpaces
+		);
+
+		allCombinations.forEach((combination: string) => {
+			const statementToInterpret: string = `${combination}`;
+			const combinations: string[] = splitCombination(combination);
 			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
 		});
 	});
