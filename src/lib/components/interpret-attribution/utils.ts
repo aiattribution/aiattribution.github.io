@@ -1,5 +1,5 @@
 import { ALL_TAGS } from '$lib/common/constants';
-import type { TagI } from '$lib/models/tag-library';
+import { AIProportionOptions, type TagI } from '$lib/models/tag-library';
 import {
 	AIA,
 	NO_AI_USED_ABBREVIATED_STATEMENT,
@@ -56,7 +56,12 @@ export const mergeTagsInStatement = (statementComponents: string[]): string[] =>
 		const statementComponent: string = statementComponents[i];
 		if (
 			ALL_TAGS.find(
-				(tag: TagI) => tag.abbreviation === statementComponent || tag.name === statementComponent
+				(tag: TagI) =>
+					tag.abbreviation === statementComponent ||
+					tag.name === statementComponent ||
+					(tag.id === AIProportionOptions.ENTIRELY_HUMAN_CREATED &&
+						(statementComponent === NO_AI_USED_ABBREVIATED_STATEMENT ||
+							statementComponent === NO_AI_USED_FULL_STATEMENT))
 			)
 		) {
 			taggedStatementComponents.push({ statement: statementComponent, isValidTag: true });

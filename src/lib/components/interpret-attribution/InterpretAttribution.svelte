@@ -11,7 +11,11 @@
 	} from '$lib/common/constants';
 	import { AIProportionOptions, type TagI } from '$lib/models/tag-library';
 	import { utilsService } from '$lib/services';
-	import { AIA, ATTRIBUTION_FORM_ITEMS } from '../create-attribution-statement/constants';
+	import {
+		ATTRIBUTION_FORM_ITEMS,
+		NO_AI_USED_ABBREVIATED_STATEMENT,
+		NO_AI_USED_FULL_STATEMENT
+	} from '../create-attribution-statement/constants';
 	import {
 		AttributionType,
 		FormItemType,
@@ -66,7 +70,10 @@
 		const isValid: boolean = tags.some((tag: TagI) => {
 			if (
 				statementComponentToEvaluate === tag.name ||
-				statementComponentToEvaluate === tag.abbreviation
+				statementComponentToEvaluate === tag.abbreviation ||
+				(tag.id === AIProportionOptions.ENTIRELY_HUMAN_CREATED &&
+					(statementComponentToEvaluate === NO_AI_USED_ABBREVIATED_STATEMENT ||
+						statementComponentToEvaluate === NO_AI_USED_FULL_STATEMENT))
 			) {
 				tagIds = [...tagIds, tag.id];
 				return true;
