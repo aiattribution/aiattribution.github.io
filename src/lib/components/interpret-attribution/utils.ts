@@ -90,7 +90,6 @@ export const mergeTagsInStatement = (statementComponents: string[]): string[] =>
 		groupedStatementComponents.push(currentGroup);
 	}
 
-	console.log(groupedStatementComponents);
 	return groupedStatementComponents;
 };
 
@@ -109,10 +108,14 @@ export const getStatementComponents = (statementToInterpret: string): string[] =
 	}
 	if (statementComponents.length > 0) {
 		const firstElement: string = statementComponents[0];
-		if (firstElement === AIA && statementComponents.length !== 1) {
+		const lastElement: string = statementComponents[statementComponents.length - 1];
+		if (
+			firstElement === AIA &&
+			statementComponents.length !== 1 &&
+			!(statementComponents.length === 2 && lastElement === VERSION)
+		) {
 			statementComponents.shift();
 		}
-		const lastElement: string = statementComponents[statementComponents.length - 1];
 		if (lastElement === VERSION) {
 			statementComponents.pop();
 		} else if (lastElement.includes(' ') && lastElement.endsWith(VERSION)) {

@@ -53,11 +53,14 @@
 	const isValidTag = (
 		attributionType: AttributionType,
 		tags: TagI[],
-		wordToEvaluate: string
+		statementComponentToEvaluate: string
 	): string[] => {
 		let tagIds: string[] = [];
 		const isValid: boolean = tags.some((tag: TagI) => {
-			if (wordToEvaluate === tag.name || wordToEvaluate === tag.abbreviation) {
+			if (
+				statementComponentToEvaluate === tag.name ||
+				statementComponentToEvaluate === tag.abbreviation
+			) {
 				tagIds = [...tagIds, tag.id];
 				return true;
 			}
@@ -80,9 +83,9 @@
 				);
 
 				const regexPattern: RegExp = new RegExp(`(${abbreviations.join('|')})`, 'g');
-				const matches: RegExpMatchArray = wordToEvaluate.match(regexPattern);
+				const matches: RegExpMatchArray = statementComponentToEvaluate.match(regexPattern);
 
-				if (matches && matches.join('') === wordToEvaluate) {
+				if (matches && matches.join('') === statementComponentToEvaluate) {
 					tagIds = matches.map((match: string) => abbreviationToId[match]);
 				}
 			}
@@ -129,35 +132,20 @@
 		}
 	};
 
-	const interpretStatement = (): void => {
-		resetState();
-
+	const identifyTags = (statementComponents: string[]): void => {
 		let tagsIdIdentified: string[] = [];
-
-		let statementComponents: string[] = getStatementComponents(statementToInterpret);
 		let attributionType: AttributionType = null;
 		let model: string = null;
 
-		let nextIndexToEvaluate: number = 0;
-		if (
-			isValidIndex(statementComponents, nextIndexToEvaluate) &&
-			statementComponents[nextIndexToEvaluate] === AIA
-		) {
-			nextIndexToEvaluate = 1;
-		}
-		for (
-			let forIndex: number = nextIndexToEvaluate;
-			forIndex < statementComponents.length;
-			forIndex++
-		) {
+		for (let forIndex: number = 0; forIndex < statementComponents.length; forIndex++) {
 			if (isValidIndex(statementComponents, forIndex)) {
-				const wordToEvaluate: string = statementComponents[forIndex];
+				const statementComponentToEvaluate: string = statementComponents[forIndex];
 
 				attributionType = AttributionType.PROPORTIONS_OF_CONTRIBUTIONS;
 				tagsIdIdentified = isValidTag(
 					attributionType,
 					PROPORTIONS_OF_CONTRIBUTIONS_TAGS,
-					wordToEvaluate
+					statementComponentToEvaluate
 				);
 				const validProportionOfContributionTag: boolean =
 					tagsIdIdentified.length > 0 && isValidFormItemAccordingToTheType(attributionType);
@@ -166,7 +154,11 @@
 					addSelectedOption(attributionType, tagsIdIdentified);
 				} else {
 					attributionType = AttributionType.AI_CONTRIBUTION;
-					tagsIdIdentified = isValidTag(attributionType, AI_CONTRIBUTIONS_TAGS, wordToEvaluate);
+					tagsIdIdentified = isValidTag(
+						attributionType,
+						AI_CONTRIBUTIONS_TAGS,
+						statementComponentToEvaluate
+					);
 					const validAIContributionTag: boolean =
 						tagsIdIdentified.length > 0 && isValidFormItemAccordingToTheType(attributionType);
 
@@ -174,7 +166,11 @@
 						addSelectedOption(attributionType, tagsIdIdentified);
 					} else {
 						attributionType = AttributionType.AI_INITIATIVE;
-						tagsIdIdentified = isValidTag(attributionType, AI_INITIATIVE_TAGS, wordToEvaluate);
+						tagsIdIdentified = isValidTag(
+							attributionType,
+							AI_INITIATIVE_TAGS,
+							statementComponentToEvaluate
+						);
 						const validAIInitiativeTag: boolean =
 							tagsIdIdentified.length > 0 && isValidFormItemAccordingToTheType(attributionType);
 
@@ -182,7 +178,11 @@
 							addSelectedOption(attributionType, tagsIdIdentified);
 						} else {
 							attributionType = AttributionType.HUMAN_REVIEW;
-							tagsIdIdentified = isValidTag(attributionType, HUMAN_REVIEW_TAGS, wordToEvaluate);
+							tagsIdIdentified = isValidTag(
+								attributionType,
+								HUMAN_REVIEW_TAGS,
+								statementComponentToEvaluate
+							);
 							const validHumanReviewTag: boolean =
 								tagsIdIdentified.length > 0 && isValidFormItemAccordingToTheType(attributionType);
 
@@ -191,10 +191,10 @@
 							} else {
 								if (model || forIndex !== statementComponents.length - 1) {
 									statementHasAnError = true;
-									statementError = `The following parts of the statement were not recognized: ${wordToEvaluate}`;
+									statementError = `The following parts of the statement were not recognized: ${statementComponentToEvaluate}`;
 									return;
 								} else {
-									model = wordToEvaluate;
+									model = statementComponentToEvaluate;
 									addSelectedOption(AttributionType.MODEL, [model]);
 								}
 							}
@@ -203,6 +203,18 @@
 				}
 			}
 		}
+	};
+
+	const interpretStatement = (): void => {
+		resetState();
+
+		let statementComponents: string[] = getStatementComponents(statementToInterpret);
+		if (statementComponents.length === 0) {
+			return;
+		}
+
+		identifyTags(statementComponents);
+
 		statementExplained = utilsService.getAttributionStatementExplanation(attibutionFormItems);
 		const targetAttributionTypes: AttributionType[] = [
 			AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
