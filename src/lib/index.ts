@@ -1,5 +1,4 @@
 // place files you want to import through the `$lib` alias in this folder.
-import About from './components/about/About.svelte';
 import CreateAttributionStatement from './components/create-attribution-statement/CreateAttributionStatement.svelte';
 import FormItem from './components/create-attribution-statement/form-item/FormItem.svelte';
 import FormItems from './components/create-attribution-statement/form-items/FormItems.svelte';
@@ -20,7 +19,6 @@ import TagTile from './components/tag-library/TagTile.svelte';
 
 export {
     AbbreviatedStatement,
-    About,
     AnatomyAbbreviatedStatement,
     AnatomyFullStatement,
     AttributionStatementExplanation,
