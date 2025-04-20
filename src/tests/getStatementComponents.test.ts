@@ -4,10 +4,10 @@ import { getStatementComponents } from '$lib/components/interpret-attribution/ut
 import { type TagI } from '$lib/models/tag-library';
 import { describe, expect, it } from 'vitest';
 import {
-    generateCreateAttributeFormOptionsCombinations,
-    getTagAbbreviation,
-    getTagName,
-    splitCombination
+	generateCreateAttributeFormOptionsCombinations,
+	getTagAbbreviation,
+	getTagName,
+	splitCombination
 } from './utils';
 
 describe('getStatementComponents', () => {
@@ -18,7 +18,7 @@ describe('getStatementComponents', () => {
 		ALL_TAGS.forEach((tag: TagI) => {
 			const statementComponentAbbreviation: string = getTagAbbreviation(tag.id);
 			const statementToInterpret: string = `${AIA} ${statementComponentAbbreviation} ${VERSION}`;
-			expect(getStatementComponents(statementToInterpret)).toEqual([
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 				statementComponentAbbreviation
 			]);
 		});
@@ -28,7 +28,7 @@ describe('getStatementComponents', () => {
 		ALL_TAGS.forEach((tag: TagI) => {
 			const statementComponentAbbreviation: string = getTagAbbreviation(tag.id);
 			const statementToInterpret: string = `${AIA} ${statementComponentAbbreviation}`;
-			expect(getStatementComponents(statementToInterpret)).toEqual([
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 				statementComponentAbbreviation
 			]);
 		});
@@ -38,7 +38,7 @@ describe('getStatementComponents', () => {
 		ALL_TAGS.forEach((tag: TagI) => {
 			const statementComponentAbbreviation: string = getTagAbbreviation(tag.id);
 			const statementToInterpret: string = `${statementComponentAbbreviation} ${VERSION}`;
-			expect(getStatementComponents(statementToInterpret)).toEqual([
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 				statementComponentAbbreviation
 			]);
 		});
@@ -48,7 +48,7 @@ describe('getStatementComponents', () => {
 		ALL_TAGS.forEach((tag: TagI) => {
 			const statementComponentAbbreviation: string = getTagAbbreviation(tag.id);
 			const statementToInterpret: string = `${statementComponentAbbreviation}`;
-			expect(getStatementComponents(statementToInterpret)).toEqual([
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 				statementComponentAbbreviation
 			]);
 		});
@@ -58,7 +58,9 @@ describe('getStatementComponents', () => {
 		ALL_TAGS.forEach((tag: TagI) => {
 			const statementComponentName: string = getTagName(tag.id);
 			const statementToInterpret: string = `${AIA} ${statementComponentName} ${VERSION}`;
-			expect(getStatementComponents(statementToInterpret)).toEqual([statementComponentName]);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
+				statementComponentName
+			]);
 		});
 	});
 
@@ -66,7 +68,9 @@ describe('getStatementComponents', () => {
 		ALL_TAGS.forEach((tag: TagI) => {
 			const statementComponentName: string = getTagName(tag.id);
 			const statementToInterpret: string = `${AIA} ${statementComponentName}`;
-			expect(getStatementComponents(statementToInterpret)).toEqual([statementComponentName]);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
+				statementComponentName
+			]);
 		});
 	});
 
@@ -74,7 +78,9 @@ describe('getStatementComponents', () => {
 		ALL_TAGS.forEach((tag: TagI) => {
 			const statementComponentName: string = getTagName(tag.id);
 			const statementToInterpret: string = `${statementComponentName} ${VERSION}`;
-			expect(getStatementComponents(statementToInterpret)).toEqual([statementComponentName]);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
+				statementComponentName
+			]);
 		});
 	});
 
@@ -82,48 +88,58 @@ describe('getStatementComponents', () => {
 		ALL_TAGS.forEach((tag: TagI) => {
 			const statementComponentName: string = getTagName(tag.id);
 			const statementToInterpret: string = `${statementComponentName}`;
-			expect(getStatementComponents(statementToInterpret)).toEqual([statementComponentName]);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
+				statementComponentName
+			]);
 		});
 	});
 
 	it('should recognize model name (without spaces) of one component with AIA and version', () => {
 		const statementToInterpret: string = `${AIA} ${modelNameWithoutSpaces} ${VERSION}`;
-		expect(getStatementComponents(statementToInterpret)).toEqual([modelNameWithoutSpaces]);
+		expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
+			modelNameWithoutSpaces
+		]);
 	});
 
 	it('should recognize model name (without spaces) of one component with AIA', () => {
 		const statementToInterpret: string = `${AIA} ${modelNameWithoutSpaces}`;
-		expect(getStatementComponents(statementToInterpret)).toEqual([modelNameWithoutSpaces]);
+		expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
+			modelNameWithoutSpaces
+		]);
 	});
 
 	it('should recognize model name (without spaces) of one component with version', () => {
 		const statementToInterpret: string = `${modelNameWithoutSpaces} ${VERSION}`;
-		expect(getStatementComponents(statementToInterpret)).toEqual([modelNameWithoutSpaces]);
+		expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
+			modelNameWithoutSpaces
+		]);
 	});
 
 	it('should recognize model name (without spaces) of one component', () => {
 		const statementToInterpret: string = `${modelNameWithoutSpaces}`;
-		expect(getStatementComponents(statementToInterpret)).toEqual([modelNameWithoutSpaces]);
+		expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
+			modelNameWithoutSpaces
+		]);
 	});
 
 	it('should recognize model name (with spaces) of one component with AIA and version', () => {
 		const statementToInterpret: string = `${AIA} ${modelNameWithSpaces} ${VERSION}`;
-		expect(getStatementComponents(statementToInterpret)).toEqual([modelNameWithSpaces]);
+		expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([modelNameWithSpaces]);
 	});
 
 	it('should recognize model name (with spaces) of one component with AIA', () => {
 		const statementToInterpret: string = `${AIA} ${modelNameWithSpaces}`;
-		expect(getStatementComponents(statementToInterpret)).toEqual([modelNameWithSpaces]);
+		expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([modelNameWithSpaces]);
 	});
 
 	it('should recognize model name (with spaces) of one component with version', () => {
 		const statementToInterpret: string = `${modelNameWithSpaces} ${VERSION}`;
-		expect(getStatementComponents(statementToInterpret)).toEqual([modelNameWithSpaces]);
+		expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([modelNameWithSpaces]);
 	});
 
 	it('should recognize model name (with spaces) of one component', () => {
 		const statementToInterpret: string = `${modelNameWithSpaces}`;
-		expect(getStatementComponents(statementToInterpret)).toEqual([modelNameWithSpaces]);
+		expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([modelNameWithSpaces]);
 	});
 
 	it('should recognize all possible combination of abbreviated components (model without spaces) with AIA and version', () => {
@@ -134,7 +150,7 @@ describe('getStatementComponents', () => {
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${AIA} ${combination} ${VERSION}`;
 			const combinations: string[] = splitCombination(combination);
-			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual(combinations);
 		});
 	});
 
@@ -146,7 +162,7 @@ describe('getStatementComponents', () => {
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${AIA} ${combination}`;
 			const combinations: string[] = splitCombination(combination);
-			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual(combinations);
 		});
 	});
 
@@ -158,7 +174,7 @@ describe('getStatementComponents', () => {
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${combination} ${VERSION}`;
 			const combinations: string[] = splitCombination(combination);
-			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual(combinations);
 		});
 	});
 
@@ -170,7 +186,7 @@ describe('getStatementComponents', () => {
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${combination}`;
 			const combinations: string[] = splitCombination(combination);
-			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual(combinations);
 		});
 	});
 
@@ -183,7 +199,7 @@ describe('getStatementComponents', () => {
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${AIA} ${combination} ${VERSION}`;
 			const combinations: string[] = splitCombination(combination);
-			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual(combinations);
 		});
 	});
 
@@ -196,7 +212,7 @@ describe('getStatementComponents', () => {
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${AIA} ${combination}`;
 			const combinations: string[] = splitCombination(combination);
-			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual(combinations);
 		});
 	});
 
@@ -209,7 +225,7 @@ describe('getStatementComponents', () => {
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${combination} ${VERSION}`;
 			const combinations: string[] = splitCombination(combination);
-			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual(combinations);
 		});
 	});
 
@@ -222,7 +238,7 @@ describe('getStatementComponents', () => {
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${combination}`;
 			const combinations: string[] = splitCombination(combination);
-			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual(combinations);
 		});
 	});
 
@@ -234,7 +250,7 @@ describe('getStatementComponents', () => {
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${AIA} ${combination} ${VERSION}`;
 			const combinations: string[] = splitCombination(combination);
-			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual(combinations);
 		});
 	});
 
@@ -246,7 +262,7 @@ describe('getStatementComponents', () => {
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${AIA} ${combination}`;
 			const combinations: string[] = splitCombination(combination);
-			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual(combinations);
 		});
 	});
 
@@ -258,7 +274,7 @@ describe('getStatementComponents', () => {
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${combination} ${VERSION}`;
 			const combinations: string[] = splitCombination(combination);
-			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual(combinations);
 		});
 	});
 
@@ -270,7 +286,7 @@ describe('getStatementComponents', () => {
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${combination}`;
 			const combinations: string[] = splitCombination(combination);
-			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual(combinations);
 		});
 	});
 
@@ -283,7 +299,7 @@ describe('getStatementComponents', () => {
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${AIA} ${combination} ${VERSION}`;
 			const combinations: string[] = splitCombination(combination);
-			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual(combinations);
 		});
 	});
 
@@ -296,7 +312,7 @@ describe('getStatementComponents', () => {
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${AIA} ${combination}`;
 			const combinations: string[] = splitCombination(combination);
-			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual(combinations);
 		});
 	});
 
@@ -309,7 +325,7 @@ describe('getStatementComponents', () => {
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${combination} ${VERSION}`;
 			const combinations: string[] = splitCombination(combination);
-			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual(combinations);
 		});
 	});
 
@@ -322,7 +338,7 @@ describe('getStatementComponents', () => {
 		allCombinations.forEach((combination: string) => {
 			const statementToInterpret: string = `${combination}`;
 			const combinations: string[] = splitCombination(combination);
-			expect(getStatementComponents(statementToInterpret)).toEqual(combinations);
+			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual(combinations);
 		});
 	});
 });

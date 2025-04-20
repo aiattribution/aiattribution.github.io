@@ -1,10 +1,3 @@
-import {
-	AttributionType,
-	FormItemType,
-	type FormItemI,
-	type StatementOption
-} from '$lib/components/create-attribution-statement/interfaces';
-import { mergeTagsInStatement } from '$lib/components/interpret-attribution/utils';
 import { ALL_TAGS, TAGS_WITH_ATTRIBUTION_TYPE } from '../../cypress/support/constants';
 import {
 	AIA,
@@ -14,6 +7,13 @@ import {
 	NO_AI_USED_FULL_STATEMENT,
 	VERSION
 } from '../lib/components/create-attribution-statement/constants';
+import {
+	AttributionType,
+	FormItemType,
+	type FormItemI,
+	type StatementOption
+} from '../lib/components/create-attribution-statement/interfaces';
+import { mergeTagsInStatement } from '../lib/components/interpret-attribution/utils';
 import { AIProportionOptions, type TagI } from '../lib/models/tag-library';
 
 const allTags: TagI[] = ALL_TAGS;
@@ -294,6 +294,6 @@ export const generateCreateAttributeFormOptionsCombinations = (
 
 export const splitCombination = (combination: string): string[] => {
 	let combinations: string[] = combination.split(/\s+/);
-	combinations = mergeTagsInStatement(combinations);
+	combinations = mergeTagsInStatement(combinations, allTags);
 	return combinations;
 };

@@ -253,7 +253,7 @@
 	const interpretStatement = (): void => {
 		resetState();
 
-		let statementComponents: string[] = getStatementComponents(statementToInterpret);
+		let statementComponents: string[] = getStatementComponents(statementToInterpret, ALL_TAGS);
 		if (statementComponents.length === 0) {
 			return;
 		}

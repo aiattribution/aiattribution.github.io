@@ -1,5 +1,4 @@
-import { ALL_TAGS } from '$lib/common/constants';
-import { AIProportionOptions, type TagI } from '$lib/models/tag-library';
+import { AIProportionOptions, type TagI } from '../..//models/tag-library';
 import {
 	AIA,
 	NO_AI_USED_ABBREVIATED_STATEMENT,
@@ -7,9 +6,9 @@ import {
 	VERSION
 } from '../create-attribution-statement/constants';
 
-const getMaxTagNameWordLength = (): number => {
+const getMaxTagNameWordLength = (allTags: TagI[]): number => {
 	let maxTagNameWordLength: number = 0;
-	for (const tag of ALL_TAGS) {
+	for (const tag of allTags) {
 		const wordCount: number = tag.name.trim().split(/\s+/).length;
 		if (wordCount > maxTagNameWordLength) {
 			maxTagNameWordLength = wordCount;
@@ -18,8 +17,8 @@ const getMaxTagNameWordLength = (): number => {
 	return maxTagNameWordLength;
 };
 
-export const mergeTagsInStatement = (statementComponents: string[]): string[] => {
-	const maxWords: number = getMaxTagNameWordLength();
+export const mergeTagsInStatement = (statementComponents: string[], allTags: TagI[]): string[] => {
+	const maxWords: number = getMaxTagNameWordLength(allTags);
 
 	for (let i: number = 0; i < statementComponents.length; i++) {
 		// Case 1: "No", "AI"
@@ -41,7 +40,7 @@ export const mergeTagsInStatement = (statementComponents: string[]): string[] =>
 		for (let length: number = maxWords; length >= 2; length--) {
 			const slice: string = statementComponents.slice(i, i + length).join(' ');
 
-			const matchingTag: TagI = ALL_TAGS.find((tag: TagI) => tag.name === slice);
+			const matchingTag: TagI = allTags.find((tag: TagI) => tag.name === slice);
 
 			if (matchingTag) {
 				statementComponents.splice(i, length, matchingTag.name);
@@ -55,7 +54,7 @@ export const mergeTagsInStatement = (statementComponents: string[]): string[] =>
 	for (let i: number = 0; i < statementComponents.length; i++) {
 		const statementComponent: string = statementComponents[i];
 		if (
-			ALL_TAGS.find(
+			allTags.find(
 				(tag: TagI) =>
 					tag.abbreviation === statementComponent ||
 					tag.name === statementComponent ||
@@ -98,7 +97,7 @@ export const mergeTagsInStatement = (statementComponents: string[]): string[] =>
 	return groupedStatementComponents;
 };
 
-export const getStatementComponents = (statementToInterpret: string): string[] => {
+export const getStatementComponents = (statementToInterpret: string, allTags: TagI[]): string[] => {
 	let statementComponents: string[] = [];
 	if (statementToInterpret.includes(',')) {
 		statementComponents = statementToInterpret.split(',').map((item: string) => item.trim());
@@ -129,7 +128,7 @@ export const getStatementComponents = (statementToInterpret: string): string[] =
 		}
 	}
 
-	statementComponents = mergeTagsInStatement(statementComponents);
+	statementComponents = mergeTagsInStatement(statementComponents, allTags);
 
 	return statementComponents;
 };
