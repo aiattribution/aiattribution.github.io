@@ -144,8 +144,7 @@ export const getExpandedStatement = (tagIds: string[], modelName?: string): stri
 			const explanation: string = ids
 				.map((id: string) => {
 					let tagExplanation: string = getTagExplanation(id);
-					tagExplanation = tagExplanation.replace('The work', 'this work');
-					tagExplanation = tagExplanation.replace('This work', 'this work');
+					tagExplanation = tagExplanation.replace('The work', 'This work');
 					return tagExplanation;
 				})
 				.filter((explanation: string) => explanation.trim() !== '')
@@ -159,9 +158,9 @@ export const getExpandedStatement = (tagIds: string[], modelName?: string): stri
 	if (modelName) {
 		let modelUsed: string = '';
 		if (groupedExplanations.length > 0) {
-			modelUsed = `The ${modelName} model or application was used.`;
+			modelUsed = `The following model(s) or application(s) were used: ${modelName}.`;
 		} else {
-			modelUsed = `this work involved the use of the ${modelName} model or application.`;
+			modelUsed = `This work involved the use of the following model(s) or application(s): ${modelName}.`;
 		}
 		groupedExplanations.push(modelUsed);
 	}

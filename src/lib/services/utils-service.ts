@@ -206,9 +206,9 @@ class UtilsService {
 					attributionFormItems
 				).selectedOptions[0];
 				if (proportionOfContribution || aiContribution || aiInitiatives || humanReview) {
-					modelUsed = `The ${modelSelected} model or application was used.`;
+					modelUsed = `The following model(s) or application(s) were used: ${modelSelected}.`;
 				} else {
-					modelUsed = `this work involved the use of the ${modelSelected} model or application.`;
+					modelUsed = `This work involved the use of the following model(s) or application(s): ${modelSelected}.`;
 				}
 			}
 		}
