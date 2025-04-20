@@ -123,8 +123,6 @@ export const NO_AI_USED_ABBREVIATED_STATEMENT: string = 'No AI';
 export const NO_AI_USED_FULL_STATEMENT: string = 'AI not used';
 export const VERSION: string = '1.0';
 
-export const EXPANDED_STATEMENT_INITIAL_TEXT: string = 'This attribution statement indicates that';
-
 export const AIA_EXPLANATION: string =
 	'AIA: This prefix is used to identify an AI attribution statement.';
 export const VERSION_EXPLANATION: string =

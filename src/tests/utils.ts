@@ -2,7 +2,6 @@ import { ALL_TAGS, TAGS_WITH_ATTRIBUTION_TYPE } from '../../cypress/support/cons
 import {
 	AIA,
 	ATTRIBUTION_FORM_ITEMS,
-	EXPANDED_STATEMENT_INITIAL_TEXT,
 	NO_AI_USED_ABBREVIATED_STATEMENT,
 	NO_AI_USED_FULL_STATEMENT,
 	VERSION
@@ -17,11 +16,6 @@ import { mergeTagsInStatement } from '../lib/components/interpret-attribution/ut
 import { AIProportionOptions, type TagI } from '../lib/models/tag-library';
 
 const allTags: TagI[] = ALL_TAGS;
-
-export const lowercaseFirstLetter = (str: string): string => {
-	if (!str || str.startsWith('AI')) return str;
-	return str.charAt(0).toLowerCase() + str.slice(1);
-};
 
 export const getGroupedTags = (tagIds: string[]): Record<string, string[]> => {
 	const groupedTags: Record<string, string[]> = {};
@@ -172,11 +166,7 @@ export const getExpandedStatement = (tagIds: string[], modelName?: string): stri
 		groupedExplanations.push(modelUsed);
 	}
 
-	if (groupedExplanations.length === 1 && !modelName) {
-		groupedExplanations[0] = lowercaseFirstLetter(groupedExplanations[0]);
-	}
-
-	return `${EXPANDED_STATEMENT_INITIAL_TEXT} ${groupedExplanations.join(' ')}`;
+	return `${groupedExplanations.join(' ')}`;
 };
 
 export const getTagDescriptions = (tagIds: string[]): string[] => {

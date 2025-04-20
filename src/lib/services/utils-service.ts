@@ -1,5 +1,4 @@
 import { ALL_TAGS } from '$lib/common/constants';
-import { EXPANDED_STATEMENT_INITIAL_TEXT } from '$lib/components/create-attribution-statement/constants';
 import {
 	AttributionType,
 	type FormItemI
@@ -108,11 +107,6 @@ class UtilsService {
 			.filter((component: Component) => component !== null);
 	}
 
-	public lowercaseFirstLetter(str: string): string {
-		if (!str || str.startsWith('AI')) return str;
-		return str.charAt(0).toLowerCase() + str.slice(1);
-	}
-
 	public getOptionsSelectedPerField(attributionFormItems: FormItemI[]): Record<string, string[]> {
 		return attributionFormItems
 			.filter(
@@ -184,8 +178,7 @@ class UtilsService {
 				attributionFormItems
 			).selectedOptions
 		);
-		proportionOfContribution = proportionOfContribution.replace('The work', 'this work');
-		proportionOfContribution = proportionOfContribution.replace('This work', 'this work');
+		proportionOfContribution = proportionOfContribution.replace('The work', 'This work');
 		let aiContribution: string = '';
 		let aiInitiatives: string = '';
 		let humanReview: string = '';
@@ -196,23 +189,14 @@ class UtilsService {
 				this.getAttributionFormItemByType(AttributionType.AI_CONTRIBUTION, attributionFormItems)
 					.selectedOptions
 			);
-			if (!proportionOfContribution && !aiInitiatives && !humanReview && !modelUsed) {
-				aiContribution = this.lowercaseFirstLetter(aiContribution);
-			}
 			aiInitiatives = this.getConcatenatedOptionsExplanations(
 				this.getAttributionFormItemByType(AttributionType.AI_INITIATIVE, attributionFormItems)
 					.selectedOptions
 			);
-			if (!proportionOfContribution && !aiContribution && !humanReview && !modelUsed) {
-				aiInitiatives = this.lowercaseFirstLetter(aiInitiatives);
-			}
 			humanReview = this.getConcatenatedOptionsExplanations(
 				this.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attributionFormItems)
 					.selectedOptions
 			);
-			if (!proportionOfContribution && !aiContribution && !aiInitiatives && !modelUsed) {
-				humanReview = this.lowercaseFirstLetter(humanReview);
-			}
 			if (
 				this.getAttributionFormItemByType(AttributionType.MODEL, attributionFormItems)
 					.selectedOptions[0]
@@ -228,7 +212,7 @@ class UtilsService {
 				}
 			}
 		}
-		atributionStatementLabelContent = `${EXPANDED_STATEMENT_INITIAL_TEXT} ${proportionOfContribution} ${aiContribution} ${aiInitiatives} ${humanReview} ${modelUsed}`;
+		atributionStatementLabelContent = `${proportionOfContribution} ${aiContribution} ${aiInitiatives} ${humanReview} ${modelUsed}`;
 		atributionStatementLabelContent = atributionStatementLabelContent.replace('.,', ',');
 		return atributionStatementLabelContent;
 	}
