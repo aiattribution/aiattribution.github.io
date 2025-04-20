@@ -37,7 +37,7 @@
 			calibrate their trust.
 		</p>
 		<p class="principal-container-text">
-			This tool was motivated by findings from our
+			This tool was motivated by findings from this
 			<Link class="paper-link" href="https://arxiv.org/pdf/2502.18357" target="_blank" inline>
 				CHI 2025 paper
 			</Link>.
