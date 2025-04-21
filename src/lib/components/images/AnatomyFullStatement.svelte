@@ -46,6 +46,8 @@
 	let isMobile: boolean = false;
 	let linesWidth: number = 2;
 
+	let isLoading: boolean = true;
+
 	onMount(() => {
 		updateStatementComponentExplanationsPositions();
 		window.addEventListener('resize', updateStatementComponentExplanationsPositions);
@@ -76,6 +78,8 @@
 
 		isMobile = window.matchMedia('(max-width: 768px)').matches;
 		linesWidth = isMobile ? 1 : 2;
+
+		isLoading = false;
 	};
 
 	const getSpanRelativeOffsetXWithinStatementComponentTextElement = (
@@ -179,7 +183,11 @@
 </script>
 
 <div class="statement-components-container" style={`--line-width: ${linesWidth}px;`}>
-	<div bind:this={statementComponentTextElement} class="statement-component-text">
+	<div
+		bind:this={statementComponentTextElement}
+		class="statement-component-text"
+		class:no-display={isLoading}
+	>
 		<div class="statement-component-explanations-container">
 			<div
 				bind:this={attributionIdentifierExplanationElement}
@@ -269,6 +277,7 @@
 	</div>
 	<div
 		class="statement-component-icons-container"
+		class:no-display={isLoading}
 		style={`margin-left: ${statementComponentIconsContainerLeftPosition}px;`}
 	>
 		<div bind:this={attributionIconsElement} class="statement-component-icons-internal-container">
@@ -299,6 +308,10 @@
 		display: flex;
 		justify-content: center;
 		align-items: end;
+	}
+
+	.no-display {
+		visibility: hidden;
 	}
 
 	.statement-component-text {
