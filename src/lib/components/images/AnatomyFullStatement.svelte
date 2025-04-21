@@ -1,4 +1,11 @@
 <script lang="ts">
+	import {
+		CertifiedReviewIcon,
+		HumanInitiatedIcon,
+		NewContentIcon,
+		PrimarilyAIIcon
+	} from '../icons/tag-icons';
+
 	let statementComponentTextElement: HTMLDivElement = null;
 
 	let attributionIdentifierElement: HTMLSpanElement = null;
@@ -20,6 +27,9 @@
 
 	let attributionAIVersionNumberElement: HTMLSpanElement = null;
 	let attributionAIVersionNumberExplanationElement: HTMLDivElement = null;
+
+	let attributionIconsElement: HTMLDivElement = null;
+	let attributionIconsExplanationElement: HTMLDivElement = null;
 
 	const getSpanRelativeOffsetXWithinStatementComponentTextElement = (
 		spanElement: HTMLSpanElement
@@ -94,9 +104,31 @@
 			attributionAIVersionNumberExplanationElement
 		);
 	};
+
+	const getStatementComponentIconsContainerLeftPosition = (): number => {
+		let leftPosition: number = 0;
+		if (attributionAIVersionNumberElement && attributionAIVersionNumberExplanationElement) {
+			leftPosition =
+				attributionAIVersionNumberElement.getBoundingClientRect().width / 2 -
+				attributionAIVersionNumberExplanationElement.getBoundingClientRect().width / 2 +
+				8;
+		}
+		return leftPosition;
+	};
+
+	const getAttributionIconsExplanationLeftPosition = (): number => {
+		let leftPosition: number = 0;
+		if (attributionIconsElement && attributionIconsExplanationElement) {
+			leftPosition =
+				-2 -
+				attributionIconsExplanationElement.getBoundingClientRect().width / 2 +
+				attributionIconsElement.getBoundingClientRect().width / 2;
+		}
+		return leftPosition;
+	};
 </script>
 
-<div class="recommended-attribution-item-text-container">
+<div class="statement-components-container">
 	<div bind:this={statementComponentTextElement} class="statement-component-text">
 		<div class="statement-component-explanations-container">
 			<div
@@ -184,11 +216,39 @@
 			</div>
 		</div>
 	</div>
-	<div class="recommended-attribution-item-icons-container"></div>
+	<div
+		class="statement-component-icons-container"
+		style={`margin-left: ${getStatementComponentIconsContainerLeftPosition()}px;`}
+	>
+		<div bind:this={attributionIconsElement} class="statement-component-icons-internal-container">
+			<PrimarilyAIIcon />
+			<NewContentIcon />
+			<HumanInitiatedIcon />
+			<CertifiedReviewIcon />
+		</div>
+		<div class="statement-component-explanations-container">
+			<div
+				bind:this={attributionIconsExplanationElement}
+				class="statement-component-explanation-container"
+				style={`margin-left: ${getAttributionIconsExplanationLeftPosition()}px;`}
+			>
+				<span class="vertical-line vertical-line-margin-bottom"></span>
+				<span class="statement-component-explanation-text">
+					Icons corresponding to <br /> statement components
+				</span>
+			</div>
+		</div>
+	</div>
 </div>
 
 <style lang="scss">
 	@use '@carbon/type';
+
+	.statement-components-container {
+		display: flex;
+		justify-content: center;
+		align-items: end;
+	}
 
 	.statement-component-text {
 		@include type.type-style('productive-heading-04');
@@ -236,5 +296,21 @@
 
 	.border-bottom {
 		border-bottom: 2px solid #4589ff;
+	}
+
+	.statement-component-icons-container {
+		.statement-component-icons-internal-container {
+			display: flex;
+			width: fit-content;
+			padding: 4.25px 0;
+			margin-bottom: -2px;
+			gap: 0.5rem;
+			border-bottom: 2px solid #4589ff;
+		}
+
+		:global(svg) {
+			width: 28px;
+			height: 28px;
+		}
 	}
 </style>

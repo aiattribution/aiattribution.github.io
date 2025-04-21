@@ -45,7 +45,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: var(--padding-top-bottom) 11.9%;
+		padding: var(--padding-top-bottom) 0;
 		border: 1px solid var(--cds-border-inverse);
 		margin-top: -1px;
 	}
