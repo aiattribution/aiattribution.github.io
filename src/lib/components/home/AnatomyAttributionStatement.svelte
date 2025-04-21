@@ -19,10 +19,7 @@
 			<Switch text="Full statement" />
 			<Switch text="Abbreviated statement" />
 		</ContentSwitcher>
-		<div
-			class="anatomy-statement-image-container"
-			style={`--padding-top-bottom: ${selectedContentSwitcherIndex === 0 ? '62px' : '48.5px'};`}
-		>
+		<div class="anatomy-statement-image-container">
 			{#if selectedContentSwitcherIndex === 0}
 				<AnatomyFullStatement />
 			{:else}
@@ -45,7 +42,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: var(--padding-top-bottom) 0;
+		padding: 62px 0;
 		border: 1px solid var(--cds-border-inverse);
 		margin-top: -1px;
 	}
@@ -53,6 +50,12 @@
 	@media (max-width: 1055px) {
 		.section-container {
 			margin-top: unset !important;
+		}
+	}
+
+	@media (max-width: 564px) {
+		.anatomy-statement-image-container {
+			padding: 31px 0;
 		}
 	}
 

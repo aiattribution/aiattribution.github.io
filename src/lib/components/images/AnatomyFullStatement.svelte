@@ -43,6 +43,9 @@
 	let attributionIconsExplanationLeftPosition: number = 0;
 	let statementComponentIconsContainerLeftPosition: number = 0;
 
+	let isMobile: boolean = false;
+	let linesWidth: number = 2;
+
 	onMount(() => {
 		updateStatementComponentExplanationsPositions();
 		window.addEventListener('resize', updateStatementComponentExplanationsPositions);
@@ -70,6 +73,9 @@
 		attributionIconsExplanationLeftPosition = getAttributionIconsExplanationLeftPosition();
 		statementComponentIconsContainerLeftPosition =
 			getStatementComponentIconsContainerLeftPosition();
+
+		isMobile = window.matchMedia('(max-width: 768px)').matches;
+		linesWidth = isMobile ? 1 : 2;
 	};
 
 	const getSpanRelativeOffsetXWithinStatementComponentTextElement = (
@@ -88,7 +94,7 @@
 		let leftPosition: number = 0;
 		if (spanStatementComponentElement && spanStatementComponentExplanationElement) {
 			leftPosition =
-				2 +
+				linesWidth +
 				getSpanRelativeOffsetXWithinStatementComponentTextElement(spanStatementComponentElement) +
 				spanStatementComponentElement.getBoundingClientRect().width / 2 -
 				spanStatementComponentExplanationElement.getBoundingClientRect().width / 2;
@@ -100,7 +106,7 @@
 		let leftPosition: number = 0;
 		if (attributionIdentifierElement && attributionIdentifierExplanationElement) {
 			leftPosition =
-				-2 -
+				-linesWidth -
 				attributionIdentifierExplanationElement.getBoundingClientRect().width / 2 +
 				attributionIdentifierElement.getBoundingClientRect().width / 2;
 		}
@@ -164,7 +170,7 @@
 		let leftPosition: number = 0;
 		if (attributionIconsElement && attributionIconsExplanationElement) {
 			leftPosition =
-				-2 -
+				-linesWidth -
 				attributionIconsExplanationElement.getBoundingClientRect().width / 2 +
 				attributionIconsElement.getBoundingClientRect().width / 2;
 		}
@@ -172,7 +178,7 @@
 	};
 </script>
 
-<div class="statement-components-container">
+<div class="statement-components-container" style={`--line-width: ${linesWidth}px;`}>
 	<div bind:this={statementComponentTextElement} class="statement-component-text">
 		<div class="statement-component-explanations-container">
 			<div
@@ -322,35 +328,35 @@
 	}
 
 	.vertical-line {
-		width: 2px;
-		height: 32px;
+		width: var(--line-width);
+		height: calc(16 * var(--line-width));
 		background-color: #4589ff;
 	}
 
 	.vertical-line-margin-top {
-		margin-top: 8px;
+		margin-top: calc(4 * var(--line-width));
 	}
 
 	.vertical-line-margin-bottom {
-		margin-bottom: 8px;
+		margin-bottom: calc(4 * var(--line-width));
 	}
 
 	.border-top {
-		border-top: 2px solid #4589ff;
+		border-top: var(--line-width) solid #4589ff;
 	}
 
 	.border-bottom {
-		border-bottom: 2px solid #4589ff;
+		border-bottom: var(--line-width) solid #4589ff;
 	}
 
 	.statement-component-icons-container {
 		.statement-component-icons-internal-container {
 			display: flex;
 			width: fit-content;
-			padding: 4.25px 0;
+			padding: 4px 0;
 			margin-bottom: -2px;
 			gap: 0.5rem;
-			border-bottom: 2px solid #4589ff;
+			border-bottom: var(--line-width) solid #4589ff;
 		}
 
 		:global(svg) {
@@ -365,6 +371,11 @@
 		}
 
 		.statement-component-icons-container {
+			.statement-component-icons-internal-container {
+				padding: 3px 0;
+				margin-bottom: -1px;
+			}
+
 			:global(svg) {
 				width: 20px;
 				height: 20px;
@@ -372,8 +383,99 @@
 		}
 
 		.statement-component-explanation-text {
-			font-size: type.type-scale(2) !important;
-			line-height: 20px !important;
+			font-size: type.type-scale(2);
+			line-height: 20px;
+		}
+	}
+
+	@media (max-width: 1055px) {
+		.statement-component-text {
+			@include type.type-style('productive-heading-02');
+		}
+
+		.statement-component-icons-container {
+			.statement-component-icons-internal-container {
+				padding: 2.5px 0;
+			}
+
+			:global(svg) {
+				width: 16px;
+				height: 16px;
+			}
+		}
+
+		.statement-component-explanation-text {
+			font-size: type.type-scale(1);
+			line-height: 16px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.statement-component-text {
+			@include type.type-style('productive-heading-01');
+		}
+
+		.statement-component-icons-container {
+			.statement-component-icons-internal-container {
+				padding: 2.25px 0;
+			}
+
+			:global(svg) {
+				width: 14px;
+				height: 14px;
+			}
+		}
+
+		.statement-component-explanation-text {
+			font-size: 8px;
+			line-height: 12px;
+		}
+	}
+
+	@media (max-width: 672px) {
+		.statement-component-text {
+			font-size: type.type-scale(1);
+		}
+
+		.statement-component-icons-container {
+			.statement-component-icons-internal-container {
+				padding: 2px 0;
+			}
+
+			:global(svg) {
+				width: 12px;
+				height: 12px;
+			}
+		}
+
+		.statement-component-explanation-text {
+			font-size: 6px;
+			line-height: 10px;
+		}
+	}
+
+	@media (max-width: 564px) {
+		.statement-component-text {
+			font-size: 8px;
+		}
+
+		.statement-component-icons-container {
+			margin-left: 0 !important;
+
+			.statement-component-icons-internal-container {
+				padding: 1px 0;
+				gap: 0.25rem;
+			}
+
+			:global(svg) {
+				width: 8px;
+				height: 8px;
+			}
+		}
+
+		.statement-component-explanation-text {
+			font-size: 4px;
+			line-height: 8px;
 		}
 	}
 </style>
