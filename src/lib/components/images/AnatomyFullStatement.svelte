@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import {
 		CertifiedReviewIcon,
 		HumanInitiatedIcon,
@@ -9,6 +10,7 @@
 	let statementComponentTextElement: HTMLDivElement = null;
 
 	let attributionIdentifierElement: HTMLSpanElement = null;
+	let attributionIdentifierExplanationElement: HTMLDivElement = null;
 
 	let attributionHowMuchDidAIContributeElement: HTMLSpanElement = null;
 	let attributionHowMuchDidAIContributeExplanationElement: HTMLDivElement = null;
@@ -30,6 +32,45 @@
 
 	let attributionIconsElement: HTMLDivElement = null;
 	let attributionIconsExplanationElement: HTMLDivElement = null;
+
+	let attributionIdentifierExplanationLeftPosition: number = 0;
+	let attributionHowMuchDidAIContributeExplanationLeftPosition: number = 0;
+	let attributionWhatDidAIContributeExplanationLeftPosition: number = 0;
+	let attributionWhoInitiatedTheWorkExplanationLeftPosition: number = 0;
+	let attributionWasAIContentReviewedByAHumanExplanationLeftPosition: number = 0;
+	let attributionAIApplicationUsedExplanationLeftPosition: number = 0;
+	let attributionAIVersionNumberExplanationLeftPosition: number = 0;
+	let attributionIconsExplanationLeftPosition: number = 0;
+	let statementComponentIconsContainerLeftPosition: number = 0;
+
+	onMount(() => {
+		updateStatementComponentExplanationsPositions();
+		window.addEventListener('resize', updateStatementComponentExplanationsPositions);
+
+		return () => {
+			window.removeEventListener('resize', updateStatementComponentExplanationsPositions);
+		};
+	});
+
+	const updateStatementComponentExplanationsPositions = (): void => {
+		attributionIdentifierExplanationLeftPosition =
+			getAttributionIdentifierExplanationLeftPosition();
+		attributionHowMuchDidAIContributeExplanationLeftPosition =
+			getAttributionHowMuchDidAIContributeExplanationLeftPosition();
+		attributionWhatDidAIContributeExplanationLeftPosition =
+			getAttributionWhatDidAIContributeExplanationLeftPosition();
+		attributionWhoInitiatedTheWorkExplanationLeftPosition =
+			getAttributionWhoInitiatedTheWorkExplanationLeftPosition();
+		attributionWasAIContentReviewedByAHumanExplanationLeftPosition =
+			getAttributionWasAIContentReviewedByAHumanExplanationLeftPosition();
+		attributionAIApplicationUsedExplanationLeftPosition =
+			getAttributionAIApplicationUsedExplanationLeftPosition();
+		attributionAIVersionNumberExplanationLeftPosition =
+			getAttributionAIVersionNumberExplanationLeftPosition();
+		attributionIconsExplanationLeftPosition = getAttributionIconsExplanationLeftPosition();
+		statementComponentIconsContainerLeftPosition =
+			getStatementComponentIconsContainerLeftPosition();
+	};
 
 	const getSpanRelativeOffsetXWithinStatementComponentTextElement = (
 		spanElement: HTMLSpanElement
@@ -57,8 +98,11 @@
 
 	const getAttributionIdentifierExplanationLeftPosition = (): number => {
 		let leftPosition: number = 0;
-		if (attributionIdentifierElement) {
-			leftPosition = -2 - attributionIdentifierElement.getBoundingClientRect().width / 2;
+		if (attributionIdentifierElement && attributionIdentifierExplanationElement) {
+			leftPosition =
+				-2 -
+				attributionIdentifierExplanationElement.getBoundingClientRect().width / 2 +
+				attributionIdentifierElement.getBoundingClientRect().width / 2;
 		}
 		return leftPosition;
 	};
@@ -132,8 +176,9 @@
 	<div bind:this={statementComponentTextElement} class="statement-component-text">
 		<div class="statement-component-explanations-container">
 			<div
+				bind:this={attributionIdentifierExplanationElement}
 				class="statement-component-explanation-container"
-				style={`margin-left: ${getAttributionIdentifierExplanationLeftPosition()}px;`}
+				style={`margin-left: ${attributionIdentifierExplanationLeftPosition}px;`}
 			>
 				<span class="statement-component-explanation-text">AI Attribution <br /> identifier</span>
 				<span class="vertical-line vertical-line-margin-top"></span>
@@ -142,7 +187,7 @@
 			<div
 				bind:this={attributionWhatDidAIContributeExplanationElement}
 				class="statement-component-explanation-container"
-				style={`margin-left: ${getAttributionWhatDidAIContributeExplanationLeftPosition()}px;`}
+				style={`margin-left: ${attributionWhatDidAIContributeExplanationLeftPosition}px;`}
 			>
 				<span class="statement-component-explanation-text">What did AI <br /> contribute?</span>
 				<span class="vertical-line vertical-line-margin-top"></span>
@@ -151,7 +196,7 @@
 			<div
 				bind:this={attributionWasAIContentReviewedByAHumanExplanationElement}
 				class="statement-component-explanation-container"
-				style={`margin-left: ${getAttributionWasAIContentReviewedByAHumanExplanationLeftPosition()}px;`}
+				style={`margin-left: ${attributionWasAIContentReviewedByAHumanExplanationLeftPosition}px;`}
 			>
 				<span class="statement-component-explanation-text">
 					Was AI content <br /> reviewed by a human?
@@ -162,7 +207,7 @@
 			<div
 				bind:this={attributionAIVersionNumberExplanationElement}
 				class="statement-component-explanation-container"
-				style={`margin-left: ${getAttributionAIVersionNumberExplanationLeftPosition()}px;`}
+				style={`margin-left: ${attributionAIVersionNumberExplanationLeftPosition}px;`}
 			>
 				<span class="statement-component-explanation-text">
 					AI Attribution <br /> version number
@@ -191,7 +236,7 @@
 			<div
 				bind:this={attributionHowMuchDidAIContributeExplanationElement}
 				class="statement-component-explanation-container"
-				style={`margin-left: ${getAttributionHowMuchDidAIContributeExplanationLeftPosition()}px;`}
+				style={`margin-left: ${attributionHowMuchDidAIContributeExplanationLeftPosition}px;`}
 			>
 				<span class="vertical-line vertical-line-margin-bottom"></span>
 				<span class="statement-component-explanation-text">How much did AI <br /> contribute?</span>
@@ -200,7 +245,7 @@
 			<div
 				bind:this={attributionWhoInitiatedTheWorkExplanationElement}
 				class="statement-component-explanation-container"
-				style={`margin-left: ${getAttributionWhoInitiatedTheWorkExplanationLeftPosition()}px;`}
+				style={`margin-left: ${attributionWhoInitiatedTheWorkExplanationLeftPosition}px;`}
 			>
 				<span class="vertical-line vertical-line-margin-bottom"></span>
 				<span class="statement-component-explanation-text">Who initiated <br /> the work?</span>
@@ -209,7 +254,7 @@
 			<div
 				bind:this={attributionAIApplicationUsedExplanationElement}
 				class="statement-component-explanation-container"
-				style={`margin-left: ${getAttributionAIApplicationUsedExplanationLeftPosition()}px;`}
+				style={`margin-left: ${attributionAIApplicationUsedExplanationLeftPosition}px;`}
 			>
 				<span class="vertical-line vertical-line-margin-bottom"></span>
 				<span class="statement-component-explanation-text">AI application <br /> used</span>
@@ -218,7 +263,7 @@
 	</div>
 	<div
 		class="statement-component-icons-container"
-		style={`margin-left: ${getStatementComponentIconsContainerLeftPosition()}px;`}
+		style={`margin-left: ${statementComponentIconsContainerLeftPosition}px;`}
 	>
 		<div bind:this={attributionIconsElement} class="statement-component-icons-internal-container">
 			<PrimarilyAIIcon />
@@ -230,7 +275,7 @@
 			<div
 				bind:this={attributionIconsExplanationElement}
 				class="statement-component-explanation-container"
-				style={`margin-left: ${getAttributionIconsExplanationLeftPosition()}px;`}
+				style={`margin-left: ${attributionIconsExplanationLeftPosition}px;`}
 			>
 				<span class="vertical-line vertical-line-margin-bottom"></span>
 				<span class="statement-component-explanation-text">
@@ -311,6 +356,24 @@
 		:global(svg) {
 			width: 28px;
 			height: 28px;
+		}
+	}
+
+	@media (max-width: 1262px) {
+		.statement-component-text {
+			@include type.type-style('productive-heading-03');
+		}
+
+		.statement-component-icons-container {
+			:global(svg) {
+				width: 20px;
+				height: 20px;
+			}
+		}
+
+		.statement-component-explanation-text {
+			font-size: type.type-scale(2) !important;
+			line-height: 20px !important;
 		}
 	}
 </style>
