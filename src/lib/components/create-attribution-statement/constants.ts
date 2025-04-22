@@ -90,7 +90,7 @@ export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 		isItemOpen: false,
 		isItemDisabled: false,
 		attributionType: AttributionType.AI_INITIATIVE,
-		text: 'Initiative',
+		text: 'Who initiated AI contributions?',
 		typeOfItem: FormItemType.checkbox,
 		options: AI_INITIATIVE_OPTIONS,
 		selectedOptions: []
