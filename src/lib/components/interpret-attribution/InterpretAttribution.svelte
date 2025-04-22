@@ -315,10 +315,11 @@
 			</Button>
 		</div>
 		{#if statementToInterpret.trim() && statementExplained.trim() && !statementHasAnError}
-			<p class="explanation-title">Explanation</p>
+			<p class="sub-title">Explanation</p>
 			<div class="explanation-text-container">
 				<p class="explanation-text">{statementExplained}</p>
 			</div>
+			<p class="sub-title">Components</p>
 			<div class="attribution-tags-container">
 				{#each attributionTags as attributionTag (attributionTag.id)}
 					{#if attributionTag.tags.length > 0}
@@ -361,8 +362,8 @@
 		max-height: 3rem;
 	}
 
-	.explanation-title {
-		margin-top: 1rem;
+	.sub-title {
+		margin-top: 6px;
 		@include type.type-style('productive-heading-03');
 	}
 
@@ -383,7 +384,11 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 1rem;
-		margin-top: 1rem;
+		margin-top: 6px;
+	}
+
+	:global(.attribution-tags-container .attribution-tag-container) {
+		gap: 1rem !important;
 	}
 
 	:global(.attribution-tags-container .attribution-tag-title.attribution-tag-title) {
@@ -393,7 +398,7 @@
 	:global(.attribution-tags-container .tag-tile) {
 		background-color: var(--cds-ui-02) !important;
 		border: unset;
-		box-shadow: 0 0 0 1px var(--cds-border-interactive);
+		box-shadow: 0 0 0 1px #c6c6c6;
 	}
 
 	@media (max-width: 1055px) {
