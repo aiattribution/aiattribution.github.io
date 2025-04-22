@@ -228,7 +228,7 @@ class UtilsService {
 		);
 
 		const textContent: string = textElement?.textContent?.trim() || '';
-		const iconsHTML: string = iconsContainer?.innerHTML || '';
+		const iconsHTML: string = this.getCleanedHTML(iconsContainer) || '';
 
 		const getTextWidth = (text: string, font: string): number => {
 			const canvas: HTMLCanvasElement = document.createElement('canvas');
@@ -289,6 +289,35 @@ class UtilsService {
 		link.click();
 		document.body.removeChild(link);
 		URL.revokeObjectURL(url);
+	}
+
+	public getCleanedHTML(HTMLElement: Element): string {
+		if (HTMLElement) {
+			const clone: HTMLElement = HTMLElement.cloneNode(true) as HTMLElement;
+
+			const cleanElement = (element: Element) => {
+				if (element.classList) {
+					[...element.classList].forEach((cls: string) => {
+						if (/^s-[a-zA-Z0-9]+$/.test(cls)) {
+							element.classList.remove(cls);
+						}
+					});
+				}
+				for (let i: number = element.childNodes.length - 1; i >= 0; i--) {
+					const node: ChildNode = element.childNodes[i];
+					if (node.nodeType === Node.COMMENT_NODE) {
+						element.removeChild(node);
+					} else if (node.nodeType === Node.ELEMENT_NODE) {
+						cleanElement(node as HTMLElement);
+					}
+				}
+			};
+
+			cleanElement(clone);
+
+			return (clone as Element).innerHTML;
+		}
+		return '';
 	}
 }
 

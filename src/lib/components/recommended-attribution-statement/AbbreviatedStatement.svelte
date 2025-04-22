@@ -14,6 +14,7 @@
 	let tabSelected: number = 0;
 
 	let abbreviatedStatementHTMLContainer: HTMLDivElement = null;
+	let abbreviatedStatementHTMLText: string = '';
 
 	const getAbbreviatedStatement = (): string => {
 		let abbreviatedStatement: string = '';
@@ -91,13 +92,38 @@
 			optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
 		});
 	};
+
+	const copyAbbreviatedStatementHTMLToClipboard = async (): Promise<void> => {
+		try {
+			const statement: string = abbreviatedStatementHTMLText;
+			await navigator.clipboard.writeText(statement);
+			apiService.updateCopyActions({
+				includeNumberOfActionsOnAbbreviatedStatements: true,
+				includeNumberOfActionsOnFullStatements: false,
+				statementDisplayed: statement,
+				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
+				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
+				optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
+			});
+		} catch (err) {
+			console.error('Error copying abbreviated statement HTML to clipboard', err);
+		}
+	};
 </script>
 
 <div class="recommended-attribution-item-container">
 	<div class="recommended-attribution-item-label">Abbreviated statement</div>
 	<Tabs bind:selected={tabSelected} autoWidth>
 		<Tab class="attribution-statement-tab" label="Text" />
-		<Tab class="attribution-statement-tab" label="HTML" />
+		<Tab
+			class="attribution-statement-tab"
+			label="HTML"
+			on:click={() => {
+				abbreviatedStatementHTMLText = utilsService.getCleanedHTML(
+					abbreviatedStatementHTMLContainer
+				);
+			}}
+		/>
 		<svelte:fragment slot="content">
 			<div class="recommended-attribution-item">
 				{#if tabSelected === 0}
@@ -137,7 +163,23 @@
 						/>
 					</div>
 				{:else}
-					HTML Content
+					<div class="recommended-attribution-item-html-container">
+						<div class="recommended-attribution-item-text">
+							{abbreviatedStatementHTMLText}
+						</div>
+					</div>
+					<div class="recommended-attribution-item-button-container">
+						<Button
+							kind="ghost"
+							icon={Copy}
+							iconDescription="Copy the statement as HTML"
+							tooltipAlignment="end"
+							tooltipPosition="top"
+							on:click={async () => {
+								await copyAbbreviatedStatementHTMLToClipboard();
+							}}
+						/>
+					</div>
 				{/if}
 			</div>
 		</svelte:fragment>

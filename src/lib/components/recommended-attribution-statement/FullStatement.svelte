@@ -15,6 +15,7 @@
 	let tabSelected: number = 0;
 
 	let fullStatementHTMLContainer: HTMLDivElement = null;
+	let fullStatementHTMLText: string = '';
 
 	onMount(() => {
 		if (typeof window !== 'undefined') {
@@ -126,13 +127,36 @@
 			optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
 		});
 	};
+
+	const copyFullStatementHTMLToClipboard = async (): Promise<void> => {
+		try {
+			const statement: string = fullStatementHTMLText;
+			await navigator.clipboard.writeText(statement);
+			apiService.updateCopyActions({
+				includeNumberOfActionsOnAbbreviatedStatements: false,
+				includeNumberOfActionsOnFullStatements: true,
+				statementDisplayed: statement,
+				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
+				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
+				optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
+			});
+		} catch (err) {
+			console.error('Error copying full statement HTML to clipboard', err);
+		}
+	};
 </script>
 
 <div class="recommended-attribution-item-container">
 	<div class="recommended-attribution-item-label">Full statement</div>
 	<Tabs bind:selected={tabSelected} autoWidth>
 		<Tab class="attribution-statement-tab" label="Text" />
-		<Tab class="attribution-statement-tab" label="HTML" />
+		<Tab
+			class="attribution-statement-tab"
+			label="HTML"
+			on:click={() => {
+				fullStatementHTMLText = utilsService.getCleanedHTML(fullStatementHTMLContainer);
+			}}
+		/>
 		<svelte:fragment slot="content">
 			<div class="recommended-attribution-item">
 				{#if tabSelected === 0}
@@ -172,7 +196,23 @@
 						/>
 					</div>
 				{:else}
-					HTML Content
+					<div class="recommended-attribution-item-html-container">
+						<div class="recommended-attribution-item-text">
+							{fullStatementHTMLText}
+						</div>
+					</div>
+					<div class="recommended-attribution-item-button-container">
+						<Button
+							kind="ghost"
+							icon={Copy}
+							iconDescription="Copy the statement as HTML"
+							tooltipAlignment="end"
+							tooltipPosition="top"
+							on:click={async () => {
+								await copyFullStatementHTMLToClipboard();
+							}}
+						/>
+					</div>
 				{/if}
 			</div>
 		</svelte:fragment>

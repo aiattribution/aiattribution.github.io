@@ -59,6 +59,15 @@
 		background-color: var(--cds-ui-02);
 	}
 
+	:global(.recommended-attribution-item-html-container) {
+		display: flex;
+		margin: 1rem;
+		padding: 0.5rem;
+		border: 1px solid #8d8d8d;
+		max-height: 4.25rem;
+		overflow-y: auto;
+	}
+
 	:global(.recommended-attribution-item-text-container) {
 		display: flex;
 		align-items: center;
@@ -67,6 +76,10 @@
 		gap: 0.5rem;
 		margin-left: 10.5px;
 		padding: 8px 0;
+	}
+
+	:global(.recommended-attribution-item-html-container .recommended-attribution-item-text) {
+		@include type.type-style('body-short-01');
 	}
 
 	:global(.recommended-attribution-item-text) {
