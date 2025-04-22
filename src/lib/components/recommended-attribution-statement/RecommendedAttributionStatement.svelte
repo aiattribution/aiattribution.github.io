@@ -48,6 +48,10 @@
 		color: #525252;
 	}
 
+	:global(.attribution-statement-tab.bx--tabs__nav-item--selected) {
+		background-color: white;
+	}
+
 	:global(.recommended-attribution-item) {
 		display: flex;
 		align-items: center;

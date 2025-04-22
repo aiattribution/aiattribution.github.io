@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
-	import { Button } from 'carbon-components-svelte';
+	import { Button, Tab, Tabs } from 'carbon-components-svelte';
 	import { Copy, Download } from 'carbon-icons-svelte';
 	import { apiService, utilsService } from '$lib/services';
 	import { AttributionType, type FormItemI } from '../create-attribution-statement/interfaces';
@@ -11,6 +11,8 @@
 	} from '../create-attribution-statement/constants';
 
 	export let attributionFormItems: FormItemI[];
+
+	let tabSelected: number = 0;
 
 	let fullStatementHTMLContainer: HTMLDivElement = null;
 
@@ -128,41 +130,57 @@
 
 <div class="recommended-attribution-item-container">
 	<div class="recommended-attribution-item-label">Full statement</div>
-	<div class="recommended-attribution-item">
-		<div bind:this={fullStatementHTMLContainer} class="recommended-attribution-item-text-container">
-			<div class="recommended-attribution-item-text">{getFullStatement()}</div>
-			<div class="recommended-attribution-item-icons-container">
-				{#each utilsService.getAttributionIcons(attributionFormItems) as AttributionIcon}
-					<svelte:component this={AttributionIcon} />
-				{/each}
+	<Tabs bind:selected={tabSelected} autoWidth>
+		<Tab class="attribution-statement-tab" label="Text" />
+		<Tab class="attribution-statement-tab" label="HTML" />
+		<svelte:fragment slot="content">
+			<div class="recommended-attribution-item">
+				{#if tabSelected === 0}
+					<div
+						bind:this={fullStatementHTMLContainer}
+						class="recommended-attribution-item-text-container"
+					>
+						<div class="recommended-attribution-item-text">{getFullStatement()}</div>
+						<div class="recommended-attribution-item-icons-container">
+							{#each utilsService.getAttributionIcons(attributionFormItems) as AttributionIcon}
+								<svelte:component this={AttributionIcon} />
+							{/each}
+						</div>
+					</div>
+					<div class="recommended-attribution-item-button-container">
+						<Button
+							kind="ghost"
+							icon={Copy}
+							iconDescription="Copy the statement as text"
+							tooltipAlignment="end"
+							tooltipPosition="top"
+							on:click={async () => {
+								await copyFullStatementToClipboard();
+							}}
+						/>
+					</div>
+					<div class="recommended-attribution-item-button-container">
+						<Button
+							kind="ghost"
+							icon={Download}
+							iconDescription="Download the statement and icons as an svg"
+							tooltipAlignment="end"
+							tooltipPosition="top"
+							on:click={() => {
+								downloadFullStatementSVG();
+							}}
+						/>
+					</div>
+				{:else}
+					HTML Content
+				{/if}
 			</div>
-		</div>
-		<div class="recommended-attribution-item-button-container">
-			<Button
-				kind="ghost"
-				icon={Copy}
-				iconDescription="Copy the statement as text"
-				tooltipAlignment="end"
-				tooltipPosition="top"
-				on:click={async () => {
-					await copyFullStatementToClipboard();
-				}}
-			/>
-		</div>
-		<div class="recommended-attribution-item-button-container">
-			<Button
-				kind="ghost"
-				icon={Download}
-				iconDescription="Download the statement and icons as an svg"
-				tooltipAlignment="end"
-				tooltipPosition="top"
-				on:click={() => {
-					downloadFullStatementSVG();
-				}}
-			/>
-		</div>
-	</div>
+		</svelte:fragment>
+	</Tabs>
 </div>
 
 <style lang="scss">
+	.recommended-attribution-item {
+		margin-top: -0.5rem;
+	}
 </style>
