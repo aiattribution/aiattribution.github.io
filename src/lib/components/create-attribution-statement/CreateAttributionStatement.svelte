@@ -12,8 +12,9 @@
 	<h1 class="section-title">{CREATE_ATTRIBUTION_SECTION_TITLE}</h1>
 	<p class="section-text">
 		Fill out this form to create an attribution statement that provides transparency on whether and
-		how AI was used in your work. The statement and explanations can be copied and incorporated into
-		your work.
+		how AI was used in your work. All fields are optional — consider which components are needed
+		based on applicable policies or requirements, what your audience needs to know, or your own
+		preferences. Different versions of the statement can be incorporated into your work.
 	</p>
 	<div class="attribution-form">
 		<FormItems bind:attributionFormItems />
