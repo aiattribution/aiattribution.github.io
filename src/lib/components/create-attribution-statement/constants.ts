@@ -30,12 +30,12 @@ export const AI_CONTRIBUTION_OPTIONS: StatementOption[] = [
 	{
 		option: AIContributionOptions.STYLISTIC_EDITS,
 		tooltipDescription:
-			'AI made stylistic edits to human-created content, such as changes to structure, wording, or clarity.'
+			'AI made stylistic edits to human-created work, such as changes to structure, wording, or clarity.'
 	},
 	{
 		option: AIContributionOptions.CONTENT_EDITS,
 		tooltipDescription:
-			'AI made content edits to human-created content, such as changes to scope, information, or ideas.'
+			'AI made content edits to human-created work, such as changes to scope, information, or ideas.'
 	},
 	{
 		option: AIContributionOptions.NEW_CONTENT,
