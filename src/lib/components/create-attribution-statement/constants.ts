@@ -121,9 +121,9 @@ export const ATTRIBUTION_FORM_ITEMS: FormItemI[] = [
 export const AIA: string = 'AIA';
 export const NO_AI_USED_ABBREVIATED_STATEMENT: string = 'No AI';
 export const NO_AI_USED_FULL_STATEMENT: string = 'AI not used';
-export const VERSION: string = '1.0';
+export const VERSION: string = 'v1.0';
 
 export const AIA_EXPLANATION: string =
 	'AIA: This prefix is used to identify an AI attribution statement.';
 export const VERSION_EXPLANATION: string =
-	'1.0: Version number of the attribution statement. The version will change as we update the components of the statement.';
+	'v1.0: Version number of the attribution statement. This number will change as the attribution tool evolves.';
