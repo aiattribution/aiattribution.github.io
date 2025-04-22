@@ -290,7 +290,7 @@
 		<p class="section-text">Enter an attribution statement to learn what it means.</p>
 		<div class="text-input-container">
 			<TextInput
-				class="text-input"
+				class="interpret-statement-text-input"
 				hideLabel
 				placeholder="Type or paste an AI attribution statement"
 				invalid={statementToInterpret.trim() && statementHasAnError}
@@ -316,7 +316,9 @@
 		</div>
 		{#if statementToInterpret.trim() && statementExplained.trim() && !statementHasAnError}
 			<p class="explanation-title">Explanation</p>
-			<p class="explanation-text">{statementExplained}</p>
+			<div class="explanation-text-container">
+				<p class="explanation-text">{statementExplained}</p>
+			</div>
 			<div class="attribution-tags-container">
 				{#each attributionTags as attributionTag (attributionTag.id)}
 					{#if attributionTag.tags.length > 0}
@@ -348,6 +350,13 @@
 		display: flex;
 	}
 
+	:global(.interpret-statement-text-input) {
+		@include type.type-style('body-short-02');
+		background-color: var(--cds-field-02) !important;
+		border: 1px solid #c6c6c6 !important;
+		height: 3rem !important;
+	}
+
 	:global(.interpret-statement-button) {
 		max-height: 3rem;
 	}
@@ -357,8 +366,17 @@
 		@include type.type-style('productive-heading-03');
 	}
 
+	.explanation-text-container {
+		display: flex;
+		width: 100%;
+		padding: 16px;
+		gap: 10px;
+		background-color: white;
+		border: 1px solid #c6c6c6;
+	}
+
 	.explanation-text {
-		@include type.type-style('body-short-01');
+		@include type.type-style('body-short-02');
 	}
 
 	.attribution-tags-container {
