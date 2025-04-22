@@ -97,8 +97,12 @@ export const mergeTagsInStatement = (statementComponents: string[], allTags: Tag
 	return groupedStatementComponents;
 };
 
-export const getStatementComponents = (statementToInterpret: string, allTags: TagI[]): string[] => {
+export const getStatementComponents = (
+	statementToInterpret: string,
+	allTags: TagI[]
+): [string[], string[]] => {
 	let statementComponents: string[] = [];
+	let fixedComponents: string[] = [];
 	if (statementToInterpret.includes(',')) {
 		statementComponents = statementToInterpret.split(',').map((item: string) => item.trim());
 		if (statementComponents.length > 0 && statementComponents[0].includes(' ')) {
@@ -118,17 +122,18 @@ export const getStatementComponents = (statementToInterpret: string, allTags: Ta
 			statementComponents.length !== 1 &&
 			!(statementComponents.length === 2 && lastElement === VERSION)
 		) {
-			statementComponents.shift();
+			fixedComponents.push(statementComponents.shift());
 		}
 		if (lastElement === VERSION) {
-			statementComponents.pop();
+			fixedComponents.push(statementComponents.pop());
 		} else if (lastElement.includes(' ') && lastElement.endsWith(VERSION)) {
 			const parts: string[] = lastElement.split(' ');
 			statementComponents[statementComponents.length - 1] = parts.slice(0, -1).join(' ');
+			fixedComponents.push(VERSION);
 		}
 	}
 
 	statementComponents = mergeTagsInStatement(statementComponents, allTags);
 
-	return statementComponents;
+	return [statementComponents, fixedComponents];
 };

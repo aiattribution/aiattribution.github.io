@@ -127,3 +127,8 @@ export const AIA_EXPLANATION: string =
 	'AIA: This prefix is used to identify an AI attribution statement.';
 export const VERSION_EXPLANATION: string =
 	'v1.0: Version number of the attribution statement. This number will change as the attribution tool evolves.';
+
+export const AIA_INTERPRET_STATEMENT_EXPLANATION: string =
+	'AIA is the standard prefix used to denote the start of an AI attribution statement.';
+export const VERSION_INTERPRET_STATEMENT_EXPLANATION: string =
+	'v1.0 refers to the version number of the attribution statement — this number will change as the attribution tool evolves.';

@@ -12,9 +12,13 @@
 	import { AIProportionOptions, type TagI } from '$lib/models/tag-library';
 	import { utilsService } from '$lib/services';
 	import {
+		AIA,
+		AIA_INTERPRET_STATEMENT_EXPLANATION,
 		ATTRIBUTION_FORM_ITEMS,
 		NO_AI_USED_ABBREVIATED_STATEMENT,
-		NO_AI_USED_FULL_STATEMENT
+		NO_AI_USED_FULL_STATEMENT,
+		VERSION,
+		VERSION_INTERPRET_STATEMENT_EXPLANATION
 	} from '../create-attribution-statement/constants';
 	import {
 		AttributionType,
@@ -30,6 +34,7 @@
 
 	let statementToInterpret: string = '';
 	let statementExplained: string = '';
+	let statementAIAAndAttributionNumberExplained: string = '';
 	let statementHasAnError: boolean = false;
 	let statementError: string = '';
 
@@ -46,6 +51,7 @@
 		attributionFormItems = structuredClone(ATTRIBUTION_FORM_ITEMS);
 		attributionTags = ATTRIBUTION_TAGS;
 		statementExplained = '';
+		statementAIAAndAttributionNumberExplained = '';
 		statementHasAnError = false;
 		statementError = '';
 	};
@@ -253,7 +259,9 @@
 	const interpretStatement = (): void => {
 		resetState();
 
-		let statementComponents: string[] = getStatementComponents(statementToInterpret, ALL_TAGS);
+		let statementComponents: string[] = [];
+		let fixedComponents: string[] = [];
+		[statementComponents, fixedComponents] = getStatementComponents(statementToInterpret, ALL_TAGS);
 		if (statementComponents.length === 0) {
 			return;
 		}
@@ -264,6 +272,19 @@
 			return;
 		}
 		statementExplained = utilsService.getAttributionStatementExplanation(attributionFormItems);
+
+		if (fixedComponents.length > 0) {
+			const firstElement: string = fixedComponents[0];
+			const lastElement: string = fixedComponents[fixedComponents.length - 1];
+			if (firstElement === AIA && lastElement === VERSION) {
+				statementAIAAndAttributionNumberExplained = `${AIA_INTERPRET_STATEMENT_EXPLANATION} ${VERSION_INTERPRET_STATEMENT_EXPLANATION}`;
+			} else if (firstElement === AIA) {
+				statementAIAAndAttributionNumberExplained = AIA_INTERPRET_STATEMENT_EXPLANATION;
+			} else if (lastElement === VERSION) {
+				statementAIAAndAttributionNumberExplained = VERSION_INTERPRET_STATEMENT_EXPLANATION;
+			}
+		}
+
 		const selectedOptionsList: string[] = attributionFormItems
 			.filter((item: FormItemI) => targetAttributionTypes.includes(item.attributionType))
 			.flatMap((item: FormItemI) => item.selectedOptions)
@@ -318,6 +339,9 @@
 			<p class="sub-title">Explanation</p>
 			<div class="explanation-text-container">
 				<p class="explanation-text">{statementExplained}</p>
+				{#if statementAIAAndAttributionNumberExplained.trim()}
+					<p class="explanation-text">{statementAIAAndAttributionNumberExplained}</p>
+				{/if}
 			</div>
 			<p class="sub-title">Components</p>
 			<div class="attribution-tags-container">
@@ -369,9 +393,10 @@
 
 	.explanation-text-container {
 		display: flex;
+		flex-direction: column;
 		width: 100%;
 		padding: 16px;
-		gap: 10px;
+		gap: 22px;
 		background-color: white;
 		border: 1px solid #c6c6c6;
 	}
