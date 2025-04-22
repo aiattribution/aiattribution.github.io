@@ -72,8 +72,10 @@
 				proportionOfContribution || aiUsed || aiContribution ? true : false
 			);
 			const humanReview: string = utilsService.getConcatenatedOptionsFullStatement(
-				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attributionFormItems)
-					.selectedOptions,
+				utilsService.getAttributionFormItemByType(
+					AttributionType.HUMAN_REVIEW,
+					attributionFormItems
+				).selectedOptions,
 				proportionOfContribution || aiUsed || aiContribution || aiInitiatives ? true : false
 			);
 			if (modelSelected) {
@@ -148,8 +150,10 @@
 		<div class="recommended-attribution-item-button-container">
 			<Button
 				kind="ghost"
-				iconDescription="Download"
 				icon={Download}
+				iconDescription="Download the statement and icons as an svg"
+				tooltipAlignment="end"
+				tooltipPosition="top"
 				on:click={() => {
 					downloadFullStatementSVG();
 				}}

@@ -48,8 +48,10 @@
 				).selectedOptions
 			);
 			const humanReview: string = utilsService.getConcatenatedOptionsAbbreviatedStatement(
-				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attributionFormItems)
-					.selectedOptions
+				utilsService.getAttributionFormItemByType(
+					AttributionType.HUMAN_REVIEW,
+					attributionFormItems
+				).selectedOptions
 			);
 			abbreviatedStatement = `${AIA} ${proportionOfContribution} ${aiContribution} ${aiInitiatives} ${humanReview} ${aiUsed} ${VERSION}`;
 		} else {
@@ -116,8 +118,10 @@
 		<div class="recommended-attribution-item-button-container">
 			<Button
 				kind="ghost"
-				iconDescription="Download"
 				icon={Download}
+				iconDescription="Download the statement and icons as an svg"
+				tooltipAlignment="end"
+				tooltipPosition="top"
 				on:click={() => {
 					downloadAbbreviatedStatementSVG();
 				}}
