@@ -30,8 +30,10 @@
 		<div class="recommended-attribution-item-button-container">
 			<Button
 				kind="ghost"
-				iconDescription="Copy"
 				icon={Copy}
+				iconDescription="Copy the expanded statement as text"
+				tooltipAlignment="end"
+				tooltipPosition="top"
 				on:click={async () => {
 					await copyExpandedStatementToClipboard();
 				}}
