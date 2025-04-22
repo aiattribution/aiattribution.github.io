@@ -51,7 +51,7 @@ export const AI_INITIATIVE_OPTIONS: StatementOption[] = [
 	{
 		option: AIInitiativeOptions.AI_INITIATED,
 		tooltipDescription:
-			'AI made proactive contributions, such as via auto-completion or unprompted changes.'
+			'AI made proactive contributions without human request, such as auto-completed suggestions or additions.'
 	}
 ];
 
