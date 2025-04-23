@@ -61,6 +61,9 @@
 
 	:global(.recommended-attribution-item-html-container) {
 		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		flex-grow: 1;
 		margin: 1rem;
 		padding: 0.5rem;
 		border: 1px solid #8d8d8d;
