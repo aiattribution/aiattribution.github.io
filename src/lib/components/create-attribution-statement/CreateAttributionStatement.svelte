@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { trackEvent } from '@lukulent/svelte-umami';
 	import { Link } from 'carbon-components-svelte';
 	import { FormItems, RecommendedAttributionStatement } from '$lib';
 	import { MONDAY_FORM_LINK } from '$lib/common/constants';
@@ -6,6 +7,10 @@
 	import { type FormItemI } from './interfaces';
 
 	let attributionFormItems: FormItemI[] = structuredClone(ATTRIBUTION_FORM_ITEMS);
+
+	const onClickMondayFormLink = (): void => {
+		trackEvent('link_click_monday_form');
+	};
 </script>
 
 <div class="section-container">
@@ -25,7 +30,16 @@
 	<div class="section-text">
 		This tool is still in beta, and we are continuing to improve it. If you have any feedback,
 		suggestions, questions, or comments, please let us know via
-		<Link href={MONDAY_FORM_LINK} target="_blank" inline>this form</Link>.
+		<Link
+			href={MONDAY_FORM_LINK}
+			target="_blank"
+			inline
+			on:click={() => {
+				onClickMondayFormLink();
+			}}
+		>
+			this form
+		</Link>.
 	</div>
 </div>
 

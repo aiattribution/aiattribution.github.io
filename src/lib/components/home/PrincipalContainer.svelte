@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { trackEvent } from '@lukulent/svelte-umami';
 	import { Button, ButtonSet, Link } from 'carbon-components-svelte';
 	import { HeaderNavType } from '$lib/components/header/interfaces';
 	import { PrincipalContainerImage } from '.';
@@ -22,6 +23,10 @@
 		isMobile = window.matchMedia('(max-width: 545px)').matches;
 		isMobileOrTablet = window.matchMedia('(max-width: 1055px)').matches;
 	};
+
+	const onClickCHIPaperLink = (): void => {
+		trackEvent('link_click_chi_paper');
+	};
 </script>
 
 <div class="principal-container">
@@ -38,7 +43,15 @@
 		</p>
 		<p class="principal-container-text">
 			This tool was motivated by findings from this
-			<Link class="paper-link" href="https://arxiv.org/pdf/2502.18357" target="_blank" inline>
+			<Link
+				class="paper-link"
+				href="https://arxiv.org/pdf/2502.18357"
+				target="_blank"
+				inline
+				on:click={() => {
+					onClickCHIPaperLink();
+				}}
+			>
 				CHI 2025 paper
 			</Link>.
 		</p>

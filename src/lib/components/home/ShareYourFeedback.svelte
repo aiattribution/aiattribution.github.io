@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { trackEvent } from '@lukulent/svelte-umami';
 	import { Link, SkeletonPlaceholder } from 'carbon-components-svelte';
 	import { MONDAY_FORM_EMBED_LINK } from '$lib/common/constants';
 
@@ -6,6 +7,10 @@
 
 	const onLoad = (): void => {
 		isIfraneLoading = false;
+	};
+
+	const onClickGitHubIssuesLink = (): void => {
+		trackEvent('link_click_github_issues');
 	};
 </script>
 
@@ -20,6 +25,9 @@
 				href="https://github.com/aiattribution/aiattribution.github.io/issues"
 				target="_blank"
 				inline
+				on:click={() => {
+					onClickGitHubIssuesLink();
+				}}
 			>
 				GitHub
 			</Link> or this feedback form.
