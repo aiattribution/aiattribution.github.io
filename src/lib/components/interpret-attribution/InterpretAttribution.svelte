@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { trackPageView } from '@lukulent/svelte-umami';
+	import { trackEvent, trackPageView } from '@lukulent/svelte-umami';
 	import { Button, TextInput } from 'carbon-components-svelte';
 	import { ArrowRight } from 'carbon-icons-svelte';
 	import { AttributionTag, TagLibrary } from '$lib';
@@ -308,6 +308,8 @@
 				tags: filteredTags
 			};
 		});
+
+		trackEvent('button_click_interpret_statement', { userEnteredStatement: statementToInterpret });
 	};
 </script>
 
