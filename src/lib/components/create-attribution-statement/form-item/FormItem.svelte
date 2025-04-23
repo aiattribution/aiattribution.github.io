@@ -139,7 +139,7 @@
 		<div class="form-item-options-container">
 			{#if formItem.typeOfItem === FormItemType.textInput}
 				<TextInput
-					class="text-input"
+					class="form-iten-text-input"
 					hideLabel
 					bind:value={formItem.selectedOptions[0]}
 					disabled={isItemDisabled}
@@ -275,7 +275,7 @@
 		margin-left: 40px;
 	}
 
-	:global(.text-input) {
+	:global(.form-iten-text-input) {
 		background-color: var(--cds-field-02) !important;
 		border: 1px solid #c6c6c6 !important;
 		line-height: 18px;

@@ -176,7 +176,7 @@ const writeModelName = (modelName: string): void => {
 	cy.contains('.form-item-text', formItemText)
 		.closest('.form-item-container')
 		.find('.form-item-options-container')
-		.find('.text-input')
+		.find('.form-iten-text-input')
 		.type(modelName);
 };
 

@@ -145,9 +145,9 @@ class UtilsService {
 
 	public getAttributionIcons(attributionFormItems: FormItemI[]): Component[] {
 		let icons: Component[] = [];
-		const isAIUsageOptionYes = this.isAIUsageOptionYes(attributionFormItems);
+		const isAIUsageOptionYes: boolean = this.isAIUsageOptionYes(attributionFormItems);
 
-		const getIconsFromOptions = (type: AttributionType) => {
+		const getIconsFromOptions = (type: AttributionType): Component[] => {
 			return this.getAttributionFormItemByType(type, attributionFormItems)
 				.selectedOptions.map((option: string) => {
 					const tag: TagI = ALL_TAGS.find((tag: TagI) => tag.id === option);
@@ -228,7 +228,7 @@ class UtilsService {
 		);
 
 		const textContent: string = textElement?.textContent?.trim() || '';
-		const iconsHTML: string = iconsContainer?.innerHTML || '';
+		const iconsHTML: string = this.getCleanedHTML(iconsContainer) || '';
 
 		const getTextWidth = (text: string, font: string): number => {
 			const canvas: HTMLCanvasElement = document.createElement('canvas');
@@ -252,24 +252,15 @@ class UtilsService {
 	<foreignObject width="100%" height="100%">
 		<style>
 			.recommended-attribution-item-text-container {
-				display: flex;
-				align-items: center;
-				white-space: nowrap;
-				gap: 0.5rem;
-				padding: 8px;
+				${this.getClassInlineStyle('.recommended-attribution-item-text-container')}
 			}
 
 			.recommended-attribution-item-text {
-				font-family: IBM Plex Sans;
-				font-weight: 400;
-				font-size: 16px;
-				line-height: 22px;
-				letter-spacing: 0px;
+				${this.getClassInlineStyle('.recommended-attribution-item-text')}
 			}
 
 			.recommended-attribution-item-icons-container {
-				display: flex;
-				gap: 0.5rem;
+				${this.getClassInlineStyle('.recommended-attribution-item-icons-container')}
 			}
 		</style>
 		<div xmlns="http://www.w3.org/1999/xhtml" class="recommended-attribution-item-text-container">
@@ -289,6 +280,86 @@ class UtilsService {
 		link.click();
 		document.body.removeChild(link);
 		URL.revokeObjectURL(url);
+	}
+
+	private getClassInlineStyle(className: string): string {
+		const inlineStyle = {
+			'.recommended-attribution-item-text-container': `
+                display: flex;
+				align-items: center;
+				white-space: nowrap;
+				gap: 0.5rem;
+				padding: 8px;
+            `,
+			'.recommended-attribution-item-text': `
+				font-family: IBM Plex Sans;
+				font-weight: 400;
+				font-size: 16px;
+				line-height: 22px;
+				letter-spacing: 0px;
+			`,
+			'.recommended-attribution-item-icons-container': `
+				display: flex;
+				gap: 0.5rem;
+			`
+		};
+		return inlineStyle[className];
+	}
+
+	private getCleanedHTML(HTMLElement: Element): string {
+		if (HTMLElement) {
+			const clone: HTMLElement = HTMLElement.cloneNode(true) as HTMLElement;
+
+			const cleanElement = (element: Element) => {
+				if (element.classList) {
+					[...element.classList].forEach((cls: string) => {
+						if (/^s-[a-zA-Z0-9]+$/.test(cls)) {
+							element.classList.remove(cls);
+						}
+					});
+				}
+				for (let i: number = element.childNodes.length - 1; i >= 0; i--) {
+					const node: ChildNode = element.childNodes[i];
+					if (node.nodeType === Node.COMMENT_NODE) {
+						element.removeChild(node);
+					} else if (node.nodeType === Node.ELEMENT_NODE) {
+						cleanElement(node as HTMLElement);
+					}
+				}
+			};
+
+			cleanElement(clone);
+
+			return (clone as Element).innerHTML;
+		}
+		return '';
+	}
+
+	public getStatementHTMLText(HTMLElement: Element): string {
+		let statementHTMLText: string = this.getCleanedHTML(HTMLElement);
+		const div: HTMLDivElement = document.createElement('div');
+		const divTextContainer: HTMLDivElement = document.createElement('div');
+		divTextContainer.classList.add('recommended-attribution-item-text-container');
+		divTextContainer.innerHTML = statementHTMLText;
+		const replaceClassesWithStyles = (element: Element) => {
+			if (element.classList) {
+				[...element.classList].forEach((cls: string) => {
+					const style: string = this.getClassInlineStyle(`.${cls}`);
+					if (style) {
+						element.setAttribute('style', style);
+					}
+					element.classList.remove(cls);
+				});
+				element.removeAttribute('class');
+			}
+			for (let i: number = element.childNodes.length - 1; i >= 0; i--) {
+				const node: ChildNode = element.childNodes[i];
+				replaceClassesWithStyles(node as HTMLElement);
+			}
+		};
+		replaceClassesWithStyles(divTextContainer);
+		div.appendChild(divTextContainer);
+		return div.innerHTML;
 	}
 }
 

@@ -12,9 +12,13 @@
 	import { AIProportionOptions, type TagI } from '$lib/models/tag-library';
 	import { utilsService } from '$lib/services';
 	import {
+		AIA,
+		AIA_INTERPRET_STATEMENT_EXPLANATION,
 		ATTRIBUTION_FORM_ITEMS,
 		NO_AI_USED_ABBREVIATED_STATEMENT,
-		NO_AI_USED_FULL_STATEMENT
+		NO_AI_USED_FULL_STATEMENT,
+		VERSION,
+		VERSION_INTERPRET_STATEMENT_EXPLANATION
 	} from '../create-attribution-statement/constants';
 	import {
 		AttributionType,
@@ -30,6 +34,7 @@
 
 	let statementToInterpret: string = '';
 	let statementExplained: string = '';
+	let statementAIAAndAttributionNumberExplained: string = '';
 	let statementHasAnError: boolean = false;
 	let statementError: string = '';
 
@@ -46,6 +51,7 @@
 		attributionFormItems = structuredClone(ATTRIBUTION_FORM_ITEMS);
 		attributionTags = ATTRIBUTION_TAGS;
 		statementExplained = '';
+		statementAIAAndAttributionNumberExplained = '';
 		statementHasAnError = false;
 		statementError = '';
 	};
@@ -253,7 +259,9 @@
 	const interpretStatement = (): void => {
 		resetState();
 
-		let statementComponents: string[] = getStatementComponents(statementToInterpret, ALL_TAGS);
+		let statementComponents: string[] = [];
+		let fixedComponents: string[] = [];
+		[statementComponents, fixedComponents] = getStatementComponents(statementToInterpret, ALL_TAGS);
 		if (statementComponents.length === 0) {
 			return;
 		}
@@ -264,6 +272,19 @@
 			return;
 		}
 		statementExplained = utilsService.getAttributionStatementExplanation(attributionFormItems);
+
+		if (fixedComponents.length > 0) {
+			const firstElement: string = fixedComponents[0];
+			const lastElement: string = fixedComponents[fixedComponents.length - 1];
+			if (firstElement === AIA && lastElement === VERSION) {
+				statementAIAAndAttributionNumberExplained = `${AIA_INTERPRET_STATEMENT_EXPLANATION} ${VERSION_INTERPRET_STATEMENT_EXPLANATION}`;
+			} else if (firstElement === AIA) {
+				statementAIAAndAttributionNumberExplained = AIA_INTERPRET_STATEMENT_EXPLANATION;
+			} else if (lastElement === VERSION) {
+				statementAIAAndAttributionNumberExplained = VERSION_INTERPRET_STATEMENT_EXPLANATION;
+			}
+		}
+
 		const selectedOptionsList: string[] = attributionFormItems
 			.filter((item: FormItemI) => targetAttributionTypes.includes(item.attributionType))
 			.flatMap((item: FormItemI) => item.selectedOptions)
@@ -290,7 +311,7 @@
 		<p class="section-text">Enter an attribution statement to learn what it means.</p>
 		<div class="text-input-container">
 			<TextInput
-				class="text-input"
+				class="interpret-statement-text-input"
 				hideLabel
 				placeholder="Type or paste an AI attribution statement"
 				invalid={statementToInterpret.trim() && statementHasAnError}
@@ -315,8 +336,14 @@
 			</Button>
 		</div>
 		{#if statementToInterpret.trim() && statementExplained.trim() && !statementHasAnError}
-			<p class="explanation-title">Explanation</p>
-			<p class="explanation-text">{statementExplained}</p>
+			<p class="sub-title">Explanation</p>
+			<div class="explanation-text-container">
+				<p class="explanation-text">{statementExplained}</p>
+				{#if statementAIAAndAttributionNumberExplained.trim()}
+					<p class="explanation-text">{statementAIAAndAttributionNumberExplained}</p>
+				{/if}
+			</div>
+			<p class="sub-title">Components</p>
 			<div class="attribution-tags-container">
 				{#each attributionTags as attributionTag (attributionTag.id)}
 					{#if attributionTag.tags.length > 0}
@@ -348,24 +375,45 @@
 		display: flex;
 	}
 
+	:global(.interpret-statement-text-input) {
+		@include type.type-style('body-short-02');
+		background-color: var(--cds-field-02) !important;
+		border: 1px solid #c6c6c6 !important;
+		height: 3rem !important;
+	}
+
 	:global(.interpret-statement-button) {
 		max-height: 3rem;
 	}
 
-	.explanation-title {
-		margin-top: 1rem;
+	.sub-title {
+		margin-top: 6px;
 		@include type.type-style('productive-heading-03');
 	}
 
+	.explanation-text-container {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		padding: 16px;
+		gap: 22px;
+		background-color: white;
+		border: 1px solid #c6c6c6;
+	}
+
 	.explanation-text {
-		@include type.type-style('body-short-01');
+		@include type.type-style('body-short-02');
 	}
 
 	.attribution-tags-container {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 1rem;
-		margin-top: 1rem;
+		margin-top: 6px;
+	}
+
+	:global(.attribution-tags-container .attribution-tag-container) {
+		gap: 1rem !important;
 	}
 
 	:global(.attribution-tags-container .attribution-tag-title.attribution-tag-title) {
@@ -375,7 +423,7 @@
 	:global(.attribution-tags-container .tag-tile) {
 		background-color: var(--cds-ui-02) !important;
 		border: unset;
-		box-shadow: 0 0 0 1px var(--cds-border-interactive);
+		box-shadow: 0 0 0 1px #c6c6c6;
 	}
 
 	@media (max-width: 1055px) {
