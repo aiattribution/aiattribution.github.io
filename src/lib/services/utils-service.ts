@@ -145,9 +145,9 @@ class UtilsService {
 
 	public getAttributionIcons(attributionFormItems: FormItemI[]): Component[] {
 		let icons: Component[] = [];
-		const isAIUsageOptionYes = this.isAIUsageOptionYes(attributionFormItems);
+		const isAIUsageOptionYes: boolean = this.isAIUsageOptionYes(attributionFormItems);
 
-		const getIconsFromOptions = (type: AttributionType) => {
+		const getIconsFromOptions = (type: AttributionType): Component[] => {
 			return this.getAttributionFormItemByType(type, attributionFormItems)
 				.selectedOptions.map((option: string) => {
 					const tag: TagI = ALL_TAGS.find((tag: TagI) => tag.id === option);
