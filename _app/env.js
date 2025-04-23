@@ -1,0 +1,1 @@
+export const env={"PUBLIC_BACKEND_URL":"https://ai-attribution-toolkit-usage-metrics.bx.cloud9.ibm.com","PUBLIC_UMAMI_SRC":"https://cloud.umami.is/script.js","PUBLIC_UMAMI_WEBSITE_ID":"d7828cb2-aaef-43fe-b86e-12a71f71f2e7"}

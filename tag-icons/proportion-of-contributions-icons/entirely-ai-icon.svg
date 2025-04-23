@@ -1,0 +1,7 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="11.5" fill="#4E4E4E" stroke="#161616" />
+    <text x="12" y="13" font-family="'IBM Plex Sans', sans-serif" font-weight="600" font-size="10px" line-height="16px"
+        letter-spacing="0.32px" fill="white" text-anchor="middle" dominant-baseline="middle">
+        A
+    </text>
+</svg>

@@ -1,0 +1,8 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 0C3 0 -6 12 6 22L12 16L18 22C25 16 28 3 12 0Z" fill="#525252" />
+    <circle cx="12" cy="12" r="11.5" stroke="#161616" fill="none" />
+    <text x="12" y="12" font-family="'IBM Plex Sans', sans-serif" font-weight="600" font-size="10px" line-height="16px"
+        letter-spacing="0.32px" fill="white" text-anchor="middle" dominant-baseline="middle">
+        A
+    </text>
+</svg>

@@ -1,0 +1,14 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="11.5" fill="#525252" stroke="#161616" />
+    <path d="M11.5 23.4893C5.38069 23.2275 0.5 18.1837 0.5 12C0.5 5.81625 5.38069 0.772452 11.5 0.510674V23.4893Z"
+        fill="white" stroke="#161616" />
+    <path d="M11 1.05078L12 1V23L11 22.9654V1.05078Z" fill="white" />
+    <text x="8" y="13" font-family="'IBM Plex Sans', sans-serif" font-weight="600" font-size="10px"
+        letter-spacing="0.32px" fill="#161616" text-anchor="middle" dominant-baseline="middle">
+        H
+    </text>
+    <text x="16.75" y="13" font-family="'IBM Plex Sans', sans-serif" font-weight="600" font-size="10px"
+        letter-spacing="0.32px" fill="white" text-anchor="middle" dominant-baseline="middle">
+        A
+    </text>
+</svg>
