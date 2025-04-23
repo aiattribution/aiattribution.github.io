@@ -18,9 +18,8 @@
 	<h1 class="section-title">Share your feedback</h1>
 	<div class="feedback-container">
 		<p class="section-text">
-			This tool was created by designers, researchers, and developers at IBM Research. We are
-			continuing to improve and expand on attribution approaches. Please share any suggestions,
-			questions, or comments through
+			We are continuing to improve and expand on attribution approaches. Please share any
+			suggestions, questions, or comments through
 			<Link
 				href="https://github.com/aiattribution/aiattribution.github.io/issues"
 				target="_blank"

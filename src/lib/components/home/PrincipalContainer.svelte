@@ -42,7 +42,8 @@
 			calibrate their trust.
 		</p>
 		<p class="principal-container-text">
-			This tool was motivated by findings from this
+			This tool was created by designers, researchers, and engineers at IBM Research based on
+			findings from our
 			<Link
 				class="paper-link"
 				href="https://arxiv.org/pdf/2502.18357"
