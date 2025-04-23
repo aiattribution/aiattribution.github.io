@@ -1,20 +1,26 @@
 <script lang="ts">
 	import { Button } from 'carbon-components-svelte';
 	import { Copy } from 'carbon-icons-svelte';
-	import { utilsService } from '$lib/services';
+	import { apiService, utilsService } from '$lib/services';
 	import type { FormItemI } from '../create-attribution-statement/interfaces';
 
 	export let attributionFormItems: FormItemI[];
 
-	const copyExpandedStatementToClipboard = async (): Promise<void> => {
+	const copyExpandedStatementTextToClipboard = async (): Promise<void> => {
 		try {
 			const statement: string = utilsService
 				.getAttributionStatementExplanation(attributionFormItems)
 				.split(/\s+/)
 				.join(' ');
 			await navigator.clipboard.writeText(statement);
+			apiService.updateEventMetric('button_click_copy_expanded_statement_text', {
+				statementDisplayed: statement,
+				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
+				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
+				optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
+			});
 		} catch (err) {
-			console.error('Error copying expanded statement to clipboard', err);
+			console.error('Error copying expanded statement text to clipboard', err);
 		}
 	};
 </script>
@@ -35,7 +41,7 @@
 				tooltipAlignment="end"
 				tooltipPosition="top"
 				on:click={async () => {
-					await copyExpandedStatementToClipboard();
+					await copyExpandedStatementTextToClipboard();
 				}}
 			/>
 		</div>

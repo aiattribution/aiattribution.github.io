@@ -86,29 +86,25 @@
 		);
 	};
 
-	const copyAbbreviatedStatementToClipboard = async (): Promise<void> => {
+	const copyAbbreviatedStatementTextToClipboard = async (): Promise<void> => {
 		try {
 			const statement: string = abbreviatedStatement.split(/\s+/).join(' ');
 			await navigator.clipboard.writeText(statement);
-			apiService.updateCopyActions({
-				includeNumberOfActionsOnAbbreviatedStatements: true,
-				includeNumberOfActionsOnFullStatements: false,
+			apiService.updateEventMetric('button_click_copy_abbreviated_statement_text', {
 				statementDisplayed: statement,
 				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
 				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
 				optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
 			});
 		} catch (err) {
-			console.error('Error copying abbreviated statement to clipboard', err);
+			console.error('Error copying abbreviated statement text to clipboard', err);
 		}
 	};
 
-	const downloadAbbreviatedStatementSVG = (): void => {
+	const downloadAbbreviatedStatementTextSVG = (): void => {
 		utilsService.downloadStatementSVG(abbreviatedStatementHTMLContainer, 'abbreviated_statement');
 		const statement: string = abbreviatedStatement.split(/\s+/).join(' ');
-		apiService.updateDownloadActions({
-			includeNumberOfActionsOnAbbreviatedStatements: true,
-			includeNumberOfActionsOnFullStatements: false,
+		apiService.updateEventMetric('button_click_download_abbreviated_statement_text', {
 			statementDisplayed: statement,
 			fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
 			fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
@@ -120,9 +116,7 @@
 		try {
 			const statement: string = abbreviatedStatementHTMLText;
 			await navigator.clipboard.writeText(statement);
-			apiService.updateCopyActions({
-				includeNumberOfActionsOnAbbreviatedStatements: true,
-				includeNumberOfActionsOnFullStatements: false,
+			apiService.updateEventMetric('button_click_copy_abbreviated_statement_html', {
 				statementDisplayed: statement,
 				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
 				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
@@ -161,7 +155,7 @@
 							tooltipAlignment="end"
 							tooltipPosition="top"
 							on:click={async () => {
-								await copyAbbreviatedStatementToClipboard();
+								await copyAbbreviatedStatementTextToClipboard();
 							}}
 						/>
 					</div>
@@ -173,7 +167,7 @@
 							tooltipAlignment="end"
 							tooltipPosition="top"
 							on:click={() => {
-								downloadAbbreviatedStatementSVG();
+								downloadAbbreviatedStatementTextSVG();
 							}}
 						/>
 					</div>

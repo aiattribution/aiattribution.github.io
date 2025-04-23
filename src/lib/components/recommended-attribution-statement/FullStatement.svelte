@@ -35,9 +35,7 @@
 	const handleBeforeUnload = (event) => {
 		event.preventDefault();
 		const statement: string = fullStatement.split(/\s+/).join(' ');
-		apiService.updateCloseActions({
-			includeNumberOfActionsOnAbbreviatedStatements: false,
-			includeNumberOfActionsOnFullStatements: false,
+		apiService.updateEventMetric('site_close', {
 			statementDisplayed: statement,
 			fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
 			fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
@@ -118,29 +116,25 @@
 		fullStatementHTMLText = utilsService.getStatementHTMLText(fullStatementHTMLContainer);
 	};
 
-	const copyFullStatementToClipboard = async (): Promise<void> => {
+	const copyFullStatementTextToClipboard = async (): Promise<void> => {
 		try {
 			const statement: string = fullStatement.split(/\s+/).join(' ');
 			await navigator.clipboard.writeText(statement);
-			apiService.updateCopyActions({
-				includeNumberOfActionsOnAbbreviatedStatements: false,
-				includeNumberOfActionsOnFullStatements: true,
+			apiService.updateEventMetric('button_click_copy_full_statement_text', {
 				statementDisplayed: statement,
 				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
 				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
 				optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
 			});
 		} catch (err) {
-			console.error('Error copying full statement to clipboard', err);
+			console.error('Error copying full statement text to clipboard', err);
 		}
 	};
 
-	const downloadFullStatementSVG = (): void => {
+	const downloadFullStatementTextSVG = (): void => {
 		utilsService.downloadStatementSVG(fullStatementHTMLContainer, 'full_statement');
 		const statement: string = fullStatement.split(/\s+/).join(' ');
-		apiService.updateDownloadActions({
-			includeNumberOfActionsOnAbbreviatedStatements: false,
-			includeNumberOfActionsOnFullStatements: true,
+		apiService.updateEventMetric('button_click_download_full_statement_text', {
 			statementDisplayed: statement,
 			fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
 			fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
@@ -152,9 +146,7 @@
 		try {
 			const statement: string = fullStatementHTMLText;
 			await navigator.clipboard.writeText(statement);
-			apiService.updateCopyActions({
-				includeNumberOfActionsOnAbbreviatedStatements: false,
-				includeNumberOfActionsOnFullStatements: true,
+			apiService.updateEventMetric('button_click_copy_full_statement_html', {
 				statementDisplayed: statement,
 				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
 				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
@@ -193,7 +185,7 @@
 							tooltipAlignment="end"
 							tooltipPosition="top"
 							on:click={async () => {
-								await copyFullStatementToClipboard();
+								await copyFullStatementTextToClipboard();
 							}}
 						/>
 					</div>
@@ -205,7 +197,7 @@
 							tooltipAlignment="end"
 							tooltipPosition="top"
 							on:click={() => {
-								downloadFullStatementSVG();
+								downloadFullStatementTextSVG();
 							}}
 						/>
 					</div>

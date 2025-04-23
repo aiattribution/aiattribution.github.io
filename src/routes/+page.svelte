@@ -1,23 +1,16 @@
 <script lang="ts">
+	import { PUBLIC_UMAMI_SRC, PUBLIC_UMAMI_WEBSITE_ID } from '$env/static/public';
 	import 'carbon-components-svelte/css/all.css';
+	import { UmamiAnalytics } from '@lukulent/svelte-umami';
 	import { onMount } from 'svelte';
 	import { CreateAttributionStatement, Header, Home, InterpretAttribution } from '$lib';
 	import { HeaderNavType } from '$lib/components/header/interfaces';
-	import { apiService, utilsService } from '$lib/services';
 
-	let isANewUser: boolean = false;
-	let userId: string;
-
+	let isProduction: boolean = false;
 	let headerNavItemSelected: HeaderNavType = HeaderNavType.HOME;
 
 	onMount(() => {
-		userId = localStorage.getItem('userId');
-		if (!userId) {
-			isANewUser = true;
-			apiService.updateNumberOfUniqueSiteVisitors();
-			userId = utilsService.getUniqueId();
-			localStorage.setItem('userId', userId);
-		}
+		isProduction = import.meta.env.MODE === 'production';
 	});
 
 	const updatePageScroll = (): void => {
@@ -28,6 +21,10 @@
 
 	$: headerNavItemSelected, updatePageScroll();
 </script>
+
+{#if isProduction}
+	<UmamiAnalytics websiteID={PUBLIC_UMAMI_WEBSITE_ID} srcURL={PUBLIC_UMAMI_SRC} />
+{/if}
 
 <div class="page-container">
 	<Header bind:headerNavItemSelected />
