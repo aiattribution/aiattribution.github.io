@@ -1,7 +1,5 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="12" cy="12" r="11.5" stroke="#161616" />
-    <rect width="16" height="16" transform="translate(4 4)" fill="white" fill-opacity="0.01"
-        style="mix-blend-mode:multiply" />
     <path d="M14 7H8V8H14V7Z" fill="#161616" />
     <path d="M14 9H8V10H14V9Z" fill="#161616" />
     <path d="M11 11H8V12H11V11Z" fill="#161616" />

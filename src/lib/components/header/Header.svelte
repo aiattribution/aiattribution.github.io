@@ -1,5 +1,12 @@
 <script lang="ts">
-	import { Header, HeaderNav, HeaderNavItem } from 'carbon-components-svelte';
+	import {
+		Header,
+		HeaderNav,
+		HeaderNavItem,
+		SideNav,
+		SideNavItems,
+		SideNavLink
+	} from 'carbon-components-svelte';
 	import { APP_TITLE } from '$lib/common/constants';
 	import { HEADER_NAV_ITEMS } from './constants';
 	import type { HeaderNavItemI, HeaderNavType } from './interfaces';
@@ -7,26 +14,19 @@
 	export let headerNavItemSelected: HeaderNavType;
 
 	let headerNavItems: HeaderNavItemI[] = HEADER_NAV_ITEMS;
+	let isSideNavOpen: boolean = false;
 
 	const onHeaderNavItemClick = (headerNavItem: HeaderNavItemI): void => {
 		headerNavItemSelected = headerNavItem.text;
-		headerNavItems.forEach((value: HeaderNavItemI) => {
-			if (value.id === headerNavItem.id) {
-				value.isSelected = true;
-			} else {
-				value.isSelected = false;
-			}
-		});
-		headerNavItems = headerNavItems;
 	};
 </script>
 
-<Header platformName={APP_TITLE}>
+<Header platformName={APP_TITLE} bind:isSideNavOpen expandedByDefault={false}>
 	<HeaderNav>
 		{#each headerNavItems as headerNavItem (headerNavItem.id)}
 			<HeaderNavItem
 				text={headerNavItem.text}
-				isSelected={headerNavItem.isSelected}
+				isSelected={headerNavItem.text === headerNavItemSelected}
 				on:click={() => {
 					onHeaderNavItemClick(headerNavItem);
 				}}
@@ -34,6 +34,20 @@
 		{/each}
 	</HeaderNav>
 </Header>
+
+<SideNav bind:isOpen={isSideNavOpen}>
+	<SideNavItems>
+		{#each headerNavItems as headerNavItem (headerNavItem.id)}
+			<SideNavLink
+				text={headerNavItem.text}
+				isSelected={headerNavItem.text === headerNavItemSelected}
+				on:click={() => {
+					onHeaderNavItemClick(headerNavItem);
+				}}
+			/>
+		{/each}
+	</SideNavItems>
+</SideNav>
 
 <style lang="scss">
 	:global(.bx--header) {
@@ -61,5 +75,9 @@
 	:global(a.bx--header__menu-item:focus) {
 		border-color: transparent !important;
 		border-bottom: 3px solid var(--cds-inverse-support-04) !important;
+	}
+
+	:global(.bx--header__menu-toggle svg) {
+		fill: black;
 	}
 </style>

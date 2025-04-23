@@ -1,6 +1,11 @@
-export enum AIUsageOptions {
-	YES = 'Yes',
-	NO = 'No'
+import type { Component } from 'svelte';
+
+export enum AIProportionOptions {
+	ENTIRELY_AI_GENERATED = 'Entirely AI-generated',
+	PRIMARILY_AI_GENERATED = 'Primarily AI-generated',
+	HUMAN_AI_BLEND = 'Human-AI blend',
+	PRIMARILY_HUMAN_CREATED = 'Primarily human-created',
+	ENTIRELY_HUMAN_CREATED = 'Entirely human-created'
 }
 
 export enum AIContributionOptions {
@@ -9,16 +14,9 @@ export enum AIContributionOptions {
 	NEW_CONTENT = 'New content'
 }
 
-export enum AIProportionOptions {
-	ENTIRELY_AI_GENERATED = 'Entirely AI-generated',
-	PRIMARILY_AI_GENERATED = 'Primarily AI-generated',
-	HUMAN_AI_BLEND = 'Human-AI blend',
-	PRIMARILY_HUMAN_CREATED = 'Primarily human-created'
-}
-
 export enum AIInitiativeOptions {
-	AI_WAS_PROMPTED = 'AI was prompted',
-	AI_PROACTIVELY_SUGGESTED = 'AI proactively made suggestions'
+	HUMAN_INITIATED = 'Human-initiated',
+	AI_INITIATED = 'AI-initiated'
 }
 
 export enum HumanReviewOptions {
@@ -28,9 +26,8 @@ export enum HumanReviewOptions {
 
 export interface TagI {
 	id: string;
-	selection: string;
-	icon: string;
-	abbreviation: string;
 	name: string;
+	abbreviation: string;
 	explanation: string;
+	iconComponent?: Component;
 }

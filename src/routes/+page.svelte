@@ -1,25 +1,47 @@
 <script lang="ts">
+	import { PUBLIC_UMAMI_SRC, PUBLIC_UMAMI_WEBSITE_ID } from '$env/static/public';
 	import 'carbon-components-svelte/css/all.css';
-	import { About, AttributionStatement, Header, TagLibrary } from '$lib';
+	import { UmamiAnalytics } from '@lukulent/svelte-umami';
+	import { onMount } from 'svelte';
+	import { CreateAttributionStatement, Header, Home, InterpretAttribution } from '$lib';
 	import { HeaderNavType } from '$lib/components/header/interfaces';
 
-	let headerNavItemSelected: HeaderNavType = HeaderNavType.ATTRIBUTION_STATEMENT;
+	let isProduction: boolean = false;
+	let headerNavItemSelected: HeaderNavType = HeaderNavType.HOME;
+
+	onMount(() => {
+		isProduction = import.meta.env.MODE === 'production';
+	});
+
+	const updatePageScroll = (): void => {
+		if (typeof window !== 'undefined') {
+			window.scrollTo(0, 0);
+		}
+	};
+
+	$: headerNavItemSelected, updatePageScroll();
 </script>
+
+{#if isProduction}
+	<UmamiAnalytics websiteID={PUBLIC_UMAMI_WEBSITE_ID} srcURL={PUBLIC_UMAMI_SRC} />
+{/if}
 
 <div class="page-container">
 	<Header bind:headerNavItemSelected />
 	<div class="page-content">
-		{#if headerNavItemSelected === HeaderNavType.ATTRIBUTION_STATEMENT}
-			<AttributionStatement />
-			<TagLibrary />
-		{:else if headerNavItemSelected === HeaderNavType.ABOUT}
-			<About />
+		{#if headerNavItemSelected === HeaderNavType.HOME}
+			<Home bind:headerNavItemSelected />
+		{:else if headerNavItemSelected === HeaderNavType.CREATE_ATTRIBUTION}
+			<CreateAttributionStatement />
+		{:else if headerNavItemSelected === HeaderNavType.INTERPRET_ATTRIBUTION}
+			<InterpretAttribution />
 		{/if}
 		<div class="footer"></div>
 	</div>
 </div>
 
 <style lang="scss">
+	@use '@carbon/type';
 	@import '../styles/utils.scss';
 	$header-height: 3rem;
 
@@ -51,22 +73,33 @@
 		flex-direction: column;
 		gap: 1rem;
 		width: 100%;
-		padding: 0px $section-container-margin-left-right;
-		padding-top: 32px;
+		padding: 32px $section-container-margin-left-right 0px;
 	}
 
 	:global(.section-title) {
-		font-family: IBM Plex Sans;
-		font-weight: 400;
-		font-size: 28px;
-		line-height: 36px;
-		letter-spacing: 0px;
+		@include type.type-style('productive-heading-04');
 	}
 
-	:global(.section-text) {
-		font-family: IBM Plex Sans;
-		font-size: 16px;
-		line-height: 22px;
-		letter-spacing: 0px;
+	:global(.section-text),
+	:global(.section-text .bx--link) {
+		@include type.type-style('body-short-02');
+	}
+
+	:global(.tooltip .bx--assistive-text) {
+		min-width: 18rem !important;
+		padding: 16px !important;
+	}
+
+	@media (max-width: 1055px) {
+		:global(.section-container) {
+			padding: 32px 16px 0px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		:global(.section-text),
+		:global(.section-text .bx--link) {
+			font-size: type.type-scale(2) !important;
+		}
 	}
 </style>
