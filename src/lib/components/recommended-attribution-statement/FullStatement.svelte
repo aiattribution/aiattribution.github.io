@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
 	import { Button, Tab, Tabs } from 'carbon-components-svelte';
 	import { Copy, Download } from 'carbon-icons-svelte';
 	import { apiService, utilsService } from '$lib/services';
@@ -12,9 +12,12 @@
 
 	export let attributionFormItems: FormItemI[];
 
+	$: attributionFormItems, updateFields();
+
 	let tabSelected: number = 0;
 
 	let fullStatementHTMLContainer: HTMLDivElement = null;
+	let fullStatement: string = '';
 	let fullStatementHTMLText: string = '';
 
 	onMount(() => {
@@ -31,7 +34,7 @@
 
 	const handleBeforeUnload = (event) => {
 		event.preventDefault();
-		const statement: string = getFullStatement().split(/\s+/).join(' ');
+		const statement: string = fullStatement.split(/\s+/).join(' ');
 		apiService.updateCloseActions({
 			includeNumberOfActionsOnAbbreviatedStatements: false,
 			includeNumberOfActionsOnFullStatements: false,
@@ -43,8 +46,22 @@
 		return;
 	};
 
-	const getFullStatement = (): string => {
-		let fullStatement: string = '';
+	const updateFields = async (): Promise<void> => {
+		if (tabSelected === 1) {
+			tabSelected = 0;
+			await tick();
+			updateFullStatement();
+			await tick();
+			updateFullStatementHTMLText();
+			tabSelected = 1;
+		} else {
+			updateFullStatement();
+			await tick();
+			updateFullStatementHTMLText();
+		}
+	};
+
+	const updateFullStatement = (): void => {
 		let aiUsed: string = '';
 		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attributionFormItems);
 		const modelSelected: string = utilsService.getAttributionFormItemByType(
@@ -95,12 +112,15 @@
 			aiUsed = NO_AI_USED_FULL_STATEMENT;
 			fullStatement = `${AIA} ${aiUsed} ${VERSION}`;
 		}
-		return fullStatement;
+	};
+
+	const updateFullStatementHTMLText = (): void => {
+		fullStatementHTMLText = utilsService.getStatementHTMLText(fullStatementHTMLContainer);
 	};
 
 	const copyFullStatementToClipboard = async (): Promise<void> => {
 		try {
-			const statement: string = getFullStatement().split(/\s+/).join(' ');
+			const statement: string = fullStatement.split(/\s+/).join(' ');
 			await navigator.clipboard.writeText(statement);
 			apiService.updateCopyActions({
 				includeNumberOfActionsOnAbbreviatedStatements: false,
@@ -117,7 +137,7 @@
 
 	const downloadFullStatementSVG = (): void => {
 		utilsService.downloadStatementSVG(fullStatementHTMLContainer, 'full_statement');
-		const statement: string = getFullStatement().split(/\s+/).join(' ');
+		const statement: string = fullStatement.split(/\s+/).join(' ');
 		apiService.updateDownloadActions({
 			includeNumberOfActionsOnAbbreviatedStatements: false,
 			includeNumberOfActionsOnFullStatements: true,
@@ -150,13 +170,7 @@
 	<div class="recommended-attribution-item-label">Full statement</div>
 	<Tabs bind:selected={tabSelected} autoWidth>
 		<Tab class="attribution-statement-tab" label="Text" />
-		<Tab
-			class="attribution-statement-tab"
-			label="HTML"
-			on:click={() => {
-				fullStatementHTMLText = utilsService.getStatementHTMLText(fullStatementHTMLContainer);
-			}}
-		/>
+		<Tab class="attribution-statement-tab" label="HTML" />
 		<svelte:fragment slot="content">
 			<div class="recommended-attribution-item">
 				{#if tabSelected === 0}
@@ -164,7 +178,7 @@
 						bind:this={fullStatementHTMLContainer}
 						class="recommended-attribution-item-text-container"
 					>
-						<div class="recommended-attribution-item-text">{getFullStatement()}</div>
+						<div class="recommended-attribution-item-text">{fullStatement}</div>
 						<div class="recommended-attribution-item-icons-container">
 							{#each utilsService.getAttributionIcons(attributionFormItems) as AttributionIcon}
 								<svelte:component this={AttributionIcon} />

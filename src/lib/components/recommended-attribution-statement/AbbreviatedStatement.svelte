@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { tick } from 'svelte';
 	import { Button, Tab, Tabs } from 'carbon-components-svelte';
 	import { Copy, Download } from 'carbon-icons-svelte';
 	import { apiService, utilsService } from '$lib/services';
@@ -11,13 +12,30 @@
 
 	export let attributionFormItems: FormItemI[];
 
+	$: attributionFormItems, updateFields();
+
 	let tabSelected: number = 0;
 
 	let abbreviatedStatementHTMLContainer: HTMLDivElement = null;
+	let abbreviatedStatement: string = '';
 	let abbreviatedStatementHTMLText: string = '';
 
-	const getAbbreviatedStatement = (): string => {
-		let abbreviatedStatement: string = '';
+	const updateFields = async (): Promise<void> => {
+		if (tabSelected === 1) {
+			tabSelected = 0;
+			await tick();
+			updateAbbreviatedStatement();
+			await tick();
+			updateAbbreviatedStatementHTMLText();
+			tabSelected = 1;
+		} else {
+			updateAbbreviatedStatement();
+			await tick();
+			updateAbbreviatedStatementHTMLText();
+		}
+	};
+
+	const updateAbbreviatedStatement = (): void => {
 		let aiUsed: string = '';
 		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attributionFormItems);
 		const modelSelected: string = utilsService.getAttributionFormItemByType(
@@ -60,12 +78,17 @@
 		} else {
 			abbreviatedStatement = `${AIA} ${aiUsed} ${VERSION}`;
 		}
-		return abbreviatedStatement;
+	};
+
+	const updateAbbreviatedStatementHTMLText = (): void => {
+		abbreviatedStatementHTMLText = utilsService.getStatementHTMLText(
+			abbreviatedStatementHTMLContainer
+		);
 	};
 
 	const copyAbbreviatedStatementToClipboard = async (): Promise<void> => {
 		try {
-			const statement: string = getAbbreviatedStatement().split(/\s+/).join(' ');
+			const statement: string = abbreviatedStatement.split(/\s+/).join(' ');
 			await navigator.clipboard.writeText(statement);
 			apiService.updateCopyActions({
 				includeNumberOfActionsOnAbbreviatedStatements: true,
@@ -82,7 +105,7 @@
 
 	const downloadAbbreviatedStatementSVG = (): void => {
 		utilsService.downloadStatementSVG(abbreviatedStatementHTMLContainer, 'abbreviated_statement');
-		const statement: string = getAbbreviatedStatement().split(/\s+/).join(' ');
+		const statement: string = abbreviatedStatement.split(/\s+/).join(' ');
 		apiService.updateDownloadActions({
 			includeNumberOfActionsOnAbbreviatedStatements: true,
 			includeNumberOfActionsOnFullStatements: false,
@@ -115,15 +138,7 @@
 	<div class="recommended-attribution-item-label">Abbreviated statement</div>
 	<Tabs bind:selected={tabSelected} autoWidth>
 		<Tab class="attribution-statement-tab" label="Text" />
-		<Tab
-			class="attribution-statement-tab"
-			label="HTML"
-			on:click={() => {
-				abbreviatedStatementHTMLText = utilsService.getStatementHTMLText(
-					abbreviatedStatementHTMLContainer
-				);
-			}}
-		/>
+		<Tab class="attribution-statement-tab" label="HTML" />
 		<svelte:fragment slot="content">
 			<div class="recommended-attribution-item">
 				{#if tabSelected === 0}
@@ -131,7 +146,7 @@
 						bind:this={abbreviatedStatementHTMLContainer}
 						class="recommended-attribution-item-text-container"
 					>
-						<div class="recommended-attribution-item-text">{getAbbreviatedStatement()}</div>
+						<div class="recommended-attribution-item-text">{abbreviatedStatement}</div>
 						<div class="recommended-attribution-item-icons-container">
 							{#each utilsService.getAttributionIcons(attributionFormItems) as AttributionIcon}
 								<svelte:component this={AttributionIcon} />
