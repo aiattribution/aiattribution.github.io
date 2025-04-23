@@ -119,7 +119,7 @@
 			class="attribution-statement-tab"
 			label="HTML"
 			on:click={() => {
-				abbreviatedStatementHTMLText = utilsService.getCleanedHTML(
+				abbreviatedStatementHTMLText = utilsService.getStatementHTMLText(
 					abbreviatedStatementHTMLContainer
 				);
 			}}

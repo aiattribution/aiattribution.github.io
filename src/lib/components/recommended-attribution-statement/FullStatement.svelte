@@ -154,7 +154,7 @@
 			class="attribution-statement-tab"
 			label="HTML"
 			on:click={() => {
-				fullStatementHTMLText = utilsService.getCleanedHTML(fullStatementHTMLContainer);
+				fullStatementHTMLText = utilsService.getStatementHTMLText(fullStatementHTMLContainer);
 			}}
 		/>
 		<svelte:fragment slot="content">
