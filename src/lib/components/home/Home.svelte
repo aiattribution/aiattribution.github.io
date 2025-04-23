@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { trackPageView } from '@lukulent/svelte-umami';
 	import { HeaderNavType } from '$lib/components/header/interfaces';
 	import {
 		AnatomyAttributionStatement,
@@ -9,6 +11,10 @@
 	} from '.';
 
 	export let headerNavItemSelected: HeaderNavType;
+
+	onMount(() => {
+		trackPageView({ url: 'home' });
+	});
 </script>
 
 <PrincipalContainer bind:headerNavItemSelected />

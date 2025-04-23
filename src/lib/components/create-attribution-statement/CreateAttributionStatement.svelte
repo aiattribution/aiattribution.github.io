@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { trackEvent } from '@lukulent/svelte-umami';
+	import { onMount } from 'svelte';
+	import { trackEvent, trackPageView } from '@lukulent/svelte-umami';
 	import { Link } from 'carbon-components-svelte';
 	import { FormItems, RecommendedAttributionStatement } from '$lib';
 	import { MONDAY_FORM_LINK } from '$lib/common/constants';
@@ -7,6 +8,10 @@
 	import { type FormItemI } from './interfaces';
 
 	let attributionFormItems: FormItemI[] = structuredClone(ATTRIBUTION_FORM_ITEMS);
+
+	onMount(() => {
+		trackPageView({ url: 'create_attribution' });
+	});
 
 	const onClickMondayFormLink = (): void => {
 		trackEvent('link_click_monday_form');

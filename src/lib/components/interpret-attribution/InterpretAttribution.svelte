@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { trackPageView } from '@lukulent/svelte-umami';
 	import { Button, TextInput } from 'carbon-components-svelte';
 	import { ArrowRight } from 'carbon-icons-svelte';
 	import { AttributionTag, TagLibrary } from '$lib';
@@ -46,6 +48,10 @@
 		AttributionType.AI_INITIATIVE,
 		AttributionType.HUMAN_REVIEW
 	];
+
+	onMount(() => {
+		trackPageView({ url: 'interpret_attribution' });
+	});
 
 	const resetState = (): void => {
 		attributionFormItems = structuredClone(ATTRIBUTION_FORM_ITEMS);
