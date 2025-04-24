@@ -281,10 +281,10 @@ class UtilsService {
 			.map((icon: Element, index: number) => {
 				const width: number = icon.getBoundingClientRect?.().width || 16;
 				const transformedSVG = `
-				<g transform="translate(${textWidth + 16 + width * index + 16 * index}, 8)">
-					${icon.outerHTML}
-				</g>
-			`;
+					<g transform="translate(${textWidth + 16 + width * index + 16 * index}, 8)">
+						${icon.outerHTML}
+					</g>
+				`;
 				return transformedSVG;
 			})
 			.join('');
