@@ -227,47 +227,74 @@ class UtilsService {
 			'.recommended-attribution-item-icons-container'
 		);
 
-		const textContent: string = textElement?.textContent?.trim() || '';
+		const textContent: string = textElement?.textContent?.trim().replace(/\s+/g, ' ') || '';
 		const iconsHTML: string = this.getCleanedHTML(iconsContainer) || '';
 
-		const getTextWidth = (text: string, font: string): number => {
-			const canvas: HTMLCanvasElement = document.createElement('canvas');
-			const context: CanvasRenderingContext2D = canvas.getContext('2d');
-			if (context) {
-				context.font = font;
-				return context.measureText(text).width;
-			}
-			return 0;
+		const getTextWidth = (
+			text: string,
+			fontWeight: string,
+			fontSize: string,
+			fontFamily: string
+		): number => {
+			const svg: SVGSVGElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+			svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+			svg.style.visibility = 'hidden';
+			svg.style.position = 'absolute';
+			svg.style.top = '-9999px';
+
+			const textElem: SVGTextElement = document.createElementNS(
+				'http://www.w3.org/2000/svg',
+				'text'
+			);
+			textElem.textContent = text;
+			textElem.setAttribute('font-weight', fontWeight);
+			textElem.setAttribute('font-size', fontSize);
+			textElem.setAttribute('font-family', fontFamily);
+			textElem.setAttribute('letter-spacing', '0');
+			svg.appendChild(textElem);
+
+			document.body.appendChild(svg);
+			const width: number = textElem.getBBox().width;
+			document.body.removeChild(svg);
+
+			return width;
 		};
 
 		const fontStyle: CSSStyleDeclaration = window.getComputedStyle(textElement || document.body);
-		const font: string = `${fontStyle.fontWeight} ${fontStyle.fontSize} ${fontStyle.fontFamily}`;
 
-		const textWidth: number = getTextWidth(textContent, font);
+		const textWidth: number = getTextWidth(
+			textContent,
+			fontStyle.fontWeight,
+			fontStyle.fontSize,
+			fontStyle.fontFamily
+		);
 		const iconsWidth: number = iconsContainer?.getBoundingClientRect().width || 0;
-		const svgWidth: number = textWidth + iconsWidth + 24;
+		// 8: left padding, right padding, gap between text and icons
+		const svgWidth: number = textWidth + iconsWidth + 8 * 3;
+
+		const parser: DOMParser = new DOMParser();
+		const iconsDoc: Document = parser.parseFromString(`<div>${iconsHTML}</div>`, 'text/html');
+		const svgIcons: Element[] = Array.from(
+			(iconsDoc.body.firstChild as HTMLElement)?.children || []
+		);
+		const svgIconsString: string = svgIcons
+			.map((icon: Element, index: number) => {
+				const width: number = icon.getBoundingClientRect?.().width || 16;
+				const transformedSVG = `
+				<g transform="translate(${textWidth + 16 + width * index + 16 * index}, 8)">
+					${icon.outerHTML}
+				</g>
+			`;
+				return transformedSVG;
+			})
+			.join('');
 
 		const svgContent: string = `
 <svg xmlns="http://www.w3.org/2000/svg" width="${svgWidth}" height="40px">
-	<foreignObject width="100%" height="100%">
-		<style>
-			.recommended-attribution-item-text-container {
-				${this.getClassInlineStyle('.recommended-attribution-item-text-container')}
-			}
-
-			.recommended-attribution-item-text {
-				${this.getClassInlineStyle('.recommended-attribution-item-text')}
-			}
-
-			.recommended-attribution-item-icons-container {
-				${this.getClassInlineStyle('.recommended-attribution-item-icons-container')}
-			}
-		</style>
-		<div xmlns="http://www.w3.org/1999/xhtml" class="recommended-attribution-item-text-container">
-			<div class="recommended-attribution-item-text">${textContent}</div>
-			<div class="recommended-attribution-item-icons-container">${iconsHTML}</div>
-		</div>
-	</foreignObject>
+	<text x="8" y="25" font-family="'IBM Plex Sans', sans-serif" font-size="16" font-weight="400" letter-spacing="0" fill="#000">
+		${textContent}
+    </text>
+	${svgIconsString}
 </svg>`;
 
 		const blob: Blob = new Blob([svgContent], { type: 'image/svg+xml' });
