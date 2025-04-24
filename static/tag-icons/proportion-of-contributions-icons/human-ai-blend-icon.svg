@@ -4,11 +4,11 @@
         fill="white" stroke="#161616" />
     <path d="M11 1.05078L12 1V23L11 22.9654V1.05078Z" fill="white" />
     <text x="8" y="13" font-family="'IBM Plex Sans', sans-serif" font-weight="600" font-size="10px"
-        letter-spacing="0.32px" fill="#161616" text-anchor="middle" dominant-baseline="middle">
+        letter-spacing="0.32px" fill="#161616" text-anchor="middle" dy="0.26em">
         H
     </text>
     <text x="16.75" y="13" font-family="'IBM Plex Sans', sans-serif" font-weight="600" font-size="10px"
-        letter-spacing="0.32px" fill="white" text-anchor="middle" dominant-baseline="middle">
+        letter-spacing="0.32px" fill="white" text-anchor="middle" dy="0.26em">
         A
     </text>
 </svg>

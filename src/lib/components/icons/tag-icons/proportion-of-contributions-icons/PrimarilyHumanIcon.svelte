@@ -12,7 +12,7 @@
 		letter-spacing="0.32px"
 		fill="#161616"
 		text-anchor="middle"
-		dominant-baseline="middle"
+		dy="0.26em"
 	>
 		H
 	</text>

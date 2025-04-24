@@ -10,7 +10,7 @@
 		letter-spacing="0.32px"
 		fill="white"
 		text-anchor="middle"
-		dominant-baseline="middle"
+		dy="0.26em"
 	>
 		A
 	</text>
