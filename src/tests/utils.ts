@@ -80,7 +80,7 @@ export const getAbbreviatedStatement = (tagIds: string[], modelName?: string): s
 		groupedAbbreviations.push(modelName);
 	}
 
-	return `${AIA} ${groupedAbbreviations.join(' ')} ${VERSION}`;
+	return `${AIA} ${groupedAbbreviations.join(' ')} ${VERSION[VERSION.length - 1]}`;
 };
 
 export const getTagName = (tagId: string): string => {
@@ -119,7 +119,7 @@ export const getFullStatement = (tagIds: string[], modelName?: string): string =
 		groupedNames.push(modelName);
 	}
 
-	return `${AIA} ${groupedNames.join(', ')} ${VERSION}`;
+	return `${AIA} ${groupedNames.join(', ')} ${VERSION[VERSION.length - 1]}`;
 };
 
 export const getTagExplanation = (tagId: string): string => {
