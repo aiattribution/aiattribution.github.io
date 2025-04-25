@@ -3,14 +3,29 @@
 	import { trackEvent, trackPageView } from '@lukulent/svelte-umami';
 	import { Link } from 'carbon-components-svelte';
 	import { FormItems, RecommendedAttributionStatement } from '$lib';
-	import { MONDAY_FORM_LINK } from '$lib/common/constants';
+	import {
+		ATTRIBUTION_FORM_ITEMS_LOCAL_STORAGE_KEY,
+		MONDAY_FORM_LINK
+	} from '$lib/common/constants';
 	import { ATTRIBUTION_FORM_ITEMS, CREATE_ATTRIBUTION_SECTION_TITLE } from './constants';
-	import { type FormItemI } from './interfaces';
+	import { FormItemIArraySchema, type FormItemI } from './interfaces';
 
 	let attributionFormItems: FormItemI[] = structuredClone(ATTRIBUTION_FORM_ITEMS);
 
 	onMount(() => {
 		trackPageView({ url: 'create_attribution' });
+
+		const storedAttributionFormItems: string = localStorage.getItem(
+			ATTRIBUTION_FORM_ITEMS_LOCAL_STORAGE_KEY
+		);
+		if (storedAttributionFormItems) {
+			try {
+				const parsed = FormItemIArraySchema.parse(JSON.parse(storedAttributionFormItems));
+				attributionFormItems = parsed as FormItemI[];
+			} catch (err) {
+				console.error('Invalid JSON', err);
+			}
+		}
 	});
 
 	const onClickMondayFormLink = (): void => {

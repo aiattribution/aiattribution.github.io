@@ -5,9 +5,25 @@
 		ExpandedStatement,
 		FullStatement
 	} from '$lib';
+	import { ATTRIBUTION_FORM_ITEMS_LOCAL_STORAGE_KEY } from '$lib/common/constants';
 	import { type FormItemI } from '../create-attribution-statement/interfaces';
 
 	export let attributionFormItems: FormItemI[];
+
+	$: attributionFormItems, saveFormStateToLocalStorage();
+
+	let saveInLocalStorage: boolean = false;
+
+	const saveFormStateToLocalStorage = (): void => {
+		if (saveInLocalStorage) {
+			localStorage.setItem(
+				ATTRIBUTION_FORM_ITEMS_LOCAL_STORAGE_KEY,
+				JSON.stringify(attributionFormItems)
+			);
+		} else {
+			saveInLocalStorage = true;
+		}
+	};
 
 	const hasAnyResponseToAnyFormItem = (): boolean => {
 		return attributionFormItems.some(

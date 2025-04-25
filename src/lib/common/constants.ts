@@ -25,6 +25,7 @@ export const APP_TITLE: string = 'AI Attribution Toolkit';
 const MONDAY_FORM_ID: string = '77a998cee6979c0392ca811bfb0eabf4?r=use1';
 export const MONDAY_FORM_LINK: string = `https://forms.monday.com/forms/${MONDAY_FORM_ID}`;
 export const MONDAY_FORM_EMBED_LINK: string = `https://forms.monday.com/forms/embed/${MONDAY_FORM_ID}`;
+export const ATTRIBUTION_FORM_ITEMS_LOCAL_STORAGE_KEY: string = 'attributionFormItems';
 
 export const PROPORTIONS_OF_CONTRIBUTIONS_TAGS: TagI[] = [
 	{
