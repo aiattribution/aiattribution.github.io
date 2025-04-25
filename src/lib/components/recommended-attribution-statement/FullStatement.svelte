@@ -105,10 +105,10 @@
 			} else {
 				aiUsed = '';
 			}
-			fullStatement = `${AIA} ${proportionOfContribution}${aiContribution}${aiInitiatives}${humanReview}${aiUsed} ${VERSION}`;
+			fullStatement = `${AIA} ${proportionOfContribution}${aiContribution}${aiInitiatives}${humanReview}${aiUsed} ${VERSION[VERSION.length - 1]}`;
 		} else {
 			aiUsed = NO_AI_USED_FULL_STATEMENT;
-			fullStatement = `${AIA} ${aiUsed} ${VERSION}`;
+			fullStatement = `${AIA} ${aiUsed} ${VERSION[VERSION.length - 1]}`;
 		}
 	};
 

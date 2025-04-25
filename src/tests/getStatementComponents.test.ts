@@ -13,14 +13,15 @@ import {
 describe('getStatementComponents', () => {
 	const modelNameWithoutSpaces: string = 'granite-3-8b-instruct';
 	const modelNameWithSpaces: string = 'granite 3 8b instruct';
+	const version: string = VERSION[VERSION.length - 1];
 
 	it('should recognize abbreviated statement of one component with AIA and version', () => {
 		ALL_TAGS.forEach((tag: TagI) => {
 			const statementComponentAbbreviation: string = getTagAbbreviation(tag.id);
-			const statementToInterpret: string = `${AIA} ${statementComponentAbbreviation} ${VERSION}`;
+			const statementToInterpret: string = `${AIA} ${statementComponentAbbreviation} ${version}`;
 			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 				[statementComponentAbbreviation],
-				[AIA, VERSION]
+				[AIA, version]
 			]);
 		});
 	});
@@ -39,10 +40,10 @@ describe('getStatementComponents', () => {
 	it('should recognize abbreviated statement of one component with version', () => {
 		ALL_TAGS.forEach((tag: TagI) => {
 			const statementComponentAbbreviation: string = getTagAbbreviation(tag.id);
-			const statementToInterpret: string = `${statementComponentAbbreviation} ${VERSION}`;
+			const statementToInterpret: string = `${statementComponentAbbreviation} ${version}`;
 			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 				[statementComponentAbbreviation],
-				[VERSION]
+				[version]
 			]);
 		});
 	});
@@ -61,10 +62,10 @@ describe('getStatementComponents', () => {
 	it('should recognize full statement of one component with AIA and version', () => {
 		ALL_TAGS.forEach((tag: TagI) => {
 			const statementComponentName: string = getTagName(tag.id);
-			const statementToInterpret: string = `${AIA} ${statementComponentName} ${VERSION}`;
+			const statementToInterpret: string = `${AIA} ${statementComponentName} ${version}`;
 			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 				[statementComponentName],
-				[AIA, VERSION]
+				[AIA, version]
 			]);
 		});
 	});
@@ -83,10 +84,10 @@ describe('getStatementComponents', () => {
 	it('should recognize full statement of one component with version', () => {
 		ALL_TAGS.forEach((tag: TagI) => {
 			const statementComponentName: string = getTagName(tag.id);
-			const statementToInterpret: string = `${statementComponentName} ${VERSION}`;
+			const statementToInterpret: string = `${statementComponentName} ${version}`;
 			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 				[statementComponentName],
-				[VERSION]
+				[version]
 			]);
 		});
 	});
@@ -103,10 +104,10 @@ describe('getStatementComponents', () => {
 	});
 
 	it('should recognize model name (without spaces) of one component with AIA and version', () => {
-		const statementToInterpret: string = `${AIA} ${modelNameWithoutSpaces} ${VERSION}`;
+		const statementToInterpret: string = `${AIA} ${modelNameWithoutSpaces} ${version}`;
 		expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 			[modelNameWithoutSpaces],
-			[AIA, VERSION]
+			[AIA, version]
 		]);
 	});
 
@@ -119,10 +120,10 @@ describe('getStatementComponents', () => {
 	});
 
 	it('should recognize model name (without spaces) of one component with version', () => {
-		const statementToInterpret: string = `${modelNameWithoutSpaces} ${VERSION}`;
+		const statementToInterpret: string = `${modelNameWithoutSpaces} ${version}`;
 		expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 			[modelNameWithoutSpaces],
-			[VERSION]
+			[version]
 		]);
 	});
 
@@ -135,10 +136,10 @@ describe('getStatementComponents', () => {
 	});
 
 	it('should recognize model name (with spaces) of one component with AIA and version', () => {
-		const statementToInterpret: string = `${AIA} ${modelNameWithSpaces} ${VERSION}`;
+		const statementToInterpret: string = `${AIA} ${modelNameWithSpaces} ${version}`;
 		expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 			[modelNameWithSpaces],
-			[AIA, VERSION]
+			[AIA, version]
 		]);
 	});
 
@@ -151,10 +152,10 @@ describe('getStatementComponents', () => {
 	});
 
 	it('should recognize model name (with spaces) of one component with version', () => {
-		const statementToInterpret: string = `${modelNameWithSpaces} ${VERSION}`;
+		const statementToInterpret: string = `${modelNameWithSpaces} ${version}`;
 		expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 			[modelNameWithSpaces],
-			[VERSION]
+			[version]
 		]);
 	});
 
@@ -172,11 +173,11 @@ describe('getStatementComponents', () => {
 			modelNameWithoutSpaces
 		);
 		allCombinations.forEach((combination: string) => {
-			const statementToInterpret: string = `${AIA} ${combination} ${VERSION}`;
+			const statementToInterpret: string = `${AIA} ${combination} ${version}`;
 			const combinations: string[] = splitCombination(combination);
 			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 				combinations,
-				[AIA, VERSION]
+				[AIA, version]
 			]);
 		});
 	});
@@ -199,11 +200,11 @@ describe('getStatementComponents', () => {
 			modelNameWithoutSpaces
 		);
 		allCombinations.forEach((combination: string) => {
-			const statementToInterpret: string = `${combination} ${VERSION}`;
+			const statementToInterpret: string = `${combination} ${version}`;
 			const combinations: string[] = splitCombination(combination);
 			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 				combinations,
-				[VERSION]
+				[version]
 			]);
 		});
 	});
@@ -227,11 +228,11 @@ describe('getStatementComponents', () => {
 		);
 
 		allCombinations.forEach((combination: string) => {
-			const statementToInterpret: string = `${AIA} ${combination} ${VERSION}`;
+			const statementToInterpret: string = `${AIA} ${combination} ${version}`;
 			const combinations: string[] = splitCombination(combination);
 			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 				combinations,
-				[AIA, VERSION]
+				[AIA, version]
 			]);
 		});
 	});
@@ -256,11 +257,11 @@ describe('getStatementComponents', () => {
 		);
 
 		allCombinations.forEach((combination: string) => {
-			const statementToInterpret: string = `${combination} ${VERSION}`;
+			const statementToInterpret: string = `${combination} ${version}`;
 			const combinations: string[] = splitCombination(combination);
 			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 				combinations,
-				[VERSION]
+				[version]
 			]);
 		});
 	});
@@ -284,11 +285,11 @@ describe('getStatementComponents', () => {
 			modelNameWithoutSpaces
 		);
 		allCombinations.forEach((combination: string) => {
-			const statementToInterpret: string = `${AIA} ${combination} ${VERSION}`;
+			const statementToInterpret: string = `${AIA} ${combination} ${version}`;
 			const combinations: string[] = splitCombination(combination);
 			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 				combinations,
-				[AIA, VERSION]
+				[AIA, version]
 			]);
 		});
 	});
@@ -311,11 +312,11 @@ describe('getStatementComponents', () => {
 			modelNameWithoutSpaces
 		);
 		allCombinations.forEach((combination: string) => {
-			const statementToInterpret: string = `${combination} ${VERSION}`;
+			const statementToInterpret: string = `${combination} ${version}`;
 			const combinations: string[] = splitCombination(combination);
 			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 				combinations,
-				[VERSION]
+				[version]
 			]);
 		});
 	});
@@ -339,11 +340,11 @@ describe('getStatementComponents', () => {
 		);
 
 		allCombinations.forEach((combination: string) => {
-			const statementToInterpret: string = `${AIA} ${combination} ${VERSION}`;
+			const statementToInterpret: string = `${AIA} ${combination} ${version}`;
 			const combinations: string[] = splitCombination(combination);
 			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 				combinations,
-				[AIA, VERSION]
+				[AIA, version]
 			]);
 		});
 	});
@@ -368,11 +369,11 @@ describe('getStatementComponents', () => {
 		);
 
 		allCombinations.forEach((combination: string) => {
-			const statementToInterpret: string = `${combination} ${VERSION}`;
+			const statementToInterpret: string = `${combination} ${version}`;
 			const combinations: string[] = splitCombination(combination);
 			expect(getStatementComponents(statementToInterpret, ALL_TAGS)).toEqual([
 				combinations,
-				[VERSION]
+				[version]
 			]);
 		});
 	});

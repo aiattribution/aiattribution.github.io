@@ -74,9 +74,9 @@
 					attributionFormItems
 				).selectedOptions
 			);
-			abbreviatedStatement = `${AIA} ${proportionOfContribution} ${aiContribution} ${aiInitiatives} ${humanReview} ${aiUsed} ${VERSION}`;
+			abbreviatedStatement = `${AIA} ${proportionOfContribution} ${aiContribution} ${aiInitiatives} ${humanReview} ${aiUsed} ${VERSION[VERSION.length - 1]}`;
 		} else {
-			abbreviatedStatement = `${AIA} ${aiUsed} ${VERSION}`;
+			abbreviatedStatement = `${AIA} ${aiUsed} ${VERSION[VERSION.length - 1]}`;
 		}
 	};
 

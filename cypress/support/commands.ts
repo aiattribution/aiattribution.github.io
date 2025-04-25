@@ -2,7 +2,7 @@
 
 import {
 	AIA_EXPLANATION,
-	VERSION_EXPLANATION
+	getVersionExplanation
 } from '../../src/lib/components/create-attribution-statement/constants';
 import {
 	getAbbreviatedStatement,
@@ -108,10 +108,16 @@ const attributionIconItemContainerClass: string = '.attribution-icon-item-contai
 const attributionStatementIconDescriptionClass: string = '.attribution-statement-icon-description';
 Cypress.Commands.add(
 	'shouldHaveExpectedAttributionStatementExplanation',
-	(numberAttributionIconItemContainerExpected: number, statementExplanations: string[]) => {
+	(
+		numberAttributionIconItemContainerExpected: number,
+		statementExplanations: string[],
+		version: string
+	) => {
 		cy.get(explanationTitleClass).should('have.text', 'Explanation');
 		cy.get(attributionStatementExplanationTextClass).eq(0).should('have.text', AIA_EXPLANATION);
-		cy.get(attributionStatementExplanationTextClass).eq(1).should('have.text', VERSION_EXPLANATION);
+		cy.get(attributionStatementExplanationTextClass)
+			.eq(1)
+			.should('have.text', getVersionExplanation(version));
 
 		cy.verifyElementCount(
 			`${attributionIconsDescriptionsClass} ${attributionIconItemContainerClass}`,

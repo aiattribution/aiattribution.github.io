@@ -27,7 +27,8 @@ declare namespace Cypress {
 		): Chainable<void>;
 		shouldHaveExpectedAttributionStatementExplanation(
 			numberAttributionIconItemContainerExpected: number,
-			statementExplanations: string[]
+			statementExplanations: string[],
+			version: string
 		): Chainable<void>;
 	}
 }

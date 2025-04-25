@@ -1,6 +1,7 @@
 import {
 	ATTRIBUTION_FORM_ITEMS,
-	CREATE_ATTRIBUTION_SECTION_TITLE
+	CREATE_ATTRIBUTION_SECTION_TITLE,
+	VERSION
 } from '../../src/lib/components/create-attribution-statement/constants.ts';
 import {
 	AttributionType,
@@ -24,6 +25,7 @@ import {
 } from '../support/constants.ts';
 
 const headerNavItems: HeaderNavItemI[] = HEADER_NAV_ITEMS;
+const version: string = VERSION[VERSION.length - 1];
 
 const openCreateAttributionSection = (
 	viewportFuction: () => void,
@@ -141,7 +143,11 @@ describe(`should correctly set form state when AI proportion is '${AIProportionO
 		const tagDescriptions: string[] = getTagDescriptions([
 			AIProportionOptions.ENTIRELY_AI_GENERATED
 		]);
-		cy.shouldHaveExpectedAttributionStatementExplanation(tagDescriptions.length, tagDescriptions);
+		cy.shouldHaveExpectedAttributionStatementExplanation(
+			tagDescriptions.length,
+			tagDescriptions,
+			version
+		);
 	});
 });
 
@@ -161,7 +167,7 @@ describe(`should correctly set form state when AI proportion is '${AIProportionO
 		});
 		cy.shouldNotHaveEmptyCreateStatementFormState([AIProportionOptions.ENTIRELY_HUMAN_CREATED]);
 		const tagDescriptions: string[] = [];
-		cy.shouldHaveExpectedAttributionStatementExplanation(tagDescriptions.length, []);
+		cy.shouldHaveExpectedAttributionStatementExplanation(tagDescriptions.length, [], version);
 	});
 });
 
@@ -193,7 +199,11 @@ const testAIProportionsThatDoNotHaveSpecialCases = (tagIds: string[], modelName?
 	});
 	cy.shouldNotHaveEmptyCreateStatementFormState(tagIds, modelName);
 	const tagDescriptions: string[] = getTagDescriptions(tagIds);
-	cy.shouldHaveExpectedAttributionStatementExplanation(tagDescriptions.length, tagDescriptions);
+	cy.shouldHaveExpectedAttributionStatementExplanation(
+		tagDescriptions.length,
+		tagDescriptions,
+		version
+	);
 };
 
 describe(`should correctly set form state when AI proportion is '${AIProportionOptions.PRIMARILY_AI_GENERATED}'`, () => {

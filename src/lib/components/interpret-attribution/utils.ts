@@ -120,16 +120,17 @@ export const getStatementComponents = (
 		if (
 			firstElement === AIA &&
 			statementComponents.length !== 1 &&
-			!(statementComponents.length === 2 && lastElement === VERSION)
+			!(statementComponents.length === 2 && VERSION.includes(lastElement))
 		) {
 			fixedComponents.push(statementComponents.shift());
 		}
-		if (lastElement === VERSION) {
+		const versionMatch: string = VERSION.find((v: string) => lastElement.endsWith(v));
+		if (VERSION.includes(lastElement)) {
 			fixedComponents.push(statementComponents.pop());
-		} else if (lastElement.includes(' ') && lastElement.endsWith(VERSION)) {
+		} else if (lastElement.includes(' ') && versionMatch) {
 			const parts: string[] = lastElement.split(' ');
 			statementComponents[statementComponents.length - 1] = parts.slice(0, -1).join(' ');
-			fixedComponents.push(VERSION);
+			fixedComponents.push(versionMatch);
 		}
 	}
 

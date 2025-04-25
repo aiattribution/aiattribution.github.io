@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { type Component } from 'svelte';
 	import { utilsService } from '$lib/services';
-	import { AIA_EXPLANATION, VERSION_EXPLANATION } from '../create-attribution-statement/constants';
+	import {
+		AIA_EXPLANATION,
+		getVersionExplanation,
+		VERSION
+	} from '../create-attribution-statement/constants';
 	import { AttributionType, type FormItemI } from '../create-attribution-statement/interfaces';
 
 	export let attributionFormItems: FormItemI[];
@@ -101,8 +105,10 @@
 					).selectedOptions
 				);
 			const humanReviewExplanations: string = utilsService.getConcatenatedOptionsExplanations(
-				utilsService.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attributionFormItems)
-					.selectedOptions
+				utilsService.getAttributionFormItemByType(
+					AttributionType.HUMAN_REVIEW,
+					attributionFormItems
+				).selectedOptions
 			);
 			if (humanReviewAbbreviatedStatement) {
 				humanReviewAbbreviatedStatement += ':';
@@ -166,7 +172,7 @@
 {/if}
 
 <div class="attribution-statement-explanation-text">
-	{VERSION_EXPLANATION}
+	{getVersionExplanation(VERSION[VERSION.length - 1])}
 </div>
 
 <style lang="scss">

@@ -20,7 +20,7 @@
 		NO_AI_USED_ABBREVIATED_STATEMENT,
 		NO_AI_USED_FULL_STATEMENT,
 		VERSION,
-		VERSION_INTERPRET_STATEMENT_EXPLANATION
+		getVersionInterpretStatementExplanation
 	} from '../create-attribution-statement/constants';
 	import {
 		AttributionType,
@@ -282,12 +282,13 @@
 		if (fixedComponents.length > 0) {
 			const firstElement: string = fixedComponents[0];
 			const lastElement: string = fixedComponents[fixedComponents.length - 1];
-			if (firstElement === AIA && lastElement === VERSION) {
-				statementAIAAndAttributionNumberExplained = `${AIA_INTERPRET_STATEMENT_EXPLANATION} ${VERSION_INTERPRET_STATEMENT_EXPLANATION}`;
+			if (firstElement === AIA && VERSION.includes(lastElement)) {
+				statementAIAAndAttributionNumberExplained = `${AIA_INTERPRET_STATEMENT_EXPLANATION} ${getVersionInterpretStatementExplanation(lastElement)}`;
 			} else if (firstElement === AIA) {
 				statementAIAAndAttributionNumberExplained = AIA_INTERPRET_STATEMENT_EXPLANATION;
-			} else if (lastElement === VERSION) {
-				statementAIAAndAttributionNumberExplained = VERSION_INTERPRET_STATEMENT_EXPLANATION;
+			} else if (VERSION.includes(lastElement)) {
+				statementAIAAndAttributionNumberExplained =
+					getVersionInterpretStatementExplanation(lastElement);
 			}
 		}
 
