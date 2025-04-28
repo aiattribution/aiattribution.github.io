@@ -46,7 +46,7 @@
 			findings from our
 			<Link
 				class="paper-link"
-				href="https://arxiv.org/pdf/2502.18357"
+				href="https://dl.acm.org/doi/full/10.1145/3706598.3713522"
 				target="_blank"
 				inline
 				on:click={() => {

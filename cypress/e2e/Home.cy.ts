@@ -52,7 +52,7 @@ describe('should open the CHI 2025 paper link successfully', () => {
 	const testChiPaperLink = (viewportFuction: () => void) => {
 		viewportFuction();
 		cy.visitAppHome();
-		cy.verifyLink('CHI 2025 paper', 'https://arxiv.org/pdf/2502.18357');
+		cy.verifyLink('CHI 2025 paper', 'https://dl.acm.org/doi/full/10.1145/3706598.3713522');
 	};
 
 	it(TEST_MACBOOK_16, () => {
