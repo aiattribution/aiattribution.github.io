@@ -19,7 +19,7 @@
 		ATTRIBUTION_FORM_ITEMS,
 		NO_AI_USED_ABBREVIATED_STATEMENT,
 		NO_AI_USED_FULL_STATEMENT,
-		VERSION,
+		VERSIONS,
 		getVersionInterpretStatementExplanation
 	} from '../create-attribution-statement/constants';
 	import {
@@ -282,11 +282,12 @@
 		if (fixedComponents.length > 0) {
 			const firstElement: string = fixedComponents[0];
 			const lastElement: string = fixedComponents[fixedComponents.length - 1];
-			if (firstElement === AIA && VERSION.includes(lastElement)) {
+			const lastElementIsAVersion: boolean = VERSIONS.includes(lastElement);
+			if (firstElement === AIA && lastElementIsAVersion) {
 				statementAIAAndAttributionNumberExplained = `${AIA_INTERPRET_STATEMENT_EXPLANATION} ${getVersionInterpretStatementExplanation(lastElement)}`;
 			} else if (firstElement === AIA) {
 				statementAIAAndAttributionNumberExplained = AIA_INTERPRET_STATEMENT_EXPLANATION;
-			} else if (VERSION.includes(lastElement)) {
+			} else if (lastElementIsAVersion) {
 				statementAIAAndAttributionNumberExplained =
 					getVersionInterpretStatementExplanation(lastElement);
 			}

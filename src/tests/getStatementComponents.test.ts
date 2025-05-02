@@ -1,5 +1,5 @@
 import { ALL_TAGS } from '$lib/common/constants';
-import { AIA, VERSION } from '$lib/components/create-attribution-statement/constants';
+import { AIA, LAST_VERSION } from '$lib/components/create-attribution-statement/constants';
 import { getStatementComponents } from '$lib/components/interpret-attribution/utils';
 import { type TagI } from '$lib/models/tag-library';
 import { describe, expect, it } from 'vitest';
@@ -13,7 +13,7 @@ import {
 describe('getStatementComponents', () => {
 	const modelNameWithoutSpaces: string = 'granite-3-8b-instruct';
 	const modelNameWithSpaces: string = 'granite 3 8b instruct';
-	const version: string = VERSION[VERSION.length - 1];
+	const version: string = LAST_VERSION;
 
 	it('should recognize abbreviated statement of one component with AIA and version', () => {
 		ALL_TAGS.forEach((tag: TagI) => {

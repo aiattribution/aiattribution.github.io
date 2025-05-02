@@ -5,8 +5,8 @@
 	import { apiService, utilsService } from '$lib/services';
 	import {
 		AIA,
-		NO_AI_USED_ABBREVIATED_STATEMENT,
-		VERSION
+		LAST_VERSION,
+		NO_AI_USED_ABBREVIATED_STATEMENT
 	} from '../create-attribution-statement/constants';
 	import { AttributionType, type FormItemI } from '../create-attribution-statement/interfaces';
 
@@ -74,9 +74,9 @@
 					attributionFormItems
 				).selectedOptions
 			);
-			abbreviatedStatement = `${AIA} ${proportionOfContribution} ${aiContribution} ${aiInitiatives} ${humanReview} ${aiUsed} ${VERSION[VERSION.length - 1]}`;
+			abbreviatedStatement = `${AIA} ${proportionOfContribution} ${aiContribution} ${aiInitiatives} ${humanReview} ${aiUsed} ${LAST_VERSION}`;
 		} else {
-			abbreviatedStatement = `${AIA} ${aiUsed} ${VERSION[VERSION.length - 1]}`;
+			abbreviatedStatement = `${AIA} ${aiUsed} ${LAST_VERSION}`;
 		}
 	};
 

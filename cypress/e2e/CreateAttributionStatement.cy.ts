@@ -1,7 +1,7 @@
 import {
 	ATTRIBUTION_FORM_ITEMS,
 	CREATE_ATTRIBUTION_SECTION_TITLE,
-	VERSION
+	LAST_VERSION
 } from '../../src/lib/components/create-attribution-statement/constants.ts';
 import {
 	AttributionType,
@@ -25,7 +25,7 @@ import {
 } from '../support/constants.ts';
 
 const headerNavItems: HeaderNavItemI[] = HEADER_NAV_ITEMS;
-const version: string = VERSION[VERSION.length - 1];
+const version: string = LAST_VERSION;
 
 const openCreateAttributionSection = (
 	viewportFuction: () => void,

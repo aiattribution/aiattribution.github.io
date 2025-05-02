@@ -4,7 +4,7 @@
 	import {
 		AIA_EXPLANATION,
 		getVersionExplanation,
-		VERSION
+		LAST_VERSION
 	} from '../create-attribution-statement/constants';
 	import { AttributionType, type FormItemI } from '../create-attribution-statement/interfaces';
 
@@ -172,7 +172,7 @@
 {/if}
 
 <div class="attribution-statement-explanation-text">
-	{getVersionExplanation(VERSION[VERSION.length - 1])}
+	{getVersionExplanation(LAST_VERSION)}
 </div>
 
 <style lang="scss">

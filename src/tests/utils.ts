@@ -2,9 +2,9 @@ import { ALL_TAGS, TAGS_WITH_ATTRIBUTION_TYPE } from '../../cypress/support/cons
 import {
 	AIA,
 	ATTRIBUTION_FORM_ITEMS,
+	LAST_VERSION,
 	NO_AI_USED_ABBREVIATED_STATEMENT,
-	NO_AI_USED_FULL_STATEMENT,
-	VERSION
+	NO_AI_USED_FULL_STATEMENT
 } from '../lib/components/create-attribution-statement/constants';
 import {
 	AttributionType,
@@ -80,7 +80,7 @@ export const getAbbreviatedStatement = (tagIds: string[], modelName?: string): s
 		groupedAbbreviations.push(modelName);
 	}
 
-	return `${AIA} ${groupedAbbreviations.join(' ')} ${VERSION[VERSION.length - 1]}`;
+	return `${AIA} ${groupedAbbreviations.join(' ')} ${LAST_VERSION}`;
 };
 
 export const getTagName = (tagId: string): string => {
@@ -119,7 +119,7 @@ export const getFullStatement = (tagIds: string[], modelName?: string): string =
 		groupedNames.push(modelName);
 	}
 
-	return `${AIA} ${groupedNames.join(', ')} ${VERSION[VERSION.length - 1]}`;
+	return `${AIA} ${groupedNames.join(', ')} ${LAST_VERSION}`;
 };
 
 export const getTagExplanation = (tagId: string): string => {

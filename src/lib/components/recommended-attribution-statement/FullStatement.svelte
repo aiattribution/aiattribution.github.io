@@ -6,8 +6,8 @@
 	import { AttributionType, type FormItemI } from '../create-attribution-statement/interfaces';
 	import {
 		AIA,
-		NO_AI_USED_FULL_STATEMENT,
-		VERSION
+		LAST_VERSION,
+		NO_AI_USED_FULL_STATEMENT
 	} from '../create-attribution-statement/constants';
 
 	export let attributionFormItems: FormItemI[];
@@ -105,10 +105,10 @@
 			} else {
 				aiUsed = '';
 			}
-			fullStatement = `${AIA} ${proportionOfContribution}${aiContribution}${aiInitiatives}${humanReview}${aiUsed} ${VERSION[VERSION.length - 1]}`;
+			fullStatement = `${AIA} ${proportionOfContribution}${aiContribution}${aiInitiatives}${humanReview}${aiUsed} ${LAST_VERSION}`;
 		} else {
 			aiUsed = NO_AI_USED_FULL_STATEMENT;
-			fullStatement = `${AIA} ${aiUsed} ${VERSION[VERSION.length - 1]}`;
+			fullStatement = `${AIA} ${aiUsed} ${LAST_VERSION}`;
 		}
 	};
 

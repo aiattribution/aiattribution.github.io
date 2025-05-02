@@ -3,7 +3,7 @@ import {
 	AIA,
 	NO_AI_USED_ABBREVIATED_STATEMENT,
 	NO_AI_USED_FULL_STATEMENT,
-	VERSION
+	VERSIONS
 } from '../create-attribution-statement/constants';
 
 const getMaxTagNameWordLength = (allTags: TagI[]): number => {
@@ -117,15 +117,16 @@ export const getStatementComponents = (
 	if (statementComponents.length > 0) {
 		const firstElement: string = statementComponents[0];
 		const lastElement: string = statementComponents[statementComponents.length - 1];
+		const lastElementIsAVersion: boolean = VERSIONS.includes(lastElement);
 		if (
 			firstElement === AIA &&
 			statementComponents.length !== 1 &&
-			!(statementComponents.length === 2 && VERSION.includes(lastElement))
+			!(statementComponents.length === 2 && lastElementIsAVersion)
 		) {
 			fixedComponents.push(statementComponents.shift());
 		}
-		const versionMatch: string = VERSION.find((v: string) => lastElement.endsWith(v));
-		if (VERSION.includes(lastElement)) {
+		const versionMatch: string = VERSIONS.find((v: string) => lastElement.endsWith(v));
+		if (lastElementIsAVersion) {
 			fixedComponents.push(statementComponents.pop());
 		} else if (lastElement.includes(' ') && versionMatch) {
 			const parts: string[] = lastElement.split(' ');
