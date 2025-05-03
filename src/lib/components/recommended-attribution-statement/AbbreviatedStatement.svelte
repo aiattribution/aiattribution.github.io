@@ -11,13 +11,13 @@
 	import { AttributionType, type FormItemI } from '../create-attribution-statement/interfaces';
 
 	export let attributionFormItems: FormItemI[];
+	export let abbreviatedStatement: string;
 
 	$: attributionFormItems, updateFields();
 
 	let tabSelected: number = 0;
 
 	let abbreviatedStatementHTMLContainer: HTMLDivElement = null;
-	let abbreviatedStatement: string = '';
 	let abbreviatedStatementHTMLText: string = '';
 
 	const updateFields = async (): Promise<void> => {

@@ -2,6 +2,7 @@
 	import {
 		AbbreviatedStatement,
 		AttributionStatementExplanation,
+		CanonicalURL,
 		ExpandedStatement,
 		FullStatement
 	} from '$lib';
@@ -13,6 +14,7 @@
 	$: attributionFormItems, saveFormStateToLocalStorage();
 
 	let saveInLocalStorage: boolean = false;
+	let abbreviatedStatement: string = '';
 
 	const saveFormStateToLocalStorage = (): void => {
 		if (saveInLocalStorage) {
@@ -38,9 +40,10 @@
 <h2 class="recommended-attribution-title">Recommended attribution statement</h2>
 
 {#if hasAnyResponseToAnyFormItem()}
-	<AbbreviatedStatement {attributionFormItems} />
+	<AbbreviatedStatement {attributionFormItems} bind:abbreviatedStatement />
 	<FullStatement {attributionFormItems} />
 	<ExpandedStatement {attributionFormItems} />
+	<CanonicalURL {attributionFormItems} {abbreviatedStatement} />
 	<AttributionStatementExplanation {attributionFormItems} />
 {:else}
 	<p class="empty-state-text">Fill out the form to get started.</p>

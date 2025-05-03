@@ -8,8 +8,10 @@ import LinkIcon from './components/icons/link-icon/LinkIcon.svelte';
 import AnatomyAbbreviatedStatement from './components/images/AnatomyAbbreviatedStatement.svelte';
 import AnatomyFullStatement from './components/images/AnatomyFullStatement.svelte';
 import InterpretAttribution from './components/interpret-attribution/InterpretAttribution.svelte';
+import PageContent from './components/layouts/PageContent.svelte';
 import AbbreviatedStatement from './components/recommended-attribution-statement/AbbreviatedStatement.svelte';
 import AttributionStatementExplanation from './components/recommended-attribution-statement/AttributionStatementExplanation.svelte';
+import CanonicalURL from './components/recommended-attribution-statement/CanonicalURL.svelte';
 import ExpandedStatement from './components/recommended-attribution-statement/ExpandedStatement.svelte';
 import FullStatement from './components/recommended-attribution-statement/FullStatement.svelte';
 import RecommendedAttributionStatement from './components/recommended-attribution-statement/RecommendedAttributionStatement.svelte';
@@ -23,6 +25,7 @@ export {
     AnatomyFullStatement,
     AttributionStatementExplanation,
     AttributionTag,
+    CanonicalURL,
     CreateAttributionStatement,
     ExpandedStatement,
     FormItem,
@@ -32,6 +35,7 @@ export {
     Home,
     InterpretAttribution,
     LinkIcon,
+    PageContent,
     RecommendedAttributionStatement,
     TagLibrary,
     TagTile

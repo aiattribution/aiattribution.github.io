@@ -3,7 +3,7 @@
 <div class="image-container">
 	<img
 		class="co-created-attribution-image"
-		src="home-images/DALL-E Human-AI Attribution Illustration.png"
+		src="/home-images/DALL-E Human-AI Attribution Illustration.png"
 		alt="Co-created attribution"
 	/>
 	<div class="image-attribution-statement">AIA PAI Nc Hin R DALL-E v1.0</div>

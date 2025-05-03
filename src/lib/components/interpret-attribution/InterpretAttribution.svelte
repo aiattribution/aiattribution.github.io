@@ -32,9 +32,10 @@
 	import { INTERPRET_ATTRIBUTION_SECTION_TITLE } from './constants';
 	import { getStatementComponents } from './utils';
 
+	export let statementToInterpret: string = '';
+
 	let attributionFormItems: FormItemI[] = structuredClone(ATTRIBUTION_FORM_ITEMS);
 
-	let statementToInterpret: string = '';
 	let statementExplained: string = '';
 	let statementAIAAndAttributionNumberExplained: string = '';
 	let statementHasAnError: boolean = false;
@@ -51,6 +52,10 @@
 
 	onMount(() => {
 		trackPageView({ url: 'interpret_attribution' });
+
+		if (statementToInterpret.trim() !== '') {
+			interpretStatement();
+		}
 	});
 
 	const resetState = (): void => {
@@ -353,14 +358,16 @@
 					<p class="explanation-text">{statementAIAAndAttributionNumberExplained}</p>
 				{/if}
 			</div>
-			<p class="sub-title">Components</p>
-			<div class="attribution-tags-container">
-				{#each attributionTags as attributionTag (attributionTag.id)}
-					{#if attributionTag.tags.length > 0}
-						<AttributionTag {attributionTag} />
-					{/if}
-				{/each}
-			</div>
+			{#if attributionTags.some((attributionTag) => attributionTag.tags.length > 0)}
+				<p class="sub-title">Components</p>
+				<div class="attribution-tags-container">
+					{#each attributionTags as attributionTag (attributionTag.id)}
+						{#if attributionTag.tags.length > 0}
+							<AttributionTag {attributionTag} />
+						{/if}
+					{/each}
+				</div>
+			{/if}
 		{/if}
 	</div>
 </div>
