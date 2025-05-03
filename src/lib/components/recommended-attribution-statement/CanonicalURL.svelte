@@ -1,13 +1,14 @@
 <script lang="ts">
-	import { apiService, utilsService } from '$lib/services';
+	import { base } from '$app/paths';
 	import { Button, Link } from 'carbon-components-svelte';
 	import { Copy } from 'carbon-icons-svelte';
+	import { apiService, utilsService } from '$lib/services';
 	import type { FormItemI } from '../create-attribution-statement/interfaces';
 
 	export let attributionFormItems: FormItemI[];
 	export let abbreviatedStatement: string;
 
-	const baseUrl: string = window.location.origin;
+	const baseUrl: string = window.location.origin + base;
 	let formattedStatement: string = '';
 	let fullUrl: string = '';
 	$: formattedStatement = abbreviatedStatement.trim().replace(/\s+/g, '-');

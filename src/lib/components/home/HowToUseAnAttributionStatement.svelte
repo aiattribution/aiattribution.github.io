@@ -1,4 +1,6 @@
-<script lang="ts"></script>
+<script lang="ts">
+	import { base } from '$app/paths';
+</script>
 
 <div class="section-container">
 	<h1 class="section-title">How to use an attribution statement</h1>
@@ -16,7 +18,7 @@
 		<div class="attribution-statement-example">
 			<img
 				class="attribution-statement-example-image"
-				src="/home-images/attribution-statement-example-1.png"
+				src="{base}/home-images/attribution-statement-example-1.png"
 				alt="Attribution Statement Example"
 			/>
 			<p class="image-caption">
@@ -27,7 +29,7 @@
 		<div class="attribution-statement-example">
 			<img
 				class="attribution-statement-example-image"
-				src="/home-images/attribution-statement-example-2.png"
+				src="{base}/home-images/attribution-statement-example-2.png"
 				alt="Attribution Statement Example"
 			/>
 			<p class="image-caption">
