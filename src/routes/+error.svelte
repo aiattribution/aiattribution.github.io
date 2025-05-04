@@ -3,9 +3,10 @@
 	import { onMount } from 'svelte';
 	import { Loading } from 'carbon-components-svelte';
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 
 	onMount(() => {
-		goto('/');
+		goto(base);
 	});
 </script>
 

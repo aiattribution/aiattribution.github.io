@@ -1,10 +1,23 @@
 <script lang="ts">
+	import { PUBLIC_UMAMI_SRC, PUBLIC_UMAMI_WEBSITE_ID } from '$env/static/public';
+	import { onMount } from 'svelte';
+	import { UmamiAnalytics } from '@lukulent/svelte-umami';
 	import { CreateAttributionStatement, Header, Home, InterpretAttribution } from '$lib';
 	import { HeaderNavType } from '../header/interfaces';
 
 	export let headerNavItemSelected: HeaderNavType;
 	export let statementToInterpret: string = '';
+
+	let isProduction: boolean = false;
+
+	onMount(() => {
+		isProduction = import.meta.env.MODE === 'production';
+	});
 </script>
+
+{#if isProduction}
+	<UmamiAnalytics websiteID={PUBLIC_UMAMI_WEBSITE_ID} srcURL={PUBLIC_UMAMI_SRC} />
+{/if}
 
 <div class="page-container">
 	<Header bind:headerNavItemSelected />
