@@ -293,6 +293,6 @@ export const generateCreateAttributeFormOptionsCombinations = (
 
 export const splitCombination = (combination: string): string[] => {
 	let combinations: string[] = combination.split(/\s+/);
-	combinations = mergeTagsInStatement(combinations, allTags);
+	combinations = mergeTagsInStatement(combinations, allTags, TAGS_WITH_ATTRIBUTION_TYPE);
 	return combinations;
 };
