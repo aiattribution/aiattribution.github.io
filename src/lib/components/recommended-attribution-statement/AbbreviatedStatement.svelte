@@ -17,8 +17,10 @@
 	const baseUrl: string = window.location.origin + base;
 	let formattedStatement: string = '';
 	let canonicalUrl: string = '';
-	$: formattedStatement = abbreviatedStatement.trim().replace(/\s+/g, '-');
-	$: canonicalUrl = `${baseUrl}/statements/${formattedStatement}`;
+	$: if (abbreviatedStatement) {
+		formattedStatement = abbreviatedStatement.trim().replace(/\s+/g, '-');
+		canonicalUrl = `${baseUrl}/statements/${formattedStatement}`;
+	}
 
 	$: attributionFormItems, updateFields();
 
