@@ -24,14 +24,14 @@
 			<script>
 				{
 					__sveltekit_121087x = {
-						base: new URL(".", location).pathname.slice(0, -1),
+						base: "",
 						assets: "https://aiattribution.github.io",
 						env: null
 					};
 
 					const element = document.currentScript.parentElement;
 
-					import("./app/env.js").then(({ env }) => {
+					import("/app/env.js").then(({ env }) => {
 						__sveltekit_121087x.env = env;
 
 						Promise.all([

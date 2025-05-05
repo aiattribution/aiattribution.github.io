@@ -1,0 +1,1 @@
+import{c as s,a as i}from"../chunks/Db-ttc-R.js";import{c as f,E as c,d as p,n as d,e as m,h,f as l,i as u}from"../chunks/DlQpbmKA.js";function v(e,t,...a){var n=e,o=d,r;f(()=>{o!==(o=t())&&(r&&(m(r),r=null),r=p(()=>o(n,...a)))},c),h&&(n=l)}function E(e,t){var a=s(),n=u(a);v(n,()=>t.children),i(e,a)}export{E as component};
