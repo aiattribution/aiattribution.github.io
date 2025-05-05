@@ -1,10 +1,20 @@
-import { AIProportionOptions, type TagI } from '../..//models/tag-library';
+import {
+	AIProportionOptions,
+	type TagI,
+	type TagsWithAttributionType
+} from '../..//models/tag-library';
 import {
 	AIA,
+	ATTRIBUTION_FORM_ITEMS,
 	NO_AI_USED_ABBREVIATED_STATEMENT,
 	NO_AI_USED_FULL_STATEMENT,
 	VERSIONS
 } from '../create-attribution-statement/constants';
+import {
+	AttributionType,
+	FormItemType,
+	type FormItemI
+} from '../create-attribution-statement/interfaces';
 
 const getMaxTagNameWordLength = (allTags: TagI[]): number => {
 	let maxTagNameWordLength: number = 0;
@@ -17,7 +27,29 @@ const getMaxTagNameWordLength = (allTags: TagI[]): number => {
 	return maxTagNameWordLength;
 };
 
-export const mergeTagsInStatement = (statementComponents: string[], allTags: TagI[]): string[] => {
+const getAllStringCombinations = (array: string[]): string[] => {
+	const result: Set<string> = new Set();
+
+	const permute = (prefix: string, remaining: string[]) => {
+		if (prefix.length > 0) {
+			result.add(prefix);
+		}
+		for (let i = 0; i < remaining.length; i++) {
+			const next: string[] = [...remaining];
+			const char: string[] = next.splice(i, 1);
+			permute(prefix + char[0], next);
+		}
+	};
+
+	permute('', array);
+	return Array.from(result);
+};
+
+export const mergeTagsInStatement = (
+	statementComponents: string[],
+	allTags: TagI[],
+	tagsWithAttributionType: TagsWithAttributionType[]
+): string[] => {
 	const maxWords: number = getMaxTagNameWordLength(allTags);
 
 	for (let i: number = 0; i < statementComponents.length; i++) {
@@ -51,9 +83,28 @@ export const mergeTagsInStatement = (statementComponents: string[], allTags: Tag
 
 	let taggedStatementComponents: { statement: string; isValidTag: boolean }[] = [];
 
+	let possibleTagsCombinations: string[] = [];
+	ATTRIBUTION_FORM_ITEMS.forEach((attributionFormItem: FormItemI) => {
+		if (attributionFormItem.attributionType !== AttributionType.MODEL) {
+			const tags: TagI[] =
+				tagsWithAttributionType.find(
+					(value) => value.attributionType === attributionFormItem.attributionType
+				)?.tags || [];
+			if (attributionFormItem.typeOfItem === FormItemType.checkbox) {
+				possibleTagsCombinations.push(
+					...getAllStringCombinations(tags.map((tag) => tag.abbreviation))
+				);
+			} else {
+				possibleTagsCombinations.push(...tags.map((tag) => tag.abbreviation));
+			}
+		}
+	});
+
 	for (let i: number = 0; i < statementComponents.length; i++) {
 		const statementComponent: string = statementComponents[i];
+
 		if (
+			possibleTagsCombinations.find((tagId: string) => tagId === statementComponent) ||
 			allTags.find(
 				(tag: TagI) =>
 					tag.abbreviation === statementComponent ||
@@ -99,7 +150,8 @@ export const mergeTagsInStatement = (statementComponents: string[], allTags: Tag
 
 export const getStatementComponents = (
 	statementToInterpret: string,
-	allTags: TagI[]
+	allTags: TagI[],
+	tagsWithAttributionType: TagsWithAttributionType[]
 ): [string[], string[]] => {
 	let statementComponents: string[] = [];
 	let fixedComponents: string[] = [];
@@ -135,7 +187,7 @@ export const getStatementComponents = (
 		}
 	}
 
-	statementComponents = mergeTagsInStatement(statementComponents, allTags);
+	statementComponents = mergeTagsInStatement(statementComponents, allTags, tagsWithAttributionType);
 
 	return [statementComponents, fixedComponents];
 };

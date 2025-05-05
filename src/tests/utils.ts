@@ -199,13 +199,20 @@ export const getTagDescriptions = (tagIds: string[]): string[] => {
 	return groupedDescriptions;
 };
 
-const getCreateAttributeFormOptionsCombinations = (arr: string[]): string[] => {
+const getCreateAttributeFormOptionsCombinations = (
+	arr: string[],
+	isAbbreviated: boolean
+): string[] => {
 	let result: string[] = [''];
 	const f = (prefix: string, arr: string[]) => {
 		for (let i: number = 0; i < arr.length; i++) {
 			const current: string = (prefix + arr[i]).trim();
 			result.push(current);
-			f((current + ' ').trim() + ' ', arr.slice(i + 1));
+			if (isAbbreviated) {
+				f((current + '').trim() + '', arr.slice(i + 1));
+			} else {
+				f((current + ' ').trim() + ' ', arr.slice(i + 1));
+			}
 		}
 	};
 	f('', arr);
@@ -269,7 +276,10 @@ export const generateCreateAttributeFormOptionsCombinations = (
 		) {
 			itemCombinations.push(['', ...options]);
 		} else if (item.typeOfItem === FormItemType.checkbox) {
-			const combinations: string[] = getCreateAttributeFormOptionsCombinations(options);
+			const combinations: string[] = getCreateAttributeFormOptionsCombinations(
+				options,
+				isAbbreviated
+			);
 			itemCombinations.push(['', ...combinations]);
 		}
 	}

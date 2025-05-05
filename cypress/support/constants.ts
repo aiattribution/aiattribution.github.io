@@ -4,7 +4,7 @@ import {
 	AIInitiativeOptions,
 	AIProportionOptions,
 	HumanReviewOptions,
-	TagI
+	type TagI
 } from '../../src/lib/models/tag-library';
 import { type TagsWithAttributionType } from './interfaces';
 

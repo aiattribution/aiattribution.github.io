@@ -9,7 +9,8 @@
 		AI_INITIATIVE_TAGS,
 		ALL_TAGS,
 		HUMAN_REVIEW_TAGS,
-		PROPORTIONS_OF_CONTRIBUTIONS_TAGS
+		PROPORTIONS_OF_CONTRIBUTIONS_TAGS,
+		TAGS_WITH_ATTRIBUTION_TYPE
 	} from '$lib/common/constants';
 	import { AIProportionOptions, type TagI } from '$lib/models/tag-library';
 	import { utilsService } from '$lib/services';
@@ -272,7 +273,11 @@
 
 		let statementComponents: string[] = [];
 		let fixedComponents: string[] = [];
-		[statementComponents, fixedComponents] = getStatementComponents(statementToInterpret, ALL_TAGS);
+		[statementComponents, fixedComponents] = getStatementComponents(
+			statementToInterpret,
+			ALL_TAGS,
+			TAGS_WITH_ATTRIBUTION_TYPE
+		);
 		if (statementComponents.length === 0) {
 			return;
 		}
