@@ -17,10 +17,6 @@
 	const baseUrl: string = window.location.origin + base;
 	let formattedStatement: string = '';
 	let canonicalUrl: string = '';
-	$: if (abbreviatedStatement) {
-		formattedStatement = abbreviatedStatement.trim().replace(/\s+/g, '-');
-		canonicalUrl = `${baseUrl}/statements/${formattedStatement}`;
-	}
 
 	$: attributionFormItems, updateFields();
 
@@ -41,6 +37,13 @@
 			updateAbbreviatedStatement();
 			await tick();
 			updateAbbreviatedStatementHTMLText();
+		}
+	};
+
+	const updateCanonicalURL = (): void => {
+		if (abbreviatedStatement) {
+			formattedStatement = abbreviatedStatement.trim().replace(/\s+/g, '-');
+			canonicalUrl = `${baseUrl}/statements/${formattedStatement}`;
 		}
 	};
 
@@ -84,8 +87,10 @@
 				).selectedOptions
 			);
 			abbreviatedStatement = `${AIA} ${proportionOfContribution} ${aiContribution} ${aiInitiatives} ${humanReview} ${aiUsed} ${LAST_VERSION}`;
+			updateCanonicalURL();
 		} else {
 			abbreviatedStatement = `${AIA} ${aiUsed} ${LAST_VERSION}`;
+			updateCanonicalURL();
 		}
 	};
 
