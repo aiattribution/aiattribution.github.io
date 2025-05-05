@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { tick } from 'svelte';
-	import { Button, Tab, Tabs } from 'carbon-components-svelte';
+	import { base } from '$app/paths';
+	import { Button, Link, Tab, Tabs } from 'carbon-components-svelte';
 	import { Copy, Download } from 'carbon-icons-svelte';
 	import { apiService, utilsService } from '$lib/services';
 	import {
@@ -12,6 +13,12 @@
 
 	export let attributionFormItems: FormItemI[];
 	export let abbreviatedStatement: string;
+
+	const baseUrl: string = window.location.origin + base;
+	let formattedStatement: string = '';
+	let canonicalUrl: string = '';
+	$: formattedStatement = abbreviatedStatement.trim().replace(/\s+/g, '-');
+	$: canonicalUrl = `${baseUrl}/statements/${formattedStatement}`;
 
 	$: attributionFormItems, updateFields();
 
@@ -140,7 +147,16 @@
 						bind:this={abbreviatedStatementHTMLContainer}
 						class="recommended-attribution-item-text-container"
 					>
-						<div class="recommended-attribution-item-text">{abbreviatedStatement}</div>
+						<div class="recommended-attribution-item-text">
+							<Link
+								class="recommended-attribution-item-text"
+								href={canonicalUrl}
+								target="_blank"
+								inline
+							>
+								{abbreviatedStatement}
+							</Link>
+						</div>
 						<div class="recommended-attribution-item-icons-container">
 							{#each utilsService.getAttributionIcons(attributionFormItems) as AttributionIcon}
 								<svelte:component this={AttributionIcon} />

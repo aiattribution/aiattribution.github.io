@@ -2,7 +2,6 @@
 	import {
 		AbbreviatedStatement,
 		AttributionStatementExplanation,
-		CanonicalURL,
 		ExpandedStatement,
 		FullStatement
 	} from '$lib';
@@ -41,9 +40,8 @@
 
 {#if hasAnyResponseToAnyFormItem()}
 	<AbbreviatedStatement {attributionFormItems} bind:abbreviatedStatement />
-	<FullStatement {attributionFormItems} />
+	<FullStatement {attributionFormItems} {abbreviatedStatement} />
 	<ExpandedStatement {attributionFormItems} />
-	<CanonicalURL {attributionFormItems} {abbreviatedStatement} />
 	<AttributionStatementExplanation {attributionFormItems} />
 {:else}
 	<p class="empty-state-text">Fill out the form to get started.</p>
