@@ -96,7 +96,13 @@
 	const copyAbbreviatedStatementTextToClipboard = async (): Promise<void> => {
 		try {
 			const statement: string = abbreviatedStatement.split(/\s+/).join(' ');
-			await navigator.clipboard.writeText(statement);
+			const statementWithURL: string = `<a href="${canonicalUrl}">${statement}</a>`;
+			await navigator.clipboard.write([
+				new ClipboardItem({
+					'text/plain': new Blob([statement], { type: 'text/plain' }),
+					'text/html': new Blob([statementWithURL], { type: 'text/html' })
+				})
+			]);
 			apiService.updateEventMetric('button_click_copy_abbreviated_statement_text', {
 				statementDisplayed: statement,
 				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
