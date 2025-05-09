@@ -4,7 +4,6 @@ import FormItem from './components/create-attribution-statement/form-item/FormIt
 import FormItems from './components/create-attribution-statement/form-items/FormItems.svelte';
 import Header from './components/header/Header.svelte';
 import Home from './components/home/Home.svelte';
-import LinkIcon from './components/icons/link-icon/LinkIcon.svelte';
 import AnatomyAbbreviatedStatement from './components/images/AnatomyAbbreviatedStatement.svelte';
 import AnatomyFullStatement from './components/images/AnatomyFullStatement.svelte';
 import InterpretAttribution from './components/interpret-attribution/InterpretAttribution.svelte';
@@ -32,7 +31,6 @@ export {
     Header,
     Home,
     InterpretAttribution,
-    LinkIcon,
     PageContent,
     RecommendedAttributionStatement,
     TagLibrary,

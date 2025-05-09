@@ -4,25 +4,12 @@
 	import type { AttributionTagI } from './interfaces';
 
 	let attributionTags: AttributionTagI[] = ATTRIBUTION_TAGS;
-
-	const copyLink = (): void => {
-		const url: string = `${window.location.origin}${window.location.pathname}#component-library`;
-		navigator.clipboard
-			.writeText(url)
-			.then(() => {
-				console.log('Link copied:', url);
-			})
-			.catch((err) => {
-				console.error('Error copying the link:', err);
-			});
-	};
 </script>
 
 <div id="component-library" class="section-container">
 	<div class="component-library-title-and-text-container">
 		<div class="component-library-title-container">
 			<h1 class="section-title">Component library</h1>
-			<!-- <LinkIcon on:iconClick={copyLink} /> -->
 		</div>
 		<p class="section-text">
 			All possible components of an attribution statement can be found in this library.
