@@ -63,11 +63,10 @@ Cypress.Commands.add('shouldHaveCorrectNumberOfRecommendedAttributionItems', () 
 		.should('have.length', 3);
 });
 
-const recommendedAttributionItemTextClass: string = '.recommended-attribution-item-text';
 Cypress.Commands.add(
 	'shouldHaveExpectedTextInRecommendedAttributionItem',
-	(recommendedAttributionItemNumber: number, expectedText: string) => {
-		cy.get(recommendedAttributionItemTextClass)
+	(classToSearch: string, recommendedAttributionItemNumber: number, expectedText: string) => {
+		cy.get(classToSearch)
 			.eq(recommendedAttributionItemNumber)
 			.invoke('text')
 			.then((text: string) => {
@@ -81,12 +80,18 @@ Cypress.Commands.add(
 	'shouldHaveExpectedTextsInRecommendedAttributionItems',
 	(tagIds: string[], modelName?: string) => {
 		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
+			'.recommended-attribution-item-text.bx--link',
 			0,
 			getAbbreviatedStatement(tagIds, modelName)
 		);
-		cy.shouldHaveExpectedTextInRecommendedAttributionItem(1, getFullStatement(tagIds, modelName));
 		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
-			2,
+			'.recommended-attribution-item-text.bx--link',
+			1,
+			getFullStatement(tagIds, modelName)
+		);
+		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
+			'.recommended-attribution-item-text',
+			4,
 			getExpandedStatement(tagIds, modelName)
 		);
 	}

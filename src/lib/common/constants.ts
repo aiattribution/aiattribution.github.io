@@ -1,3 +1,4 @@
+import { AttributionType } from '$lib/components/create-attribution-statement/interfaces';
 import {
 	AIInitiatedIcon,
 	CertifiedReviewIcon,
@@ -17,7 +18,8 @@ import {
 	AIInitiativeOptions,
 	AIProportionOptions,
 	HumanReviewOptions,
-	type TagI
+	type TagI,
+	type TagsWithAttributionType
 } from '$lib/models/tag-library';
 
 export const APP_TITLE: string = 'AI Attribution Toolkit';
@@ -131,4 +133,23 @@ export const ALL_TAGS: TagI[] = [
 	...AI_CONTRIBUTIONS_TAGS,
 	...AI_INITIATIVE_TAGS,
 	...HUMAN_REVIEW_TAGS
+];
+
+export const TAGS_WITH_ATTRIBUTION_TYPE: TagsWithAttributionType[] = [
+	{
+		attributionType: AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+		tags: PROPORTIONS_OF_CONTRIBUTIONS_TAGS
+	},
+	{
+		attributionType: AttributionType.AI_CONTRIBUTION,
+		tags: AI_CONTRIBUTIONS_TAGS
+	},
+	{
+		attributionType: AttributionType.AI_INITIATIVE,
+		tags: AI_INITIATIVE_TAGS
+	},
+	{
+		attributionType: AttributionType.HUMAN_REVIEW,
+		tags: HUMAN_REVIEW_TAGS
+	}
 ];

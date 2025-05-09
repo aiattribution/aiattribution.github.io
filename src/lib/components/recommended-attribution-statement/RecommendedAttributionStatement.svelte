@@ -13,6 +13,7 @@
 	$: attributionFormItems, saveFormStateToLocalStorage();
 
 	let saveInLocalStorage: boolean = false;
+	let abbreviatedStatement: string = '';
 
 	const saveFormStateToLocalStorage = (): void => {
 		if (saveInLocalStorage) {
@@ -38,8 +39,8 @@
 <h2 class="recommended-attribution-title">Recommended attribution statement</h2>
 
 {#if hasAnyResponseToAnyFormItem()}
-	<AbbreviatedStatement {attributionFormItems} />
-	<FullStatement {attributionFormItems} />
+	<AbbreviatedStatement {attributionFormItems} bind:abbreviatedStatement />
+	<FullStatement {attributionFormItems} {abbreviatedStatement} />
 	<ExpandedStatement {attributionFormItems} />
 	<AttributionStatementExplanation {attributionFormItems} />
 {:else}

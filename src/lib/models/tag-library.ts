@@ -1,3 +1,4 @@
+import type { AttributionType } from '$lib/components/create-attribution-statement/interfaces';
 import type { Component } from 'svelte';
 
 export enum AIProportionOptions {
@@ -30,4 +31,9 @@ export interface TagI {
 	abbreviation: string;
 	explanation: string;
 	iconComponent?: Component;
+}
+
+export interface TagsWithAttributionType {
+	attributionType: AttributionType;
+	tags: TagI[];
 }

@@ -14,6 +14,7 @@ declare namespace Cypress {
 		shouldHaveEmptyCreateStatementFormState(): Chainable<void>;
 		shouldHaveCorrectNumberOfRecommendedAttributionItems(): Chainable<void>;
 		shouldHaveExpectedTextInRecommendedAttributionItem(
+			classToSearch: string,
 			recommendedAttributionItemNumber: number,
 			expectedText: string
 		): Chainable<void>;
