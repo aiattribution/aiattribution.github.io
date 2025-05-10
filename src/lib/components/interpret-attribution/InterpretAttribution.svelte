@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { trackPageView } from '@lukulent/svelte-umami';
 	import { Button, TextInput } from 'carbon-components-svelte';
 	import { ArrowRight } from 'carbon-icons-svelte';
 	import { AttributionTag, TagLibrary } from '$lib';
@@ -52,8 +51,6 @@
 	];
 
 	onMount(() => {
-		trackPageView({ url: 'interpret_attribution' });
-
 		if (statementToInterpret.trim() !== '') {
 			interpretStatement();
 		}

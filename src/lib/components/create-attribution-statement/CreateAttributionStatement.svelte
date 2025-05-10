@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { trackPageView } from '@lukulent/svelte-umami';
 	import { Link } from 'carbon-components-svelte';
 	import { FormItems, RecommendedAttributionStatement } from '$lib';
 	import {
@@ -14,8 +13,6 @@
 	let attributionFormItems: FormItemI[] = structuredClone(ATTRIBUTION_FORM_ITEMS);
 
 	onMount(() => {
-		trackPageView({ url: 'create_attribution' });
-
 		const storedAttributionFormItems: string = localStorage.getItem(
 			ATTRIBUTION_FORM_ITEMS_LOCAL_STORAGE_KEY
 		);
