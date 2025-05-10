@@ -7,6 +7,7 @@
 		SideNavItems,
 		SideNavLink
 	} from 'carbon-components-svelte';
+	import { pushState } from '$app/navigation';
 	import { APP_TITLE } from '$lib/common/constants';
 	import { headerNavItemSelectedStore } from '$lib/stores';
 	import { HEADER_NAV_ITEMS } from './constants';
@@ -17,6 +18,7 @@
 
 	const onHeaderNavItemClick = (headerNavItem: HeaderNavItemI): void => {
 		headerNavItemSelectedStore.setHeaderNavItemSelected(headerNavItem);
+		pushState(headerNavItem.route);
 	};
 </script>
 
