@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { Link } from 'carbon-components-svelte';
-	import { FormItems, RecommendedAttributionStatement } from '$lib';
+	import { RecommendedAttributionStatement } from '$lib';
 	import {
 		ATTRIBUTION_FORM_ITEMS_LOCAL_STORAGE_KEY,
 		MONDAY_FORM_LINK
 	} from '$lib/common/constants';
 	import { analyticsService } from '$lib/services';
+	import { FormItems } from '.';
 	import { ATTRIBUTION_FORM_ITEMS, CREATE_ATTRIBUTION_SECTION_TITLE } from './constants';
 	import { FormItemIArraySchema, type FormItemI } from './interfaces';
 

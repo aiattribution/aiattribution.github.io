@@ -1,12 +1,8 @@
 <script lang="ts">
 	import { type Component } from 'svelte';
 	import { utilsService } from '$lib/services';
-	import {
-		AIA_EXPLANATION,
-		getVersionExplanation,
-		LAST_VERSION
-	} from '../create-attribution-statement/constants';
-	import { AttributionType, type FormItemI } from '../create-attribution-statement/interfaces';
+	import { AIA_EXPLANATION, getVersionExplanation, LAST_VERSION } from '../constants';
+	import { AttributionType, type FormItemI } from '../interfaces';
 
 	export let attributionFormItems: FormItemI[];
 

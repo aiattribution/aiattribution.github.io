@@ -1,12 +1,12 @@
 <script lang="ts">
+	import { ATTRIBUTION_FORM_ITEMS_LOCAL_STORAGE_KEY } from '$lib/common/constants';
 	import {
 		AbbreviatedStatement,
 		AttributionStatementExplanation,
 		ExpandedStatement,
 		FullStatement
-	} from '$lib';
-	import { ATTRIBUTION_FORM_ITEMS_LOCAL_STORAGE_KEY } from '$lib/common/constants';
-	import { type FormItemI } from '../create-attribution-statement/interfaces';
+	} from '..';
+	import { type FormItemI } from '../interfaces';
 
 	export let attributionFormItems: FormItemI[];
 

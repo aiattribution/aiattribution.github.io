@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { FormItem } from '$lib';
 	import { AIProportionOptions } from '$lib/models/tag-library';
 	import { utilsService } from '$lib/services';
+	import { FormItem } from '..';
 	import { AttributionType, type FormItemI } from '../interfaces';
 
 	export let attributionFormItems: FormItemI[];

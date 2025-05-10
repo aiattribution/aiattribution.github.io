@@ -2,7 +2,7 @@
 	import { Button } from 'carbon-components-svelte';
 	import { Copy } from 'carbon-icons-svelte';
 	import { analyticsService, utilsService } from '$lib/services';
-	import type { FormItemI } from '../create-attribution-statement/interfaces';
+	import type { FormItemI } from '../interfaces';
 
 	export let attributionFormItems: FormItemI[];
 
