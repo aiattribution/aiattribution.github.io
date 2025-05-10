@@ -1,3 +1,4 @@
+import { pushState } from '$app/navigation';
 import { HEADER_NAV_ITEM_HOME } from '$lib/components/header/constants';
 import type { HeaderNavItemI } from '$lib/components/header/interfaces';
 import { writable, type Writable } from 'svelte/store';
@@ -9,6 +10,7 @@ export const headerNavItemSelectedStore = {
 	setHeaderNavItemSelected: (itemSelected: HeaderNavItemI) => {
 		headerNavItemSelected.update((value: HeaderNavItemI) => {
 			value = itemSelected;
+			pushState(itemSelected.route);
 			return value;
 		});
 	}
