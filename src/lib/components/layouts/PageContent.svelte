@@ -3,9 +3,9 @@
 	import { onMount } from 'svelte';
 	import { UmamiAnalytics } from '@lukulent/svelte-umami';
 	import { CreateAttributionStatement, Header, Home, InterpretAttribution } from '$lib';
+	import { headerNavItemSelectedStore } from '$lib/stores';
 	import { HeaderNavType } from '../header/interfaces';
 
-	export let headerNavItemSelected: HeaderNavType;
 	export let statementToInterpret: string = '';
 
 	let isProduction: boolean = false;
@@ -20,13 +20,13 @@
 {/if}
 
 <div class="page-container">
-	<Header bind:headerNavItemSelected />
+	<Header />
 	<div class="page-content">
-		{#if headerNavItemSelected === HeaderNavType.HOME}
-			<Home bind:headerNavItemSelected />
-		{:else if headerNavItemSelected === HeaderNavType.CREATE_ATTRIBUTION}
+		{#if $headerNavItemSelectedStore.text === HeaderNavType.HOME}
+			<Home />
+		{:else if $headerNavItemSelectedStore.text === HeaderNavType.CREATE_ATTRIBUTION}
 			<CreateAttributionStatement />
-		{:else if headerNavItemSelected === HeaderNavType.INTERPRET_ATTRIBUTION}
+		{:else if $headerNavItemSelectedStore.text === HeaderNavType.INTERPRET_ATTRIBUTION}
 			<InterpretAttribution bind:statementToInterpret />
 		{/if}
 		<div class="footer"></div>

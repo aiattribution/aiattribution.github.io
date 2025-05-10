@@ -8,16 +8,15 @@
 		SideNavLink
 	} from 'carbon-components-svelte';
 	import { APP_TITLE } from '$lib/common/constants';
+	import { headerNavItemSelectedStore } from '$lib/stores';
 	import { HEADER_NAV_ITEMS } from './constants';
-	import type { HeaderNavItemI, HeaderNavType } from './interfaces';
-
-	export let headerNavItemSelected: HeaderNavType;
+	import type { HeaderNavItemI } from './interfaces';
 
 	let headerNavItems: HeaderNavItemI[] = HEADER_NAV_ITEMS;
 	let isSideNavOpen: boolean = false;
 
 	const onHeaderNavItemClick = (headerNavItem: HeaderNavItemI): void => {
-		headerNavItemSelected = headerNavItem.text;
+		headerNavItemSelectedStore.setHeaderNavItemSelected(headerNavItem);
 	};
 </script>
 
@@ -26,7 +25,7 @@
 		{#each headerNavItems as headerNavItem (headerNavItem.id)}
 			<HeaderNavItem
 				text={headerNavItem.text}
-				isSelected={headerNavItem.text === headerNavItemSelected}
+				isSelected={headerNavItem.text === $headerNavItemSelectedStore.text}
 				on:click={() => {
 					onHeaderNavItemClick(headerNavItem);
 				}}
@@ -40,7 +39,7 @@
 		{#each headerNavItems as headerNavItem (headerNavItem.id)}
 			<SideNavLink
 				text={headerNavItem.text}
-				isSelected={headerNavItem.text === headerNavItemSelected}
+				isSelected={headerNavItem.text === $headerNavItemSelectedStore.text}
 				on:click={() => {
 					onHeaderNavItemClick(headerNavItem);
 				}}

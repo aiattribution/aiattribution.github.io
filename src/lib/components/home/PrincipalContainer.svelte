@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { Button, ButtonSet, Link } from 'carbon-components-svelte';
-	import { HeaderNavType } from '$lib/components/header/interfaces';
+	import {
+		HEADER_NAV_ITEM_CREATE_ATTRIBUTION,
+		HEADER_NAV_ITEM_INTERPRET_ATTRIBUTION
+	} from '$lib/components/header/constants';
 	import { analyticsService } from '$lib/services';
+	import { headerNavItemSelectedStore } from '$lib/stores';
 	import { PrincipalContainerImage } from '.';
-
-	export let headerNavItemSelected: HeaderNavType;
 
 	let isMobile: boolean = false;
 	let isMobileOrTablet: boolean = false;
@@ -60,7 +62,7 @@
 			<Button
 				kind="primary"
 				on:click={() => {
-					headerNavItemSelected = HeaderNavType.CREATE_ATTRIBUTION;
+					headerNavItemSelectedStore.setHeaderNavItemSelected(HEADER_NAV_ITEM_CREATE_ATTRIBUTION);
 				}}
 			>
 				Create an attribution
@@ -68,7 +70,9 @@
 			<Button
 				kind="tertiary"
 				on:click={() => {
-					headerNavItemSelected = HeaderNavType.INTERPRET_ATTRIBUTION;
+					headerNavItemSelectedStore.setHeaderNavItemSelected(
+						HEADER_NAV_ITEM_INTERPRET_ATTRIBUTION
+					);
 				}}
 			>
 				Interpret an attribution

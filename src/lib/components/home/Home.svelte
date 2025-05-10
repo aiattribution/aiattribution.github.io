@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { HeaderNavType } from '$lib/components/header/interfaces';
 	import {
 		AnatomyAttributionStatement,
 		HowToUseAnAttributionStatement,
@@ -9,12 +8,10 @@
 		WhyIsThisNeeded
 	} from '.';
 
-	export let headerNavItemSelected: HeaderNavType;
-
 	onMount(() => {});
 </script>
 
-<PrincipalContainer bind:headerNavItemSelected />
+<PrincipalContainer />
 <AnatomyAttributionStatement />
 <div class="center-content-container">
 	<HowToUseAnAttributionStatement />
