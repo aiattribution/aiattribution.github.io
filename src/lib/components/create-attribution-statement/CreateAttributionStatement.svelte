@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { trackEvent, trackPageView } from '@lukulent/svelte-umami';
+	import { trackPageView } from '@lukulent/svelte-umami';
 	import { Link } from 'carbon-components-svelte';
 	import { FormItems, RecommendedAttributionStatement } from '$lib';
 	import {
 		ATTRIBUTION_FORM_ITEMS_LOCAL_STORAGE_KEY,
 		MONDAY_FORM_LINK
 	} from '$lib/common/constants';
+	import { analyticsService } from '$lib/services';
 	import { ATTRIBUTION_FORM_ITEMS, CREATE_ATTRIBUTION_SECTION_TITLE } from './constants';
 	import { FormItemIArraySchema, type FormItemI } from './interfaces';
 
@@ -29,7 +30,7 @@
 	});
 
 	const onClickMondayFormLink = (): void => {
-		trackEvent('link_click_monday_form');
+		analyticsService.trackLinkClickMetric('link_click_monday_form');
 	};
 </script>
 

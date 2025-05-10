@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { trackEvent, trackPageView } from '@lukulent/svelte-umami';
+	import { trackPageView } from '@lukulent/svelte-umami';
 	import { Button, TextInput } from 'carbon-components-svelte';
 	import { ArrowRight } from 'carbon-icons-svelte';
 	import { AttributionTag, TagLibrary } from '$lib';
@@ -13,7 +13,7 @@
 		TAGS_WITH_ATTRIBUTION_TYPE
 	} from '$lib/common/constants';
 	import { AIProportionOptions, type TagI } from '$lib/models/tag-library';
-	import { utilsService } from '$lib/services';
+	import { analyticsService, utilsService } from '$lib/services';
 	import {
 		AIA,
 		AIA_INTERPRET_STATEMENT_EXPLANATION,
@@ -321,7 +321,7 @@
 			};
 		});
 
-		trackEvent('button_click_interpret_statement', { userEnteredStatement: statementToInterpret });
+		analyticsService.trackInterpretStatementMetric(statementToInterpret);
 	};
 </script>
 

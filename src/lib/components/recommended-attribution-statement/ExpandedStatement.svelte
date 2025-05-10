@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button } from 'carbon-components-svelte';
 	import { Copy } from 'carbon-icons-svelte';
-	import { apiService, utilsService } from '$lib/services';
+	import { analyticsService, utilsService } from '$lib/services';
 	import type { FormItemI } from '../create-attribution-statement/interfaces';
 
 	export let attributionFormItems: FormItemI[];
@@ -13,7 +13,7 @@
 				.split(/\s+/)
 				.join(' ');
 			await navigator.clipboard.writeText(statement);
-			apiService.updateEventMetric('button_click_copy_expanded_statement_text', {
+			analyticsService.trackStatementMetric('button_click_copy_expanded_statement_text', {
 				statementDisplayed: statement,
 				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
 				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),

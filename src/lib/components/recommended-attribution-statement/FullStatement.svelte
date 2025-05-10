@@ -3,7 +3,7 @@
 	import { base } from '$app/paths';
 	import { Button, Link, Tab, Tabs } from 'carbon-components-svelte';
 	import { Copy, Download } from 'carbon-icons-svelte';
-	import { apiService, utilsService } from '$lib/services';
+	import { analyticsService, utilsService } from '$lib/services';
 	import { AttributionType, type FormItemI } from '../create-attribution-statement/interfaces';
 	import {
 		AIA,
@@ -45,7 +45,7 @@
 	const handleBeforeUnload = (event) => {
 		event.preventDefault();
 		const statement: string = fullStatement.split(/\s+/).join(' ');
-		apiService.updateEventMetric('site_close', {
+		analyticsService.trackStatementMetric('site_close', {
 			statementDisplayed: statement,
 			fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
 			fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
@@ -136,7 +136,7 @@
 					'text/html': new Blob([statementWithURL], { type: 'text/html' })
 				})
 			]);
-			apiService.updateEventMetric('button_click_copy_full_statement_text', {
+			analyticsService.trackStatementMetric('button_click_copy_full_statement_text', {
 				statementDisplayed: statement,
 				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
 				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
@@ -150,7 +150,7 @@
 	const downloadFullStatementTextSVG = (): void => {
 		utilsService.downloadStatementSVG(fullStatementHTMLContainer, 'full_statement');
 		const statement: string = fullStatement.split(/\s+/).join(' ');
-		apiService.updateEventMetric('button_click_download_full_statement_text', {
+		analyticsService.trackStatementMetric('button_click_download_full_statement_text', {
 			statementDisplayed: statement,
 			fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
 			fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
@@ -162,7 +162,7 @@
 		try {
 			const statement: string = fullStatementHTMLText;
 			await navigator.clipboard.writeText(statement);
-			apiService.updateEventMetric('button_click_copy_full_statement_html', {
+			analyticsService.trackStatementMetric('button_click_copy_full_statement_html', {
 				statementDisplayed: statement,
 				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
 				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),

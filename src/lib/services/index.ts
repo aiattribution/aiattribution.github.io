@@ -1,4 +1,4 @@
-import apiService from '$lib/services/api/api-service';
+import analyticsService from '$lib/services/analytics/analytics-service';
 import utilsService from '$lib/services/utils-service';
 
-export { apiService, utilsService };
+export { analyticsService, utilsService };

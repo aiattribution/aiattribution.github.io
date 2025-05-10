@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { trackEvent } from '@lukulent/svelte-umami';
 	import { Link, SkeletonPlaceholder } from 'carbon-components-svelte';
 	import { MONDAY_FORM_EMBED_LINK } from '$lib/common/constants';
+	import { analyticsService } from '$lib/services';
 
 	let isIfraneLoading: boolean = true;
 
@@ -10,7 +10,7 @@
 	};
 
 	const onClickGitHubIssuesLink = (): void => {
-		trackEvent('link_click_github_issues');
+		analyticsService.trackLinkClickMetric('link_click_github_issues');
 	};
 </script>
 

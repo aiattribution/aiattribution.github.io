@@ -3,7 +3,7 @@
 	import { base } from '$app/paths';
 	import { Button, Link, Tab, Tabs } from 'carbon-components-svelte';
 	import { Copy, Download } from 'carbon-icons-svelte';
-	import { apiService, utilsService } from '$lib/services';
+	import { analyticsService, utilsService } from '$lib/services';
 	import {
 		AIA,
 		LAST_VERSION,
@@ -110,7 +110,7 @@
 					'text/html': new Blob([statementWithURL], { type: 'text/html' })
 				})
 			]);
-			apiService.updateEventMetric('button_click_copy_abbreviated_statement_text', {
+			analyticsService.trackStatementMetric('button_click_copy_abbreviated_statement_text', {
 				statementDisplayed: statement,
 				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
 				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
@@ -124,7 +124,7 @@
 	const downloadAbbreviatedStatementTextSVG = (): void => {
 		utilsService.downloadStatementSVG(abbreviatedStatementHTMLContainer, 'abbreviated_statement');
 		const statement: string = abbreviatedStatement.split(/\s+/).join(' ');
-		apiService.updateEventMetric('button_click_download_abbreviated_statement_text', {
+		analyticsService.trackStatementMetric('button_click_download_abbreviated_statement_text', {
 			statementDisplayed: statement,
 			fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
 			fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
@@ -136,7 +136,7 @@
 		try {
 			const statement: string = abbreviatedStatementHTMLText;
 			await navigator.clipboard.writeText(statement);
-			apiService.updateEventMetric('button_click_copy_abbreviated_statement_html', {
+			analyticsService.trackStatementMetric('button_click_copy_abbreviated_statement_html', {
 				statementDisplayed: statement,
 				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
 				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),

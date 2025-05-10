@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { trackEvent } from '@lukulent/svelte-umami';
 	import { Button, ButtonSet, Link } from 'carbon-components-svelte';
 	import { HeaderNavType } from '$lib/components/header/interfaces';
+	import { analyticsService } from '$lib/services';
 	import { PrincipalContainerImage } from '.';
 
 	export let headerNavItemSelected: HeaderNavType;
@@ -25,7 +25,7 @@
 	};
 
 	const onClickCHIPaperLink = (): void => {
-		trackEvent('link_click_chi_paper');
+		analyticsService.trackLinkClickMetric('link_click_chi_paper');
 	};
 </script>
 
