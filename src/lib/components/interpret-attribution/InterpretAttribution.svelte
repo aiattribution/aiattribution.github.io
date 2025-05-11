@@ -17,8 +17,7 @@
 		AIA,
 		AIA_INTERPRET_STATEMENT_EXPLANATION,
 		ATTRIBUTION_FORM_ITEMS,
-		NO_AI_USED_ABBREVIATED_STATEMENT,
-		NO_AI_USED_FULL_STATEMENT,
+		NO_AI_USED,
 		VERSIONS,
 		getVersionInterpretStatementExplanation
 	} from '../create-attribution-statement/constants';
@@ -87,8 +86,7 @@
 				statementComponentToEvaluate === tag.name ||
 				statementComponentToEvaluate === tag.abbreviation ||
 				(tag.id === AIProportionOptions.ENTIRELY_HUMAN_CREATED &&
-					(statementComponentToEvaluate === NO_AI_USED_ABBREVIATED_STATEMENT ||
-						statementComponentToEvaluate === NO_AI_USED_FULL_STATEMENT))
+					statementComponentToEvaluate === NO_AI_USED)
 			) {
 				tagIds = [...tagIds, tag.id];
 				return true;

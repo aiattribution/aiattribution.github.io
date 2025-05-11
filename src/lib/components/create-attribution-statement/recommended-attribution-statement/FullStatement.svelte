@@ -2,7 +2,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { base } from '$app/paths';
 	import { analyticsService, utilsService } from '$lib/services';
-	import { AIA, LAST_VERSION, NO_AI_USED_FULL_STATEMENT } from '../constants';
+	import { AIA, LAST_VERSION, NO_AI_USED } from '../constants';
 	import { AttributionType, type FormItemI } from '../interfaces';
 	import StatementRenderer from './StatementRenderer.svelte';
 
@@ -94,7 +94,7 @@
 			}
 			fullStatement = `${AIA} ${proportionOfContribution}${aiContribution}${aiInitiatives}${humanReview}${aiUsed} ${LAST_VERSION}`;
 		} else {
-			aiUsed = NO_AI_USED_FULL_STATEMENT;
+			aiUsed = NO_AI_USED;
 			fullStatement = `${AIA} ${aiUsed} ${LAST_VERSION}`;
 		}
 	};

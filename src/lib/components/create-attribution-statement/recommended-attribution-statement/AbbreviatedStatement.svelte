@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import { utilsService } from '$lib/services';
-	import { AIA, LAST_VERSION, NO_AI_USED_ABBREVIATED_STATEMENT } from '../constants';
+	import { AIA, LAST_VERSION, NO_AI_USED } from '../constants';
 	import { AttributionType, type FormItemI } from '../interfaces';
 	import StatementRenderer from './StatementRenderer.svelte';
 
@@ -33,7 +33,7 @@
 		if (isAIUsageOptionYes) {
 			aiUsed = modelSelected.length > 0 ? modelSelected : '';
 		} else {
-			aiUsed = NO_AI_USED_ABBREVIATED_STATEMENT;
+			aiUsed = NO_AI_USED;
 		}
 
 		if (isAIUsageOptionYes) {

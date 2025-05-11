@@ -3,8 +3,7 @@ import {
 	AIA,
 	ATTRIBUTION_FORM_ITEMS,
 	LAST_VERSION,
-	NO_AI_USED_ABBREVIATED_STATEMENT,
-	NO_AI_USED_FULL_STATEMENT
+	NO_AI_USED
 } from '../lib/components/create-attribution-statement/constants';
 import {
 	AttributionType,
@@ -49,7 +48,7 @@ export const getTagAbbreviation = (tagId: string): string => {
 	for (let index: number = 0; index < allTags.length; index++) {
 		const tag: TagI = allTags[index];
 		if (tagId === tag.id && tagId === AIProportionOptions.ENTIRELY_HUMAN_CREATED) {
-			tagAbbreviation = NO_AI_USED_ABBREVIATED_STATEMENT;
+			tagAbbreviation = NO_AI_USED;
 			break;
 		} else if (tagId === tag.id) {
 			tagAbbreviation = tag.abbreviation;
@@ -88,7 +87,7 @@ export const getTagName = (tagId: string): string => {
 	for (let index: number = 0; index < allTags.length; index++) {
 		const tag: TagI = allTags[index];
 		if (tagId === tag.id && tagId === AIProportionOptions.ENTIRELY_HUMAN_CREATED) {
-			tagName = NO_AI_USED_FULL_STATEMENT;
+			tagName = NO_AI_USED;
 			break;
 		} else if (tagId === tag.id) {
 			tagName = tag.name;

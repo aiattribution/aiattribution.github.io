@@ -6,8 +6,7 @@ import {
 import {
 	AIA,
 	ATTRIBUTION_FORM_ITEMS,
-	NO_AI_USED_ABBREVIATED_STATEMENT,
-	NO_AI_USED_FULL_STATEMENT,
+	NO_AI_USED,
 	VERSIONS
 } from '../create-attribution-statement/constants';
 import {
@@ -53,19 +52,8 @@ export const mergeTagsInStatement = (
 	const maxWords: number = getMaxTagNameWordLength(allTags);
 
 	for (let i: number = 0; i < statementComponents.length; i++) {
-		// Case 1: "No", "AI"
 		if (statementComponents[i] === 'No' && statementComponents[i + 1] === 'AI') {
-			statementComponents.splice(i, 2, NO_AI_USED_ABBREVIATED_STATEMENT);
-			break;
-		}
-
-		// Case 2: "AI", "not", "used"
-		if (
-			statementComponents[i] === 'AI' &&
-			statementComponents[i + 1] === 'not' &&
-			statementComponents[i + 2] === 'used'
-		) {
-			statementComponents.splice(i, 3, NO_AI_USED_FULL_STATEMENT);
+			statementComponents.splice(i, 2, NO_AI_USED);
 			break;
 		}
 
@@ -110,8 +98,7 @@ export const mergeTagsInStatement = (
 					tag.abbreviation === statementComponent ||
 					tag.name === statementComponent ||
 					(tag.id === AIProportionOptions.ENTIRELY_HUMAN_CREATED &&
-						(statementComponent === NO_AI_USED_ABBREVIATED_STATEMENT ||
-							statementComponent === NO_AI_USED_FULL_STATEMENT))
+						statementComponent === NO_AI_USED)
 			)
 		) {
 			taggedStatementComponents.push({ statement: statementComponent, isValidTag: true });
