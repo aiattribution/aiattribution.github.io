@@ -1,5 +1,10 @@
 import { ALL_TAGS } from '$lib/common/constants';
 import {
+	AIA,
+	LAST_VERSION,
+	NO_AI_USED
+} from '$lib/components/create-attribution-statement/constants';
+import {
 	AttributionType,
 	type FormItemI
 } from '$lib/components/create-attribution-statement/interfaces';
@@ -41,54 +46,84 @@ class UtilsService {
 		return selectedOption !== AIProportionOptions.ENTIRELY_HUMAN_CREATED;
 	}
 
-	public getConcatenatedOptionsAbbreviatedStatement(options: string[]): string {
-		return options
-			.map((option: string) => {
-				const tag: TagI = ALL_TAGS.find((tag: TagI) => {
-					return tag.id === option;
-				});
-				if (tag) {
-					return tag.abbreviation;
-				} else {
-					return '';
-				}
-			})
-			.join('');
+	public getTagAssociatedWithSelectedOption(option: string): TagI {
+		return ALL_TAGS.find((tag: TagI) => tag.id === option);
 	}
 
-	public getConcatenatedOptionsFullStatement(
-		options: string[],
-		includeFirstComma: boolean = true
-	): string {
+	public getConcatenatedOptionsAbbreviatedStatement = (options: string[]): string => {
 		return options
-			.map((option: string, index: number) => {
-				const tag: TagI = ALL_TAGS.find((tag: TagI) => {
-					return tag.id === option;
-				});
-				if (tag) {
-					if (includeFirstComma || index !== 0) {
-						return `, ${tag.name}`;
-					} else {
-						return `${tag.name}`;
-					}
-				} else {
-					return '';
-				}
+			.map((option: string) => {
+				const tag: TagI = this.getTagAssociatedWithSelectedOption(option);
+				return tag ? tag.abbreviation : '';
 			})
 			.join('');
+	};
+
+	public getConcatenatedOptionsFullStatement = (options: string[]): string => {
+		return options
+			.map((option: string) => {
+				const tag: TagI = this.getTagAssociatedWithSelectedOption(option);
+				return tag ? tag.name : '';
+			})
+			.join(', ');
+	};
+
+	public getStatementText(
+		attributionFormItems: FormItemI[],
+		getConcatenatedOptionsStatementText: (options: string[]) => string,
+		joinComponentText: string
+	): string {
+		let statementText: string = '';
+		let aiUsed: string = '';
+		const isAIUsageOptionYes: boolean = this.isAIUsageOptionYes(attributionFormItems);
+		const modelSelected: string = this.getAttributionFormItemByType(
+			AttributionType.MODEL,
+			attributionFormItems
+		).selectedOptions[0];
+		if (isAIUsageOptionYes) {
+			aiUsed = modelSelected.length > 0 ? modelSelected : '';
+		} else {
+			aiUsed = NO_AI_USED;
+		}
+
+		if (isAIUsageOptionYes) {
+			const proportionOfContribution: string = getConcatenatedOptionsStatementText(
+				this.getAttributionFormItemByType(
+					AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
+					attributionFormItems
+				).selectedOptions
+			);
+			const aiContribution: string = getConcatenatedOptionsStatementText(
+				this.getAttributionFormItemByType(AttributionType.AI_CONTRIBUTION, attributionFormItems)
+					.selectedOptions
+			);
+			const aiInitiatives: string = getConcatenatedOptionsStatementText(
+				this.getAttributionFormItemByType(AttributionType.AI_INITIATIVE, attributionFormItems)
+					.selectedOptions
+			);
+			const humanReview: string = getConcatenatedOptionsStatementText(
+				this.getAttributionFormItemByType(AttributionType.HUMAN_REVIEW, attributionFormItems)
+					.selectedOptions
+			);
+			const statementComponents: string[] = [
+				proportionOfContribution,
+				aiContribution,
+				aiInitiatives,
+				humanReview,
+				aiUsed
+			];
+			statementText = `${AIA} ${statementComponents.filter((value: string) => value.trim()).join(joinComponentText)} ${LAST_VERSION}`;
+		} else {
+			statementText = `${AIA} ${aiUsed} ${LAST_VERSION}`;
+		}
+		return statementText;
 	}
 
 	public getConcatenatedOptionsExplanations(options: string[]): string {
 		return options
 			.map((option: string) => {
-				const tag: TagI = ALL_TAGS.find((tag: TagI) => {
-					return tag.id === option;
-				});
-				if (tag) {
-					return `${tag.explanation}`;
-				} else {
-					return '';
-				}
+				const tag: TagI = this.getTagAssociatedWithSelectedOption(option);
+				return tag ? tag.explanation : '';
 			})
 			.join(' ');
 	}
@@ -96,14 +131,8 @@ class UtilsService {
 	public getConcatenatedOptionsIcons(options: string[]): Component[] {
 		return options
 			.map((option: string) => {
-				const tag: TagI = ALL_TAGS.find((tag: TagI) => {
-					return tag.id === option;
-				});
-				if (tag) {
-					return tag.iconComponent;
-				} else {
-					return null;
-				}
+				const tag: TagI = this.getTagAssociatedWithSelectedOption(option);
+				return tag ? tag.iconComponent : null;
 			})
 			.filter((component: Component) => component !== null);
 	}
@@ -151,7 +180,7 @@ class UtilsService {
 		const getIconsFromOptions = (type: AttributionType): Component[] => {
 			return this.getAttributionFormItemByType(type, attributionFormItems)
 				.selectedOptions.map((option: string) => {
-					const tag: TagI = ALL_TAGS.find((tag: TagI) => tag.id === option);
+					const tag: TagI = this.getTagAssociatedWithSelectedOption(option);
 					return tag ? tag.iconComponent : null;
 				})
 				.filter(Boolean);

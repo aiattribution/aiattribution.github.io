@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import { utilsService } from '$lib/services';
-	import { AIA, LAST_VERSION, NO_AI_USED } from '../constants';
-	import { AttributionType, type FormItemI } from '../interfaces';
+	import { type FormItemI } from '../interfaces';
 	import StatementRenderer from './StatementRenderer.svelte';
 
 	export let attributionFormItems: FormItemI[];
@@ -24,50 +23,12 @@
 	};
 
 	const updateAbbreviatedStatement = (): void => {
-		let aiUsed: string = '';
-		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attributionFormItems);
-		const modelSelected: string = utilsService.getAttributionFormItemByType(
-			AttributionType.MODEL,
-			attributionFormItems
-		).selectedOptions[0];
-		if (isAIUsageOptionYes) {
-			aiUsed = modelSelected.length > 0 ? modelSelected : '';
-		} else {
-			aiUsed = NO_AI_USED;
-		}
-
-		if (isAIUsageOptionYes) {
-			const proportionOfContribution: string =
-				utilsService.getConcatenatedOptionsAbbreviatedStatement(
-					utilsService.getAttributionFormItemByType(
-						AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-						attributionFormItems
-					).selectedOptions
-				);
-			const aiContribution: string = utilsService.getConcatenatedOptionsAbbreviatedStatement(
-				utilsService.getAttributionFormItemByType(
-					AttributionType.AI_CONTRIBUTION,
-					attributionFormItems
-				).selectedOptions
-			);
-			const aiInitiatives: string = utilsService.getConcatenatedOptionsAbbreviatedStatement(
-				utilsService.getAttributionFormItemByType(
-					AttributionType.AI_INITIATIVE,
-					attributionFormItems
-				).selectedOptions
-			);
-			const humanReview: string = utilsService.getConcatenatedOptionsAbbreviatedStatement(
-				utilsService.getAttributionFormItemByType(
-					AttributionType.HUMAN_REVIEW,
-					attributionFormItems
-				).selectedOptions
-			);
-			abbreviatedStatement = `${AIA} ${proportionOfContribution} ${aiContribution} ${aiInitiatives} ${humanReview} ${aiUsed} ${LAST_VERSION}`;
-			updateCanonicalURL();
-		} else {
-			abbreviatedStatement = `${AIA} ${aiUsed} ${LAST_VERSION}`;
-			updateCanonicalURL();
-		}
+		abbreviatedStatement = utilsService.getStatementText(
+			attributionFormItems,
+			utilsService.getConcatenatedOptionsAbbreviatedStatement,
+			' '
+		);
+		updateCanonicalURL();
 	};
 
 	const updateAbbreviatedStatementHTMLText = (): void => {

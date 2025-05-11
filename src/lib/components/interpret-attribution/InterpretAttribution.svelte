@@ -303,7 +303,7 @@
 			.flatMap((item: FormItemI) => item.selectedOptions)
 			.filter((selectedOption: string) => selectedOption.trim());
 		const tagsIdentified: TagI[] = selectedOptionsList.map((selectedOption: string) => {
-			return ALL_TAGS.find((tag: TagI) => tag.id === selectedOption);
+			return utilsService.getTagAssociatedWithSelectedOption(selectedOption);
 		});
 		attributionTags = attributionTags.map((attributionTag: AttributionTagI) => {
 			const filteredTags: TagI[] = attributionTag.tags.filter((tag: TagI) =>

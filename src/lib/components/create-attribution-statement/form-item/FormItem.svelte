@@ -198,7 +198,7 @@
 			{#if formItem.typeOfItem === FormItemType.textInput}
 				{formItem.selectedOptions}
 			{:else}
-				{utilsService.getConcatenatedOptionsFullStatement(formItem.selectedOptions, false)}
+				{utilsService.getConcatenatedOptionsFullStatement(formItem.selectedOptions)}
 			{/if}
 		</div>
 	{/if}

@@ -2,8 +2,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { base } from '$app/paths';
 	import { analyticsService, utilsService } from '$lib/services';
-	import { AIA, LAST_VERSION, NO_AI_USED } from '../constants';
-	import { AttributionType, type FormItemI } from '../interfaces';
+	import { type FormItemI } from '../interfaces';
 	import StatementRenderer from './StatementRenderer.svelte';
 
 	export let attributionFormItems: FormItemI[];
@@ -47,56 +46,11 @@
 	};
 
 	const updateFullStatement = (): void => {
-		let aiUsed: string = '';
-		const isAIUsageOptionYes: boolean = utilsService.isAIUsageOptionYes(attributionFormItems);
-		const modelSelected: string = utilsService.getAttributionFormItemByType(
-			AttributionType.MODEL,
-			attributionFormItems
-		).selectedOptions[0];
-
-		if (isAIUsageOptionYes) {
-			const proportionOfContribution: string = utilsService.getConcatenatedOptionsFullStatement(
-				utilsService.getAttributionFormItemByType(
-					AttributionType.PROPORTIONS_OF_CONTRIBUTIONS,
-					attributionFormItems
-				).selectedOptions,
-				false
-			);
-			const aiContribution: string = utilsService.getConcatenatedOptionsFullStatement(
-				utilsService.getAttributionFormItemByType(
-					AttributionType.AI_CONTRIBUTION,
-					attributionFormItems
-				).selectedOptions,
-				proportionOfContribution || aiUsed ? true : false
-			);
-			const aiInitiatives: string = utilsService.getConcatenatedOptionsFullStatement(
-				utilsService.getAttributionFormItemByType(
-					AttributionType.AI_INITIATIVE,
-					attributionFormItems
-				).selectedOptions,
-				proportionOfContribution || aiUsed || aiContribution ? true : false
-			);
-			const humanReview: string = utilsService.getConcatenatedOptionsFullStatement(
-				utilsService.getAttributionFormItemByType(
-					AttributionType.HUMAN_REVIEW,
-					attributionFormItems
-				).selectedOptions,
-				proportionOfContribution || aiUsed || aiContribution || aiInitiatives ? true : false
-			);
-			if (modelSelected) {
-				if (proportionOfContribution || aiContribution || aiInitiatives || humanReview) {
-					aiUsed = `, ${modelSelected}`;
-				} else {
-					aiUsed = modelSelected;
-				}
-			} else {
-				aiUsed = '';
-			}
-			fullStatement = `${AIA} ${proportionOfContribution}${aiContribution}${aiInitiatives}${humanReview}${aiUsed} ${LAST_VERSION}`;
-		} else {
-			aiUsed = NO_AI_USED;
-			fullStatement = `${AIA} ${aiUsed} ${LAST_VERSION}`;
-		}
+		fullStatement = utilsService.getStatementText(
+			attributionFormItems,
+			utilsService.getConcatenatedOptionsFullStatement,
+			', '
+		);
 	};
 
 	const updateFullStatementHTMLText = (): void => {
