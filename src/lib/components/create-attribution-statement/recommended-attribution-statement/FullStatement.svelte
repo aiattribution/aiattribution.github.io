@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { onDestroy, onMount, tick } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { base } from '$app/paths';
-	import { Button, Link, Tab, Tabs } from 'carbon-components-svelte';
-	import { Copy, Download } from 'carbon-icons-svelte';
 	import { analyticsService, utilsService } from '$lib/services';
 	import { AIA, LAST_VERSION, NO_AI_USED_FULL_STATEMENT } from '../constants';
 	import { AttributionType, type FormItemI } from '../interfaces';
+	import StatementRenderer from './StatementRenderer.svelte';
 
 	export let attributionFormItems: FormItemI[];
 	export let abbreviatedStatement: string;
@@ -17,10 +16,6 @@
 		formattedStatement = abbreviatedStatement.trim().replace(/\s+/g, '-');
 		canonicalUrl = `${baseUrl}/statements/${formattedStatement}`;
 	}
-
-	$: attributionFormItems, updateFields();
-
-	let tabSelected: number = 0;
 
 	let fullStatementHTMLContainer: HTMLDivElement = null;
 	let fullStatement: string = '';
@@ -48,21 +43,6 @@
 			optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
 		});
 		return;
-	};
-
-	const updateFields = async (): Promise<void> => {
-		if (tabSelected === 1) {
-			tabSelected = 0;
-			await tick();
-			updateFullStatement();
-			await tick();
-			updateFullStatementHTMLText();
-			tabSelected = 1;
-		} else {
-			updateFullStatement();
-			await tick();
-			updateFullStatementHTMLText();
-		}
 	};
 
 	const updateFullStatement = (): void => {
@@ -170,84 +150,23 @@
 	};
 </script>
 
-<div class="recommended-attribution-item-container">
-	<div class="recommended-attribution-item-label">Full statement</div>
-	<Tabs bind:selected={tabSelected} autoWidth>
-		<Tab class="attribution-statement-tab" label="Text" />
-		<Tab class="attribution-statement-tab" label="HTML" />
-		<svelte:fragment slot="content">
-			<div class="recommended-attribution-item">
-				{#if tabSelected === 0}
-					<div
-						bind:this={fullStatementHTMLContainer}
-						class="recommended-attribution-item-text-container"
-					>
-						<div class="recommended-attribution-item-text">
-							<Link
-								class="recommended-attribution-item-text"
-								href={canonicalUrl}
-								target="_blank"
-								inline
-							>
-								{fullStatement}
-							</Link>
-						</div>
-						<div class="recommended-attribution-item-icons-container">
-							{#each utilsService.getAttributionIcons(attributionFormItems) as AttributionIcon}
-								<svelte:component this={AttributionIcon} />
-							{/each}
-						</div>
-					</div>
-					<div class="recommended-attribution-item-button-container">
-						<Button
-							kind="ghost"
-							icon={Copy}
-							iconDescription="Copy the statement as text"
-							tooltipAlignment="end"
-							tooltipPosition="top"
-							on:click={async () => {
-								await copyFullStatementTextToClipboard();
-							}}
-						/>
-					</div>
-					<div class="recommended-attribution-item-button-container">
-						<Button
-							kind="ghost"
-							icon={Download}
-							iconDescription="Download the statement and icons as an svg"
-							tooltipAlignment="end"
-							tooltipPosition="top"
-							on:click={() => {
-								downloadFullStatementTextSVG();
-							}}
-						/>
-					</div>
-				{:else}
-					<div class="recommended-attribution-item-html-container">
-						<div class="recommended-attribution-item-text">
-							{fullStatementHTMLText}
-						</div>
-					</div>
-					<div class="recommended-attribution-item-button-container">
-						<Button
-							kind="ghost"
-							icon={Copy}
-							iconDescription="Copy the statement as HTML"
-							tooltipAlignment="end"
-							tooltipPosition="top"
-							on:click={async () => {
-								await copyFullStatementHTMLToClipboard();
-							}}
-						/>
-					</div>
-				{/if}
-			</div>
-		</svelte:fragment>
-	</Tabs>
-</div>
+<StatementRenderer
+	{attributionFormItems}
+	recommendedAttributionItemLabel="Full statement"
+	bind:statementHTMLContainer={fullStatementHTMLContainer}
+	{canonicalUrl}
+	statementText={fullStatement}
+	statementHTMLText={fullStatementHTMLText}
+	updateStatement={updateFullStatement}
+	updateStatementHTMLText={updateFullStatementHTMLText}
+	on:copyStatementTextToClipboard={async () => {
+		await copyFullStatementTextToClipboard();
+	}}
+	on:downloadStatementTextSVG={downloadFullStatementTextSVG}
+	on:copyStatementHTMLToClipboard={async () => {
+		await copyFullStatementHTMLToClipboard();
+	}}
+/>
 
 <style lang="scss">
-	.recommended-attribution-item {
-		margin-top: -0.5rem;
-	}
 </style>

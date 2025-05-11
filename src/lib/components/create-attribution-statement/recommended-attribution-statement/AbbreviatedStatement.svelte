@@ -1,11 +1,9 @@
 <script lang="ts">
-	import { tick } from 'svelte';
 	import { base } from '$app/paths';
-	import { Button, Link, Tab, Tabs } from 'carbon-components-svelte';
-	import { Copy, Download } from 'carbon-icons-svelte';
 	import { analyticsService, utilsService } from '$lib/services';
 	import { AIA, LAST_VERSION, NO_AI_USED_ABBREVIATED_STATEMENT } from '../constants';
 	import { AttributionType, type FormItemI } from '../interfaces';
+	import StatementRenderer from './StatementRenderer.svelte';
 
 	export let attributionFormItems: FormItemI[];
 	export let abbreviatedStatement: string;
@@ -14,27 +12,8 @@
 	let formattedStatement: string = '';
 	let canonicalUrl: string = '';
 
-	$: attributionFormItems, updateFields();
-
-	let tabSelected: number = 0;
-
 	let abbreviatedStatementHTMLContainer: HTMLDivElement = null;
 	let abbreviatedStatementHTMLText: string = '';
-
-	const updateFields = async (): Promise<void> => {
-		if (tabSelected === 1) {
-			tabSelected = 0;
-			await tick();
-			updateAbbreviatedStatement();
-			await tick();
-			updateAbbreviatedStatementHTMLText();
-			tabSelected = 1;
-		} else {
-			updateAbbreviatedStatement();
-			await tick();
-			updateAbbreviatedStatementHTMLText();
-		}
-	};
 
 	const updateCanonicalURL = (): void => {
 		if (abbreviatedStatement) {
@@ -144,84 +123,23 @@
 	};
 </script>
 
-<div class="recommended-attribution-item-container">
-	<div class="recommended-attribution-item-label">Abbreviated statement</div>
-	<Tabs bind:selected={tabSelected} autoWidth>
-		<Tab class="attribution-statement-tab" label="Text" />
-		<Tab class="attribution-statement-tab" label="HTML" />
-		<svelte:fragment slot="content">
-			<div class="recommended-attribution-item">
-				{#if tabSelected === 0}
-					<div
-						bind:this={abbreviatedStatementHTMLContainer}
-						class="recommended-attribution-item-text-container"
-					>
-						<div class="recommended-attribution-item-text">
-							<Link
-								class="recommended-attribution-item-text"
-								href={canonicalUrl}
-								target="_blank"
-								inline
-							>
-								{abbreviatedStatement}
-							</Link>
-						</div>
-						<div class="recommended-attribution-item-icons-container">
-							{#each utilsService.getAttributionIcons(attributionFormItems) as AttributionIcon}
-								<svelte:component this={AttributionIcon} />
-							{/each}
-						</div>
-					</div>
-					<div class="recommended-attribution-item-button-container">
-						<Button
-							kind="ghost"
-							icon={Copy}
-							iconDescription="Copy the statement as text"
-							tooltipAlignment="end"
-							tooltipPosition="top"
-							on:click={async () => {
-								await copyAbbreviatedStatementTextToClipboard();
-							}}
-						/>
-					</div>
-					<div class="recommended-attribution-item-button-container">
-						<Button
-							kind="ghost"
-							icon={Download}
-							iconDescription="Download the statement and icons as an svg"
-							tooltipAlignment="end"
-							tooltipPosition="top"
-							on:click={() => {
-								downloadAbbreviatedStatementTextSVG();
-							}}
-						/>
-					</div>
-				{:else}
-					<div class="recommended-attribution-item-html-container">
-						<div class="recommended-attribution-item-text">
-							{abbreviatedStatementHTMLText}
-						</div>
-					</div>
-					<div class="recommended-attribution-item-button-container">
-						<Button
-							kind="ghost"
-							icon={Copy}
-							iconDescription="Copy the statement as HTML"
-							tooltipAlignment="end"
-							tooltipPosition="top"
-							on:click={async () => {
-								await copyAbbreviatedStatementHTMLToClipboard();
-							}}
-						/>
-					</div>
-				{/if}
-			</div>
-		</svelte:fragment>
-	</Tabs>
-</div>
+<StatementRenderer
+	{attributionFormItems}
+	recommendedAttributionItemLabel="Abbreviated statement"
+	bind:statementHTMLContainer={abbreviatedStatementHTMLContainer}
+	{canonicalUrl}
+	statementText={abbreviatedStatement}
+	statementHTMLText={abbreviatedStatementHTMLText}
+	updateStatement={updateAbbreviatedStatement}
+	updateStatementHTMLText={updateAbbreviatedStatementHTMLText}
+	on:copyStatementTextToClipboard={async () => {
+		await copyAbbreviatedStatementTextToClipboard();
+	}}
+	on:downloadStatementTextSVG={downloadAbbreviatedStatementTextSVG}
+	on:copyStatementHTMLToClipboard={async () => {
+		await copyAbbreviatedStatementHTMLToClipboard();
+	}}
+/>
 
 <style lang="scss">
-	.recommended-attribution-item {
-		margin-top: -0.5rem;
-	}
 </style>
