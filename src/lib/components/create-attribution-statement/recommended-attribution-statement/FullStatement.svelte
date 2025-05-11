@@ -9,6 +9,7 @@
 	export let attributionFormItems: FormItemI[];
 	export let abbreviatedStatement: string;
 
+	const typeOfStatementName: string = 'full_statement';
 	const baseUrl: string = window.location.origin + base;
 	let formattedStatement: string = '';
 	let canonicalUrl: string = '';
@@ -103,50 +104,29 @@
 	};
 
 	const copyFullStatementTextToClipboard = async (): Promise<void> => {
-		try {
-			const statement: string = fullStatement.split(/\s+/).join(' ');
-			const statementWithURL: string = `<a href="${canonicalUrl}">${statement}</a>`;
-			await navigator.clipboard.write([
-				new ClipboardItem({
-					'text/plain': new Blob([statement], { type: 'text/plain' }),
-					'text/html': new Blob([statementWithURL], { type: 'text/html' })
-				})
-			]);
-			analyticsService.trackStatementMetric('button_click_copy_full_statement_text', {
-				statementDisplayed: statement,
-				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
-				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
-				optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
-			});
-		} catch (err) {
-			console.error('Error copying full statement text to clipboard', err);
-		}
+		await utilsService.copyStatementTextToClipboard(
+			fullStatement,
+			canonicalUrl,
+			attributionFormItems,
+			typeOfStatementName
+		);
 	};
 
 	const downloadFullStatementTextSVG = (): void => {
-		utilsService.downloadStatementSVG(fullStatementHTMLContainer, 'full_statement');
-		const statement: string = fullStatement.split(/\s+/).join(' ');
-		analyticsService.trackStatementMetric('button_click_download_full_statement_text', {
-			statementDisplayed: statement,
-			fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
-			fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
-			optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
-		});
+		utilsService.downloadStatementTextSVG(
+			fullStatement,
+			fullStatementHTMLContainer,
+			attributionFormItems,
+			typeOfStatementName
+		);
 	};
 
 	const copyFullStatementHTMLToClipboard = async (): Promise<void> => {
-		try {
-			const statement: string = fullStatementHTMLText;
-			await navigator.clipboard.writeText(statement);
-			analyticsService.trackStatementMetric('button_click_copy_full_statement_html', {
-				statementDisplayed: statement,
-				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
-				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
-				optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
-			});
-		} catch (err) {
-			console.error('Error copying full statement HTML to clipboard', err);
-		}
+		await utilsService.copyStatementHTMLToClipboard(
+			fullStatementHTMLText,
+			attributionFormItems,
+			typeOfStatementName
+		);
 	};
 </script>
 

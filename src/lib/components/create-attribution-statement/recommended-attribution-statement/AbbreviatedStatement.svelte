@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { base } from '$app/paths';
-	import { analyticsService, utilsService } from '$lib/services';
+	import { utilsService } from '$lib/services';
 	import { AIA, LAST_VERSION, NO_AI_USED_ABBREVIATED_STATEMENT } from '../constants';
 	import { AttributionType, type FormItemI } from '../interfaces';
 	import StatementRenderer from './StatementRenderer.svelte';
@@ -8,6 +8,7 @@
 	export let attributionFormItems: FormItemI[];
 	export let abbreviatedStatement: string;
 
+	const typeOfStatementName: string = 'abbreviated_statement';
 	const baseUrl: string = window.location.origin + base;
 	let formattedStatement: string = '';
 	let canonicalUrl: string = '';
@@ -76,50 +77,29 @@
 	};
 
 	const copyAbbreviatedStatementTextToClipboard = async (): Promise<void> => {
-		try {
-			const statement: string = abbreviatedStatement.split(/\s+/).join(' ');
-			const statementWithURL: string = `<a href="${canonicalUrl}">${statement}</a>`;
-			await navigator.clipboard.write([
-				new ClipboardItem({
-					'text/plain': new Blob([statement], { type: 'text/plain' }),
-					'text/html': new Blob([statementWithURL], { type: 'text/html' })
-				})
-			]);
-			analyticsService.trackStatementMetric('button_click_copy_abbreviated_statement_text', {
-				statementDisplayed: statement,
-				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
-				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
-				optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
-			});
-		} catch (err) {
-			console.error('Error copying abbreviated statement text to clipboard', err);
-		}
+		await utilsService.copyStatementTextToClipboard(
+			abbreviatedStatement,
+			canonicalUrl,
+			attributionFormItems,
+			typeOfStatementName
+		);
 	};
 
 	const downloadAbbreviatedStatementTextSVG = (): void => {
-		utilsService.downloadStatementSVG(abbreviatedStatementHTMLContainer, 'abbreviated_statement');
-		const statement: string = abbreviatedStatement.split(/\s+/).join(' ');
-		analyticsService.trackStatementMetric('button_click_download_abbreviated_statement_text', {
-			statementDisplayed: statement,
-			fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
-			fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
-			optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
-		});
+		utilsService.downloadStatementTextSVG(
+			abbreviatedStatement,
+			abbreviatedStatementHTMLContainer,
+			attributionFormItems,
+			typeOfStatementName
+		);
 	};
 
 	const copyAbbreviatedStatementHTMLToClipboard = async (): Promise<void> => {
-		try {
-			const statement: string = abbreviatedStatementHTMLText;
-			await navigator.clipboard.writeText(statement);
-			analyticsService.trackStatementMetric('button_click_copy_abbreviated_statement_html', {
-				statementDisplayed: statement,
-				fieldsFilledOut: utilsService.getFieldsFilledOut(attributionFormItems),
-				fieldsLeftBlank: utilsService.getFieldsLeftBlank(attributionFormItems),
-				optionsSelectedPerField: utilsService.getOptionsSelectedPerField(attributionFormItems)
-			});
-		} catch (err) {
-			console.error('Error copying abbreviated statement HTML to clipboard', err);
-		}
+		await utilsService.copyStatementHTMLToClipboard(
+			abbreviatedStatementHTMLText,
+			attributionFormItems,
+			typeOfStatementName
+		);
 	};
 </script>
 

@@ -6,6 +6,7 @@ import {
 import { AIProportionOptions, type TagI } from '$lib/models/tag-library';
 import type { Component } from 'svelte';
 import { v4 as uuidv4 } from 'uuid';
+import { analyticsService } from '.';
 
 class UtilsService {
 	constructor() {}
@@ -217,7 +218,117 @@ class UtilsService {
 		return atributionStatementLabelContent;
 	}
 
-	public downloadStatementSVG(statementHTMLContainer: HTMLDivElement, downloadName: string): void {
+	private getClassInlineStyle(className: string): string {
+		const inlineStyle = {
+			'.recommended-attribution-item-text-container': `
+                display: flex;
+				align-items: center;
+				white-space: nowrap;
+				gap: 0.5rem;
+				padding: 8px;
+            `,
+			'.recommended-attribution-item-text': `
+				font-family: IBM Plex Sans;
+				font-weight: 400;
+				font-size: 16px;
+				line-height: 22px;
+				letter-spacing: 0px;
+			`,
+			'.recommended-attribution-item-icons-container': `
+				display: flex;
+				gap: 0.5rem;
+			`
+		};
+		return inlineStyle[className];
+	}
+
+	private getCleanedHTML(HTMLElement: Element): string {
+		if (HTMLElement) {
+			const clone: HTMLElement = HTMLElement.cloneNode(true) as HTMLElement;
+
+			const cleanElement = (element: Element) => {
+				if (element.classList) {
+					[...element.classList].forEach((cls: string) => {
+						if (/^s-[a-zA-Z0-9]+$/.test(cls)) {
+							element.classList.remove(cls);
+						}
+					});
+				}
+				for (let i: number = element.childNodes.length - 1; i >= 0; i--) {
+					const node: ChildNode = element.childNodes[i];
+					if (node.nodeType === Node.COMMENT_NODE) {
+						element.removeChild(node);
+					} else if (node.nodeType === Node.ELEMENT_NODE) {
+						cleanElement(node as HTMLElement);
+					}
+				}
+			};
+
+			cleanElement(clone);
+
+			return (clone as Element).innerHTML;
+		}
+		return '';
+	}
+
+	public getStatementHTMLText(HTMLElement: Element): string {
+		let statementHTMLText: string = this.getCleanedHTML(HTMLElement);
+		const div: HTMLDivElement = document.createElement('div');
+		const divTextContainer: HTMLDivElement = document.createElement('div');
+		divTextContainer.classList.add('recommended-attribution-item-text-container');
+		divTextContainer.innerHTML = statementHTMLText;
+		const replaceClassesWithStyles = (element: Element) => {
+			if (element.classList) {
+				[...element.classList].forEach((cls: string) => {
+					const style: string = this.getClassInlineStyle(`.${cls}`);
+					if (style) {
+						element.setAttribute('style', style);
+					}
+					element.classList.remove(cls);
+				});
+				element.removeAttribute('class');
+			}
+			for (let i: number = element.childNodes.length - 1; i >= 0; i--) {
+				const node: ChildNode = element.childNodes[i];
+				replaceClassesWithStyles(node as HTMLElement);
+			}
+		};
+		replaceClassesWithStyles(divTextContainer);
+		div.appendChild(divTextContainer);
+		return div.innerHTML;
+	}
+
+	private getCleanedStatementText(statement: string): string {
+		return statement.split(/\s+/).join(' ');
+	}
+
+	public async copyStatementTextToClipboard(
+		statement: string,
+		canonicalUrl: string,
+		attributionFormItems: FormItemI[],
+		typeOfStatementName: string
+	): Promise<void> {
+		try {
+			const cleanedStatement: string = this.getCleanedStatementText(statement);
+			const statementWithURL: string = `<a href="${canonicalUrl}">${cleanedStatement}</a>`;
+			await navigator.clipboard.write([
+				new ClipboardItem({
+					'text/plain': new Blob([cleanedStatement], { type: 'text/plain' }),
+					'text/html': new Blob([statementWithURL], { type: 'text/html' })
+				})
+			]);
+			analyticsService.trackStatementMetric(`button_click_copy_${typeOfStatementName}_text`, {
+				statementDisplayed: cleanedStatement,
+				fieldsFilledOut: this.getFieldsFilledOut(attributionFormItems),
+				fieldsLeftBlank: this.getFieldsLeftBlank(attributionFormItems),
+				optionsSelectedPerField: this.getOptionsSelectedPerField(attributionFormItems)
+			});
+		} catch (err) {
+			console.error(`Error copying ${typeOfStatementName} text to clipboard`, err);
+		}
+	}
+
+	private downloadStatementSVG(statementHTMLContainer: HTMLDivElement, downloadName: string): void {
 		if (!statementHTMLContainer) return;
 
 		const textElement: Element = statementHTMLContainer.querySelector(
@@ -309,84 +420,39 @@ class UtilsService {
 		URL.revokeObjectURL(url);
 	}
 
-	private getClassInlineStyle(className: string): string {
-		const inlineStyle = {
-			'.recommended-attribution-item-text-container': `
-                display: flex;
-				align-items: center;
-				white-space: nowrap;
-				gap: 0.5rem;
-				padding: 8px;
-            `,
-			'.recommended-attribution-item-text': `
-				font-family: IBM Plex Sans;
-				font-weight: 400;
-				font-size: 16px;
-				line-height: 22px;
-				letter-spacing: 0px;
-			`,
-			'.recommended-attribution-item-icons-container': `
-				display: flex;
-				gap: 0.5rem;
-			`
-		};
-		return inlineStyle[className];
+	public downloadStatementTextSVG(
+		statement: string,
+		statementHTMLContainer: HTMLDivElement,
+		attributionFormItems: FormItemI[],
+		typeOfStatementName: string
+	): void {
+		this.downloadStatementSVG(statementHTMLContainer, typeOfStatementName);
+		const cleanedStatement: string = this.getCleanedStatementText(statement);
+		analyticsService.trackStatementMetric(`button_click_download_${typeOfStatementName}_text`, {
+			statementDisplayed: cleanedStatement,
+			fieldsFilledOut: this.getFieldsFilledOut(attributionFormItems),
+			fieldsLeftBlank: this.getFieldsLeftBlank(attributionFormItems),
+			optionsSelectedPerField: this.getOptionsSelectedPerField(attributionFormItems)
+		});
 	}
 
-	private getCleanedHTML(HTMLElement: Element): string {
-		if (HTMLElement) {
-			const clone: HTMLElement = HTMLElement.cloneNode(true) as HTMLElement;
-
-			const cleanElement = (element: Element) => {
-				if (element.classList) {
-					[...element.classList].forEach((cls: string) => {
-						if (/^s-[a-zA-Z0-9]+$/.test(cls)) {
-							element.classList.remove(cls);
-						}
-					});
-				}
-				for (let i: number = element.childNodes.length - 1; i >= 0; i--) {
-					const node: ChildNode = element.childNodes[i];
-					if (node.nodeType === Node.COMMENT_NODE) {
-						element.removeChild(node);
-					} else if (node.nodeType === Node.ELEMENT_NODE) {
-						cleanElement(node as HTMLElement);
-					}
-				}
-			};
-
-			cleanElement(clone);
-
-			return (clone as Element).innerHTML;
+	public async copyStatementHTMLToClipboard(
+		statementHTMLText: string,
+		attributionFormItems: FormItemI[],
+		typeOfStatementName: string
+	): Promise<void> {
+		try {
+			const statement: string = statementHTMLText;
+			await navigator.clipboard.writeText(statement);
+			analyticsService.trackStatementMetric(`button_click_copy_${typeOfStatementName}_html`, {
+				statementDisplayed: statement,
+				fieldsFilledOut: this.getFieldsFilledOut(attributionFormItems),
+				fieldsLeftBlank: this.getFieldsLeftBlank(attributionFormItems),
+				optionsSelectedPerField: this.getOptionsSelectedPerField(attributionFormItems)
+			});
+		} catch (err) {
+			console.error(`Error copying ${typeOfStatementName} HTML to clipboard`, err);
 		}
-		return '';
-	}
-
-	public getStatementHTMLText(HTMLElement: Element): string {
-		let statementHTMLText: string = this.getCleanedHTML(HTMLElement);
-		const div: HTMLDivElement = document.createElement('div');
-		const divTextContainer: HTMLDivElement = document.createElement('div');
-		divTextContainer.classList.add('recommended-attribution-item-text-container');
-		divTextContainer.innerHTML = statementHTMLText;
-		const replaceClassesWithStyles = (element: Element) => {
-			if (element.classList) {
-				[...element.classList].forEach((cls: string) => {
-					const style: string = this.getClassInlineStyle(`.${cls}`);
-					if (style) {
-						element.setAttribute('style', style);
-					}
-					element.classList.remove(cls);
-				});
-				element.removeAttribute('class');
-			}
-			for (let i: number = element.childNodes.length - 1; i >= 0; i--) {
-				const node: ChildNode = element.childNodes[i];
-				replaceClassesWithStyles(node as HTMLElement);
-			}
-		};
-		replaceClassesWithStyles(divTextContainer);
-		div.appendChild(divTextContainer);
-		return div.innerHTML;
 	}
 }
 
