@@ -6,7 +6,6 @@ import AnatomyAbbreviatedStatement from './components/images/AnatomyAbbreviatedS
 import AnatomyFullStatement from './components/images/AnatomyFullStatement.svelte';
 import InterpretAttribution from './components/interpret-attribution/InterpretAttribution.svelte';
 import PageContent from './components/layouts/PageContent.svelte';
-import RecommendedAttributionStatement from './components/recommended-attribution-statement/RecommendedAttributionStatement.svelte';
 import AttributionTag from './components/tag-library/AttributionTag.svelte';
 import TagLibrary from './components/tag-library/TagLibrary.svelte';
 import TagTile from './components/tag-library/TagTile.svelte';
@@ -20,7 +19,6 @@ export {
     Home,
     InterpretAttribution,
     PageContent,
-    RecommendedAttributionStatement,
     TagLibrary,
     TagTile
 };

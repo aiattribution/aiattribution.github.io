@@ -4,6 +4,7 @@ import AbbreviatedStatement from './recommended-attribution-statement/Abbreviate
 import AttributionStatementExplanation from './recommended-attribution-statement/AttributionStatementExplanation.svelte';
 import ExpandedStatement from './recommended-attribution-statement/ExpandedStatement.svelte';
 import FullStatement from './recommended-attribution-statement/FullStatement.svelte';
+import RecommendedAttributionStatement from './recommended-attribution-statement/RecommendedAttributionStatement.svelte';
 
 export {
     AbbreviatedStatement,
@@ -11,5 +12,6 @@ export {
     ExpandedStatement,
     FormItem,
     FormItems,
-    FullStatement
+    FullStatement,
+    RecommendedAttributionStatement
 };

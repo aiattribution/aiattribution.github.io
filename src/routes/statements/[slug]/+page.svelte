@@ -13,7 +13,10 @@
 	$: statementToInterpret = slug.replace(/-/g, ' ');
 
 	onMount(() => {
-		headerNavItemSelectedStore.setHeaderNavItemSelected(HEADER_NAV_ITEM_INTERPRET_ATTRIBUTION);
+		headerNavItemSelectedStore.setHeaderNavItemSelected(
+			HEADER_NAV_ITEM_INTERPRET_ATTRIBUTION,
+			false
+		);
 	});
 </script>
 
