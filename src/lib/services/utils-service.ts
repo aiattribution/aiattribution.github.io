@@ -487,10 +487,24 @@ class UtilsService {
 		}
 	}
 
-	public getCanonicalURL(abbreviatedStatement: string): string {
+	public getCanonicalURL(abbreviatedStatement: string, attributionFormItems: FormItemI[]): string {
 		const baseUrl: string = window.location.origin + base;
-		let formattedStatement: string = '';
-		formattedStatement = abbreviatedStatement.trim().replace(/\s+/g, '-');
+		const modelSelected: string = this.getAttributionFormItemByType(
+			AttributionType.MODEL,
+			attributionFormItems
+		).selectedOptions[0];
+		let formattedStatement: string = abbreviatedStatement;
+		if (modelSelected.trim()) {
+			const lastIndexModelSelected: number = abbreviatedStatement.lastIndexOf(modelSelected);
+			const abbreviatedStatementWithoutModel: string =
+				lastIndexModelSelected === -1
+					? abbreviatedStatement
+					: abbreviatedStatement.slice(0, lastIndexModelSelected) +
+						`?model=${encodeURIComponent(modelSelected.replace(/-/g, '%2D'))}` +
+						abbreviatedStatement.slice(lastIndexModelSelected + modelSelected.length);
+			formattedStatement = abbreviatedStatementWithoutModel;
+		}
+		formattedStatement = formattedStatement.trim().replace(/\s+/g, '-');
 		return `${baseUrl}/statements/${formattedStatement}`;
 	}
 }

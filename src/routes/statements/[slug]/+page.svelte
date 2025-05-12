@@ -6,11 +6,11 @@
 	import { HEADER_NAV_ITEM_INTERPRET_ATTRIBUTION } from '$lib/components/header/constants';
 	import { headerNavItemSelectedStore } from '$lib/stores';
 
-	let slug: string;
+	let basicStatement: string;
 	let statementToInterpret: string = '';
 
-	$: slug = $page.params.slug;
-	$: statementToInterpret = slug.replace(/-/g, ' ');
+	$: basicStatement = $page.params.slug;
+	$: statementToInterpret = `${basicStatement.replace(/-/g, ' ')}${decodeModel()}`;
 
 	onMount(() => {
 		headerNavItemSelectedStore.setHeaderNavItemSelected(
@@ -18,6 +18,18 @@
 			false
 		);
 	});
+
+	const decodeModel = (): string => {
+		let model: string = $page.url.searchParams.get('model') || '';
+		model = decodeURIComponent(model);
+
+		const lastIndexDash: number = model.lastIndexOf('-');
+		if (lastIndexDash !== -1) {
+			model = model.slice(0, lastIndexDash) + ' ' + model.slice(lastIndexDash + 1);
+		}
+
+		return model;
+	};
 </script>
 
 <PageContent {statementToInterpret} />

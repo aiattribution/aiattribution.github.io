@@ -10,7 +10,7 @@
 	const typeOfStatementName: string = 'full_statement';
 	let canonicalUrl: string = '';
 	$: if (abbreviatedStatement) {
-		canonicalUrl = utilsService.getCanonicalURL(abbreviatedStatement);
+		canonicalUrl = utilsService.getCanonicalURL(abbreviatedStatement, attributionFormItems);
 	}
 
 	let fullStatementHTMLContainer: HTMLDivElement = null;

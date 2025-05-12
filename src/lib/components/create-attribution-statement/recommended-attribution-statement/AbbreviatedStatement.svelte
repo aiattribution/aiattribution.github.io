@@ -14,7 +14,7 @@
 
 	const updateCanonicalURL = (): void => {
 		if (abbreviatedStatement) {
-			canonicalUrl = utilsService.getCanonicalURL(abbreviatedStatement);
+			canonicalUrl = utilsService.getCanonicalURL(abbreviatedStatement, attributionFormItems);
 		}
 	};
 
