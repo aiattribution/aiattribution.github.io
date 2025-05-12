@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { base } from '$app/paths';
 	import { utilsService } from '$lib/services';
 	import { type FormItemI } from '../interfaces';
 	import StatementRenderer from './StatementRenderer.svelte';
@@ -8,8 +7,6 @@
 	export let abbreviatedStatement: string;
 
 	const typeOfStatementName: string = 'abbreviated_statement';
-	const baseUrl: string = window.location.origin + base;
-	let formattedStatement: string = '';
 	let canonicalUrl: string = '';
 
 	let abbreviatedStatementHTMLContainer: HTMLDivElement = null;
@@ -17,8 +14,7 @@
 
 	const updateCanonicalURL = (): void => {
 		if (abbreviatedStatement) {
-			formattedStatement = abbreviatedStatement.trim().replace(/\s+/g, '-');
-			canonicalUrl = `${baseUrl}/statements/${formattedStatement}`;
+			canonicalUrl = utilsService.getCanonicalURL(abbreviatedStatement);
 		}
 	};
 

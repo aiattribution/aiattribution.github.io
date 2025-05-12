@@ -1,3 +1,4 @@
+import { base } from '$app/paths';
 import { ALL_TAGS } from '$lib/common/constants';
 import {
 	AIA,
@@ -482,6 +483,13 @@ class UtilsService {
 		} catch (err) {
 			console.error(`Error copying ${typeOfStatementName} HTML to clipboard`, err);
 		}
+	}
+
+	public getCanonicalURL(abbreviatedStatement: string): string {
+		const baseUrl: string = window.location.origin + base;
+		let formattedStatement: string = '';
+		formattedStatement = abbreviatedStatement.trim().replace(/\s+/g, '-');
+		return `${baseUrl}/statements/${formattedStatement}`;
 	}
 }
 

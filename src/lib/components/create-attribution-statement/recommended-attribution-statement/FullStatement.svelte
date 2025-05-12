@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
-	import { base } from '$app/paths';
 	import { analyticsService, utilsService } from '$lib/services';
 	import { type FormItemI } from '../interfaces';
 	import StatementRenderer from './StatementRenderer.svelte';
@@ -9,12 +8,9 @@
 	export let abbreviatedStatement: string;
 
 	const typeOfStatementName: string = 'full_statement';
-	const baseUrl: string = window.location.origin + base;
-	let formattedStatement: string = '';
 	let canonicalUrl: string = '';
 	$: if (abbreviatedStatement) {
-		formattedStatement = abbreviatedStatement.trim().replace(/\s+/g, '-');
-		canonicalUrl = `${baseUrl}/statements/${formattedStatement}`;
+		canonicalUrl = utilsService.getCanonicalURL(abbreviatedStatement);
 	}
 
 	let fullStatementHTMLContainer: HTMLDivElement = null;
