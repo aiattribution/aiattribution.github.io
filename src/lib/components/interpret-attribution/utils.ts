@@ -14,6 +14,7 @@ import {
 	FormItemType,
 	type FormItemI
 } from '../create-attribution-statement/interfaces';
+import type { TaggedStatement } from './interfaces';
 
 const getMaxTagNameWordLength = (allTags: TagI[]): number => {
 	let maxTagNameWordLength: number = 0;
@@ -44,11 +45,11 @@ const getAllStringCombinations = (array: string[]): string[] => {
 	return Array.from(result);
 };
 
-export const mergeTagsInStatement = (
+const getTaggedStatements = (
 	statementComponents: string[],
 	allTags: TagI[],
 	tagsWithAttributionType: TagsWithAttributionType[]
-): string[] => {
+): TaggedStatement[] => {
 	const maxWords: number = getMaxTagNameWordLength(allTags);
 
 	for (let i: number = 0; i < statementComponents.length; i++) {
@@ -69,8 +70,6 @@ export const mergeTagsInStatement = (
 		}
 	}
 
-	let taggedStatementComponents: { statement: string; isValidTag: boolean }[] = [];
-
 	let possibleTagsCombinations: string[] = [];
 	ATTRIBUTION_FORM_ITEMS.forEach((attributionFormItem: FormItemI) => {
 		if (attributionFormItem.attributionType !== AttributionType.MODEL) {
@@ -88,6 +87,7 @@ export const mergeTagsInStatement = (
 		}
 	});
 
+	let taggedStatementComponents: TaggedStatement[] = [];
 	for (let i: number = 0; i < statementComponents.length; i++) {
 		const statementComponent: string = statementComponents[i];
 
@@ -106,25 +106,53 @@ export const mergeTagsInStatement = (
 			taggedStatementComponents.push({ statement: statementComponent, isValidTag: false });
 		}
 	}
+	return taggedStatementComponents;
+};
 
+export const mergeTagsInStatement = (
+	statementComponents: string[],
+	allTags: TagI[],
+	tagsWithAttributionType: TagsWithAttributionType[]
+): string[] => {
+	const taggedStatementComponents: TaggedStatement[] = getTaggedStatements(
+		statementComponents,
+		allTags,
+		tagsWithAttributionType
+	);
 	let groupedStatementComponents: string[] = [];
 	let currentGroup: string = '';
 
 	for (let i: number = 0; i < taggedStatementComponents.length; i++) {
-		const item = taggedStatementComponents[i];
+		const taggedStatement: TaggedStatement = taggedStatementComponents[i];
 
-		if (item.isValidTag === false) {
-			if (currentGroup) {
-				currentGroup += ' ' + item.statement;
-			} else {
-				currentGroup = item.statement;
+		if (taggedStatement.isValidTag === false) {
+			const subTaggedStatementComponents: TaggedStatement[] = getTaggedStatements(
+				taggedStatement.statement.trim().split(/\s+/),
+				allTags,
+				tagsWithAttributionType
+			);
+			for (let j: number = 0; j < subTaggedStatementComponents.length; j++) {
+				const subTaggedStatement: TaggedStatement = subTaggedStatementComponents[j];
+				if (subTaggedStatement.isValidTag === false) {
+					if (currentGroup) {
+						currentGroup += ' ' + subTaggedStatement.statement;
+					} else {
+						currentGroup = subTaggedStatement.statement;
+					}
+				} else {
+					if (currentGroup) {
+						groupedStatementComponents.push(currentGroup);
+						currentGroup = '';
+					}
+					groupedStatementComponents.push(subTaggedStatement.statement);
+				}
 			}
 		} else {
 			if (currentGroup) {
 				groupedStatementComponents.push(currentGroup);
 				currentGroup = '';
 			}
-			groupedStatementComponents.push(item.statement);
+			groupedStatementComponents.push(taggedStatement.statement);
 		}
 	}
 
