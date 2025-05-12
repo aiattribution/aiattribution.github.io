@@ -82,7 +82,7 @@ class UtilsService {
 			attributionFormItems
 		).selectedOptions[0];
 		if (isAIUsageOptionYes) {
-			aiUsed = modelSelected.length > 0 ? modelSelected : '';
+			aiUsed = modelSelected.trim() ? modelSelected : '';
 		} else {
 			aiUsed = NO_AI_USED;
 		}
@@ -229,8 +229,10 @@ class UtilsService {
 					.selectedOptions
 			);
 			if (
-				this.getAttributionFormItemByType(AttributionType.MODEL, attributionFormItems)
-					.selectedOptions[0]
+				this.getAttributionFormItemByType(
+					AttributionType.MODEL,
+					attributionFormItems
+				).selectedOptions[0].trim()
 			) {
 				const modelSelected: string = this.getAttributionFormItemByType(
 					AttributionType.MODEL,
