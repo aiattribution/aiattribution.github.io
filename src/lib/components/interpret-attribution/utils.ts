@@ -45,6 +45,40 @@ const getAllStringCombinations = (array: string[]): string[] => {
 	return Array.from(result);
 };
 
+export const getIfIsAValidTag = (
+	statementComponent: string,
+	allTags: TagI[],
+	tagsWithAttributionType: TagsWithAttributionType[]
+): boolean => {
+	let possibleTagsCombinations: string[] = [];
+	ATTRIBUTION_FORM_ITEMS.forEach((attributionFormItem: FormItemI) => {
+		if (attributionFormItem.attributionType !== AttributionType.MODEL) {
+			const tags: TagI[] =
+				tagsWithAttributionType.find(
+					(value: TagsWithAttributionType) =>
+						value.attributionType === attributionFormItem.attributionType
+				)?.tags || [];
+			if (attributionFormItem.typeOfItem === FormItemType.checkbox) {
+				possibleTagsCombinations.push(
+					...getAllStringCombinations(tags.map((tag: TagI) => tag.abbreviation))
+				);
+			} else {
+				possibleTagsCombinations.push(...tags.map((tag: TagI) => tag.abbreviation));
+			}
+		}
+	});
+
+	return (
+		possibleTagsCombinations.some((tagId: string) => tagId === statementComponent) ||
+		allTags.some(
+			(tag: TagI) =>
+				tag.abbreviation === statementComponent ||
+				tag.name === statementComponent ||
+				(tag.id === AIProportionOptions.ENTIRELY_HUMAN_CREATED && statementComponent === NO_AI_USED)
+		)
+	);
+};
+
 const getTaggedStatements = (
 	statementComponents: string[],
 	allTags: TagI[],
@@ -70,37 +104,11 @@ const getTaggedStatements = (
 		}
 	}
 
-	let possibleTagsCombinations: string[] = [];
-	ATTRIBUTION_FORM_ITEMS.forEach((attributionFormItem: FormItemI) => {
-		if (attributionFormItem.attributionType !== AttributionType.MODEL) {
-			const tags: TagI[] =
-				tagsWithAttributionType.find(
-					(value) => value.attributionType === attributionFormItem.attributionType
-				)?.tags || [];
-			if (attributionFormItem.typeOfItem === FormItemType.checkbox) {
-				possibleTagsCombinations.push(
-					...getAllStringCombinations(tags.map((tag) => tag.abbreviation))
-				);
-			} else {
-				possibleTagsCombinations.push(...tags.map((tag) => tag.abbreviation));
-			}
-		}
-	});
-
 	let taggedStatementComponents: TaggedStatement[] = [];
 	for (let i: number = 0; i < statementComponents.length; i++) {
 		const statementComponent: string = statementComponents[i];
 
-		if (
-			possibleTagsCombinations.find((tagId: string) => tagId === statementComponent) ||
-			allTags.find(
-				(tag: TagI) =>
-					tag.abbreviation === statementComponent ||
-					tag.name === statementComponent ||
-					(tag.id === AIProportionOptions.ENTIRELY_HUMAN_CREATED &&
-						statementComponent === NO_AI_USED)
-			)
-		) {
+		if (getIfIsAValidTag(statementComponent, allTags, tagsWithAttributionType)) {
 			taggedStatementComponents.push({ statement: statementComponent, isValidTag: true });
 		} else {
 			taggedStatementComponents.push({ statement: statementComponent, isValidTag: false });

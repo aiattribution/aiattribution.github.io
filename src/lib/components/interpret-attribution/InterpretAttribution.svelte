@@ -29,7 +29,7 @@
 	import type { AttributionTagI } from '../tag-library/interfaces';
 	import { ATTRIBUTION_TAGS } from '../tag-library/constants';
 	import { INTERPRET_ATTRIBUTION_SECTION_TITLE } from './constants';
-	import { getStatementComponents } from './utils';
+	import { getIfIsAValidTag, getStatementComponents } from './utils';
 
 	export let statementToInterpret: string = '';
 
@@ -275,6 +275,25 @@
 		);
 		if (statementComponents.length === 0) {
 			return;
+		}
+
+		const lastStatementComponent: string = statementComponents[statementComponents.length - 1];
+		if (!getIfIsAValidTag(lastStatementComponent, ALL_TAGS, TAGS_WITH_ATTRIBUTION_TYPE)) {
+			const wordsToFind: string[] = lastStatementComponent.trim().split(/\s+/);
+			const firstWord: string = wordsToFind[0];
+			const lastWord: string = wordsToFind[wordsToFind.length - 1];
+
+			const startIndex: number = statementToInterpret.indexOf(firstWord);
+			const endIndex: number = statementToInterpret.lastIndexOf(lastWord);
+
+			if (startIndex !== -1 && endIndex !== -1 && endIndex >= startIndex) {
+				const endOfLastWord: number = endIndex + lastWord.length;
+
+				statementComponents[statementComponents.length - 1] = statementToInterpret.substring(
+					startIndex,
+					endOfLastWord
+				);
+			}
 		}
 
 		identifyTags(statementComponents);
