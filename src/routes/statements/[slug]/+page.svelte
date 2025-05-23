@@ -6,18 +6,21 @@
 	import { HEADER_NAV_ITEM_INTERPRET_ATTRIBUTION } from '$lib/components/header/constants';
 	import { headerNavItemSelectedStore } from '$lib/stores';
 
-	let basicStatement: string;
+	let basicStatement: string = '';
 	let statementToInterpret: string = '';
-
-	$: basicStatement = $page.params.slug;
-	$: statementToInterpret = `${basicStatement.replace(/-/g, ' ')}${decodeModel()}`;
 
 	onMount(() => {
 		headerNavItemSelectedStore.setHeaderNavItemSelected(
 			HEADER_NAV_ITEM_INTERPRET_ATTRIBUTION,
 			false
 		);
+		basicStatement = $page.params.slug;
+		statementToInterpret = decodeStatementToInterpret();
 	});
+
+	const decodeStatementToInterpret = (): string => {
+		return `${basicStatement.replace(/-/g, ' ')}${decodeModel()}`;
+	};
 
 	const decodeModel = (): string => {
 		let model: string = $page.url.searchParams.get('model') || '';
