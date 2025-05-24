@@ -1,9 +1,18 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="12" cy="12" r="11.5" fill="#525252" />
-    <path d="M12 0C3 0 -6 12 6 22L12 16L18 22C25 16 28 3 12 0Z" fill="white" />
-    <circle cx="12" cy="12" r="11.5" stroke="#161616" fill="none" />
-    <text x="12" y="12" font-family="'IBM Plex Sans', sans-serif" font-weight="600" font-size="10px" line-height="16px"
-        letter-spacing="0.32px" fill="#161616" text-anchor="middle" dy="0.26em">
-        H
-    </text>
+    <g clip-path="url(#clip0_50_18)">
+        <path
+            d="M12 23.5C18.3513 23.5 23.5 18.3513 23.5 12C23.5 5.64873 18.3513 0.5 12 0.5C5.64873 0.5 0.5 5.64873 0.5 12C0.5 18.3513 5.64873 23.5 12 23.5Z"
+            fill="#525252" />
+        <path d="M12 0C3.00001 0 -5.99999 12 6.00001 22L12 16L18 22C25 16 28 3 12 0Z" fill="white" />
+        <path
+            d="M12 23.5C18.3513 23.5 23.5 18.3513 23.5 12C23.5 5.64873 18.3513 0.5 12 0.5C5.64873 0.5 0.5 5.64873 0.5 12C0.5 18.3513 5.64873 23.5 12 23.5Z"
+            stroke="#161616" />
+        <path d="M13.3318 11.74H10.6718V14.6H9.15184V7.61998H10.6718V10.4H13.3318V7.61998H14.8518V14.6H13.3318V11.74Z"
+            fill="#161616" />
+    </g>
+    <defs>
+        <clipPath id="clip0_50_18">
+            <rect width="24" height="24" fill="white" />
+        </clipPath>
+    </defs>
 </svg>
