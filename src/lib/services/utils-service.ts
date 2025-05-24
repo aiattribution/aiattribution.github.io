@@ -252,24 +252,9 @@ class UtilsService {
 
 	private getClassInlineStyle(className: string): string {
 		const inlineStyle = {
-			'.recommended-attribution-item-text-container': `
-                display: flex;
-				align-items: center;
-				white-space: nowrap;
-				gap: 0.5rem;
-				padding: 8px;
-            `,
-			'.recommended-attribution-item-text': `
-				font-family: IBM Plex Sans;
-				font-weight: 400;
-				font-size: 16px;
-				line-height: 22px;
-				letter-spacing: 0px;
-			`,
-			'.recommended-attribution-item-icons-container': `
-				display: flex;
-				gap: 0.5rem;
-			`
+			'.recommended-attribution-item-text-container': `display: flex; align-items: center; white-space: nowrap; gap: 0.5rem; padding: 8px;`,
+			'.recommended-attribution-item-text': `font-family: IBM Plex Sans; font-weight: 400; font-size: 16px; line-height: 22px; letter-spacing: 0px;`,
+			'.recommended-attribution-item-icons-container': `display: flex; gap: 0.5rem;`
 		};
 		return inlineStyle[className];
 	}
@@ -303,6 +288,33 @@ class UtilsService {
 		return '';
 	}
 
+	private getFormattedHTML(html: string): string {
+		let formatted: string = '';
+		let indent: number = 0;
+		const tab: string = '  ';
+
+		html.split(/>\s*</).forEach((element: string, index: number) => {
+			if (index > 0) {
+				element = '<' + element;
+			}
+			if (index < html.split(/>\s*</).length - 1) {
+				element = element + '>';
+			}
+
+			if (element.match(/^<\/\w/)) {
+				indent--;
+			}
+
+			formatted += tab.repeat(Math.max(0, indent)) + element + '\n';
+
+			if (element.match(/^<\w[^>]*[^\/]>$/)) {
+				indent++;
+			}
+		});
+
+		return formatted.trim();
+	}
+
 	public getStatementHTMLText(HTMLElement: Element): string {
 		let statementHTMLText: string = this.getCleanedHTML(HTMLElement);
 		const div: HTMLDivElement = document.createElement('div');
@@ -327,7 +339,7 @@ class UtilsService {
 		};
 		replaceClassesWithStyles(divTextContainer);
 		div.appendChild(divTextContainer);
-		return div.innerHTML;
+		return this.getFormattedHTML(div.innerHTML);
 	}
 
 	private getCleanedStatementText(statement: string): string {
