@@ -5,27 +5,12 @@
 
 	export let attributionFormItems: FormItemI[];
 	export let abbreviatedStatement: string;
+	export let canonicalURL: string;
 
 	const typeOfStatementName: string = 'abbreviated_statement';
-	let canonicalUrl: string = '';
 
 	let abbreviatedStatementHTMLContainer: HTMLDivElement = null;
 	let abbreviatedStatementHTMLText: string = '';
-
-	const updateCanonicalURL = (): void => {
-		if (abbreviatedStatement) {
-			canonicalUrl = utilsService.getCanonicalURL(abbreviatedStatement, attributionFormItems);
-		}
-	};
-
-	const updateAbbreviatedStatement = (): void => {
-		abbreviatedStatement = utilsService.getStatementText(
-			attributionFormItems,
-			utilsService.getConcatenatedOptionsAbbreviatedStatement,
-			' '
-		);
-		updateCanonicalURL();
-	};
 
 	const updateAbbreviatedStatementHTMLText = (): void => {
 		abbreviatedStatementHTMLText = utilsService.getStatementHTMLText(
@@ -36,7 +21,7 @@
 	const copyAbbreviatedStatementTextToClipboard = async (): Promise<void> => {
 		await utilsService.copyStatementTextToClipboard(
 			abbreviatedStatement,
-			canonicalUrl,
+			canonicalURL,
 			attributionFormItems,
 			typeOfStatementName
 		);
@@ -63,11 +48,10 @@
 <StatementRenderer
 	{attributionFormItems}
 	recommendedAttributionItemLabel="Abbreviated statement"
-	bind:statementHTMLContainer={abbreviatedStatementHTMLContainer}
-	{canonicalUrl}
 	statementText={abbreviatedStatement}
 	statementHTMLText={abbreviatedStatementHTMLText}
-	updateStatement={updateAbbreviatedStatement}
+	bind:statementHTMLContainer={abbreviatedStatementHTMLContainer}
+	{canonicalURL}
 	updateStatementHTMLText={updateAbbreviatedStatementHTMLText}
 	on:copyStatementTextToClipboard={async () => {
 		await copyAbbreviatedStatementTextToClipboard();

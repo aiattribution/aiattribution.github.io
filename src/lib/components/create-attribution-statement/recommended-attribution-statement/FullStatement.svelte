@@ -5,16 +5,12 @@
 	import StatementRenderer from './StatementRenderer.svelte';
 
 	export let attributionFormItems: FormItemI[];
-	export let abbreviatedStatement: string;
+	export let fullStatement: string;
+	export let canonicalURL: string;
 
 	const typeOfStatementName: string = 'full_statement';
-	let canonicalUrl: string = '';
-	$: if (abbreviatedStatement) {
-		canonicalUrl = utilsService.getCanonicalURL(abbreviatedStatement, attributionFormItems);
-	}
 
 	let fullStatementHTMLContainer: HTMLDivElement = null;
-	let fullStatement: string = '';
 	let fullStatementHTMLText: string = '';
 
 	onMount(() => {
@@ -41,14 +37,6 @@
 		return;
 	};
 
-	const updateFullStatement = (): void => {
-		fullStatement = utilsService.getStatementText(
-			attributionFormItems,
-			utilsService.getConcatenatedOptionsFullStatement,
-			', '
-		);
-	};
-
 	const updateFullStatementHTMLText = (): void => {
 		fullStatementHTMLText = utilsService.getStatementHTMLText(fullStatementHTMLContainer);
 	};
@@ -56,7 +44,7 @@
 	const copyFullStatementTextToClipboard = async (): Promise<void> => {
 		await utilsService.copyStatementTextToClipboard(
 			fullStatement,
-			canonicalUrl,
+			canonicalURL,
 			attributionFormItems,
 			typeOfStatementName
 		);
@@ -83,11 +71,10 @@
 <StatementRenderer
 	{attributionFormItems}
 	recommendedAttributionItemLabel="Full statement"
-	bind:statementHTMLContainer={fullStatementHTMLContainer}
-	{canonicalUrl}
 	statementText={fullStatement}
 	statementHTMLText={fullStatementHTMLText}
-	updateStatement={updateFullStatement}
+	bind:statementHTMLContainer={fullStatementHTMLContainer}
+	{canonicalURL}
 	updateStatementHTMLText={updateFullStatementHTMLText}
 	on:copyStatementTextToClipboard={async () => {
 		await copyFullStatementTextToClipboard();

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { ATTRIBUTION_FORM_ITEMS_LOCAL_STORAGE_KEY } from '$lib/common/constants';
+	import { utilsService } from '$lib/services';
 	import {
 		AbbreviatedStatement,
 		AttributionStatementExplanation,
@@ -10,10 +11,19 @@
 
 	export let attributionFormItems: FormItemI[];
 
-	$: attributionFormItems, saveFormStateToLocalStorage();
+	$: attributionFormItems, onAttributionFormItemsUpdate();
 
 	let saveInLocalStorage: boolean = false;
 	let abbreviatedStatement: string = '';
+	let fullStatement: string = '';
+	let canonicalURL: string = '';
+
+	const onAttributionFormItemsUpdate = (): void => {
+		saveFormStateToLocalStorage();
+		updateAbbreviatedStatement();
+		updateFullStatement();
+		updateCanonicalURL();
+	};
 
 	const saveFormStateToLocalStorage = (): void => {
 		if (saveInLocalStorage) {
@@ -23,6 +33,28 @@
 			);
 		} else {
 			saveInLocalStorage = true;
+		}
+	};
+
+	const updateAbbreviatedStatement = (): void => {
+		abbreviatedStatement = utilsService.getStatementText(
+			attributionFormItems,
+			utilsService.getConcatenatedOptionsAbbreviatedStatement,
+			' '
+		);
+	};
+
+	const updateFullStatement = (): void => {
+		fullStatement = utilsService.getStatementText(
+			attributionFormItems,
+			utilsService.getConcatenatedOptionsFullStatement,
+			', '
+		);
+	};
+
+	const updateCanonicalURL = (): void => {
+		if (abbreviatedStatement) {
+			canonicalURL = utilsService.getCanonicalURL(abbreviatedStatement, attributionFormItems);
 		}
 	};
 
@@ -39,8 +71,8 @@
 <h2 class="recommended-attribution-title">Recommended attribution statement</h2>
 
 {#if hasAnyResponseToAnyFormItem()}
-	<AbbreviatedStatement {attributionFormItems} bind:abbreviatedStatement />
-	<FullStatement {attributionFormItems} {abbreviatedStatement} />
+	<AbbreviatedStatement {attributionFormItems} {abbreviatedStatement} {canonicalURL} />
+	<FullStatement {attributionFormItems} {fullStatement} {canonicalURL} />
 	<ExpandedStatement {attributionFormItems} />
 	<AttributionStatementExplanation {attributionFormItems} />
 {:else}
