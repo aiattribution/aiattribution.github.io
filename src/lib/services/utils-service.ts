@@ -342,6 +342,65 @@ class UtilsService {
 		return this.getFormattedHTML(div.innerHTML);
 	}
 
+	public getStatementLatexText(
+		statement: string,
+		canonicalUrl: string,
+		statementHTMLContainer: HTMLDivElement,
+		attributionFormItems: FormItemI[]
+	): string {
+		if (!statementHTMLContainer) return '';
+
+		const statementExplanation: string =
+			this.getAttributionStatementExplanation(attributionFormItems);
+
+		const iconsContainer: Element = statementHTMLContainer.querySelector(
+			'.recommended-attribution-item-icons-container'
+		);
+		const iconsHTML: string = this.getCleanedHTML(iconsContainer) || '';
+		const parser: DOMParser = new DOMParser();
+		const iconsDoc: Document = parser.parseFromString(`<div>${iconsHTML}</div>`, 'text/html');
+		const svgIcons: Element[] = Array.from(
+			(iconsDoc.body.firstChild as HTMLElement)?.children || []
+		);
+		const attributionStatementIconLabel: string = 'attribution_statement_icon_';
+		const svgFileContentsString: string = svgIcons
+			.map((icon: Element, index: number) => {
+				const transformedSVG: string = [
+					`\\begin{filecontents*}{${attributionStatementIconLabel}${index + 1}.svg}`,
+					`${icon.outerHTML}`,
+					'\\end{filecontents*}'
+				].join('\n');
+				return transformedSVG;
+			})
+			.join('\n');
+		const svgInclusionString: string = svgIcons
+			.map((_, index: number) => {
+				const transformedSVG: string = [
+					'\\hspace{0.0625em}',
+					`\\ensuremath{\\vcenter{\\hbox{\\includesvg[height=1.5em]{${attributionStatementIconLabel}${index + 1}}}}}`
+				].join('\n');
+				return transformedSVG;
+			})
+			.join('\n');
+
+		const latexLines: string[] = [
+			'% AI Attribution Statement',
+			'% The following packages are required to include the AI attribution statement:',
+			'% \\usepackage{svg}',
+			'% \\usepackage{hyperref}',
+			'% \\usepackage{amsmath}',
+			'',
+			statementExplanation,
+			'',
+			svgFileContentsString,
+			'',
+			'\\noindent',
+			`\\href{${canonicalUrl}}{${statement}}`,
+			svgInclusionString
+		];
+		return latexLines.join('\n');
+	}
+
 	private getCleanedStatementText(statement: string): string {
 		return statement.split(/\s+/).join(' ');
 	}
@@ -435,7 +494,7 @@ class UtilsService {
 		const svgIconsString: string = svgIcons
 			.map((icon: Element, index: number) => {
 				const width: number = icon.getBoundingClientRect?.().width || 16;
-				const transformedSVG = `
+				const transformedSVG: string = `
 					<g transform="translate(${textWidth + 16 + width * index + 16 * index}, 8)">
 						${icon.outerHTML}
 					</g>
@@ -481,13 +540,13 @@ class UtilsService {
 	}
 
 	public async copyStatementHTMLToClipboard(
+		statement: string,
 		statementHTMLText: string,
 		attributionFormItems: FormItemI[],
 		typeOfStatementName: string
 	): Promise<void> {
 		try {
-			const statement: string = statementHTMLText;
-			await navigator.clipboard.writeText(statement);
+			await navigator.clipboard.writeText(statementHTMLText);
 			analyticsService.trackStatementMetric(`button_click_copy_${typeOfStatementName}_html`, {
 				statementDisplayed: statement,
 				fieldsFilledOut: this.getFieldsFilledOut(attributionFormItems),
@@ -495,7 +554,26 @@ class UtilsService {
 				optionsSelectedPerField: this.getOptionsSelectedPerField(attributionFormItems)
 			});
 		} catch (err) {
-			console.error(`Error copying ${typeOfStatementName} HTML to clipboard`, err);
+			console.error(`Error copying ${typeOfStatementName} HTML code to clipboard`, err);
+		}
+	}
+
+	public async copyStatementLatexToClipboard(
+		statement: string,
+		statementLatexText,
+		attributionFormItems: FormItemI[],
+		typeOfStatementName: string
+	): Promise<void> {
+		try {
+			await navigator.clipboard.writeText(statementLatexText);
+			analyticsService.trackStatementMetric(`button_click_copy_${typeOfStatementName}_latex`, {
+				statementDisplayed: statement,
+				fieldsFilledOut: this.getFieldsFilledOut(attributionFormItems),
+				fieldsLeftBlank: this.getFieldsLeftBlank(attributionFormItems),
+				optionsSelectedPerField: this.getOptionsSelectedPerField(attributionFormItems)
+			});
+		} catch (err) {
+			console.error(`Error copying ${typeOfStatementName} LaTeX code to clipboard`, err);
 		}
 	}
 

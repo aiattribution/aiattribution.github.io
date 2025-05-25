@@ -12,6 +12,7 @@
 
 	let fullStatementHTMLContainer: HTMLDivElement = null;
 	let fullStatementHTMLText: string = '';
+	let fullStatementLatexText: string = '';
 
 	onMount(() => {
 		if (typeof window !== 'undefined') {
@@ -41,6 +42,15 @@
 		fullStatementHTMLText = utilsService.getStatementHTMLText(fullStatementHTMLContainer);
 	};
 
+	const updateFullStatementLatexText = (): void => {
+		fullStatementLatexText = utilsService.getStatementLatexText(
+			fullStatement,
+			canonicalURL,
+			fullStatementHTMLContainer,
+			attributionFormItems
+		);
+	};
+
 	const copyFullStatementTextToClipboard = async (): Promise<void> => {
 		await utilsService.copyStatementTextToClipboard(
 			fullStatement,
@@ -61,7 +71,17 @@
 
 	const copyFullStatementHTMLToClipboard = async (): Promise<void> => {
 		await utilsService.copyStatementHTMLToClipboard(
+			fullStatement,
 			fullStatementHTMLText,
+			attributionFormItems,
+			typeOfStatementName
+		);
+	};
+
+	const copyFullStatementLatexToClipboard = async (): Promise<void> => {
+		await utilsService.copyStatementLatexToClipboard(
+			fullStatement,
+			fullStatementLatexText,
 			attributionFormItems,
 			typeOfStatementName
 		);
@@ -72,16 +92,21 @@
 	{attributionFormItems}
 	recommendedAttributionItemLabel="Full statement"
 	statementText={fullStatement}
-	statementHTMLText={fullStatementHTMLText}
 	bind:statementHTMLContainer={fullStatementHTMLContainer}
+	statementHTMLText={fullStatementHTMLText}
+	statementLatexText={fullStatementLatexText}
 	{canonicalURL}
 	updateStatementHTMLText={updateFullStatementHTMLText}
+	updateStatementLatexText={updateFullStatementLatexText}
 	on:copyStatementTextToClipboard={async () => {
 		await copyFullStatementTextToClipboard();
 	}}
 	on:downloadStatementTextSVG={downloadFullStatementTextSVG}
 	on:copyStatementHTMLToClipboard={async () => {
 		await copyFullStatementHTMLToClipboard();
+	}}
+	on:copyStatementLatexToClipboard={async () => {
+		await copyFullStatementLatexToClipboard();
 	}}
 />
 
