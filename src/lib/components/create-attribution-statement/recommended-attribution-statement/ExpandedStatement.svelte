@@ -29,7 +29,10 @@
 	<div class="recommended-attribution-item-label">Expanded statement</div>
 	<div class="recommended-attribution-item">
 		<div class="recommended-attribution-item-text-container">
-			<div class="recommended-attribution-item-text">
+			<div
+				class="recommended-attribution-item-text"
+				data-cy="recommended-attribution-statement-text"
+			>
 				{utilsService.getAttributionStatementExplanation(attributionFormItems)}
 			</div>
 		</div>

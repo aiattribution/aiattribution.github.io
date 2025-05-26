@@ -7,7 +7,6 @@ import {
 	AttributionType,
 	type FormItemI
 } from '../../src/lib/components/create-attribution-statement/interfaces.ts';
-import { HEADER_NAV_ITEMS } from '../../src/lib/components/header/constants.ts';
 import { HeaderNavType, type HeaderNavItemI } from '../../src/lib/components/header/interfaces.ts';
 import {
 	AIContributionOptions,
@@ -18,6 +17,7 @@ import {
 import { getTagDescriptions } from '../../src/tests/utils.ts';
 import {
 	HEADER_MENU_BAR_CLASS,
+	HEADER_NAV_ITEMS,
 	SIDE_NAV_ITEMS_CLASS,
 	TEST_MACBOOK_16,
 	TEST_MOBILE,

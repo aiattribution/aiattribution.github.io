@@ -50,6 +50,7 @@
 					<div class="recommended-attribution-item-text">
 						<Link
 							class="recommended-attribution-item-text"
+							data-cy="recommended-attribution-statement-text"
 							href={canonicalURL}
 							target="_blank"
 							inline
@@ -95,7 +96,10 @@
 				)}
 			>
 				<div class="recommended-attribution-item-html-latex-container">
-					<div class="recommended-attribution-item-text">
+					<div
+						class="recommended-attribution-item-text"
+						data-cy="recommended-attribution-statement-text"
+					>
 						{statementHTMLText}
 					</div>
 				</div>
@@ -119,7 +123,10 @@
 				)}
 			>
 				<div class="recommended-attribution-item-html-latex-container">
-					<div class="recommended-attribution-item-text">
+					<div
+						class="recommended-attribution-item-text"
+						data-cy="recommended-attribution-statement-text"
+					>
 						{statementLatexText}
 					</div>
 				</div>

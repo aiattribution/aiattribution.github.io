@@ -1,4 +1,5 @@
 import { AttributionType } from '../../src/lib/components/create-attribution-statement/interfaces';
+import { HeaderNavType, type HeaderNavItemI } from '../../src/lib/components/header/interfaces';
 import {
 	AIContributionOptions,
 	AIInitiativeOptions,
@@ -127,4 +128,28 @@ export const TAGS_WITH_ATTRIBUTION_TYPE: TagsWithAttributionType[] = [
 		attributionType: AttributionType.HUMAN_REVIEW,
 		tags: HUMAN_REVIEW_TAGS
 	}
+];
+
+export const HEADER_NAV_ITEM_HOME: HeaderNavItemI = {
+	id: 0,
+	text: HeaderNavType.HOME,
+	route: ''
+};
+
+export const HEADER_NAV_ITEM_CREATE_ATTRIBUTION: HeaderNavItemI = {
+	id: 1,
+	text: HeaderNavType.CREATE_ATTRIBUTION,
+	route: ''
+};
+
+export const HEADER_NAV_ITEM_INTERPRET_ATTRIBUTION: HeaderNavItemI = {
+	id: 2,
+	text: HeaderNavType.INTERPRET_ATTRIBUTION,
+	route: ''
+};
+
+export const HEADER_NAV_ITEMS: HeaderNavItemI[] = [
+	HEADER_NAV_ITEM_HOME,
+	HEADER_NAV_ITEM_CREATE_ATTRIBUTION,
+	HEADER_NAV_ITEM_INTERPRET_ATTRIBUTION
 ];

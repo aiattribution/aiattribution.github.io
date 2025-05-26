@@ -80,18 +80,18 @@ Cypress.Commands.add(
 	'shouldHaveExpectedTextsInRecommendedAttributionItems',
 	(tagIds: string[], modelName?: string) => {
 		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
-			'.recommended-attribution-item-text.bx--link',
+			'[data-cy="recommended-attribution-statement-text"]',
 			0,
 			getAbbreviatedStatement(tagIds, modelName)
 		);
 		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
-			'.recommended-attribution-item-text.bx--link',
-			1,
+			'[data-cy="recommended-attribution-statement-text"]',
+			3,
 			getFullStatement(tagIds, modelName)
 		);
 		cy.shouldHaveExpectedTextInRecommendedAttributionItem(
-			'.recommended-attribution-item-text',
-			4,
+			'[data-cy="recommended-attribution-statement-text"]',
+			6,
 			getExpandedStatement(tagIds, modelName)
 		);
 	}
