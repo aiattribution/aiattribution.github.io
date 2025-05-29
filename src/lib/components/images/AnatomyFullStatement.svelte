@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
 	import {
 		CertifiedReviewIcon,
 		HumanInitiatedIcon,
@@ -48,13 +48,16 @@
 
 	let isLoading: boolean = true;
 
-	onMount(() => {
-		updateStatementComponentExplanationsPositions();
+	onMount(async () => {
+		await tick();
+		setTimeout(() => {
+			updateStatementComponentExplanationsPositions();
+		}, 100);
 		window.addEventListener('resize', updateStatementComponentExplanationsPositions);
+	});
 
-		return () => {
-			window.removeEventListener('resize', updateStatementComponentExplanationsPositions);
-		};
+	onDestroy(() => {
+		window.removeEventListener('resize', updateStatementComponentExplanationsPositions);
 	});
 
 	const updateStatementComponentExplanationsPositions = (): void => {
