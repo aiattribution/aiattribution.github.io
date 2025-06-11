@@ -1,7 +1,15 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="12" cy="12" r="11.5" fill="#4E4E4E" stroke="#161616" />
-    <text x="12" y="13" font-family="'IBM Plex Sans', sans-serif" font-weight="600" font-size="10px" line-height="16px"
-        letter-spacing="0.32px" fill="white" text-anchor="middle" dy="0.26em">
-        A
-    </text>
+    <g clip-path="url(#clip0_50_2)">
+        <path
+            d="M12 23.5C18.3513 23.5 23.5 18.3513 23.5 12C23.5 5.64873 18.3513 0.5 12 0.5C5.64873 0.5 0.5 5.64873 0.5 12C0.5 18.3513 5.64873 23.5 12 23.5Z"
+            fill="#4E4E4E" stroke="#161616" />
+        <path
+            d="M13.6471 15.6L13.1471 13.94H10.8171L10.3171 15.6H8.77715L11.0771 8.61998H12.9571L15.2271 15.6H13.6471ZM11.9971 9.99998H11.9471L11.1771 12.65H12.7771L11.9971 9.99998Z"
+            fill="white" />
+    </g>
+    <defs>
+        <clipPath id="clip0_50_2">
+            <rect width="24" height="24" fill="white" />
+        </clipPath>
+    </defs>
 </svg>

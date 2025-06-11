@@ -1,14 +1,21 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="12" cy="12" r="11.5" fill="#525252" stroke="#161616" />
-    <path d="M11.5 23.4893C5.38069 23.2275 0.5 18.1837 0.5 12C0.5 5.81625 5.38069 0.772452 11.5 0.510674V23.4893Z"
-        fill="white" stroke="#161616" />
-    <path d="M11 1.05078L12 1V23L11 22.9654V1.05078Z" fill="white" />
-    <text x="8" y="13" font-family="'IBM Plex Sans', sans-serif" font-weight="600" font-size="10px"
-        letter-spacing="0.32px" fill="#161616" text-anchor="middle" dy="0.26em">
-        H
-    </text>
-    <text x="16.75" y="13" font-family="'IBM Plex Sans', sans-serif" font-weight="600" font-size="10px"
-        letter-spacing="0.32px" fill="white" text-anchor="middle" dy="0.26em">
-        A
-    </text>
+    <g clip-path="url(#clip0_50_8)">
+        <path
+            d="M12 23.5C18.3513 23.5 23.5 18.3513 23.5 12C23.5 5.64873 18.3513 0.5 12 0.5C5.64873 0.5 0.5 5.64873 0.5 12C0.5 18.3513 5.64873 23.5 12 23.5Z"
+            fill="#525252" stroke="#161616" />
+        <path
+            d="M11.5 23.4892C5.38069 23.2274 0.5 18.1836 0.5 11.9999C0.5 5.8162 5.38069 0.772398 11.5 0.51062V23.4892Z"
+            fill="white" stroke="#161616" />
+        <path d="M11 1.05078L12 1V23L11 22.9654V1.05078Z" fill="white" />
+        <path d="M9.33184 12.74H6.67184V15.6H5.15184V8.61998H6.67184V11.4H9.33184V8.61998H10.8518V15.6H9.33184V12.74Z"
+            fill="#161616" />
+        <path
+            d="M18.3971 15.6L17.8971 13.94H15.5671L15.0671 15.6H13.5271L15.8271 8.61998H17.7071L19.9771 15.6H18.3971ZM16.7471 9.99998H16.6971L15.9271 12.65H17.5271L16.7471 9.99998Z"
+            fill="white" />
+    </g>
+    <defs>
+        <clipPath id="clip0_50_8">
+            <rect width="24" height="24" fill="white" />
+        </clipPath>
+    </defs>
 </svg>
