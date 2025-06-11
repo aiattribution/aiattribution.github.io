@@ -376,8 +376,7 @@ class UtilsService {
 		const svgInclusionString: string = svgIcons
 			.map((_, index: number) => {
 				const transformedSVG: string = [
-					'\\hspace{0.0625em}',
-					`\\ensuremath{\\vcenter{\\hbox{\\includesvg[height=1.5em]{${attributionStatementIconLabel}${index + 1}}}}}`
+					`\\ensuremath{\\vcenter{\\hbox{\\includesvg[height=1.25em]{${attributionStatementIconLabel}${index + 1}}}}}`
 				].join('\n');
 				return transformedSVG;
 			})
@@ -390,13 +389,16 @@ class UtilsService {
 			'% \\usepackage{hyperref}',
 			'% \\usepackage{amsmath}',
 			'',
+			'\\noindent',
 			statementExplanation,
+			'',
+			'\\par\\vspace{0.5em}',
 			'',
 			svgFileContentsString,
 			'',
 			'\\noindent',
 			`\\href{${canonicalUrl}}{${statement}}`,
-			svgInclusionString
+			`${svgInclusionString}\\\\`
 		];
 		return latexLines.join('\n');
 	}
