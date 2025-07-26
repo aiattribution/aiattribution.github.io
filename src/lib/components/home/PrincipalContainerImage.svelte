@@ -1,13 +1,21 @@
 <script lang="ts">
-	import { base } from '$app/paths';
+	import coCreatedAttributionImage from '$lib/assets/images/home-images/DALL-E Human-AI Attribution Illustration.png?w=400;800;1200&format=webp;avif&as=picture';
 </script>
 
 <div class="image-container">
-	<img
-		class="co-created-attribution-image"
-		src="{base}/home-images/DALL-E Human-AI Attribution Illustration.png"
-		alt="Co-created attribution"
-	/>
+	<picture>
+		{#each coCreatedAttributionImage.sources as { type, srcset }}
+			<source {type} {srcset} />
+		{/each}
+		<img
+			class="co-created-attribution-image"
+			src={coCreatedAttributionImage.img.src}
+			alt="Co-created attribution"
+			loading="lazy"
+			width={coCreatedAttributionImage.img.width}
+			height={coCreatedAttributionImage.img.height}
+		/>
+	</picture>
 	<div class="image-attribution-statement">AIA PAI Nc Hin R DALL-E v1.0</div>
 </div>
 
@@ -20,6 +28,10 @@
 		justify-content: center;
 		align-items: center;
 		padding: 16px 40px;
+
+		picture {
+			display: contents;
+		}
 	}
 
 	.co-created-attribution-image {

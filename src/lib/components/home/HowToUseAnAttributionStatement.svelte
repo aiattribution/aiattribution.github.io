@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { base } from '$app/paths';
+	import attributionStatementExampleImage1 from '$lib/assets/images/home-images/attribution-statement-example-1.png?w=400;800;1200&format=webp;avif&as=picture';
+	import attributionStatementExampleImage2 from '$lib/assets/images/home-images/attribution-statement-example-2.png?w=400;800;1200&format=webp;avif&as=picture';
 </script>
 
 <div class="section-container">
@@ -16,22 +17,38 @@
 	<p class="section-text">Here are two examples to demonstrate possible uses →</p>
 	<div class="attribution-statement-examples-container">
 		<div class="attribution-statement-example">
-			<img
-				class="attribution-statement-example-image"
-				src="{base}/home-images/attribution-statement-example-1.png"
-				alt="Attribution Statement Example"
-			/>
+			<picture>
+				{#each attributionStatementExampleImage1.sources as { type, srcset }}
+					<source {type} {srcset} />
+				{/each}
+				<img
+					class="attribution-statement-example-image"
+					src={attributionStatementExampleImage1.img.src}
+					alt="Attribution Statement Example"
+					loading="lazy"
+					width={attributionStatementExampleImage1.img.width}
+					height={attributionStatementExampleImage1.img.height}
+				/>
+			</picture>
 			<p class="image-caption">
 				This image was used in a conference presentation, with the attribution statement placed
 				below the image.
 			</p>
 		</div>
 		<div class="attribution-statement-example">
-			<img
-				class="attribution-statement-example-image"
-				src="{base}/home-images/attribution-statement-example-2.png"
-				alt="Attribution Statement Example"
-			/>
+			<picture>
+				{#each attributionStatementExampleImage2.sources as { type, srcset }}
+					<source {type} {srcset} />
+				{/each}
+				<img
+					class="attribution-statement-example-image"
+					src={attributionStatementExampleImage2.img.src}
+					alt="Attribution Statement Example"
+					loading="lazy"
+					width={attributionStatementExampleImage2.img.width}
+					height={attributionStatementExampleImage2.img.height}
+				/>
+			</picture>
 			<p class="image-caption">
 				This example is from our research paper, where we included an attribution statement in the
 				Acknowledgments section.
