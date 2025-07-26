@@ -11,15 +11,10 @@ import {
 } from '$lib/components/create-attribution-statement/interfaces';
 import { AIProportionOptions, type TagI } from '$lib/models/tag-library';
 import type { Component } from 'svelte';
-import { v4 as uuidv4 } from 'uuid';
 import { analyticsService } from '.';
 
 class UtilsService {
 	constructor() {}
-
-	public getUniqueId(): string {
-		return uuidv4().toString();
-	}
 
 	public getAttributionFormItemByType(
 		attributionType: AttributionType,
